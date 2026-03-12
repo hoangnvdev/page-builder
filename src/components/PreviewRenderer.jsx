@@ -1,30 +1,20 @@
-import React from 'react';
+import { useEffect } from "react";
 
-import {
-  useDispatch,
-  useSelector,
-} from 'react-redux';
+import { useDispatch, useSelector } from "react-redux";
 
-import { selectElement as selectElementAction } from '../store/builderSlice';
+import { EmptyState } from "../common";
+import { selectElement as selectElementAction } from "../store/builderSlice";
 
 export const PreviewRenderer = () => {
   const dispatch = useDispatch();
-  const selectedTemplate = useSelector((state) => state.builder.selectedTemplate);
+  const selectedTemplate = useSelector(
+    (state) => state.builder.selectedTemplate,
+  );
   const currentConfig = useSelector((state) => state.builder.currentConfig);
   const selectedElement = useSelector((state) => state.builder.selectedElement);
-  const [isMobile, setIsMobile] = React.useState(false);
-
-  React.useEffect(() => {
-    const checkMobile = () => {
-      setIsMobile(window.innerWidth < 768);
-    };
-    checkMobile();
-    window.addEventListener('resize', checkMobile);
-    return () => window.removeEventListener('resize', checkMobile);
-  }, []);
 
   // Update selected element attribute in DOM
-  React.useEffect(() => {
+  useEffect(() => {
     document.querySelectorAll("[data-element]").forEach((el) => {
       el.removeAttribute("data-selected");
     });
@@ -39,17 +29,14 @@ export const PreviewRenderer = () => {
 
   if (!selectedTemplate || !currentConfig) {
     return (
-      <div
+      <EmptyState
+        title="No template selected"
+        description="Please select a template to start building"
         style={{
           flex: 1,
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
           backgroundColor: "#f5f5f5",
         }}
-      >
-        <p style={{ color: "#999" }}>No template selected</p>
-      </div>
+      />
     );
   }
 
@@ -113,21 +100,21 @@ export const PreviewRenderer = () => {
       <div
         style={{
           position: "fixed",
-          bottom: isMobile ? "10px" : "20px",
+          bottom: "20px",
           left: "50%",
           transform: "translateX(-50%)",
           backgroundColor: "rgba(0,0,0,0.8)",
           color: "white",
-          padding: isMobile ? "8px 16px" : "10px 20px",
+          padding: "10px 20px",
           borderRadius: "20px",
-          fontSize: isMobile ? "0.75rem" : "0.85rem",
+          fontSize: "0.85rem",
           pointerEvents: "none",
           zIndex: 1000,
           maxWidth: "90%",
           textAlign: "center",
         }}
       >
-        {isMobile ? "💡 Tap to edit" : "💡 Click on any section to edit its properties"}
+        💡 Click on any section to edit its properties
       </div>
     </div>
   );

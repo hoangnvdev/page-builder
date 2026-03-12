@@ -1,0 +1,59 @@
+/* Card component styles */
+
+.card {
+  background-color: white;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+
+  &--hoverable {
+    &:hover {
+      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+      transform: translateY(-4px);
+    }
+  }
+
+  &--clickable {
+    cursor: pointer;
+  }
+
+  &__image {
+    background-color: #f0f0f0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-bottom: 1px solid #e0e0e0;
+    overflow: hidden;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+
+  &__content {
+    padding: 24px;
+  }
+
+  &__title {
+    font-size: 1.5rem;
+    margin: 0 0 8px 0;
+    color: #1a1a1a;
+    font-weight: 600;
+  }
+
+  &__description {
+    font-size: 1rem;
+    color: #666;
+    margin: 0 0 16px 0;
+    line-height: 1.5;
+  }
+
+  &__actions {
+    display: flex;
+    gap: 8px;
+    justify-content: flex-end;
+  }
+}

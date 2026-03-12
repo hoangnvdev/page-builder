@@ -4,7 +4,7 @@
   "private": true,
   "description": "Browser-based static page builder for non-technical users",
   "scripts": {
-    "dev": "vite",
+    "start": "vite",
     "build": "vite build",
     "preview": "vite preview"
   },
@@ -12,12 +12,14 @@
     "@reduxjs/toolkit": "^2.11.2",
     "formik": "^2.4.9",
     "lucide-react": "^0.344.0",
+    "prop-types": "^15.8.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-redux": "^9.2.0"
   },
   "devDependencies": {
     "@vitejs/plugin-react": "^4.2.1",
+    "sass": "^1.80.0",
     "vite": "^5.1.0"
   }
 }

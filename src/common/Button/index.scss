@@ -1,0 +1,140 @@
+/* Button component styles */
+
+.button {
+  /* Base styles */
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: all 0.2s ease;
+  font-family: inherit;
+
+  /* Size variants */
+  &--small {
+    padding: 6px 12px;
+    font-size: 0.85rem;
+    min-height: 32px;
+
+    &.button--icon {
+      padding: 6px;
+    }
+  }
+
+  &--medium {
+    padding: 8px 16px;
+    font-size: 0.95rem;
+    min-height: 40px;
+
+    &.button--icon {
+      padding: 8px;
+    }
+  }
+
+  &--large {
+    padding: 12px 24px;
+    font-size: 1rem;
+    min-height: 48px;
+
+    &.button--icon {
+      padding: 12px;
+    }
+  }
+
+  /* Variant styles */
+  &--primary {
+    background-color: #0066cc;
+    color: white;
+
+    &:hover:not(:disabled) {
+      background-color: #0052a3;
+    }
+
+    &:active:not(:disabled) {
+      background-color: #003d7a;
+    }
+  }
+
+  &--secondary {
+    background-color: #f5f5f5;
+    color: #333;
+    border: 1px solid #d0d0d0;
+
+    &:hover:not(:disabled) {
+      background-color: #e8e8e8;
+    }
+
+    &:active:not(:disabled) {
+      background-color: #d8d8d8;
+    }
+  }
+
+  &--export {
+    background-color: #10b981;
+    color: white;
+
+    &:hover:not(:disabled) {
+      background-color: #059669;
+    }
+
+    &:active:not(:disabled) {
+      background-color: #047857;
+    }
+  }
+
+  &--danger {
+    background-color: #ef4444;
+    color: white;
+
+    &:hover:not(:disabled) {
+      background-color: #dc2626;
+    }
+
+    &:active:not(:disabled) {
+      background-color: #b91c1c;
+    }
+  }
+
+  &--ghost {
+    background-color: transparent;
+    color: #666;
+    font-weight: 400;
+
+    &:hover:not(:disabled) {
+      background-color: #f5f5f5;
+    }
+
+    &:active:not(:disabled) {
+      background-color: #e8e8e8;
+    }
+  }
+
+  &--icon {
+    background-color: transparent;
+    color: #666;
+    padding: 8px;
+    min-width: 40px;
+
+    &:hover:not(:disabled) {
+      background-color: #f0f0f0;
+    }
+
+    &:active:not(:disabled) {
+      background-color: #e0e0e0;
+    }
+  }
+
+  /* Full width modifier */
+  &--full-width {
+    width: 100%;
+  }
+
+  /* Disabled state */
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}

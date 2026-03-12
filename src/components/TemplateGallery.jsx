@@ -1,9 +1,8 @@
-import React from 'react';
+import { useDispatch } from "react-redux";
 
-import { useDispatch } from 'react-redux';
-
-import { selectTemplate as selectTemplateAction } from '../store/builderSlice';
-import { templateRegistry } from '../templates/templateRegistry';
+import { Button, Card, Grid } from "../common";
+import { selectTemplate as selectTemplateAction } from "../store/builderSlice";
+import { templateRegistry } from "../templates/templateRegistry";
 
 export const TemplateGallery = () => {
   const dispatch = useDispatch();
@@ -50,11 +49,12 @@ export const TemplateGallery = () => {
         </div>
 
         {/* Template Grid */}
-        <div
+        <Grid
+          columns={3}
+          gap={20}
           style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 350px), 1fr))",
-            gap: "20px",
+            gridTemplateColumns:
+              "repeat(auto-fit, minmax(min(100%, 350px), 1fr))",
           }}
         >
           {templateRegistry.map((template) => (
@@ -64,86 +64,46 @@ export const TemplateGallery = () => {
               onSelect={() => handleSelectTemplate(template)}
             />
           ))}
-        </div>
+        </Grid>
       </div>
     </div>
   );
 };
 
 const TemplateCard = ({ template, onSelect }) => {
-  const [isHovered, setIsHovered] = React.useState(false);
-
   return (
-    <div
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-      style={{
-        backgroundColor: "white",
-        borderRadius: "12px",
-        overflow: "hidden",
-        boxShadow: isHovered
-          ? "0 12px 24px rgba(0,0,0,0.15)"
-          : "0 4px 12px rgba(0,0,0,0.1)",
-        transition: "all 0.3s ease",
-        transform: isHovered ? "translateY(-4px)" : "translateY(0)",
-        cursor: "pointer",
-      }}
-      onClick={onSelect}
-    >
-      {/* Preview */}
-      <div
+    <Card hoverable onClick={onSelect}>
+      <Card.Image
+        height="clamp(200px, 40vw, 280px)"
         style={{
           backgroundColor: "#f0f0f0",
-          height: "clamp(200px, 40vw, 280px)",
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
           fontSize: "clamp(80px, 15vw, 120px)",
-          borderBottom: "1px solid #e0e0e0",
         }}
       >
         {template.preview}
-      </div>
+      </Card.Image>
 
-      {/* Info */}
-      <div style={{ padding: "clamp(16px, 4vw, 24px)" }}>
-        <h3
-          style={{
-            fontSize: "clamp(1.2rem, 3vw, 1.5rem)",
-            margin: "0 0 8px 0",
-            color: "#1a1a1a",
-            fontWeight: "600",
-          }}
-        >
+      <Card.Content style={{ padding: "clamp(16px, 4vw, 24px)" }}>
+        <Card.Title style={{ fontSize: "clamp(1.2rem, 3vw, 1.5rem)" }}>
           {template.name}
-        </h3>
-        <p
+        </Card.Title>
+        <Card.Description
           style={{
             fontSize: "clamp(0.9rem, 2.5vw, 1rem)",
-            color: "#666",
-            margin: "0 0 16px 0",
-            lineHeight: "1.5",
+            marginBottom: "16px",
           }}
         >
           {template.description}
-        </p>
-        <button
-          style={{
-            backgroundColor: isHovered ? "#0052a3" : "#0066cc",
-            color: "white",
-            border: "none",
-            padding: "10px 24px",
-            fontSize: "1rem",
-            borderRadius: "6px",
-            cursor: "pointer",
-            fontWeight: "600",
-            width: "100%",
-            transition: "background-color 0.2s ease",
-          }}
-        >
-          Select Template
-        </button>
-      </div>
-    </div>
+        </Card.Description>
+        <Card.Actions>
+          <Button variant="primary" fullWidth>
+            Select Template
+          </Button>
+        </Card.Actions>
+      </Card.Content>
+    </Card>
   );
 };

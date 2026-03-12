@@ -14,13 +14,13 @@ A browser-based page builder for non-technical users to create static websites.
 
 ```bash
 # Install dependencies
-npm install
+pnpm install
 
 # Start development server
-npm run dev
+pnpm start
 
 # Build for production
-npm run build
+pnpm run build
 ```
 
 ## How to Use
@@ -42,7 +42,7 @@ page-builder/
 ├── src/
 │   ├── components/        # React components
 │   ├── templates/         # Template definitions
-│   ├── store/            # Zustand state management
+│   ├── store/            # Redux Toolkit state management
 │   ├── utils/            # Helper functions
 │   └── main.jsx          # Entry point
 ├── index.html

@@ -1,12 +1,11 @@
-import React from 'react';
+import { StrictMode } from "react";
 
-import ReactDOM from 'react-dom/client';
-import { Provider } from 'react-redux';
+import ReactDOM from "react-dom/client";
+import { Provider } from "react-redux";
 
-import App from './App';
-import { store } from './store/store';
+import App from "./App";
+import { store } from "./store/store";
 
-// Global styles
 const globalStyles = `
   * {
     box-sizing: border-box;
@@ -31,16 +30,14 @@ const globalStyles = `
   }
 `;
 
-// Inject global styles
 const styleElement = document.createElement("style");
 styleElement.textContent = globalStyles;
 document.head.appendChild(styleElement);
 
-// Render app
 ReactDOM.createRoot(document.getElementById("root")).render(
-  <React.StrictMode>
+  <StrictMode>
     <Provider store={store}>
       <App />
     </Provider>
-  </React.StrictMode>,
+  </StrictMode>,
 );

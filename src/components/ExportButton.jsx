@@ -1,16 +1,16 @@
-import React from 'react';
+import { useState } from "react";
 
-import { useSelector } from 'react-redux';
+import { useSelector } from "react-redux";
 
-import {
-  downloadHTML,
-  exportToHTML,
-} from '../utils/exportHTML.jsx';
+import { Button } from "../common/Button";
+import { downloadHTML, exportToHTML } from "../utils/exportHTML.jsx";
 
-export const ExportButton = ({ isMobile = false }) => {
-  const selectedTemplate = useSelector((state) => state.builder.selectedTemplate);
+export const ExportButton = () => {
+  const selectedTemplate = useSelector(
+    (state) => state.builder.selectedTemplate,
+  );
   const currentConfig = useSelector((state) => state.builder.currentConfig);
-  const [isExporting, setIsExporting] = React.useState(false);
+  const [isExporting, setIsExporting] = useState(false);
 
   const handleExport = () => {
     if (!selectedTemplate || !currentConfig) return;
@@ -44,45 +44,13 @@ export const ExportButton = ({ isMobile = false }) => {
   };
 
   return (
-    <button
+    <Button
+      variant="export"
       onClick={handleExport}
       disabled={isExporting}
-      style={{
-        backgroundColor: isExporting ? "#059669" : "#10b981",
-        color: "white",
-        border: "none",
-        padding: "8px 20px",
-        fontSize: "0.95rem",
-        borderRadius: "6px",
-        cursor: isExporting ? "default" : "pointer",
-        fontWeight: "600",
-        display: "flex",
-        alignItems: "center",
-        gap: "8px",
-        transition: "background-color 0.2s",
-      }}
-      onMouseOver={(e) => {
-        if (!isExporting) {
-          e.currentTarget.style.backgroundColor = "#059669";
-        }
-      }}
-      onMouseOut={(e) => {
-        if (!isExporting) {
-          e.currentTarget.style.backgroundColor = "#10b981";
-        }
-      }}
+      icon={isExporting ? "✓" : "↓"}
     >
-      {isExporting ? (
-        <>
-          <span>✓</span>
-          {!isMobile && <span>Exported!</span>}
-        </>
-      ) : (
-        <>
-          <span>↓</span>
-          <span>{isMobile ? "Export" : "Export HTML"}</span>
-        </>
-      )}
-    </button>
+      {isExporting ? "Exported!" : "Export HTML"}
+    </Button>
   );
 };

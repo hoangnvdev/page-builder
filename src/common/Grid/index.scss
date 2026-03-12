@@ -1,0 +1,8 @@
+.grid {
+  display: grid;
+  box-sizing: border-box;
+
+  &__item {
+    box-sizing: border-box;
+  }
+}
