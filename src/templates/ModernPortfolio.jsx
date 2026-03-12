@@ -164,7 +164,79 @@ export const modernPortfolioConfig = {
   id: "modern-portfolio",
   name: "Modern Portfolio",
   description: "Clean and professional portfolio layout",
-  preview: "🎨",
+  icon: "🎨",
+
+  editableFields: [
+    // Page Settings
+    {
+      id: "page.fontFamily",
+      label: "Font Family",
+      type: "select",
+      options: [
+        { value: "Arial, sans-serif", label: "Arial" },
+        { value: "Georgia, serif", label: "Georgia" },
+        { value: '"Segoe UI", sans-serif', label: "Segoe UI" },
+        { value: "system-ui, sans-serif", label: "System" },
+      ],
+    },
+    { id: "page.backgroundColor", label: "Page Background", type: "color" },
+    { id: "page.textColor", label: "Page Text Color", type: "color" },
+
+    // Hero
+    { id: "elements.hero.title", label: "Hero Title", type: "text" },
+    { id: "elements.hero.subtitle", label: "Hero Subtitle", type: "text" },
+    { id: "elements.hero.buttonText", label: "Hero Button Text", type: "text" },
+    { id: "elements.hero.buttonColor", label: "Button Color", type: "color" },
+    {
+      id: "elements.hero.gradientStart",
+      label: "Gradient Start Color",
+      type: "color",
+    },
+    {
+      id: "elements.hero.gradientEnd",
+      label: "Gradient End Color",
+      type: "color",
+    },
+
+    // About
+    { id: "elements.about.heading", label: "About Heading", type: "text" },
+    { id: "elements.about.content", label: "About Content", type: "textarea" },
+    {
+      id: "elements.about.headingColor",
+      label: "About Heading Color",
+      type: "color",
+    },
+    {
+      id: "elements.about.textColor",
+      label: "About Text Color",
+      type: "color",
+    },
+
+    // Projects
+    {
+      id: "elements.projects.heading",
+      label: "Projects Heading",
+      type: "text",
+    },
+    {
+      id: "elements.projects.items",
+      label: "Projects List",
+      type: "projects-list",
+    },
+
+    // Footer
+    { id: "elements.footer.text", label: "Footer Text", type: "text" },
+    {
+      id: "elements.footer.backgroundColor",
+      label: "Footer Background",
+      type: "color",
+    },
+    {
+      id: "elements.footer.textColor",
+      label: "Footer Text Color",
+      type: "color",
+    },
+  ],
 
   configSchema: {
     page: {

@@ -241,7 +241,103 @@ export const businessLandingConfig = {
   id: "business-landing",
   name: "Business Landing",
   description: "Conversion-focused business page",
-  preview: "💼",
+  icon: "💼",
+
+  editableFields: [
+    // Page Settings
+    {
+      id: "page.fontFamily",
+      label: "Font Family",
+      type: "select",
+      options: [
+        { value: "Arial, sans-serif", label: "Arial" },
+        { value: "Georgia, serif", label: "Georgia" },
+        { value: '"Segoe UI", sans-serif', label: "Segoe UI" },
+        { value: "system-ui, sans-serif", label: "System" },
+      ],
+    },
+    { id: "page.backgroundColor", label: "Page Background", type: "color" },
+    { id: "page.textColor", label: "Page Text Color", type: "color" },
+
+    // Header
+    { id: "elements.header.companyName", label: "Company Name", type: "text" },
+    {
+      id: "elements.header.backgroundColor",
+      label: "Header Background",
+      type: "color",
+    },
+    { id: "elements.header.logoColor", label: "Logo Color", type: "color" },
+    { id: "elements.header.linkColor", label: "Link Color", type: "color" },
+
+    // Hero
+    { id: "elements.hero.title", label: "Hero Title", type: "text" },
+    { id: "elements.hero.subtitle", label: "Hero Subtitle", type: "textarea" },
+    {
+      id: "elements.hero.ctaButtonText",
+      label: "Hero Button Text",
+      type: "text",
+    },
+    {
+      id: "elements.hero.backgroundColor",
+      label: "Hero Background",
+      type: "color",
+    },
+    {
+      id: "elements.hero.titleColor",
+      label: "Hero Title Color",
+      type: "color",
+    },
+    {
+      id: "elements.hero.subtitleColor",
+      label: "Hero Subtitle Color",
+      type: "color",
+    },
+    {
+      id: "elements.hero.ctaButtonColor",
+      label: "Hero Button Color",
+      type: "color",
+    },
+
+    // Features
+    {
+      id: "elements.features.heading",
+      label: "Features Heading",
+      type: "text",
+    },
+    {
+      id: "elements.features.items",
+      label: "Features List",
+      type: "features-list",
+    },
+
+    // CTA
+    { id: "elements.cta.heading", label: "CTA Heading", type: "text" },
+    { id: "elements.cta.subheading", label: "CTA Subheading", type: "text" },
+    { id: "elements.cta.buttonText", label: "CTA Button Text", type: "text" },
+    {
+      id: "elements.cta.backgroundColor",
+      label: "CTA Background",
+      type: "color",
+    },
+    {
+      id: "elements.cta.buttonColor",
+      label: "CTA Button Color",
+      type: "color",
+    },
+
+    // Footer
+    { id: "elements.footer.text", label: "Footer Text", type: "text" },
+    {
+      id: "elements.footer.backgroundColor",
+      label: "Footer Background",
+      type: "color",
+    },
+    {
+      id: "elements.footer.textColor",
+      label: "Footer Text Color",
+      type: "color",
+    },
+  ],
 
   configSchema: {
     page: {

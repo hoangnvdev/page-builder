@@ -1,9 +1,11 @@
+import "./index.scss";
+
 import { useState } from "react";
 
 import { useSelector } from "react-redux";
 
-import { Button } from "../common/Button";
-import { downloadHTML, exportToHTML } from "../utils/exportHTML.jsx";
+import { Button } from "../../../../common/Button/index.jsx";
+import { downloadHTML, exportToHTML } from "../../../../utils/exportHTML.jsx";
 
 export const ExportButton = () => {
   const selectedTemplate = useSelector(
