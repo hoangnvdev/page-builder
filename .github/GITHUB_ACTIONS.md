@@ -173,6 +173,22 @@ pnpm build
 - Verify YAML syntax is correct
 - Check indentation (use spaces, not tabs)
 
+### Deprecated Actions Error
+
+**Error message:** `This request has been automatically failed because it uses a deprecated version of actions/upload-artifact: v3`
+
+**Solution:** The workflow file has been updated to use `actions/upload-artifact@v4`. If you see this error:
+
+1. Pull the latest changes: `git pull origin main`
+2. The workflow uses `@v4` which is the current supported version
+3. Re-run the failed workflow from the GitHub Actions tab
+
+All actions in the workflow are now using current versions:
+- `actions/checkout@v4` ✅
+- `actions/setup-node@v4` ✅
+- `actions/upload-artifact@v4` ✅
+- `pnpm/action-setup@v2` ✅
+
 ## Customization
 
 ### Change Node Version
