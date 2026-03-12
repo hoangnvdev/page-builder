@@ -3,10 +3,10 @@ import React from "react";
 import { Navigate, Route, Routes } from "react-router-dom";
 
 const LazyDesignPage = React.lazy(() =>
-  import("../pages/Design").then((module) => ({ default: module.DesignPage })),
+  import("@/pages/Design").then((module) => ({ default: module.DesignPage })),
 );
 const LazyTemplatePage = React.lazy(() =>
-  import("../pages/Template").then((module) => ({
+  import("@/pages/Template").then((module) => ({
     default: module.TemplatePage,
   })),
 );

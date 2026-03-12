@@ -3,9 +3,10 @@ import "./index.scss";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
-import { Grid } from "../../../../common/Grid";
-import { selectTemplate } from "../../../../store/builderSlice";
-import { templateRegistry } from "../../../../templates/templateRegistry";
+import { Grid } from "@/common/Grid";
+import { selectTemplate } from "@/store/builderSlice";
+import { templateRegistry } from "@/templates/templateRegistry";
+
 import { TemplateCard } from "../TemplateCard";
 
 export const TemplateGallery = () => {

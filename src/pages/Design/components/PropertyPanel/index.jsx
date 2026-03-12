@@ -2,14 +2,14 @@ import "./index.scss";
 
 import { useDispatch, useSelector } from "react-redux";
 
-import { Button } from "../../../../common/Button";
-import { ColorPicker } from "../../../../common/ColorPicker";
-import { Flex } from "../../../../common/Flex";
-import { Input } from "../../../../common/Input";
-import { Panel } from "../../../../common/Panel";
-import { Select } from "../../../../common/Select";
-import { Textarea } from "../../../../common/Textarea";
-import { updateConfig } from "../../../../store/builderSlice";
+import { Button } from "@/common/Button";
+import { ColorPicker } from "@/common/ColorPicker";
+import { Flex } from "@/common/Flex";
+import { Input } from "@/common/Input";
+import { Panel } from "@/common/Panel";
+import { Select } from "@/common/Select";
+import { Textarea } from "@/common/Textarea";
+import { updateConfig } from "@/store/builderSlice";
 
 // Helper function to get nested value using dot notation
 const getNestedValue = (obj, path) => {
