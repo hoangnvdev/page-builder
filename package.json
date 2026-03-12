@@ -20,6 +20,7 @@
   "devDependencies": {
     "@vitejs/plugin-react": "^4.2.1",
     "sass": "^1.80.0",
+    "terser": "^5.36.0",
     "vite": "^5.1.0"
   }
 }
