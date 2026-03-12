@@ -4,6 +4,20 @@
 
 This app is optimized for deployment on Netlify with the following configurations:
 
+## CI/CD with GitHub Actions
+
+This project includes automated build verification using GitHub Actions. See [.github/GITHUB_ACTIONS.md](.github/GITHUB_ACTIONS.md) for detailed setup instructions.
+
+**What it does:**
+
+- ✅ Automatically verifies builds on every push and pull request
+- ✅ Shows bundle size analysis in workflow logs
+- ✅ Saves build artifacts for 7 days
+- ✅ (Optional) Deploys preview for pull requests
+- ✅ (Optional) Deploys to production on main branch
+
+The workflow runs automatically when you push to GitHub - no configuration needed for basic build verification!
+
 ### Automatic Deployment from Git
 
 1. **Push Your Code to GitHub/GitLab/Bitbucket**

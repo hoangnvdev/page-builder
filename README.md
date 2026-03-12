@@ -60,3 +60,24 @@ page-builder/
 ## Export Format
 
 Exported pages are fully self-contained HTML files with inline CSS. No build tools or runtime dependencies required.
+
+## Deployment
+
+This project is optimized for deployment on Netlify with:
+
+- Automated build configuration
+- Asset optimization and code splitting
+- Security headers and caching rules
+
+See [DEPLOYMENT.md](DEPLOYMENT.md) for detailed deployment instructions.
+
+### CI/CD
+
+GitHub Actions automatically:
+
+- ✅ Verifies builds on every push and PR
+- ✅ Runs bundle size analysis
+- ✅ (Optional) Deploys previews for PRs
+- ✅ (Optional) Deploys to production
+
+See [.github/GITHUB_ACTIONS.md](.github/GITHUB_ACTIONS.md) for setup details.
