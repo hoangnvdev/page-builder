@@ -160,6 +160,17 @@ export const ModernPortfolio = ({ config }) => {
   );
 };
 
+ModernPortfolio.propTypes = {
+  config: PropTypes.shape({
+    page: PropTypes.shape({
+      fontFamily: PropTypes.string,
+      backgroundColor: PropTypes.string,
+      textColor: PropTypes.string,
+    }).isRequired,
+    elements: PropTypes.object.isRequired,
+  }).isRequired,
+};
+
 export const modernPortfolioConfig = {
   id: "modern-portfolio",
   name: "Modern Portfolio",

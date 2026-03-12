@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 
 export const BusinessLanding = ({ config }) => {
   const { page, elements } = config;
@@ -235,6 +235,17 @@ export const BusinessLanding = ({ config }) => {
       </footer>
     </div>
   );
+};
+
+BusinessLanding.propTypes = {
+  config: PropTypes.shape({
+    page: PropTypes.shape({
+      fontFamily: PropTypes.string,
+      backgroundColor: PropTypes.string,
+      textColor: PropTypes.string,
+    }).isRequired,
+    elements: PropTypes.object.isRequired,
+  }).isRequired,
 };
 
 export const businessLandingConfig = {

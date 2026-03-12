@@ -6,23 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 import { EmptyState } from "@/common/EmptyState";
 import { deselectElement, selectElement } from "@/store/builderSlice";
-
-// Deep merge helper
-const deepMerge = (target, source) => {
-  const result = { ...target };
-  for (const key in source) {
-    if (
-      source[key] &&
-      typeof source[key] === "object" &&
-      !Array.isArray(source[key])
-    ) {
-      result[key] = deepMerge(target[key] || {}, source[key]);
-    } else {
-      result[key] = source[key];
-    }
-  }
-  return result;
-};
+import { deepMerge } from "@/utils/helpers";
 
 export const PreviewRenderer = () => {
   const dispatch = useDispatch();
