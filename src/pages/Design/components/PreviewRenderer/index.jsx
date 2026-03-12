@@ -4,8 +4,8 @@ import { useEffect, useRef, useState } from "react";
 
 import { useDispatch, useSelector } from "react-redux";
 
-import { EmptyState } from "../../common/EmptyState";
-import { deselectElement, selectElement } from "../../store/builderSlice";
+import { EmptyState } from "../../../../common/EmptyState";
+import { deselectElement, selectElement } from "../../../../store/builderSlice";
 
 // Deep merge helper
 const deepMerge = (target, source) => {
