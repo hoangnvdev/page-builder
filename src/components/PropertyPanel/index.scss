@@ -1,0 +1,49 @@
+.property-panel {
+  &__subtitle {
+    margin: 0.25rem 0 0 0;
+    font-size: 0.875rem;
+    color: #8c8c8c;
+    font-weight: normal;
+  }
+
+  &__empty {
+    padding: 2rem 1rem;
+    text-align: center;
+    color: #8c8c8c;
+
+    p {
+      margin: 0;
+    }
+  }
+
+  &__field-container {
+    margin-bottom: 1.5rem;
+  }
+
+  &__field-label {
+    display: block;
+    margin-bottom: 0.75rem;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #1a1a1a;
+  }
+
+  &__list-item {
+    margin-bottom: 1.5rem;
+    padding: 1rem;
+    background-color: #fafafa;
+    border-radius: 8px;
+    border: 1px solid #e8e8e8;
+
+    > * + * {
+      margin-top: 1rem;
+    }
+  }
+
+  &__empty-text {
+    margin: 1rem 0 0 0;
+    font-size: 0.875rem;
+    color: #8c8c8c;
+    font-style: italic;
+  }
+}

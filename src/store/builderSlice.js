@@ -1,20 +1,22 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   selectedTemplate: null,
   currentConfig: null,
   selectedElement: null,
-  mode: 'gallery', // 'gallery' | 'editor'
+  mode: "gallery", // 'gallery' | 'editor'
 };
 
 const builderSlice = createSlice({
-  name: 'builder',
+  name: "builder",
   initialState,
   reducers: {
     selectTemplate: (state, action) => {
       state.selectedTemplate = action.payload;
-      state.currentConfig = JSON.parse(JSON.stringify(action.payload.defaultConfig));
-      state.mode = 'editor';
+      state.currentConfig = JSON.parse(
+        JSON.stringify(action.payload.defaultConfig),
+      );
+      state.mode = "editor";
       state.selectedElement = null;
     },
 
@@ -24,6 +26,12 @@ const builderSlice = createSlice({
           ...state.currentConfig.page,
           ...action.payload,
         };
+      }
+    },
+
+    updateConfig: (state, action) => {
+      if (state.currentConfig) {
+        state.currentConfig = action.payload;
       }
     },
 
@@ -49,13 +57,13 @@ const builderSlice = createSlice({
       state.selectedTemplate = null;
       state.currentConfig = null;
       state.selectedElement = null;
-      state.mode = 'gallery';
+      state.mode = "gallery";
     },
 
     resetCurrentConfig: (state) => {
       if (state.selectedTemplate) {
         state.currentConfig = JSON.parse(
-          JSON.stringify(state.selectedTemplate.defaultConfig)
+          JSON.stringify(state.selectedTemplate.defaultConfig),
         );
         state.selectedElement = null;
       }
@@ -66,6 +74,7 @@ const builderSlice = createSlice({
 export const {
   selectTemplate,
   updatePageConfig,
+  updateConfig,
   updateElementConfig,
   selectElement,
   deselectElement,
