@@ -11,7 +11,55 @@ const LazyTemplatePage = React.lazy(() =>
   })),
 );
 
-const RoutingLoading = () => <div>Loading...</div>;
+const RoutingLoading = () => (
+  <div
+    style={{
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      minHeight: "100vh",
+      background: "#fafafa",
+    }}
+  >
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+      }}
+    >
+      <div
+        style={{
+          width: "60px",
+          height: "60px",
+          border: "4px solid #e0e0e0",
+          borderTopColor: "#667eea",
+          borderRadius: "50%",
+          animation: "spin 0.8s linear infinite",
+        }}
+      />
+      <div
+        style={{
+          marginTop: "20px",
+          color: "#595959",
+          fontFamily:
+            "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif",
+          fontSize: "16px",
+          fontWeight: "500",
+        }}
+      >
+        One moment...
+      </div>
+    </div>
+    <style>
+      {`
+        @keyframes spin {
+          to { transform: rotate(360deg); }
+        }
+      `}
+    </style>
+  </div>
+);
 
 export const AppRoutes = () => {
   return (
