@@ -4,7 +4,6 @@ const initialState = {
   selectedTemplate: null,
   currentConfig: null,
   selectedElement: null,
-  mode: "gallery", // 'gallery' | 'editor'
 };
 
 const builderSlice = createSlice({
@@ -16,7 +15,6 @@ const builderSlice = createSlice({
       state.currentConfig = JSON.parse(
         JSON.stringify(action.payload.defaultConfig),
       );
-      state.mode = "editor";
       state.selectedElement = null;
     },
 
@@ -57,7 +55,6 @@ const builderSlice = createSlice({
       state.selectedTemplate = null;
       state.currentConfig = null;
       state.selectedElement = null;
-      state.mode = "gallery";
     },
 
     resetCurrentConfig: (state) => {

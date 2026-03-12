@@ -1,6 +1,7 @@
 import "./index.scss";
 
 import { useDispatch, useSelector } from "react-redux";
+import { Navigate, useNavigate } from "react-router-dom";
 
 import { Button, Divider, Flex, Toolbar } from "../../common";
 import { resetCurrentConfig, resetToGallery } from "../../store/builderSlice";
@@ -10,15 +11,20 @@ import { PropertyPanel } from "../PropertyPanel";
 
 export const Editor = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const selectedTemplate = useSelector(
     (state) => state.builder.selectedTemplate,
   );
 
   if (!selectedTemplate) {
-    return null;
+    return <Navigate to="/template" replace />;
   }
 
-  const handleResetToGallery = () => dispatch(resetToGallery());
+  const handleResetToGallery = () => {
+    dispatch(resetToGallery());
+    navigate("/template");
+  };
+
   const handleResetCurrentConfig = () => dispatch(resetCurrentConfig());
 
   return (

@@ -1,6 +1,7 @@
 import "./index.scss";
 
 import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 import { Button } from "../../common/Button";
 import { Card } from "../../common/Card";
@@ -10,9 +11,11 @@ import { templateRegistry } from "../../templates/templateRegistry";
 
 export const TemplateGallery = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const handleSelectTemplate = (template) => {
     dispatch(selectTemplate(template));
+    navigate("/design");
   };
 
   return (

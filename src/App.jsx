@@ -1,18 +1,14 @@
 import React from "react";
 
-import { useSelector } from "react-redux";
+import { BrowserRouter } from "react-router-dom";
 
-import { Editor } from "./components/Editor";
-import { TemplateGallery } from "./components/TemplateGallery";
+import { AppRoutes } from "./routes";
 
 function App() {
-  const mode = useSelector((state) => state.builder.mode);
-
   return (
-    <>
-      {mode === "gallery" && <TemplateGallery />}
-      {mode === "editor" && <Editor />}
-    </>
+    <BrowserRouter>
+      <AppRoutes />
+    </BrowserRouter>
   );
 }
 

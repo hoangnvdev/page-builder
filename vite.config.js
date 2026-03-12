@@ -24,7 +24,12 @@ export default defineConfig({
       output: {
         manualChunks: {
           // Vendor chunk for React ecosystem
-          "react-vendor": ["react", "react-dom", "react-redux"],
+          "react-vendor": [
+            "react",
+            "react-dom",
+            "react-redux",
+            "react-router-dom",
+          ],
           // Redux toolkit in separate chunk
           "redux-vendor": ["@reduxjs/toolkit"],
           // Form libraries
