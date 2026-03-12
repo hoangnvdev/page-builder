@@ -38,11 +38,12 @@ export default defineConfig({
           "icons-vendor": ["lucide-react"],
         },
         assetFileNames: (assetInfo) => {
-          const info = assetInfo.name.split(".");
+          const name = assetInfo.names?.[0] || assetInfo.name;
+          const info = name.split(".");
           let extType = info[info.length - 1];
-          if (/\.(png|jpe?g|svg|gif|tiff|bmp|ico)$/i.test(assetInfo.name)) {
+          if (/\.(png|jpe?g|svg|gif|tiff|bmp|ico)$/i.test(name)) {
             extType = "images";
-          } else if (/\.(woff|woff2|eot|ttf|otf)$/i.test(assetInfo.name)) {
+          } else if (/\.(woff|woff2|eot|ttf|otf)$/i.test(name)) {
             extType = "fonts";
           }
           return `assets/${extType}/[name]-[hash][extname]`;
