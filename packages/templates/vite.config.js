@@ -29,6 +29,7 @@ export default defineConfig({
         },
       },
     },
+    cssCodeSplit: false,
     outDir: "dist",
     emptyOutDir: true,
   },
