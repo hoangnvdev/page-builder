@@ -74,5 +74,6 @@ export default defineConfig({
       "formik",
       "lucide-react",
     ],
+    exclude: ["@page-builder/ui", "@page-builder/templates"],
   },
 });

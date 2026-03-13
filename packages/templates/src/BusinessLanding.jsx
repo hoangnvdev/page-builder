@@ -1,4 +1,6 @@
-import React from 'react';
+import React from "react";
+
+import PropTypes from "prop-types";
 
 export const BusinessLanding = ({ config }) => {
   const { page, elements } = config;

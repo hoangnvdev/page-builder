@@ -2,12 +2,14 @@ import "./index.scss";
 
 import PropTypes from "prop-types";
 
-import { Button } from "@/common/Button";
-import { ColorPicker } from "@/common/ColorPicker";
-import { Flex } from "@/common/Flex";
-import { Input } from "@/common/Input";
-import { Select } from "@/common/Select";
-import { Textarea } from "@/common/Textarea";
+import {
+  Button,
+  ColorPicker,
+  Flex,
+  Input,
+  Select,
+  Textarea,
+} from "@page-builder/ui";
 
 export const FormField = ({
   id,

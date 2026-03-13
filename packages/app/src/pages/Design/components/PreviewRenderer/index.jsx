@@ -4,9 +4,9 @@ import { useEffect, useRef, useState } from "react";
 
 import { useDispatch, useSelector } from "react-redux";
 
-import { EmptyState } from "@/common/EmptyState";
 import { deselectElement, selectElement } from "@/store/builderSlice";
 import { deepMerge } from "@/utils/helpers";
+import { EmptyState } from "@page-builder/ui";
 
 export const PreviewRenderer = () => {
   const dispatch = useDispatch();

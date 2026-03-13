@@ -3,9 +3,9 @@ import "./index.scss";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
-import { Grid } from "@/common/Grid";
 import { selectTemplate } from "@/store/builderSlice";
-import { templateRegistry } from "@/templates/templateRegistry";
+import { templateRegistry } from "@page-builder/templates";
+import { Grid } from "@page-builder/ui";
 
 import { TemplateCard } from "../TemplateCard";
 
