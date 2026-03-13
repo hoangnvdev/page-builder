@@ -1,3 +1,6 @@
+import "@page-builder/ui/styles";
+import "@page-builder/templates/styles";
+
 import { StrictMode } from "react";
 
 import ReactDOM from "react-dom/client";

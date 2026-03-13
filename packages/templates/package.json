@@ -9,7 +9,8 @@
     ".": {
       "development": "./src/index.js",
       "default": "./dist/index.mjs"
-    }
+    },
+    "./styles": "./src/styles.js"
   },
   "files": [
     "dist"
