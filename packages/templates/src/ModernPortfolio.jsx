@@ -1,164 +1,57 @@
-import React from "react";
-
 import PropTypes from "prop-types";
+
+import { Page } from "@page-builder/ui";
+
+import { ContentSection } from "./components/ContentSection";
+import { Footer } from "./components/Footer";
+import { Hero } from "./components/Hero";
+import { ItemGrid } from "./components/ItemGrid";
 
 export const ModernPortfolio = ({ config }) => {
   const { page, elements } = config;
 
   return (
-    <div
-      style={{
-        fontFamily: page.fontFamily,
-        backgroundColor: page.backgroundColor,
-        minHeight: "100vh",
-        color: page.textColor,
-      }}
+    <Page
+      fontFamily={page.fontFamily}
+      backgroundColor={page.backgroundColor}
+      textColor={page.textColor}
     >
-      {/* Hero Section */}
-      <section
-        data-element="hero"
-        style={{
-          background: `linear-gradient(135deg, ${elements.hero.gradientStart} 0%, ${elements.hero.gradientEnd} 100%)`,
-          padding: "80px 20px",
-          textAlign: "center",
-          color: "white",
-        }}
-      >
-        <h1
-          style={{
-            fontSize: "3rem",
-            margin: "0 0 20px 0",
-            fontWeight: "700",
-          }}
-        >
-          {elements.hero.title}
-        </h1>
-        <p
-          style={{
-            fontSize: "1.25rem",
-            margin: "0 0 30px 0",
-            opacity: 0.95,
-          }}
-        >
-          {elements.hero.subtitle}
-        </p>
-        <button
-          style={{
-            backgroundColor: elements.hero.buttonColor,
-            color: "white",
-            border: "none",
-            padding: "12px 32px",
-            fontSize: "1rem",
-            borderRadius: "6px",
-            cursor: "pointer",
-            fontWeight: "600",
-          }}
-        >
-          {elements.hero.buttonText}
-        </button>
-      </section>
+      <Hero
+        title={elements.hero.title}
+        subtitle={elements.hero.subtitle}
+        buttonText={elements.hero.buttonText}
+        gradientStart={elements.hero.gradientStart}
+        gradientEnd={elements.hero.gradientEnd}
+        buttonColor={elements.hero.buttonColor}
+        titleColor="white"
+        subtitleColor="white"
+      />
 
-      {/* About Section */}
-      <section
-        data-element="about"
-        style={{
-          maxWidth: "800px",
-          margin: "0 auto",
-          padding: "60px 20px",
-        }}
-      >
-        <h2
-          style={{
-            fontSize: "2.5rem",
-            marginBottom: "20px",
-            color: elements.about.headingColor,
-          }}
-        >
-          {elements.about.heading}
-        </h2>
-        <p
-          style={{
-            fontSize: "1.1rem",
-            lineHeight: "1.8",
-            color: elements.about.textColor,
-          }}
-        >
-          {elements.about.content}
-        </p>
-      </section>
+      <ContentSection
+        heading={elements.about.heading}
+        content={elements.about.content}
+        headingColor={elements.about.headingColor}
+        textColor={elements.about.textColor}
+        dataElement="about"
+      />
 
-      {/* Projects Section */}
-      <section
-        data-element="projects"
-        style={{
-          backgroundColor: elements.projects.backgroundColor,
-          padding: "60px 20px",
-        }}
-      >
-        <div style={{ maxWidth: "1200px", margin: "0 auto" }}>
-          <h2
-            style={{
-              fontSize: "2.5rem",
-              marginBottom: "40px",
-              textAlign: "center",
-              color: elements.projects.headingColor,
-            }}
-          >
-            {elements.projects.heading}
-          </h2>
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))",
-              gap: "30px",
-            }}
-          >
-            {elements.projects.items.map((project, idx) => (
-              <div
-                key={idx}
-                style={{
-                  backgroundColor: "white",
-                  borderRadius: "8px",
-                  padding: "30px",
-                  boxShadow: "0 2px 8px rgba(0,0,0,0.1)",
-                }}
-              >
-                <h3
-                  style={{
-                    fontSize: "1.5rem",
-                    marginBottom: "10px",
-                    color: elements.projects.cardTitleColor,
-                  }}
-                >
-                  {project.title}
-                </h3>
-                <p
-                  style={{
-                    fontSize: "1rem",
-                    color: "#666",
-                  }}
-                >
-                  {project.description}
-                </p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+      <ItemGrid
+        heading={elements.projects.heading}
+        items={elements.projects.items}
+        backgroundColor={elements.projects.backgroundColor}
+        headingColor={elements.projects.headingColor}
+        itemTitleColor={elements.projects.cardTitleColor}
+        dataElement="projects"
+        minItemWidth="300px"
+        gap="30px"
+      />
 
-      {/* Footer */}
-      <footer
-        data-element="footer"
-        style={{
-          backgroundColor: elements.footer.backgroundColor,
-          color: elements.footer.textColor,
-          padding: "40px 20px",
-          textAlign: "center",
-        }}
-      >
-        <p style={{ margin: 0, fontSize: "0.95rem" }}>{elements.footer.text}</p>
-      </footer>
-    </div>
+      <Footer
+        text={elements.footer.text}
+        backgroundColor={elements.footer.backgroundColor}
+        textColor={elements.footer.textColor}
+      />
+    </Page>
   );
 };
 

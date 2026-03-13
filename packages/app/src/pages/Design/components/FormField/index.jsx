@@ -1,12 +1,14 @@
 import "./index.scss";
 
 import PropTypes from "prop-types";
+import { v4 as uuidv4 } from "uuid";
 
 import {
   Button,
   ColorPicker,
   Flex,
   Input,
+  Label,
   Select,
   Textarea,
 } from "@page-builder/ui";
@@ -27,7 +29,11 @@ export const FormField = ({
   };
 
   const handleAddItem = () => {
-    const newItem = { title: "", description: "" };
+    const newItem = {
+      id: uuidv4(),
+      title: "",
+      description: "",
+    };
     onChange([...items, newItem]);
   };
 
@@ -39,17 +45,17 @@ export const FormField = ({
   if (type === "projects-list" || type === "features-list") {
     return (
       <div className="form-field__container">
-        <label className="form-field__label">
+        <Label className="form-field__label">
           {label}
           <Flex gap={8} style={{ marginTop: "0.5rem" }}>
             <Button variant="secondary" size="small" onClick={handleAddItem}>
               + Add Item
             </Button>
           </Flex>
-        </label>
+        </Label>
 
         {items?.map((item, index) => (
-          <div key={index} className="form-field__list-item">
+          <div key={item.id || index} className="form-field__list-item">
             <Input
               label={`${type === "projects-list" ? "Project" : "Feature"} ${index + 1} Title`}
               value={item.title || ""}
@@ -76,35 +82,45 @@ export const FormField = ({
         ))}
 
         {(!items || items.length === 0) && (
-          <p className="form-field__empty-text">
-            No items yet. Click "Add Item" to create one.
-          </p>
+          <EmptyState
+            description="No items yet. Click 'Add Item' to create one."
+            className="form-field__empty-state"
+          />
         )}
       </div>
     );
   }
 
-  return (
-    <div className="form-field">
-      {type === "text" && (
-        <Input label={label} value={value} onChange={onChange} />
-      )}
-      {type === "textarea" && (
-        <Textarea label={label} value={value} onChange={onChange} rows={4} />
-      )}
-      {type === "color" && (
-        <ColorPicker label={label} value={value} onChange={onChange} />
-      )}
-      {type === "select" && (
-        <Select
-          label={label}
-          value={value}
-          onChange={onChange}
-          options={options}
-        />
-      )}
-    </div>
-  );
+  const renderField = () => {
+    switch (type) {
+      case "text":
+        return <Input label={label} value={value} onChange={onChange} />;
+      case "textarea":
+        return (
+          <Textarea label={label} value={value} onChange={onChange} rows={4} />
+        );
+      case "color":
+        return <ColorPicker label={label} value={value} onChange={onChange} />;
+      case "select":
+        return (
+          <Select
+            label={label}
+            value={value}
+            onChange={onChange}
+            options={options}
+          />
+        );
+      default:
+        return (
+          <EmptyState
+            description={`Unknown field type: "${type}". Please check the field configuration.`}
+            className="form-field__error"
+          />
+        );
+    }
+  };
+
+  return <div className="form-field">{renderField()}</div>;
 };
 
 FormField.propTypes = {
@@ -128,6 +144,7 @@ FormField.propTypes = {
   ),
   items: PropTypes.arrayOf(
     PropTypes.shape({
+      id: PropTypes.string,
       title: PropTypes.string,
       description: PropTypes.string,
     }),

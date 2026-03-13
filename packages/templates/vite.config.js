@@ -13,12 +13,19 @@ export default defineConfig({
       fileName: (format) => `index.${format === "es" ? "mjs" : "js"}`,
     },
     rollupOptions: {
-      external: ["react", "react-dom", "prop-types", "@page-builder/ui"],
+      external: [
+        "react",
+        "react-dom",
+        "prop-types",
+        "uuid",
+        "@page-builder/ui",
+      ],
       output: {
         globals: {
           react: "React",
           "react-dom": "ReactDOM",
           "prop-types": "PropTypes",
+          uuid: "uuid",
         },
       },
     },

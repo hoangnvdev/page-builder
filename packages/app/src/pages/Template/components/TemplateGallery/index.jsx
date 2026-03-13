@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 
 import { selectTemplate } from "@/store/builderSlice";
 import { templateRegistry } from "@page-builder/templates";
-import { Grid } from "@page-builder/ui";
+import { Grid, SubTitle, Title } from "@page-builder/ui";
 
 import { TemplateCard } from "../TemplateCard";
 
@@ -22,11 +22,13 @@ export const TemplateGallery = () => {
     <div className="template-gallery">
       <div className="template-gallery__container">
         <div className="template-gallery__header">
-          <h1 className="template-gallery__title">Choose Your Template</h1>
-          <p className="template-gallery__description">
+          <Title level={1} className="template-gallery__title">
+            Choose Your Template
+          </Title>
+          <SubTitle className="template-gallery__description">
             Select a template to start building your page. All templates are
             fully customizable.
-          </p>
+          </SubTitle>
         </div>
 
         <Grid columns={3} gap={24}>

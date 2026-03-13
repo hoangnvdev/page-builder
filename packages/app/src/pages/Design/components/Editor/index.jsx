@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Navigate, useNavigate } from "react-router-dom";
 
 import { resetCurrentConfig, resetToGallery } from "@/store/builderSlice";
-import { Button, Divider, Flex, Toolbar } from "@page-builder/ui";
+import { Button, Divider, Flex, Title, Toolbar } from "@page-builder/ui";
 
 import { ExportButton } from "../ExportButton";
 import { PreviewRenderer } from "../PreviewRenderer";
@@ -41,7 +41,9 @@ export const Editor = () => {
             ← Back to Templates
           </Button>
           <Divider orientation="vertical" spacing={0} />
-          <h2 className="editor__title">{selectedTemplate.name}</h2>
+          <Title level={2} className="editor__title">
+            {selectedTemplate.name}
+          </Title>
         </Toolbar.Left>
 
         <Toolbar.Right>
