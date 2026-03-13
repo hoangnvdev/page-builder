@@ -5,7 +5,7 @@
   command = "pnpm install && pnpm build"
 
   # Directory with the deployment-ready files
-  publish = "dist"
+  publish = "packages/app/dist"
 
   # Environment variables
   [build.environment]

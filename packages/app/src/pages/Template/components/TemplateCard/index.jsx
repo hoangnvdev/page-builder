@@ -2,8 +2,7 @@ import "./index.scss";
 
 import PropTypes from "prop-types";
 
-import { Button } from "@/common/Button";
-import { Card } from "@/common/Card";
+import { Button, Card } from "@page-builder/ui";
 
 export const TemplateCard = ({ template, onSelect }) => {
   return (

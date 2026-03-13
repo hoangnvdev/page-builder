@@ -3,8 +3,8 @@ import "./index.scss";
 import { useDispatch, useSelector } from "react-redux";
 import { Navigate, useNavigate } from "react-router-dom";
 
-import { Button, Divider, Flex, Toolbar } from "@/common";
 import { resetCurrentConfig, resetToGallery } from "@/store/builderSlice";
+import { Button, Divider, Flex, Toolbar } from "@page-builder/ui";
 
 import { ExportButton } from "../ExportButton";
 import { PreviewRenderer } from "../PreviewRenderer";

@@ -2,10 +2,9 @@ import "./index.scss";
 
 import { useDispatch, useSelector } from "react-redux";
 
-import { Flex } from "@/common/Flex";
-import { Panel } from "@/common/Panel";
 import { updateConfig } from "@/store/builderSlice";
 import { deepMerge, getNestedValue, setNestedValue } from "@/utils/helpers";
+import { Flex, Panel } from "@page-builder/ui";
 
 import { FormField } from "../FormField";
 
@@ -85,10 +84,20 @@ export const PropertyPanel = () => {
                 id={field.id}
                 label={field.label}
                 type={field.type}
-                value={getNestedValue(tempConfig, field.id)}
+                value={
+                  field.type === "projects-list" ||
+                  field.type === "features-list"
+                    ? undefined
+                    : getNestedValue(tempConfig, field.id)
+                }
                 onChange={(value) => handleFieldChange(field.id, value)}
                 options={field.options}
-                items={getNestedValue(tempConfig, field.id)}
+                items={
+                  field.type === "projects-list" ||
+                  field.type === "features-list"
+                    ? getNestedValue(tempConfig, field.id)
+                    : undefined
+                }
               />
             ))}
           </Flex>

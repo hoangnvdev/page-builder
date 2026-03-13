@@ -4,8 +4,8 @@ import { useState } from "react";
 
 import { useSelector } from "react-redux";
 
-import { Button } from "@/common/Button";
 import { downloadHTML, exportToHTML } from "@/utils/exportHTML.jsx";
+import { Button } from "@page-builder/ui";
 
 export const ExportButton = () => {
   const selectedTemplate = useSelector(
