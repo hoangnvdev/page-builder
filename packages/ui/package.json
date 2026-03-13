@@ -10,7 +10,7 @@
       "development": "./src/index.js",
       "default": "./dist/index.mjs"
     },
-    "./styles": "./dist/styles.css",
+    "./styles": "./src/styles.js",
     "./*": "./src/*/index.jsx"
   },
   "files": [
