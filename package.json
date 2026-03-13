@@ -1,23 +1,18 @@
 {
-  "name": "page-builder",
+  "name": "page-builder-monorepo",
   "version": "1.0.0",
   "private": true,
   "packageManager": "pnpm@10.22.0",
-  "description": "Browser-based static page builder for non-technical users",
+  "description": "Page Builder monorepo - UI components, templates, and application",
   "scripts": {
-    "start": "vite",
-    "build": "vite build",
-    "preview": "vite preview"
-  },
-  "dependencies": {
-    "@reduxjs/toolkit": "^2.11.2",
-    "formik": "^2.4.9",
-    "lucide-react": "^0.344.0",
-    "prop-types": "^15.8.1",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "react-redux": "^9.2.0",
-    "react-router-dom": "^7.13.1"
+    "dev": "pnpm -r --parallel dev",
+    "build": "pnpm -r build",
+    "build:ui": "pnpm --filter @page-builder/ui build",
+    "build:templates": "pnpm --filter @page-builder/templates build",
+    "build:app": "pnpm --filter @page-builder/app build",
+    "start": "pnpm --filter @page-builder/app start",
+    "preview": "pnpm --filter @page-builder/app preview",
+    "clean": "pnpm -r clean && rm -rf node_modules"
   },
   "devDependencies": {
     "@vitejs/plugin-react": "^4.2.1",

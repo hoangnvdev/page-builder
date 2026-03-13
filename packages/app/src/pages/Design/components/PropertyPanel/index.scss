@@ -1,0 +1,18 @@
+.property-panel {
+  &__subtitle {
+    margin: 0.25rem 0 0 0;
+    font-size: 0.875rem;
+    color: #8c8c8c;
+    font-weight: normal;
+  }
+
+  &__empty {
+    padding: 2rem 1rem;
+    text-align: center;
+    color: #8c8c8c;
+
+    p {
+      margin: 0;
+    }
+  }
+}

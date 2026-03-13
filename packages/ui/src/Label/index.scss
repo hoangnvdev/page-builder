@@ -1,0 +1,23 @@
+.label {
+  display: inline-block;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--text-primary, #1a1a1a);
+  margin-bottom: 0.25rem;
+  cursor: pointer;
+  transition: color 0.2s ease;
+
+  &--disabled {
+    color: var(--text-disabled, #999);
+    cursor: not-allowed;
+  }
+
+  &__required {
+    color: var(--color-danger, #dc2626);
+    margin-left: 0.25rem;
+  }
+
+  &:hover:not(.label--disabled) {
+    color: var(--text-secondary, #333);
+  }
+}
