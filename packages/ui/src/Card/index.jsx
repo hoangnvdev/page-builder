@@ -2,6 +2,9 @@ import "./index.scss";
 
 import PropTypes from "prop-types";
 
+import { SubTitle } from "../SubTitle";
+import { Title } from "../Title";
+
 export const Card = ({
   children,
   hoverable = false,
@@ -40,15 +43,24 @@ Card.Content = ({ children, className = "", style, ...props }) => (
 );
 
 Card.Title = ({ children, className = "", style, ...props }) => (
-  <h3 className={`card__title ${className}`} style={style} {...props}>
+  <Title
+    level={3}
+    className={`card__title ${className}`}
+    style={style}
+    {...props}
+  >
     {children}
-  </h3>
+  </Title>
 );
 
 Card.Description = ({ children, className = "", style, ...props }) => (
-  <p className={`card__description ${className}`} style={style} {...props}>
+  <SubTitle
+    className={`card__description ${className}`}
+    style={style}
+    {...props}
+  >
     {children}
-  </p>
+  </SubTitle>
 );
 
 Card.Actions = ({ children, className = "", style, ...props }) => (

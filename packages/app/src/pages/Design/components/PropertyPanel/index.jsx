@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 import { updateConfig } from "@/store/builderSlice";
 import { deepMerge, getNestedValue, setNestedValue } from "@/utils/helpers";
-import { Flex, Panel } from "@page-builder/ui";
+import { EmptyState, Flex, Panel, SubTitle, Title } from "@page-builder/ui";
 
 import { FormField } from "../FormField";
 
@@ -31,12 +31,10 @@ export const PropertyPanel = () => {
     return (
       <Panel position="right" width="350px" className="property-panel">
         <Panel.Header>
-          <h3>Properties</h3>
+          <Title level={3}>Properties</Title>
         </Panel.Header>
         <Panel.Content>
-          <div className="property-panel__empty">
-            <p>Select a template to edit its properties</p>
-          </div>
+          <EmptyState description="Select a template to edit its properties" />
         </Panel.Content>
       </Panel>
     );
@@ -64,18 +62,20 @@ export const PropertyPanel = () => {
   return (
     <Panel position="right" width="350px" className="property-panel">
       <Panel.Header>
-        <h3>{panelTitle}</h3>
-        <p className="property-panel__subtitle">{selectedTemplate.name}</p>
+        <Title level={3}>{panelTitle}</Title>
+        <SubTitle className="property-panel__subtitle">
+          {selectedTemplate.name}
+        </SubTitle>
       </Panel.Header>
       <Panel.Content>
         {fields.length === 0 ? (
-          <div className="property-panel__empty">
-            <p>
-              {selectedElement
+          <EmptyState
+            description={
+              selectedElement
                 ? "No editable fields for this section"
-                : "Click on a section in the preview to edit it"}
-            </p>
-          </div>
+                : "Click on a section in the preview to edit it"
+            }
+          />
         ) : (
           <Flex direction="column" gap={24}>
             {fields.map((field) => (

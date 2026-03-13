@@ -1,241 +1,72 @@
-import React from "react";
-
 import PropTypes from "prop-types";
+
+import { Page } from "@page-builder/ui";
+
+import { CallToAction } from "./components/CallToAction";
+import { Footer } from "./components/Footer";
+import { Header } from "./components/Header";
+import { Hero } from "./components/Hero";
+import { ItemGrid } from "./components/ItemGrid";
 
 export const BusinessLanding = ({ config }) => {
   const { page, elements } = config;
 
+  const navLinks = [
+    { text: "Home", href: "#" },
+    { text: "Features", href: "#" },
+    { text: "Contact", href: "#" },
+  ];
+
   return (
-    <div
-      style={{
-        fontFamily: page.fontFamily,
-        backgroundColor: page.backgroundColor,
-        minHeight: "100vh",
-        color: page.textColor,
-      }}
+    <Page
+      fontFamily={page.fontFamily}
+      backgroundColor={page.backgroundColor}
+      textColor={page.textColor}
     >
-      {/* Header/Navigation */}
-      <header
-        data-element="header"
-        style={{
-          backgroundColor: elements.header.backgroundColor,
-          padding: "20px 40px",
-          boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
-        }}
-      >
-        <div
-          style={{
-            maxWidth: "1200px",
-            margin: "0 auto",
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-          }}
-        >
-          <h1
-            style={{
-              margin: 0,
-              fontSize: "1.5rem",
-              color: elements.header.logoColor,
-            }}
-          >
-            {elements.header.companyName}
-          </h1>
-          <nav style={{ display: "flex", gap: "20px" }}>
-            <a
-              href="#"
-              style={{
-                color: elements.header.linkColor,
-                textDecoration: "none",
-              }}
-            >
-              Home
-            </a>
-            <a
-              href="#"
-              style={{
-                color: elements.header.linkColor,
-                textDecoration: "none",
-              }}
-            >
-              Features
-            </a>
-            <a
-              href="#"
-              style={{
-                color: elements.header.linkColor,
-                textDecoration: "none",
-              }}
-            >
-              Contact
-            </a>
-          </nav>
-        </div>
-      </header>
+      <Header
+        companyName={elements.header.companyName}
+        backgroundColor={elements.header.backgroundColor}
+        logoColor={elements.header.logoColor}
+        linkColor={elements.header.linkColor}
+        links={navLinks}
+      />
 
-      {/* Hero/CTA Section */}
-      <section
-        data-element="hero"
-        style={{
-          backgroundColor: elements.hero.backgroundColor,
-          padding: "100px 20px",
-          textAlign: "center",
-        }}
-      >
-        <div style={{ maxWidth: "800px", margin: "0 auto" }}>
-          <h2
-            style={{
-              fontSize: "3.5rem",
-              margin: "0 0 20px 0",
-              fontWeight: "700",
-              color: elements.hero.titleColor,
-            }}
-          >
-            {elements.hero.title}
-          </h2>
-          <p
-            style={{
-              fontSize: "1.3rem",
-              margin: "0 0 40px 0",
-              color: elements.hero.subtitleColor,
-            }}
-          >
-            {elements.hero.subtitle}
-          </p>
-          <button
-            style={{
-              backgroundColor: elements.hero.ctaButtonColor,
-              color: "white",
-              border: "none",
-              padding: "16px 48px",
-              fontSize: "1.1rem",
-              borderRadius: "8px",
-              cursor: "pointer",
-              fontWeight: "600",
-              boxShadow: "0 4px 12px rgba(0,0,0,0.15)",
-            }}
-          >
-            {elements.hero.ctaButtonText}
-          </button>
-        </div>
-      </section>
+      <Hero
+        title={elements.hero.title}
+        subtitle={elements.hero.subtitle}
+        buttonText={elements.hero.ctaButtonText}
+        backgroundColor={elements.hero.backgroundColor}
+        titleColor={elements.hero.titleColor}
+        subtitleColor={elements.hero.subtitleColor}
+        buttonColor={elements.hero.ctaButtonColor}
+      />
 
-      {/* Features Section */}
-      <section
-        data-element="features"
-        style={{
-          padding: "80px 20px",
-          backgroundColor: elements.features.backgroundColor,
-        }}
-      >
-        <div style={{ maxWidth: "1200px", margin: "0 auto" }}>
-          <h3
-            style={{
-              fontSize: "2.5rem",
-              marginBottom: "50px",
-              textAlign: "center",
-              color: elements.features.headingColor,
-            }}
-          >
-            {elements.features.heading}
-          </h3>
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))",
-              gap: "40px",
-            }}
-          >
-            {elements.features.items.map((feature, idx) => (
-              <div key={idx} style={{ textAlign: "center" }}>
-                <div
-                  style={{
-                    fontSize: "3rem",
-                    marginBottom: "15px",
-                  }}
-                >
-                  {feature.icon}
-                </div>
-                <h4
-                  style={{
-                    fontSize: "1.3rem",
-                    marginBottom: "10px",
-                    color: elements.features.featureTitleColor,
-                  }}
-                >
-                  {feature.title}
-                </h4>
-                <p
-                  style={{
-                    fontSize: "1rem",
-                    color: elements.features.featureTextColor,
-                    lineHeight: "1.6",
-                  }}
-                >
-                  {feature.description}
-                </p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+      <ItemGrid
+        heading={elements.features.heading}
+        items={elements.features.items}
+        backgroundColor={elements.features.backgroundColor}
+        headingColor={elements.features.headingColor}
+        itemTitleColor={elements.features.featureTitleColor}
+        itemTextColor={elements.features.featureTextColor}
+        dataElement="features"
+      />
 
-      {/* CTA Section */}
-      <section
-        data-element="cta"
-        style={{
-          backgroundColor: elements.cta.backgroundColor,
-          color: elements.cta.textColor,
-          padding: "80px 20px",
-          textAlign: "center",
-        }}
-      >
-        <h3
-          style={{
-            fontSize: "2.5rem",
-            margin: "0 0 20px 0",
-          }}
-        >
-          {elements.cta.heading}
-        </h3>
-        <p
-          style={{
-            fontSize: "1.2rem",
-            margin: "0 0 30px 0",
-            opacity: 0.9,
-          }}
-        >
-          {elements.cta.subheading}
-        </p>
-        <button
-          style={{
-            backgroundColor: elements.cta.buttonColor,
-            color: elements.cta.buttonTextColor,
-            border: "none",
-            padding: "14px 40px",
-            fontSize: "1.1rem",
-            borderRadius: "6px",
-            cursor: "pointer",
-            fontWeight: "600",
-          }}
-        >
-          {elements.cta.buttonText}
-        </button>
-      </section>
+      <CallToAction
+        heading={elements.cta.heading}
+        subheading={elements.cta.subheading}
+        buttonText={elements.cta.buttonText}
+        backgroundColor={elements.cta.backgroundColor}
+        textColor={elements.cta.textColor}
+        buttonColor={elements.cta.buttonColor}
+        buttonTextColor={elements.cta.buttonTextColor}
+      />
 
-      {/* Footer */}
-      <footer
-        data-element="footer"
-        style={{
-          backgroundColor: elements.footer.backgroundColor,
-          color: elements.footer.textColor,
-          padding: "40px 20px",
-          textAlign: "center",
-        }}
-      >
-        <p style={{ margin: 0 }}>{elements.footer.text}</p>
-      </footer>
-    </div>
+      <Footer
+        text={elements.footer.text}
+        backgroundColor={elements.footer.backgroundColor}
+        textColor={elements.footer.textColor}
+      />
+    </Page>
   );
 };
 

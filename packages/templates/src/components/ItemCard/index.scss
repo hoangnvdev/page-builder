@@ -1,0 +1,16 @@
+.item-card {
+  text-align: center;
+
+  &__icon {
+    font-size: 3rem;
+    margin-bottom: 15px;
+  }
+
+  &__title {
+    // Additional title styles can be added here
+  }
+
+  &__description {
+    // Additional description styles can be added here
+  }
+}

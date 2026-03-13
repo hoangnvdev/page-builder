@@ -13,10 +13,13 @@ export const Flex = ({
   vertical = false,
   inline = false,
   flex,
+  as = "div",
   style = {},
   className = "",
   ...props
 }) => {
+  const Component = as;
+
   // Build className string
   const flexClasses = [
     "flex",
@@ -41,9 +44,9 @@ export const Flex = ({
   };
 
   return (
-    <div className={flexClasses} style={dynamicStyles} {...props}>
+    <Component className={flexClasses} style={dynamicStyles} {...props}>
       {children}
-    </div>
+    </Component>
   );
 };
 
