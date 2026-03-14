@@ -5,7 +5,7 @@ import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import { deselectElement, selectElement } from "@/store/builderSlice";
-import { deepMerge } from "@/utils/helpers";
+import { deepMerge } from "@helpers";
 import { EmptyState } from "@page-builder/ui";
 
 export const PreviewRenderer = () => {
@@ -71,13 +71,13 @@ export const PreviewRenderer = () => {
     });
   }, [selectedElement]);
 
-  if (!selectedTemplate) {
+  if (!selectedTemplate || !TemplateComponent) {
     return (
       <div className="preview-renderer">
         <EmptyState
           icon="📄"
-          title="No Template Selected"
-          description="Choose a template from the gallery to start editing"
+          title="Template Not Available"
+          description="Please return to the template gallery and select a template again."
         />
       </div>
     );

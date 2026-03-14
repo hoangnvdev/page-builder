@@ -3,7 +3,7 @@ import "./index.scss";
 import { useDispatch, useSelector } from "react-redux";
 
 import { updateConfig } from "@/store/builderSlice";
-import { deepMerge, getNestedValue, setNestedValue } from "@/utils/helpers";
+import { deepMerge, getNestedValue, setNestedValue } from "@helpers";
 import { EmptyState, Flex, Panel, SubTitle, Title } from "@page-builder/ui";
 
 import { FormField } from "../FormField";

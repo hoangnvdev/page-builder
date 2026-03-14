@@ -1,9 +1,18 @@
 import "./index.scss";
 
+import { useEffect, useState } from "react";
+
 import { useDispatch, useSelector } from "react-redux";
 import { Navigate, useNavigate } from "react-router-dom";
 
-import { resetCurrentConfig, resetToGallery } from "@/store/builderSlice";
+import { LoadingIndicator } from "@/components";
+import { fetchTemplatesFromAPI } from "@/services";
+import {
+  resetCurrentConfig,
+  resetToGallery,
+  selectTemplate,
+} from "@/store/builderSlice";
+import { processTemplateConfig } from "@/utils";
 import { Button, Divider, Flex, Title, Toolbar } from "@page-builder/ui";
 
 import { ExportButton } from "../ExportButton";
@@ -16,9 +25,51 @@ export const Editor = () => {
   const selectedTemplate = useSelector(
     (state) => state.builder.selectedTemplate,
   );
+  const [isRehydrating, setIsRehydrating] = useState(false);
+
+  // Re-hydrate template component if missing (after page refresh)
+  useEffect(() => {
+    const rehydrateTemplate = async () => {
+      if (selectedTemplate && !selectedTemplate.component) {
+        try {
+          setIsRehydrating(true);
+          const rawTemplates = await fetchTemplatesFromAPI();
+          const matchingTemplate = rawTemplates.find(
+            (t) => t.id === selectedTemplate.id,
+          );
+
+          if (matchingTemplate) {
+            const processedTemplate = processTemplateConfig(matchingTemplate);
+            dispatch(selectTemplate(processedTemplate));
+          } else {
+            // Template not found, redirect to gallery
+            dispatch(resetToGallery());
+            navigate("/template");
+          }
+        } catch (err) {
+          console.error("Failed to rehydrate template:", err);
+          dispatch(resetToGallery());
+          navigate("/template");
+        } finally {
+          setIsRehydrating(false);
+        }
+      }
+    };
+
+    rehydrateTemplate();
+  }, [selectedTemplate, dispatch, navigate]);
 
   if (!selectedTemplate) {
     return <Navigate to="/template" replace />;
+  }
+
+  if (isRehydrating) {
+    return (
+      <LoadingIndicator
+        title="Restoring Template..."
+        description="Please wait while we restore your design..."
+      />
+    );
   }
 
   const handleResetToGallery = () => {
