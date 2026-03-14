@@ -14,6 +14,150 @@ export const sciFiTechConfig = {
     "footer",
   ],
 
+  editableFields: [
+    // Page Settings
+    {
+      id: "page.fontFamily",
+      label: "Font Family",
+      type: "select",
+      options: [
+        { value: '"Exo 2", sans-serif', label: "Exo 2" },
+        { value: '"Orbitron", sans-serif', label: "Orbitron" },
+        { value: '"Rajdhani", sans-serif', label: "Rajdhani" },
+        { value: "system-ui, sans-serif", label: "System" },
+      ],
+    },
+    { id: "page.backgroundColor", label: "Page Background", type: "color" },
+    { id: "page.textColor", label: "Page Text Color", type: "color" },
+
+    // Hero
+    { id: "elements.hero.title", label: "Hero Title", type: "text" },
+    { id: "elements.hero.subtitle", label: "Hero Subtitle", type: "textarea" },
+    { id: "elements.hero.buttonText", label: "Button Text", type: "text" },
+    { id: "elements.hero.titleColor", label: "Title Color", type: "color" },
+    { id: "elements.hero.buttonColor", label: "Button Color", type: "color" },
+
+    // Metrics
+    { id: "elements.metrics.heading", label: "Metrics Heading", type: "text" },
+    {
+      id: "elements.metrics.backgroundColor",
+      label: "Metrics Background",
+      type: "color",
+    },
+
+    // Features
+    {
+      id: "elements.features.heading",
+      label: "Features Heading",
+      type: "text",
+    },
+    {
+      id: "elements.features.backgroundColor",
+      label: "Features Background",
+      type: "color",
+    },
+    {
+      id: "elements.features.items",
+      label: "Features List",
+      type: "features-list",
+    },
+
+    // Tech Specs
+    {
+      id: "elements.techSpecs.heading",
+      label: "Tech Specs Heading",
+      type: "text",
+    },
+    {
+      id: "elements.techSpecs.backgroundColor",
+      label: "Tech Specs Background",
+      type: "color",
+    },
+
+    // Roadmap
+    { id: "elements.roadmap.heading", label: "Roadmap Heading", type: "text" },
+    {
+      id: "elements.roadmap.backgroundColor",
+      label: "Roadmap Background",
+      type: "color",
+    },
+
+    // CTA
+    { id: "elements.cta.heading", label: "CTA Heading", type: "text" },
+    { id: "elements.cta.subheading", label: "CTA Subheading", type: "text" },
+    { id: "elements.cta.buttonText", label: "CTA Button Text", type: "text" },
+    {
+      id: "elements.cta.backgroundColor",
+      label: "CTA Background",
+      type: "color",
+    },
+    { id: "elements.cta.buttonColor", label: "Button Color", type: "color" },
+
+    // Footer
+    { id: "elements.footer.text", label: "Footer Text", type: "text" },
+    {
+      id: "elements.footer.backgroundColor",
+      label: "Footer Background",
+      type: "color",
+    },
+    {
+      id: "elements.footer.textColor",
+      label: "Footer Text Color",
+      type: "color",
+    },
+  ],
+
+  configSchema: {
+    page: {
+      fontFamily: { type: "select", label: "Font Family" },
+      backgroundColor: { type: "color", label: "Page Background" },
+      textColor: { type: "color", label: "Page Text Color" },
+    },
+    elements: {
+      hero: {
+        title: { type: "text", label: "Hero Title" },
+        subtitle: { type: "textarea", label: "Hero Subtitle" },
+        buttonText: { type: "text", label: "Button Text" },
+        gradientStart: { type: "color", label: "Gradient Start" },
+        gradientEnd: { type: "color", label: "Gradient End" },
+        titleColor: { type: "color", label: "Title Color" },
+        buttonColor: { type: "color", label: "Button Color" },
+      },
+      metrics: {
+        heading: { type: "text", label: "Section Heading" },
+        backgroundColor: { type: "color", label: "Background Color" },
+        stats: { type: "array", label: "Metrics Stats" },
+      },
+      features: {
+        heading: { type: "text", label: "Section Heading" },
+        backgroundColor: { type: "color", label: "Background Color" },
+        items: { type: "features-list", label: "Features" },
+      },
+      techSpecs: {
+        heading: { type: "text", label: "Section Heading" },
+        backgroundColor: { type: "color", label: "Background Color" },
+        specs: { type: "array", label: "Tech Specifications" },
+      },
+      roadmap: {
+        heading: { type: "text", label: "Section Heading" },
+        backgroundColor: { type: "color", label: "Background Color" },
+        phases: { type: "array", label: "Roadmap Phases" },
+      },
+      cta: {
+        heading: { type: "text", label: "Heading" },
+        subheading: { type: "text", label: "Subheading" },
+        buttonText: { type: "text", label: "Button Text" },
+        backgroundColor: { type: "color", label: "Background Color" },
+        buttonColor: { type: "color", label: "Button Color" },
+      },
+      footer: {
+        text: { type: "text", label: "Footer Text" },
+        backgroundColor: { type: "color", label: "Background Color" },
+        textColor: { type: "color", label: "Text Color" },
+      },
+    },
+  },
+
   defaultConfig: {
     page: {
       fontFamily: '"Exo 2", sans-serif',

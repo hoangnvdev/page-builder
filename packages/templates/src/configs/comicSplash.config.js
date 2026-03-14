@@ -47,6 +47,26 @@ export const comicSplashConfig = {
     },
     { id: "elements.hero.buttonColor", label: "Button Color", type: "color" },
 
+    // Marquee
+    { id: "elements.marquee.text", label: "Marquee Text", type: "text" },
+    {
+      id: "elements.marquee.backgroundColor",
+      label: "Marquee Background",
+      type: "color",
+    },
+    {
+      id: "elements.marquee.textColor",
+      label: "Marquee Text Color",
+      type: "color",
+    },
+
+    // Comic Panels
+    {
+      id: "elements.comicPanels.heading",
+      label: "Comic Panels Heading",
+      type: "text",
+    },
+
     // Features
     {
       id: "elements.features.heading",
@@ -64,9 +84,17 @@ export const comicSplashConfig = {
       type: "color",
     },
 
-    // About
-    { id: "elements.about.heading", label: "About Heading", type: "text" },
-    { id: "elements.about.content", label: "About Content", type: "textarea" },
+    // Testimonials
+    {
+      id: "elements.testimonials.heading",
+      label: "Testimonials Heading",
+      type: "text",
+    },
+    {
+      id: "elements.testimonials.backgroundColor",
+      label: "Testimonials Background",
+      type: "color",
+    },
 
     // CTA
     { id: "elements.cta.heading", label: "CTA Heading", type: "text" },
@@ -110,6 +138,15 @@ export const comicSplashConfig = {
         subtitleColor: { type: "color", label: "Subtitle Color" },
         buttonColor: { type: "color", label: "Button Color" },
       },
+      marquee: {
+        text: { type: "text", label: "Marquee Text" },
+        backgroundColor: { type: "color", label: "Background Color" },
+        textColor: { type: "color", label: "Text Color" },
+      },
+      comicPanels: {
+        heading: { type: "text", label: "Section Heading" },
+        panels: { type: "array", label: "Comic Panels" },
+      },
       features: {
         heading: { type: "text", label: "Section Heading" },
         backgroundColor: { type: "color", label: "Background Color" },
@@ -118,11 +155,10 @@ export const comicSplashConfig = {
         featureTextColor: { type: "color", label: "Feature Text Color" },
         items: { type: "features-list", label: "Features" },
       },
-      about: {
+      testimonials: {
         heading: { type: "text", label: "Section Heading" },
-        content: { type: "textarea", label: "About Content" },
-        headingColor: { type: "color", label: "Heading Color" },
-        textColor: { type: "color", label: "Text Color" },
+        quotes: { type: "array", label: "Testimonials" },
+        backgroundColor: { type: "color", label: "Background Color" },
       },
       cta: {
         heading: { type: "text", label: "Heading" },
@@ -158,6 +194,40 @@ export const comicSplashConfig = {
         subtitleColor: "#FFF5E1",
         buttonColor: "#FFD93D",
       },
+      marquee: {
+        text: "🎨 POW! • 💥 BOOM! • ⭐ WHAM! • 🚀 ZOOM!",
+        backgroundColor: "#FFD93D",
+        textColor: "#2C1810",
+      },
+      comicPanels: {
+        heading: "📚 How It Works 📚",
+        panels: [
+          {
+            number: "1",
+            title: "Sign Up",
+            content: "Create your account faster than a speeding bullet!",
+            backgroundColor: "#FF6B9D",
+          },
+          {
+            number: "2",
+            title: "Customize",
+            content: "Make it yours with our super-powered tools!",
+            backgroundColor: "#FFD93D",
+          },
+          {
+            number: "3",
+            title: "Launch",
+            content: "Blast off into awesomeness with one click!",
+            backgroundColor: "#6BCB77",
+          },
+          {
+            number: "4",
+            title: "Enjoy",
+            content: "Sit back and watch the magic happen!",
+            backgroundColor: "#4D96FF",
+          },
+        ],
+      },
       features: {
         heading: "⭐ Super Powers ⭐",
         backgroundColor: "#6BCB77",
@@ -182,12 +252,26 @@ export const comicSplashConfig = {
           },
         ],
       },
-      about: {
-        heading: "🌈 Our Story 🌈",
-        content:
-          "Born from a lightning bolt of inspiration and a cup of magical coffee, we decided to shake things up! We believe work should be fun, colors should be bold, and every day should feel like an adventure comic!",
-        headingColor: "#FF6B9D",
-        textColor: "#2C1810",
+      testimonials: {
+        heading: "🗨️ What People Say 🗨️",
+        backgroundColor: "#FFF5E1",
+        quotes: [
+          {
+            text: "This is absolutely AMAZING! My life changed overnight!",
+            author: "Happy Customer",
+            avatar: "😍",
+          },
+          {
+            text: "I can't believe how fun and easy this is to use!",
+            author: "Excited User",
+            avatar: "🤩",
+          },
+          {
+            text: "Best decision I ever made! Highly recommend!",
+            author: "Satisfied Client",
+            avatar: "🥳",
+          },
+        ],
       },
       cta: {
         heading: "Ready to Join the Party? 🎉",

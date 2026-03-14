@@ -4,9 +4,9 @@ import PropTypes from "prop-types";
 
 import { Container, Grid, Section, Title } from "@page-builder/ui";
 
-export const SpeechBubbleTestimonials = ({ heading, quotes }) => {
+export const SpeechBubbleTestimonials = ({ heading, quotes, dataElement }) => {
   return (
-    <Section className="speech-bubble-testimonials">
+    <Section className="speech-bubble-testimonials" dataElement={dataElement}>
       <Container>
         {heading && <Title>{heading}</Title>}
         <Grid columns={3}>
@@ -34,4 +34,5 @@ SpeechBubbleTestimonials.propTypes = {
       avatar: PropTypes.string,
     }),
   ).isRequired,
+  dataElement: PropTypes.string,
 };

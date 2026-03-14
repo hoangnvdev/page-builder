@@ -11,11 +11,16 @@ export const Timeline = ({
   backgroundColor,
   lineColor,
   dotColor,
+  dataElement,
 }) => {
   const items = milestones || phases || [];
 
   return (
-    <Section className="timeline" backgroundColor={backgroundColor}>
+    <Section
+      className="timeline"
+      backgroundColor={backgroundColor}
+      dataElement={dataElement}
+    >
       <Container>
         {heading && <Title>{heading}</Title>}
         <div className="timeline__track" style={{ borderColor: lineColor }}>
@@ -67,4 +72,5 @@ Timeline.propTypes = {
   backgroundColor: PropTypes.string,
   lineColor: PropTypes.string,
   dotColor: PropTypes.string,
+  dataElement: PropTypes.string,
 };

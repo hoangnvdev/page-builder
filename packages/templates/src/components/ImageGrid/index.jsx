@@ -4,9 +4,19 @@ import PropTypes from "prop-types";
 
 import { Container, Grid, Section, Title } from "@page-builder/ui";
 
-export const ImageGrid = ({ heading, images, backgroundColor, columns }) => {
+export const ImageGrid = ({
+  heading,
+  images,
+  backgroundColor,
+  columns,
+  dataElement,
+}) => {
   return (
-    <Section className="image-grid" backgroundColor={backgroundColor}>
+    <Section
+      className="image-grid"
+      backgroundColor={backgroundColor}
+      dataElement={dataElement}
+    >
       <Container>
         {heading && <Title>{heading}</Title>}
         <Grid columns={columns || 2}>
@@ -37,4 +47,5 @@ ImageGrid.propTypes = {
   ).isRequired,
   backgroundColor: PropTypes.string,
   columns: PropTypes.number,
+  dataElement: PropTypes.string,
 };

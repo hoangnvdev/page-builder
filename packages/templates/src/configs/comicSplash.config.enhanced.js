@@ -44,11 +44,6 @@ export const comicSplashConfig = {
       label: "Panels Heading",
       type: "text",
     },
-    {
-      id: "elements.comicPanels.panels",
-      label: "Panels List",
-      type: "panels-list",
-    },
 
     // Features
     {
@@ -67,11 +62,6 @@ export const comicSplashConfig = {
       id: "elements.testimonials.heading",
       label: "Testimonials Heading",
       type: "text",
-    },
-    {
-      id: "elements.testimonials.quotes",
-      label: "Quotes List",
-      type: "testimonials-list",
     },
 
     // CTA
@@ -106,7 +96,7 @@ export const comicSplashConfig = {
       comicPanels: {
         heading: { type: "text", label: "Section Heading" },
         backgroundColor: { type: "color", label: "Background Color" },
-        panels: { type: "panels-list", label: "Comic Panels" },
+        panels: { type: "array", label: "Comic Panels" },
       },
       features: {
         heading: { type: "text", label: "Section Heading" },
@@ -116,7 +106,7 @@ export const comicSplashConfig = {
       testimonials: {
         heading: { type: "text", label: "Section Heading" },
         backgroundColor: { type: "color", label: "Background Color" },
-        quotes: { type: "testimonials-list", label: "Customer Quotes" },
+        quotes: { type: "array", label: "Customer Quotes" },
       },
       cta: {
         heading: { type: "text", label: "Heading" },

@@ -4,11 +4,21 @@ import PropTypes from "prop-types";
 
 import { Container, Grid, Section, Title } from "@page-builder/ui";
 
-export const StatsCounter = ({ heading, items, stats, backgroundColor }) => {
+export const StatsCounter = ({
+  heading,
+  items,
+  stats,
+  backgroundColor,
+  dataElement,
+}) => {
   const data = items || stats || [];
 
   return (
-    <Section className="stats-counter" backgroundColor={backgroundColor}>
+    <Section
+      className="stats-counter"
+      backgroundColor={backgroundColor}
+      dataElement={dataElement}
+    >
       <Container>
         {heading && <Title>{heading}</Title>}
         <Grid columns={4}>
@@ -48,4 +58,5 @@ StatsCounter.propTypes = {
     }),
   ),
   backgroundColor: PropTypes.string,
+  dataElement: PropTypes.string,
 };

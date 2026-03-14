@@ -10,9 +10,14 @@ export const QuoteBlock = ({
   backgroundColor,
   quoteColor,
   dividerColor,
+  dataElement,
 }) => {
   return (
-    <Section className="quote-block" backgroundColor={backgroundColor}>
+    <Section
+      className="quote-block"
+      backgroundColor={backgroundColor}
+      dataElement={dataElement}
+    >
       <Container>
         <blockquote
           className="quote-block__quote"
@@ -38,4 +43,5 @@ QuoteBlock.propTypes = {
   backgroundColor: PropTypes.string,
   quoteColor: PropTypes.string,
   dividerColor: PropTypes.string,
+  dataElement: PropTypes.string,
 };
