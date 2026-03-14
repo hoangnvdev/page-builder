@@ -28,3 +28,15 @@
     gap: 12px;
   }
 }
+
+@media (max-width: 768px) {
+  .toolbar {
+    padding: 0 8px;
+
+    &__left,
+    &__center,
+    &__right {
+      gap: 8px;
+    }
+  }
+}

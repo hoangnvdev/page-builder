@@ -1,0 +1,40 @@
+.editor-toolbar {
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+
+  &__back-button {
+    font-size: 1rem;
+  }
+
+  &__title {
+    margin: 0;
+    font-size: 1.1rem;
+    color: #1a1a1a;
+    font-weight: 600;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+}
+
+@media (max-width: 768px) {
+  .editor-toolbar {
+    &__back-button {
+      font-size: 0.875rem;
+      padding: 0.5rem 0.75rem;
+    }
+
+    &__title {
+      font-size: 0.9rem;
+      max-width: 150px;
+    }
+  }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+  .editor-toolbar {
+    &__title {
+      font-size: 1rem;
+      max-width: 200px;
+    }
+  }
+}

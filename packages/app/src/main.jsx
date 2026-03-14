@@ -14,6 +14,31 @@ const globalStyles = `
     box-sizing: border-box;
   }
 
+  html {
+    scrollbar-gutter: stable;
+    scrollbar-width: thin;
+    scrollbar-color: #c0c0c0 transparent;
+  }
+
+  /* Webkit browsers (Chrome, Safari, Edge) */
+  html::-webkit-scrollbar {
+    width: 12px;
+  }
+
+  html::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  html::-webkit-scrollbar-thumb {
+    background: #c0c0c0;
+    border-radius: 6px;
+    border: 3px solid #fafafa;
+  }
+
+  html::-webkit-scrollbar-thumb:hover {
+    background: #a0a0a0;
+  }
+
   body {
     margin: 0;
     padding: 0;

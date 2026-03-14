@@ -65,6 +65,17 @@ const builderSlice = createSlice({
         state.selectedElement = null;
       }
     },
+
+    rehydrateTemplateComponent: (state, action) => {
+      // Only update the template component without resetting config
+      if (state.selectedTemplate) {
+        state.selectedTemplate = {
+          ...state.selectedTemplate,
+          component: action.payload.component,
+          defaultConfig: action.payload.defaultConfig,
+        };
+      }
+    },
   },
 });
 
@@ -77,6 +88,7 @@ export const {
   deselectElement,
   resetToGallery,
   resetCurrentConfig,
+  rehydrateTemplateComponent,
 } = builderSlice.actions;
 
 export default builderSlice.reducer;

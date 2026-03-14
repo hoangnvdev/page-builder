@@ -1,0 +1,30 @@
+.marquee {
+  position: relative;
+  cursor: pointer;
+
+  &__track {
+    display: flex;
+    width: 100%;
+    pointer-events: none;
+    overflow: hidden;
+  }
+
+  &__content {
+    display: flex;
+    gap: 4rem;
+    font-size: 1.5rem;
+    font-weight: bold;
+    white-space: nowrap;
+    animation: marquee 20s linear infinite;
+    pointer-events: none;
+  }
+}
+
+@keyframes marquee {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-33.33%);
+  }
+}

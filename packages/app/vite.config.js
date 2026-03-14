@@ -8,7 +8,9 @@ export default defineConfig({
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "src"),
+      "@helpers": path.resolve(__dirname, "helpers"),
     },
+    dedupe: ["react", "react-dom"],
   },
   server: {
     port: 3000,

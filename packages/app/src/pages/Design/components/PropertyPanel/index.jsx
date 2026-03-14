@@ -3,7 +3,7 @@ import "./index.scss";
 import { useDispatch, useSelector } from "react-redux";
 
 import { updateConfig } from "@/store/builderSlice";
-import { deepMerge, getNestedValue, setNestedValue } from "@/utils/helpers";
+import { deepMerge, getNestedValue, setNestedValue } from "@helpers";
 import { EmptyState, Flex, Panel, SubTitle, Title } from "@page-builder/ui";
 
 import { FormField } from "../FormField";
@@ -29,7 +29,7 @@ export const PropertyPanel = () => {
 
   if (!selectedTemplate) {
     return (
-      <Panel position="right" width="350px" className="property-panel">
+      <Panel position="right" width="100%" className="property-panel">
         <Panel.Header>
           <Title level={3}>Properties</Title>
         </Panel.Header>
@@ -60,7 +60,7 @@ export const PropertyPanel = () => {
   }
 
   return (
-    <Panel position="right" width="350px" className="property-panel">
+    <Panel position="right" width="100%" className="property-panel">
       <Panel.Header>
         <Title level={3}>{panelTitle}</Title>
         <SubTitle className="property-panel__subtitle">

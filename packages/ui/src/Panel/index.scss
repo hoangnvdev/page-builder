@@ -5,6 +5,7 @@
   height: 100%;
   background-color: #fff;
   border: 1px solid #e0e0e0;
+  min-width: 0; // Allow flex item to shrink
 
   &--left {
     border-right: 1px solid #e0e0e0;
@@ -44,6 +45,19 @@
       &:hover {
         background: #a8a8a8;
       }
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .panel {
+    &__header {
+      padding: 12px;
+      font-size: 14px;
+    }
+
+    &__content {
+      padding: 12px 8px;
     }
   }
 }

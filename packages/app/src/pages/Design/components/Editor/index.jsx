@@ -1,14 +1,24 @@
 import "./index.scss";
 
+import { useEffect, useState } from "react";
+
+import { ChevronDown, ChevronUp } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
 import { Navigate, useNavigate } from "react-router-dom";
 
-import { resetCurrentConfig, resetToGallery } from "@/store/builderSlice";
-import { Button, Divider, Flex, Title, Toolbar } from "@page-builder/ui";
+import { LoadingIndicator } from "@/components";
+import { fetchTemplateByIdFromAPI } from "@/services";
+import {
+  rehydrateTemplateComponent,
+  resetToGallery,
+} from "@/store/builderSlice";
+import { processTemplateConfig } from "@/utils";
+import { Flex } from "@page-builder/ui";
 
-import { ExportButton } from "../ExportButton";
+import { EditorToolbar } from "../EditorToolbar";
 import { PreviewRenderer } from "../PreviewRenderer";
 import { PropertyPanel } from "../PropertyPanel";
+import { ResizableDivider } from "../ResizableDivider";
 
 export const Editor = () => {
   const dispatch = useDispatch();
@@ -16,49 +26,131 @@ export const Editor = () => {
   const selectedTemplate = useSelector(
     (state) => state.builder.selectedTemplate,
   );
+  const [isRehydrating, setIsRehydrating] = useState(false);
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 1024);
+  const [isPanelVisible, setIsPanelVisible] = useState(true);
+
+  const getDefaultSplit = () => {
+    const width = window.innerWidth;
+    if (width <= 1024) return 60;
+
+    return 100 - (350 / width) * 100;
+  };
+  const [splitPercentage, setSplitPercentage] = useState(getDefaultSplit());
+
+  // Re-hydrate template component if missing (after page refresh)
+  useEffect(() => {
+    const rehydrateTemplate = async () => {
+      if (selectedTemplate && !selectedTemplate.component) {
+        try {
+          setIsRehydrating(true);
+          const templateData = await fetchTemplateByIdFromAPI(
+            selectedTemplate.id,
+          );
+          const processedTemplate = processTemplateConfig(templateData);
+
+          dispatch(rehydrateTemplateComponent(processedTemplate));
+        } catch (err) {
+          console.error("Failed to rehydrate template:", err);
+
+          dispatch(resetToGallery());
+          navigate("/template");
+        } finally {
+          setIsRehydrating(false);
+        }
+      }
+    };
+
+    rehydrateTemplate();
+  }, [selectedTemplate, dispatch, navigate]);
+
+  // Handle window resize to adjust orientation
+  useEffect(() => {
+    const handleResize = () => {
+      const mobile = window.innerWidth <= 1024;
+      setIsMobile(mobile);
+      // Reset split when switching between mobile and desktop
+      const width = window.innerWidth;
+      const defaultSplit = width <= 1024 ? 60 : 100 - (350 / width) * 100;
+      setSplitPercentage(defaultSplit);
+    };
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   if (!selectedTemplate) {
     return <Navigate to="/template" replace />;
   }
 
-  const handleResetToGallery = () => {
-    dispatch(resetToGallery());
-    navigate("/template");
+  if (isRehydrating) {
+    return (
+      <LoadingIndicator
+        title="Restoring Template..."
+        description="Please wait while we restore your design..."
+      />
+    );
+  }
+
+  const handleResize = (percentage) => {
+    setSplitPercentage(percentage);
   };
 
-  const handleResetCurrentConfig = () => dispatch(resetCurrentConfig());
+  const togglePanel = () => {
+    setIsPanelVisible(!isPanelVisible);
+  };
+
+  const orientation = isMobile ? "vertical" : "horizontal";
+  const showPanel = !isMobile || isPanelVisible;
 
   return (
     <Flex direction="column" className="editor">
-      {/* Top Toolbar  */}
-      <Toolbar className="editor__toolbar">
-        <Toolbar.Left>
-          <Button
-            variant="ghost"
-            onClick={handleResetToGallery}
-            className="editor__back-button"
-          >
-            ← Back to Templates
-          </Button>
-          <Divider orientation="vertical" spacing={0} />
-          <Title level={2} className="editor__title">
-            {selectedTemplate.name}
-          </Title>
-        </Toolbar.Left>
+      <EditorToolbar selectedTemplate={selectedTemplate} />
 
-        <Toolbar.Right>
-          <Button variant="secondary" onClick={handleResetCurrentConfig}>
-            Reset to Default
-          </Button>
-          <ExportButton />
-        </Toolbar.Right>
-      </Toolbar>
-
-      {/* Main Editor Area */}
       <Flex className="editor__content">
-        <PreviewRenderer />
-        <PropertyPanel />
+        <div
+          className="editor__preview-container"
+          style={{
+            [isMobile ? "height" : "width"]:
+              isMobile && !showPanel ? "100%" : `${splitPercentage}%`,
+          }}
+        >
+          <PreviewRenderer />
+        </div>
+
+        {showPanel && (
+          <>
+            <ResizableDivider
+              onResize={handleResize}
+              orientation={orientation}
+            />
+
+            <div
+              className="editor__panel-container"
+              style={{
+                [isMobile ? "height" : "width"]: `${100 - splitPercentage}%`,
+              }}
+            >
+              <PropertyPanel />
+            </div>
+          </>
+        )}
       </Flex>
+
+      {isMobile && (
+        <button
+          className="editor__toggle-panel"
+          onClick={togglePanel}
+          aria-label={
+            isPanelVisible ? "Close Editor Panel" : "Open Editor Panel"
+          }
+        >
+          <span className="editor__toggle-tooltip">
+            {isPanelVisible ? "Close Editor Panel" : "Open Editor Panel"}
+          </span>
+          {isPanelVisible ? <ChevronDown size={24} /> : <ChevronUp size={24} />}
+        </button>
+      )}
     </Flex>
   );
 };
