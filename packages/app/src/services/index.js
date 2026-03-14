@@ -1,1 +1,4 @@
-export { fetchTemplatesFromAPI } from "./fakeAPIService.js";
+export {
+  fetchTemplateByIdFromAPI,
+  fetchTemplatesFromAPI,
+} from "./fakeAPIService.js";
