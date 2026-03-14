@@ -1,91 +1,18 @@
-import PropTypes from "prop-types";
-
-import { Page } from "@page-builder/ui";
-
-import { CallToAction } from "./components/CallToAction";
-import { Footer } from "./components/Footer";
-import { Header } from "./components/Header";
-import { Hero } from "./components/Hero";
-import { ItemGrid } from "./components/ItemGrid";
-
-export const BusinessLanding = ({ config }) => {
-  const { page, elements } = config;
-
-  const navLinks = [
-    { text: "Home", href: "#" },
-    { text: "Features", href: "#" },
-    { text: "Contact", href: "#" },
-  ];
-
-  return (
-    <Page
-      fontFamily={page.fontFamily}
-      backgroundColor={page.backgroundColor}
-      textColor={page.textColor}
-    >
-      <Header
-        companyName={elements.header.companyName}
-        backgroundColor={elements.header.backgroundColor}
-        logoColor={elements.header.logoColor}
-        linkColor={elements.header.linkColor}
-        links={navLinks}
-      />
-
-      <Hero
-        title={elements.hero.title}
-        subtitle={elements.hero.subtitle}
-        buttonText={elements.hero.ctaButtonText}
-        backgroundColor={elements.hero.backgroundColor}
-        titleColor={elements.hero.titleColor}
-        subtitleColor={elements.hero.subtitleColor}
-        buttonColor={elements.hero.ctaButtonColor}
-      />
-
-      <ItemGrid
-        heading={elements.features.heading}
-        items={elements.features.items}
-        backgroundColor={elements.features.backgroundColor}
-        headingColor={elements.features.headingColor}
-        itemTitleColor={elements.features.featureTitleColor}
-        itemTextColor={elements.features.featureTextColor}
-        dataElement="features"
-      />
-
-      <CallToAction
-        heading={elements.cta.heading}
-        subheading={elements.cta.subheading}
-        buttonText={elements.cta.buttonText}
-        backgroundColor={elements.cta.backgroundColor}
-        textColor={elements.cta.textColor}
-        buttonColor={elements.cta.buttonColor}
-        buttonTextColor={elements.cta.buttonTextColor}
-      />
-
-      <Footer
-        text={elements.footer.text}
-        backgroundColor={elements.footer.backgroundColor}
-        textColor={elements.footer.textColor}
-      />
-    </Page>
-  );
-};
-
-BusinessLanding.propTypes = {
-  config: PropTypes.shape({
-    page: PropTypes.shape({
-      fontFamily: PropTypes.string,
-      backgroundColor: PropTypes.string,
-      textColor: PropTypes.string,
-    }).isRequired,
-    elements: PropTypes.object.isRequired,
-  }).isRequired,
-};
-
 export const businessLandingConfig = {
   id: "business-landing",
   name: "Business Landing",
   description: "Conversion-focused business page",
   icon: "💼",
+
+  // Define the layout order of elements
+  layout: ["header", "hero", "features", "cta", "footer"],
+
+  // Navigation links for header
+  navLinks: [
+    { text: "Home", href: "#" },
+    { text: "Features", href: "#" },
+    { text: "Contact", href: "#" },
+  ],
 
   editableFields: [
     // Page Settings

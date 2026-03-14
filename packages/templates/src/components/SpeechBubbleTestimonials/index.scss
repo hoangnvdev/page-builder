@@ -1,0 +1,63 @@
+.speech-bubble-testimonials {
+  padding: 4rem 0;
+
+  .speech-bubble {
+    position: relative;
+    text-align: center;
+    margin-bottom: 2rem;
+
+    &__avatar {
+      font-size: 4rem;
+      margin-bottom: 1rem;
+    }
+
+    &__content {
+      background: white;
+      border: 4px solid #2c1810;
+      border-radius: 20px;
+      padding: 1.5rem;
+      position: relative;
+      box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.2);
+
+      &::after {
+        content: "";
+        position: absolute;
+        bottom: -20px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 0;
+        height: 0;
+        border-left: 15px solid transparent;
+        border-right: 15px solid transparent;
+        border-top: 20px solid #2c1810;
+      }
+
+      &::before {
+        content: "";
+        position: absolute;
+        bottom: -14px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 0;
+        height: 0;
+        border-left: 12px solid transparent;
+        border-right: 12px solid transparent;
+        border-top: 17px solid white;
+        z-index: 1;
+      }
+    }
+
+    &__text {
+      font-size: 1.1rem;
+      font-weight: bold;
+      color: #2c1810;
+      margin: 0;
+    }
+
+    &__author {
+      margin-top: 2.5rem;
+      font-weight: bold;
+      color: #2c1810;
+    }
+  }
+}
