@@ -1,0 +1,32 @@
+.data-stream {
+  padding: 4rem 0;
+  font-family: "Courier New", monospace;
+  overflow: hidden;
+
+  &__container {
+    max-height: 400px;
+    overflow: hidden;
+    position: relative;
+  }
+
+  &__line {
+    font-size: 1.2rem;
+    opacity: 0.8;
+    margin: 1rem 0;
+    animation: stream 3s ease-in-out infinite;
+  }
+}
+
+@keyframes stream {
+  0% {
+    transform: translateY(100px);
+    opacity: 0;
+  }
+  50% {
+    opacity: 0.8;
+  }
+  100% {
+    transform: translateY(-100px);
+    opacity: 0;
+  }
+}

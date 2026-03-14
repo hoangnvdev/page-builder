@@ -1,76 +1,11 @@
-import PropTypes from "prop-types";
-
-import { Page } from "@page-builder/ui";
-
-import { ContentSection } from "./components/ContentSection";
-import { Footer } from "./components/Footer";
-import { Hero } from "./components/Hero";
-import { ItemGrid } from "./components/ItemGrid";
-
-export const ModernPortfolio = ({ config }) => {
-  const { page, elements } = config;
-
-  return (
-    <Page
-      fontFamily={page.fontFamily}
-      backgroundColor={page.backgroundColor}
-      textColor={page.textColor}
-    >
-      <Hero
-        title={elements.hero.title}
-        subtitle={elements.hero.subtitle}
-        buttonText={elements.hero.buttonText}
-        gradientStart={elements.hero.gradientStart}
-        gradientEnd={elements.hero.gradientEnd}
-        buttonColor={elements.hero.buttonColor}
-        titleColor="white"
-        subtitleColor="white"
-      />
-
-      <ContentSection
-        heading={elements.about.heading}
-        content={elements.about.content}
-        headingColor={elements.about.headingColor}
-        textColor={elements.about.textColor}
-        dataElement="about"
-      />
-
-      <ItemGrid
-        heading={elements.projects.heading}
-        items={elements.projects.items}
-        backgroundColor={elements.projects.backgroundColor}
-        headingColor={elements.projects.headingColor}
-        itemTitleColor={elements.projects.cardTitleColor}
-        dataElement="projects"
-        minItemWidth="300px"
-        gap="30px"
-      />
-
-      <Footer
-        text={elements.footer.text}
-        backgroundColor={elements.footer.backgroundColor}
-        textColor={elements.footer.textColor}
-      />
-    </Page>
-  );
-};
-
-ModernPortfolio.propTypes = {
-  config: PropTypes.shape({
-    page: PropTypes.shape({
-      fontFamily: PropTypes.string,
-      backgroundColor: PropTypes.string,
-      textColor: PropTypes.string,
-    }).isRequired,
-    elements: PropTypes.object.isRequired,
-  }).isRequired,
-};
-
 export const modernPortfolioConfig = {
   id: "modern-portfolio",
   name: "Modern Portfolio",
   description: "Clean and professional portfolio layout",
   icon: "🎨",
+
+  // Define the layout order of elements
+  layout: ["hero", "about", "projects", "footer"],
 
   editableFields: [
     // Page Settings
@@ -101,6 +36,16 @@ export const modernPortfolioConfig = {
     {
       id: "elements.hero.gradientEnd",
       label: "Gradient End Color",
+      type: "color",
+    },
+    {
+      id: "elements.hero.titleColor",
+      label: "Hero Title Color",
+      type: "color",
+    },
+    {
+      id: "elements.hero.subtitleColor",
+      label: "Hero Subtitle Color",
       type: "color",
     },
 
@@ -173,6 +118,8 @@ export const modernPortfolioConfig = {
         buttonColor: { type: "color", label: "Button Color" },
         gradientStart: { type: "color", label: "Gradient Start" },
         gradientEnd: { type: "color", label: "Gradient End" },
+        titleColor: { type: "color", label: "Title Color" },
+        subtitleColor: { type: "color", label: "Subtitle Color" },
       },
       about: {
         heading: { type: "text", label: "Section Heading" },
@@ -209,6 +156,8 @@ export const modernPortfolioConfig = {
         buttonColor: "#2563eb",
         gradientStart: "#6366f1",
         gradientEnd: "#8b5cf6",
+        titleColor: "#ffffff",
+        subtitleColor: "#ffffff",
       },
       about: {
         heading: "About Me",
