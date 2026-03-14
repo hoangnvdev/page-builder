@@ -1,4 +1,7 @@
 .property-panel {
+  width: 100%;
+  height: 100%;
+
   &__subtitle {
     margin: 0.25rem 0 0 0;
     font-size: 0.875rem;
@@ -13,6 +16,20 @@
 
     p {
       margin: 0;
+    }
+  }
+}
+
+@media (max-width: 1024px) {
+  .property-panel {
+    width: 100% !important;
+    height: 100% !important;
+    border-left: none !important;
+    border-top: 1px solid #e0e0e0;
+    margin: 16px 16px 0 16px;
+
+    .form-field {
+      width: 100%;
     }
   }
 }

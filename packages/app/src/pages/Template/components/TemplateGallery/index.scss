@@ -44,4 +44,38 @@
       margin-top: 1rem;
     }
   }
+
+  &__grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+
+  &__grid-item {
+    width: 100%;
+  }
+}
+
+@media (max-width: 768px) {
+  .template-gallery {
+    padding: 2rem 1rem;
+
+    &__header {
+      margin-bottom: 2rem;
+    }
+
+    &__grid {
+      grid-template-columns: 1fr;
+      gap: 16px;
+    }
+  }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+  .template-gallery {
+    &__grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+    }
+  }
 }

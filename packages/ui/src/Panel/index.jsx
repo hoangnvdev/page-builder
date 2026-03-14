@@ -2,18 +2,9 @@ import "./index.scss";
 
 import PropTypes from "prop-types";
 
-/**
- * Panel component for sidebars and content panels
- * @param {Object} props
- * @param {React.ReactNode} props.children - Panel content
- * @param {string} props.width - Panel width (e.g., '300px', '25%')
- * @param {string} props.position - Panel position: 'left' | 'right'
- * @param {string} props.className - Additional CSS classes
- * @param {Object} props.style - Inline styles
- */
 export const Panel = ({
   children,
-  width = "300px",
+  width,
   position = "left",
   className = "",
   style = {},
@@ -25,7 +16,9 @@ export const Panel = ({
 
   const panelStyle = {
     ...style,
-    width: typeof width === "number" ? `${width}px` : width,
+    ...(width !== undefined && {
+      width: typeof width === "number" ? `${width}px` : width,
+    }),
   };
 
   return (
@@ -35,13 +28,6 @@ export const Panel = ({
   );
 };
 
-/**
- * Panel.Header component for panel headers
- * @param {Object} props
- * @param {React.ReactNode} props.children - Header content
- * @param {string} props.className - Additional CSS classes
- * @param {Object} props.style - Inline styles
- */
 Panel.Header = function PanelHeader({
   children,
   className = "",
@@ -57,13 +43,6 @@ Panel.Header = function PanelHeader({
   );
 };
 
-/**
- * Panel.Content component for scrollable panel content
- * @param {Object} props
- * @param {React.ReactNode} props.children - Content
- * @param {string} props.className - Additional CSS classes
- * @param {Object} props.style - Inline styles
- */
 Panel.Content = function PanelContent({
   children,
   className = "",
