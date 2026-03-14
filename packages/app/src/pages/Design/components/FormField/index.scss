@@ -32,6 +32,85 @@
     color: #8c8c8c;
     font-style: italic;
   }
+
+  &__toggle {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+
+    .form-field__checkbox {
+      width: 20px;
+      height: 20px;
+      cursor: pointer;
+      accent-color: #0066cc;
+    }
+
+    .form-field__toggle-label {
+      font-size: 0.875rem;
+      color: #666;
+    }
+  }
+
+  &__slider {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+
+    label {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .form-field__slider-value {
+      font-weight: bold;
+      color: #0066cc;
+      font-size: 0.875rem;
+    }
+
+    .form-field__slider-input {
+      width: 100%;
+      height: 6px;
+      border-radius: 3px;
+      background: #e8e8e8;
+      outline: none;
+      -webkit-appearance: none;
+
+      &::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        appearance: none;
+        width: 18px;
+        height: 18px;
+        border-radius: 50%;
+        background: #0066cc;
+        cursor: pointer;
+        transition: background 0.2s;
+
+        &:hover {
+          background: #0052a3;
+        }
+      }
+
+      &::-moz-range-thumb {
+        width: 18px;
+        height: 18px;
+        border-radius: 50%;
+        background: #0066cc;
+        cursor: pointer;
+        border: none;
+        transition: background 0.2s;
+
+        &:hover {
+          background: #0052a3;
+        }
+      }
+    }
+
+    .form-field__slider-labels {
+      font-size: 0.75rem;
+      color: #999;
+    }
+  }
 }
 
 @media (max-width: 768px) {

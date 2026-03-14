@@ -90,6 +90,6 @@ ItemGrid.propTypes = {
   itemTitleColor: PropTypes.string,
   itemTextColor: PropTypes.string,
   columns: PropTypes.number,
-  gap: PropTypes.string,
+  gap: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   dataElement: PropTypes.string,
 };

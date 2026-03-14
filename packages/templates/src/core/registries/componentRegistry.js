@@ -33,7 +33,10 @@ export const componentRegistry = {
       links: templateConfig?.navLinks || [],
       padding: config.padding,
       shadow: config.shadow,
-      logoLevel: config.logoLevel,
+      logoLevel:
+        typeof config.logoLevel === "string"
+          ? Number(config.logoLevel)
+          : config.logoLevel,
       linkGap: config.linkGap,
       maxWidth: config.maxWidth,
     }),
@@ -54,7 +57,10 @@ export const componentRegistry = {
       buttonTextColor: config.buttonTextColor,
       padding: config.padding,
       align: config.align,
-      titleLevel: config.titleLevel,
+      titleLevel:
+        typeof config.titleLevel === "string"
+          ? Number(config.titleLevel)
+          : config.titleLevel,
       maxWidth: config.maxWidth,
       gap: config.gap,
       buttonSize: config.buttonSize,
@@ -73,7 +79,10 @@ export const componentRegistry = {
       columns: config.columns,
       gap: config.gap,
       padding: config.padding,
-      headingLevel: config.headingLevel,
+      headingLevel:
+        typeof config.headingLevel === "string"
+          ? Number(config.headingLevel)
+          : config.headingLevel,
       headingAlign: config.headingAlign,
       maxWidth: config.maxWidth,
       renderItem: config.renderItem,
@@ -91,7 +100,10 @@ export const componentRegistry = {
       columns: config.columns || 3,
       gap: config.gap || "30px",
       padding: config.padding,
-      headingLevel: config.headingLevel,
+      headingLevel:
+        typeof config.headingLevel === "string"
+          ? Number(config.headingLevel)
+          : config.headingLevel,
       headingAlign: config.headingAlign,
       maxWidth: config.maxWidth,
       renderItem: config.renderItem,
@@ -107,7 +119,10 @@ export const componentRegistry = {
       backgroundColor: config.backgroundColor,
       maxWidth: config.maxWidth,
       padding: config.padding,
-      headingLevel: config.headingLevel,
+      headingLevel:
+        typeof config.headingLevel === "string"
+          ? Number(config.headingLevel)
+          : config.headingLevel,
       align: config.align,
       gap: config.gap,
     }),
@@ -124,7 +139,10 @@ export const componentRegistry = {
       buttonTextColor: config.buttonTextColor,
       padding: config.padding,
       align: config.align,
-      headingLevel: config.headingLevel,
+      headingLevel:
+        typeof config.headingLevel === "string"
+          ? Number(config.headingLevel)
+          : config.headingLevel,
       buttonSize: config.buttonSize,
       buttonVariant: config.buttonVariant,
       maxWidth: config.maxWidth,
@@ -166,7 +184,10 @@ export const componentRegistry = {
       gap: config.gap,
       backgroundColor: config.backgroundColor,
       padding: config.padding,
-      headingLevel: config.headingLevel,
+      headingLevel:
+        typeof config.headingLevel === "string"
+          ? Number(config.headingLevel)
+          : config.headingLevel,
       maxWidth: config.maxWidth,
       renderPanel: config.renderPanel,
     }),
@@ -186,7 +207,10 @@ export const componentRegistry = {
       columns: config.columns,
       gap: config.gap,
       padding: config.padding,
-      headingLevel: config.headingLevel,
+      headingLevel:
+        typeof config.headingLevel === "string"
+          ? Number(config.headingLevel)
+          : config.headingLevel,
       avatarSize: config.avatarSize,
       showAvatar: config.showAvatar,
       maxWidth: config.maxWidth,
@@ -196,29 +220,48 @@ export const componentRegistry = {
   // Cyberpunk Components
   terminal: {
     component: Terminal,
-    propsMapper: (config) => ({
-      heading: config.heading,
-      commands: config.commands,
-      backgroundColor: config.backgroundColor,
-      promptColor: config.promptColor,
-      responseColor: config.responseColor,
-      windowBgColor: config.windowBgColor,
-      padding: config.padding,
-      headingLevel: config.headingLevel,
-      showHeader: config.showHeader,
-      maxWidth: config.maxWidth,
-    }),
+    propsMapper: (config) => {
+      // Migrate old 'lines' structure to new 'commands' structure
+      let commands = config.commands;
+      if (!commands && config.lines) {
+        commands = config.lines.map((line) => ({
+          prompt: line.text || line.prompt || "",
+          response: line.response || "",
+        }));
+      }
+      return {
+        heading: config.heading,
+        commands,
+        backgroundColor: config.backgroundColor,
+        promptColor: config.promptColor || config.textColor,
+        responseColor: config.responseColor || config.accentColor,
+        windowBgColor: config.windowBgColor,
+        padding: config.padding,
+        headingLevel:
+          typeof config.headingLevel === "string"
+            ? Number(config.headingLevel)
+            : config.headingLevel,
+        showHeader: config.showHeader,
+        maxWidth: config.maxWidth,
+      };
+    },
   },
   stats: {
     component: StatsCounter,
     propsMapper: (config) => ({
       heading: config.heading,
-      items: config.items,
+      items: config.items?.map((item) => ({
+        ...item,
+        value: item.value || item.number, // Handle both old and new data structure
+      })),
       backgroundColor: config.backgroundColor,
       columns: config.columns,
       gap: config.gap,
       padding: config.padding,
-      headingLevel: config.headingLevel,
+      headingLevel:
+        typeof config.headingLevel === "string"
+          ? Number(config.headingLevel)
+          : config.headingLevel,
       valueLevel: config.valueLevel,
       align: config.align,
       maxWidth: config.maxWidth,
@@ -233,7 +276,10 @@ export const componentRegistry = {
       backgroundColor: config.backgroundColor,
       textColor: config.textColor,
       padding: config.padding,
-      headingLevel: config.headingLevel,
+      headingLevel:
+        typeof config.headingLevel === "string"
+          ? Number(config.headingLevel)
+          : config.headingLevel,
       gap: config.gap,
       animationDelay: config.animationDelay,
       fontFamily: config.fontFamily,
@@ -255,7 +301,10 @@ export const componentRegistry = {
       textColor: config.textColor,
       headingColor: config.headingColor,
       padding: config.padding,
-      headingLevel: config.headingLevel,
+      headingLevel:
+        typeof config.headingLevel === "string"
+          ? Number(config.headingLevel)
+          : config.headingLevel,
       contentSize: config.contentSize,
       imageFit: config.imageFit,
       ratio: config.ratio,
@@ -289,7 +338,10 @@ export const componentRegistry = {
       columns: config.columns,
       gap: config.gap,
       padding: config.padding,
-      headingLevel: config.headingLevel,
+      headingLevel:
+        typeof config.headingLevel === "string"
+          ? Number(config.headingLevel)
+          : config.headingLevel,
       imageHeight: config.imageHeight,
       maxWidth: config.maxWidth,
       renderImage: config.renderImage,
@@ -304,7 +356,10 @@ export const componentRegistry = {
       columns: config.columns || 3,
       gap: config.gap,
       padding: config.padding,
-      headingLevel: config.headingLevel,
+      headingLevel:
+        typeof config.headingLevel === "string"
+          ? Number(config.headingLevel)
+          : config.headingLevel,
       imageHeight: config.imageHeight,
       maxWidth: config.maxWidth,
       renderImage: config.renderImage,
@@ -323,8 +378,14 @@ export const componentRegistry = {
       dotSize: config.dotSize,
       itemGap: config.itemGap,
       padding: config.padding,
-      headingLevel: config.headingLevel,
-      titleLevel: config.titleLevel,
+      headingLevel:
+        typeof config.headingLevel === "string"
+          ? Number(config.headingLevel)
+          : config.headingLevel,
+      titleLevel:
+        typeof config.titleLevel === "string"
+          ? Number(config.titleLevel)
+          : config.titleLevel,
       maxWidth: config.maxWidth,
       renderItem: config.renderItem,
     }),
@@ -341,8 +402,14 @@ export const componentRegistry = {
       dotSize: config.dotSize,
       itemGap: config.itemGap,
       padding: config.padding,
-      headingLevel: config.headingLevel,
-      titleLevel: config.titleLevel,
+      headingLevel:
+        typeof config.headingLevel === "string"
+          ? Number(config.headingLevel)
+          : config.headingLevel,
+      titleLevel:
+        typeof config.titleLevel === "string"
+          ? Number(config.titleLevel)
+          : config.titleLevel,
       maxWidth: config.maxWidth,
       renderItem: config.renderItem,
     }),
@@ -357,7 +424,10 @@ export const componentRegistry = {
       columns: config.columns,
       gap: config.gap,
       padding: config.padding,
-      headingLevel: config.headingLevel,
+      headingLevel:
+        typeof config.headingLevel === "string"
+          ? Number(config.headingLevel)
+          : config.headingLevel,
       valueLevel: config.valueLevel,
       align: config.align,
       maxWidth: config.maxWidth,
@@ -371,7 +441,10 @@ export const componentRegistry = {
       specs: config.specs,
       backgroundColor: config.backgroundColor,
       padding: config.padding,
-      headingLevel: config.headingLevel,
+      headingLevel:
+        typeof config.headingLevel === "string"
+          ? Number(config.headingLevel)
+          : config.headingLevel,
       maxWidth: config.maxWidth,
       rowPadding: config.rowPadding,
       showDividers: config.showDividers,

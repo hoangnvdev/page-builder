@@ -15,7 +15,7 @@ export const ItemCard = ({
   textColor,
   gap = 12,
   iconSize,
-  align = "left",
+  align = "flex-start",
   hoverable = false,
   onClick,
   className = "",

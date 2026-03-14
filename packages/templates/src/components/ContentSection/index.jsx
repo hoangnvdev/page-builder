@@ -19,7 +19,7 @@ export const ContentSection = ({
   maxWidth = "800px",
   padding = "60px 20px",
   headingLevel = 2,
-  align = "left",
+  align = "flex-start",
   gap = 20,
   dataElement,
   className = "",

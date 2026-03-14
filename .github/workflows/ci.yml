@@ -126,7 +126,7 @@ jobs:
       - name: Deploy to Netlify Preview
         uses: nwtgck/actions-netlify@v2.1
         with:
-          publish-dir: "./dist"
+          publish-dir: "./packages/app/dist"
           production-deploy: false
           github-token: ${{ secrets.GITHUB_TOKEN }}
           deploy-message: "Deploy from GitHub Actions - PR #${{ github.event.number }}"
@@ -138,9 +138,9 @@ jobs:
           NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
         timeout-minutes: 5
 
-  # Optional: Deploy to production on main branch
+  # Deploy to production on main branch
   deploy-production:
-    name: Deploy to Netlify Production
+    name: Deploy to Netlify Production (Main)
     runs-on: ubuntu-latest
     needs: build-and-test
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
@@ -178,15 +178,72 @@ jobs:
 
       - name: Build
         run: pnpm build
+        env:
+          NODE_ENV: production
 
       - name: Deploy to Netlify Production
         uses: nwtgck/actions-netlify@v2.1
         with:
-          publish-dir: "./dist"
+          publish-dir: "./packages/app/dist"
           production-deploy: true
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          deploy-message: "Production deploy from GitHub Actions"
+          deploy-message: "Production deploy from main branch - ${{ github.sha }}"
         env:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
           NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+        timeout-minutes: 5
+
+  # Deploy to test environment on dev branch
+  deploy-test:
+    name: Deploy to Netlify Test (Dev Branch)
+    runs-on: ubuntu-latest
+    needs: build-and-test
+    if: github.event_name == 'push' && github.ref == 'refs/heads/dev'
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 10
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18.x
+          cache: "pnpm"
+
+      - name: Get pnpm store directory
+        shell: bash
+        run: |
+          echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
+
+      - name: Setup pnpm cache
+        uses: actions/cache@v4
+        with:
+          path: ${{ env.STORE_PATH }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build
+        run: pnpm build
+        env:
+          NODE_ENV: production
+
+      - name: Deploy to Netlify Test
+        uses: nwtgck/actions-netlify@v2.1
+        with:
+          publish-dir: "./packages/app/dist"
+          production-deploy: true
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          deploy-message: "Test deploy from dev branch - ${{ github.sha }}"
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_DEV_SITE_ID }}
         timeout-minutes: 5
