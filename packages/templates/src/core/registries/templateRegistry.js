@@ -6,8 +6,8 @@ import {
   modernPortfolioConfig,
   sciFiTechConfig,
   swissBrutalistConfig,
-} from "@/configs/index.js";
-import { createTemplateComponent } from "@/core/hoc/createTemplateComponent.jsx";
+} from "../../configs/index.js";
+import { createTemplateComponent } from "../hoc/createTemplateComponent.jsx";
 
 export const templateRegistry = [
   // Original templates
