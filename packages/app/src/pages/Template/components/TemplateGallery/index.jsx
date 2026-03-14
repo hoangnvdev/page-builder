@@ -6,7 +6,7 @@ import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 import { LoadingIndicator } from "@/components";
-import { fetchTemplatesFromAPI } from "@/services";
+import { fetchTemplateByIdFromAPI, fetchTemplatesFromAPI } from "@/services";
 import { selectTemplate } from "@/store/builderSlice";
 import { processTemplateConfig } from "@/utils";
 import { Button, EmptyState, Grid, SubTitle, Title } from "@page-builder/ui";
@@ -20,6 +20,7 @@ export const TemplateGallery = () => {
   const [templates, setTemplates] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [selectingTemplateId, setSelectingTemplateId] = useState(null);
 
   const loadTemplates = async () => {
     try {
@@ -47,9 +48,22 @@ export const TemplateGallery = () => {
     }
   };
 
-  const handleSelectTemplate = (template) => {
-    dispatch(selectTemplate(template));
-    navigate("/design");
+  const handleSelectTemplate = async (template) => {
+    try {
+      setSelectingTemplateId(template.id);
+
+      // Simulate fetching full template details from API
+      const fullTemplateData = await fetchTemplateByIdFromAPI(template.id);
+      const processedTemplate = processTemplateConfig(fullTemplateData);
+
+      dispatch(selectTemplate(processedTemplate));
+      navigate("/design");
+    } catch (err) {
+      console.error("Failed to select template:", err);
+      setError(err.message || "Failed to load template");
+    } finally {
+      setSelectingTemplateId(null);
+    }
   };
 
   const renderContent = () => {
@@ -58,6 +72,16 @@ export const TemplateGallery = () => {
         <LoadingIndicator
           title="Loading Templates"
           description="Fetching available templates..."
+        />
+      );
+    }
+
+    if (selectingTemplateId) {
+      return (
+        <LoadingIndicator
+          icon="🎨"
+          title="Preparing Template"
+          description="Loading your selected template..."
         />
       );
     }

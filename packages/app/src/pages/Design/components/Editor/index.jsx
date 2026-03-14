@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Navigate, useNavigate } from "react-router-dom";
 
 import { LoadingIndicator } from "@/components";
-import { fetchTemplatesFromAPI } from "@/services";
+import { fetchTemplateByIdFromAPI } from "@/services";
 import {
   resetCurrentConfig,
   resetToGallery,
@@ -33,19 +33,11 @@ export const Editor = () => {
       if (selectedTemplate && !selectedTemplate.component) {
         try {
           setIsRehydrating(true);
-          const rawTemplates = await fetchTemplatesFromAPI();
-          const matchingTemplate = rawTemplates.find(
-            (t) => t.id === selectedTemplate.id,
+          const templateData = await fetchTemplateByIdFromAPI(
+            selectedTemplate.id,
           );
-
-          if (matchingTemplate) {
-            const processedTemplate = processTemplateConfig(matchingTemplate);
-            dispatch(selectTemplate(processedTemplate));
-          } else {
-            // Template not found, redirect to gallery
-            dispatch(resetToGallery());
-            navigate("/template");
-          }
+          const processedTemplate = processTemplateConfig(templateData);
+          dispatch(selectTemplate(processedTemplate));
         } catch (err) {
           console.error("Failed to rehydrate template:", err);
           dispatch(resetToGallery());
