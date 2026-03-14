@@ -1,45 +1,27 @@
 import {
-  businessLandingConfig,
-  classicEleganceConfig,
+  businessProConfig,
   comicSplashConfig,
-  cyberpunkNeonConfig,
-  modernPortfolioConfig,
-  sciFiTechConfig,
-  swissBrutalistConfig,
-} from "../../configs/index.js";
-import { createTemplateComponent } from "../hoc/createTemplateComponent.jsx";
+  futuristicTechConfig,
+  refinedClassicConfig,
+} from '../../configs';
+import { createTemplateComponent } from '../hoc/createTemplateComponent';
 
 export const templateRegistry = [
-  // Original templates
-  {
-    ...modernPortfolioConfig,
-    component: createTemplateComponent(modernPortfolioConfig),
-  },
-  {
-    ...businessLandingConfig,
-    component: createTemplateComponent(businessLandingConfig),
-  },
-
-  // New themed templates
   {
     ...comicSplashConfig,
     component: createTemplateComponent(comicSplashConfig),
   },
   {
-    ...cyberpunkNeonConfig,
-    component: createTemplateComponent(cyberpunkNeonConfig),
+    ...businessProConfig,
+    component: createTemplateComponent(businessProConfig),
   },
   {
-    ...swissBrutalistConfig,
-    component: createTemplateComponent(swissBrutalistConfig),
+    ...futuristicTechConfig,
+    component: createTemplateComponent(futuristicTechConfig),
   },
   {
-    ...classicEleganceConfig,
-    component: createTemplateComponent(classicEleganceConfig),
-  },
-  {
-    ...sciFiTechConfig,
-    component: createTemplateComponent(sciFiTechConfig),
+    ...refinedClassicConfig,
+    component: createTemplateComponent(refinedClassicConfig),
   },
 ];
 

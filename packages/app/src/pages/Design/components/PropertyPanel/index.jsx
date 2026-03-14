@@ -1,12 +1,25 @@
-import "./index.scss";
+import './index.scss';
 
-import { useDispatch, useSelector } from "react-redux";
+import {
+  useDispatch,
+  useSelector,
+} from 'react-redux';
 
-import { updateConfig } from "@/store/builderSlice";
-import { deepMerge, getNestedValue, setNestedValue } from "@helpers";
-import { EmptyState, Flex, Panel, SubTitle, Title } from "@page-builder/ui";
+import { updateConfig } from '@/store/builderSlice';
+import {
+  deepMerge,
+  getNestedValue,
+  setNestedValue,
+} from '@helpers';
+import {
+  EmptyState,
+  Flex,
+  Panel,
+  SubTitle,
+  Title,
+} from '@page-builder/ui';
 
-import { FormField } from "../FormField";
+import { FormField } from '../FormField';
 
 export const PropertyPanel = () => {
   const dispatch = useDispatch();
@@ -78,28 +91,39 @@ export const PropertyPanel = () => {
           />
         ) : (
           <Flex direction="column" gap={24}>
-            {fields.map((field) => (
-              <FormField
-                key={field.id}
-                id={field.id}
-                label={field.label}
-                type={field.type}
-                value={
-                  field.type === "projects-list" ||
-                  field.type === "features-list"
-                    ? undefined
-                    : getNestedValue(tempConfig, field.id)
+            {fields.map((field) => {
+              let fieldValue;
+              if (
+                field.type === "projects-list" ||
+                field.type === "features-list"
+              ) {
+                fieldValue = undefined;
+              } else {
+                fieldValue = getNestedValue(tempConfig, field.id);
+                // Convert numbers to strings for Select component
+                if (field.type === "select" && typeof fieldValue === "number") {
+                  fieldValue = String(fieldValue);
                 }
-                onChange={(value) => handleFieldChange(field.id, value)}
-                options={field.options}
-                items={
-                  field.type === "projects-list" ||
-                  field.type === "features-list"
-                    ? getNestedValue(tempConfig, field.id)
-                    : undefined
-                }
-              />
-            ))}
+              }
+
+              return (
+                <FormField
+                  key={field.id}
+                  id={field.id}
+                  label={field.label}
+                  type={field.type}
+                  value={fieldValue}
+                  onChange={(value) => handleFieldChange(field.id, value)}
+                  options={field.options}
+                  items={
+                    field.type === "projects-list" ||
+                    field.type === "features-list"
+                      ? getNestedValue(tempConfig, field.id)
+                      : undefined
+                  }
+                />
+              );
+            })}
           </Flex>
         )}
       </Panel.Content>

@@ -1,8 +1,11 @@
-import "./index.scss";
+import './index.scss';
 
-import PropTypes from "prop-types";
+import PropTypes from 'prop-types';
 
-import { SubTitle, Title } from "@page-builder/ui";
+import {
+  Card,
+  Flex,
+} from '@page-builder/ui';
 
 export const ItemCard = ({
   icon,
@@ -10,24 +13,52 @@ export const ItemCard = ({
   description,
   titleColor,
   textColor,
+  gap = 12,
+  iconSize,
+  align = "flex-start",
+  hoverable = false,
+  onClick,
+  className = "",
+  children,
+  ...props
 }) => {
   return (
-    <div className="item-card">
-      {icon && <div className="item-card__icon">{icon}</div>}
-      <Title
-        level={4}
-        className="item-card__title"
-        style={{ fontSize: "1.3rem", marginBottom: "10px", color: titleColor }}
-      >
-        {title}
-      </Title>
-      <SubTitle
-        className="item-card__description"
-        style={{ fontSize: "1rem", color: textColor, lineHeight: "1.6" }}
-      >
-        {description}
-      </SubTitle>
-    </div>
+    <Card
+      className={`item-card ${className}`}
+      hoverable={hoverable}
+      onClick={onClick}
+      {...props}
+    >
+      <Card.Content>
+        <Flex direction="column" gap={gap} align={align}>
+          {icon && (
+            <div
+              className="item-card__icon"
+              style={iconSize ? { fontSize: iconSize } : undefined}
+            >
+              {icon}
+            </div>
+          )}
+          {title && (
+            <Card.Title
+              className="item-card__title"
+              style={{ color: titleColor }}
+            >
+              {title}
+            </Card.Title>
+          )}
+          {description && (
+            <Card.Description
+              className="item-card__description"
+              style={{ color: textColor }}
+            >
+              {description}
+            </Card.Description>
+          )}
+          {children}
+        </Flex>
+      </Card.Content>
+    </Card>
   );
 };
 

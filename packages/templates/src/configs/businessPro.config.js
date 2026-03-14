@@ -1,19 +1,18 @@
-export const comicSplashConfig = {
-  id: "comic-splash",
-  name: "Comic Splash",
-  description: "Playful comic-book style with bold colors and fun vibes",
-  icon: "💥",
+export const businessProConfig = {
+  id: "business-pro",
+  name: "Business Pro",
+  description:
+    "Professional business & portfolio combination with full features",
+  icon: "💼",
 
-  layout: [
-    "hero",
-    "marquee",
-    "comicPanels",
-    "features",
-    "stats",
-    "testimonials",
-    "imageGrid",
-    "cta",
-    "footer",
+  layout: ["header", "hero", "about", "features", "projects", "cta", "footer"],
+
+  navLinks: [
+    { text: "Home", href: "#" },
+    { text: "About", href: "#about" },
+    { text: "Services", href: "#features" },
+    { text: "Portfolio", href: "#projects" },
+    { text: "Contact", href: "#cta" },
   ],
 
   editableFields: [
@@ -23,14 +22,62 @@ export const comicSplashConfig = {
       label: "Font Family",
       type: "select",
       options: [
-        { value: '"Comic Sans MS", "Chalkboard SE", cursive', label: "Comic" },
-        { value: '"Bangers", cursive', label: "Bangers" },
-        { value: '"Fredoka One", cursive', label: "Fredoka" },
+        { value: "Arial, sans-serif", label: "Arial" },
+        { value: "Georgia, serif", label: "Georgia" },
+        { value: '"Segoe UI", sans-serif', label: "Segoe UI" },
         { value: "system-ui, sans-serif", label: "System" },
+        { value: '"Inter", sans-serif', label: "Inter" },
       ],
     },
     { id: "page.backgroundColor", label: "Page Background", type: "color" },
     { id: "page.textColor", label: "Page Text Color", type: "color" },
+
+    // ===== HEADER =====
+    { id: "elements.header.companyName", label: "Company Name", type: "text" },
+    {
+      id: "elements.header.backgroundColor",
+      label: "Header Background",
+      type: "color",
+    },
+    { id: "elements.header.logoColor", label: "Logo Color", type: "color" },
+    { id: "elements.header.linkColor", label: "Link Color", type: "color" },
+    { id: "elements.header.padding", label: "Padding", type: "text" },
+    {
+      id: "elements.header.gap",
+      label: "Gap",
+      type: "slider",
+      options: { min: 0, max: 80, step: 4 },
+    },
+    {
+      id: "elements.header.maxWidth",
+      label: "Max Width",
+      type: "select",
+      options: [
+        { value: "1200px", label: "1200px" },
+        { value: "1400px", label: "1400px" },
+        { value: "100%", label: "Full width" },
+      ],
+    },
+    {
+      id: "elements.header.align",
+      label: "Alignment",
+      type: "select",
+      options: [
+        { value: "flex-start", label: "Left" },
+        { value: "center", label: "Center" },
+        { value: "space-between", label: "Space Between" },
+      ],
+    },
+    {
+      id: "elements.header.titleLevel",
+      label: "Logo Heading Level",
+      type: "select",
+      options: [
+        { value: "1", label: "H1" },
+        { value: "2", label: "H2" },
+        { value: "3", label: "H3" },
+      ],
+    },
 
     // ===== HERO =====
     // Content
@@ -112,53 +159,56 @@ export const comicSplashConfig = {
       ],
     },
 
-    // ===== MARQUEE =====
-    { id: "elements.marquee.text", label: "Marquee Text", type: "text" },
+    // ===== ABOUT =====
+    { id: "elements.about.heading", label: "Heading", type: "text" },
+    { id: "elements.about.content", label: "Content", type: "textarea" },
     {
-      id: "elements.marquee.backgroundColor",
-      label: "Background Color",
-      type: "color",
-    },
-    { id: "elements.marquee.textColor", label: "Text Color", type: "color" },
-    { id: "elements.marquee.padding", label: "Padding", type: "text" },
-    { id: "elements.marquee.fontSize", label: "Font Size", type: "text" },
-
-    // ===== COMIC PANELS =====
-    { id: "elements.comicPanels.heading", label: "Heading", type: "text" },
-    {
-      id: "elements.comicPanels.backgroundColor",
+      id: "elements.about.backgroundColor",
       label: "Background Color",
       type: "color",
     },
     {
-      id: "elements.comicPanels.headingColor",
+      id: "elements.about.headingColor",
       label: "Heading Color",
       type: "color",
     },
-    { id: "elements.comicPanels.padding", label: "Padding", type: "text" },
+    { id: "elements.about.textColor", label: "Text Color", type: "color" },
+    { id: "elements.about.padding", label: "Padding", type: "text" },
     {
-      id: "elements.comicPanels.gap",
+      id: "elements.about.gap",
       label: "Gap",
       type: "slider",
       options: { min: 8, max: 80, step: 4 },
     },
+    { id: "elements.about.maxWidth", label: "Max Width", type: "text" },
     {
-      id: "elements.comicPanels.columns",
-      label: "Columns",
-      type: "slider",
-      options: { min: 1, max: 4, step: 1 },
+      id: "elements.about.align",
+      label: "Alignment",
+      type: "select",
+      options: [
+        { value: "flex-start", label: "Left" },
+        { value: "center", label: "Center" },
+        { value: "flex-end", label: "Right" },
+      ],
+    },
+    {
+      id: "elements.about.headingLevel",
+      label: "Heading Level",
+      type: "select",
+      options: [
+        { value: "1", label: "H1" },
+        { value: "2", label: "H2" },
+        { value: "3", label: "H3" },
+      ],
     },
 
     // ===== FEATURES =====
-    // Content
     { id: "elements.features.heading", label: "Heading", type: "text" },
     {
       id: "elements.features.items",
       label: "Features List",
       type: "features-list",
     },
-
-    // Colors
     {
       id: "elements.features.backgroundColor",
       label: "Background Color",
@@ -179,8 +229,6 @@ export const comicSplashConfig = {
       label: "Feature Text Color",
       type: "color",
     },
-
-    // Layout
     { id: "elements.features.padding", label: "Padding", type: "text" },
     {
       id: "elements.features.gap",
@@ -225,110 +273,68 @@ export const comicSplashConfig = {
       ],
     },
 
-    // ===== STATS =====
-    { id: "elements.stats.heading", label: "Heading", type: "text" },
+    // ===== PROJECTS =====
+    { id: "elements.projects.heading", label: "Heading", type: "text" },
     {
-      id: "elements.stats.backgroundColor",
+      id: "elements.projects.items",
+      label: "Projects List",
+      type: "projects-list",
+    },
+    {
+      id: "elements.projects.backgroundColor",
       label: "Background Color",
       type: "color",
     },
     {
-      id: "elements.stats.headingColor",
+      id: "elements.projects.headingColor",
       label: "Heading Color",
       type: "color",
     },
     {
-      id: "elements.stats.numberColor",
-      label: "Number Color",
+      id: "elements.projects.itemTitleColor",
+      label: "Project Title Color",
       type: "color",
     },
     {
-      id: "elements.stats.labelColor",
-      label: "Label Color",
+      id: "elements.projects.itemTextColor",
+      label: "Project Text Color",
       type: "color",
     },
-    { id: "elements.stats.padding", label: "Padding", type: "text" },
+    { id: "elements.projects.padding", label: "Padding", type: "text" },
     {
-      id: "elements.stats.gap",
+      id: "elements.projects.gap",
       label: "Gap",
       type: "slider",
       options: { min: 8, max: 80, step: 4 },
     },
     {
-      id: "elements.stats.columns",
-      label: "Columns",
-      type: "slider",
-      options: { min: 2, max: 5, step: 1 },
-    },
-
-    // ===== TESTIMONIALS =====
-    { id: "elements.testimonials.heading", label: "Heading", type: "text" },
-    {
-      id: "elements.testimonials.backgroundColor",
-      label: "Background Color",
-      type: "color",
+      id: "elements.projects.maxWidth",
+      label: "Max Width",
+      type: "select",
+      options: [
+        { value: "1200px", label: "1200px" },
+        { value: "1400px", label: "1400px" },
+        { value: "100%", label: "Full width" },
+      ],
     },
     {
-      id: "elements.testimonials.headingColor",
-      label: "Heading Color",
-      type: "color",
-    },
-    { id: "elements.testimonials.padding", label: "Padding", type: "text" },
-    {
-      id: "elements.testimonials.gap",
-      label: "Gap",
-      type: "slider",
-      options: { min: 8, max: 80, step: 4 },
-    },
-    {
-      id: "elements.testimonials.columns",
+      id: "elements.projects.columns",
       label: "Columns",
       type: "slider",
       options: { min: 1, max: 4, step: 1 },
     },
     {
-      id: "elements.testimonials.showAvatar",
-      label: "Show Avatars",
-      type: "toggle",
-    },
-    {
-      id: "elements.testimonials.avatarSize",
-      label: "Avatar Size",
+      id: "elements.projects.headingLevel",
+      label: "Heading Level",
       type: "select",
       options: [
-        { value: "small", label: "Small" },
-        { value: "medium", label: "Medium" },
-        { value: "large", label: "Large" },
+        { value: "1", label: "H1" },
+        { value: "2", label: "H2" },
+        { value: "3", label: "H3" },
       ],
     },
-
-    // ===== IMAGE GRID =====
-    { id: "elements.imageGrid.heading", label: "Heading", type: "text" },
     {
-      id: "elements.imageGrid.backgroundColor",
-      label: "Background Color",
-      type: "color",
-    },
-    {
-      id: "elements.imageGrid.headingColor",
-      label: "Heading Color",
-      type: "color",
-    },
-    { id: "elements.imageGrid.padding", label: "Padding", type: "text" },
-    {
-      id: "elements.imageGrid.gap",
-      label: "Gap",
-      type: "slider",
-      options: { min: 8, max: 40, step: 4 },
-    },
-    {
-      id: "elements.imageGrid.columns",
-      label: "Columns",
-      type: "slider",
-      options: { min: 2, max: 4, step: 1 },
-    },
-    {
-      id: "elements.imageGrid.headingAlign",
+      id: "elements.projects.headingAlign",
       label: "Heading Alignment",
       type: "select",
       options: [
@@ -339,12 +345,9 @@ export const comicSplashConfig = {
     },
 
     // ===== CTA =====
-    // Content
     { id: "elements.cta.heading", label: "Heading", type: "text" },
     { id: "elements.cta.subheading", label: "Subheading", type: "text" },
     { id: "elements.cta.buttonText", label: "Button Text", type: "text" },
-
-    // Colors
     {
       id: "elements.cta.backgroundColor",
       label: "Background Color",
@@ -357,8 +360,6 @@ export const comicSplashConfig = {
       label: "Button Text Color",
       type: "color",
     },
-
-    // Layout
     { id: "elements.cta.padding", label: "Padding", type: "text" },
     {
       id: "elements.cta.gap",
@@ -425,49 +426,57 @@ export const comicSplashConfig = {
         type: "select",
         label: "Font Family",
         options: [
-          {
-            value: '"Comic Sans MS", "Chalkboard SE", cursive',
-            label: "Comic",
-          },
-          { value: '"Bangers", cursive', label: "Bangers" },
-          { value: '"Fredoka One", cursive', label: "Fredoka" },
+          { value: "Arial, sans-serif", label: "Arial" },
+          { value: "Georgia, serif", label: "Georgia" },
+          { value: '"Segoe UI", sans-serif', label: "Segoe UI" },
           { value: "system-ui, sans-serif", label: "System" },
+          { value: '"Inter", sans-serif', label: "Inter" },
         ],
       },
       backgroundColor: { type: "color", label: "Page Background" },
       textColor: { type: "color", label: "Page Text Color" },
     },
     elements: {
+      header: {
+        companyName: { type: "text", label: "Company Name" },
+        backgroundColor: { type: "color", label: "Header Background" },
+        logoColor: { type: "color", label: "Logo Color" },
+        linkColor: { type: "color", label: "Link Color" },
+      },
       hero: {
         title: { type: "text", label: "Hero Title" },
         subtitle: { type: "textarea", label: "Hero Subtitle" },
         buttonText: { type: "text", label: "Button Text" },
         backgroundColor: { type: "color", label: "Background Color" },
+        gradientStart: { type: "color", label: "Gradient Start" },
+        gradientEnd: { type: "color", label: "Gradient End" },
         titleColor: { type: "color", label: "Title Color" },
         subtitleColor: { type: "color", label: "Subtitle Color" },
         buttonColor: { type: "color", label: "Button Color" },
+        buttonTextColor: { type: "color", label: "Button Text Color" },
       },
-      marquee: {
-        text: { type: "text", label: "Marquee Text" },
+      about: {
+        heading: { type: "text", label: "Heading" },
+        content: { type: "textarea", label: "Content" },
         backgroundColor: { type: "color", label: "Background Color" },
+        headingColor: { type: "color", label: "Heading Color" },
         textColor: { type: "color", label: "Text Color" },
-      },
-      comicPanels: {
-        heading: { type: "text", label: "Section Heading" },
-        panels: { type: "array", label: "Comic Panels" },
       },
       features: {
         heading: { type: "text", label: "Section Heading" },
         backgroundColor: { type: "color", label: "Background Color" },
         headingColor: { type: "color", label: "Heading Color" },
-        featureTitleColor: { type: "color", label: "Feature Title Color" },
-        featureTextColor: { type: "color", label: "Feature Text Color" },
+        itemTitleColor: { type: "color", label: "Feature Title Color" },
+        itemTextColor: { type: "color", label: "Feature Text Color" },
         items: { type: "features-list", label: "Features" },
       },
-      testimonials: {
+      projects: {
         heading: { type: "text", label: "Section Heading" },
-        quotes: { type: "array", label: "Testimonials" },
         backgroundColor: { type: "color", label: "Background Color" },
+        headingColor: { type: "color", label: "Heading Color" },
+        itemTitleColor: { type: "color", label: "Project Title Color" },
+        itemTextColor: { type: "color", label: "Project Text Color" },
+        items: { type: "projects-list", label: "Projects" },
       },
       cta: {
         heading: { type: "text", label: "Heading" },
@@ -488,24 +497,35 @@ export const comicSplashConfig = {
 
   defaultConfig: {
     page: {
-      fontFamily: '"Comic Sans MS", "Chalkboard SE", cursive',
-      backgroundColor: "#FFF5E1",
-      textColor: "#2C1810",
+      fontFamily: "system-ui, sans-serif",
+      backgroundColor: "#ffffff",
+      textColor: "#1a1a1a",
     },
     elements: {
+      header: {
+        companyName: "BusinessPro",
+        backgroundColor: "#ffffff",
+        logoColor: "#0066cc",
+        linkColor: "#333333",
+        padding: "20px",
+        gap: 16,
+        maxWidth: "1200px",
+        align: "space-between",
+        titleLevel: 3,
+      },
       hero: {
-        title: "💥 BAM! Welcome to Our World! 💥",
+        title: "Grow Your Business & Showcase Your Work",
         subtitle:
-          "Get ready for an adventure that'll blow your socks off! We're here to make your dreams come true with a splash of fun and a whole lot of awesome!",
-        buttonText: "Let's Go! 🚀",
-        backgroundColor: "#FF6B9D",
-        gradientStart: "",
-        gradientEnd: "",
+          "The professional platform for businesses and creatives to make an impact online",
+        buttonText: "Get Started",
+        backgroundColor: "#f0f9ff",
+        gradientStart: "#6366f1",
+        gradientEnd: "#8b5cf6",
         gradientAngle: "135deg",
-        titleColor: "#FFFFFF",
-        subtitleColor: "#FFF5E1",
-        buttonColor: "#FFD93D",
-        buttonTextColor: "#2C1810",
+        titleColor: "#0c4a6e",
+        subtitleColor: "#475569",
+        buttonColor: "#0066cc",
+        buttonTextColor: "#ffffff",
         padding: "100px 20px",
         gap: 24,
         maxWidth: "800px",
@@ -513,53 +533,25 @@ export const comicSplashConfig = {
         titleLevel: 1,
         buttonSize: "large",
       },
-      marquee: {
-        text: "🎨 POW! • 💥 BOOM! • ⭐ WHAM! • 🚀 ZOOM!",
-        backgroundColor: "#FFD93D",
-        textColor: "#2C1810",
-        padding: "20px",
-        fontSize: "1.5rem",
-      },
-      comicPanels: {
-        heading: "📚 How It Works 📚",
-        backgroundColor: "#FFF5E1",
-        headingColor: "#2C1810",
+      about: {
+        heading: "About Us",
+        content:
+          "We're a professional team dedicated to delivering exceptional results. With years of experience and a passion for excellence, we help businesses and individuals achieve their goals through innovative solutions and creative strategies.",
+        backgroundColor: "#ffffff",
+        headingColor: "#1a1a1a",
+        textColor: "#4a4a4a",
         padding: "80px 20px",
         gap: 20,
-        columns: 2,
-        panels: [
-          {
-            number: "1",
-            title: "Sign Up",
-            content: "Create your account faster than a speeding bullet!",
-            backgroundColor: "#FF6B9D",
-          },
-          {
-            number: "2",
-            title: "Customize",
-            content: "Make it yours with our super-powered tools!",
-            backgroundColor: "#FFD93D",
-          },
-          {
-            number: "3",
-            title: "Launch",
-            content: "Blast off into awesomeness with one click!",
-            backgroundColor: "#6BCB77",
-          },
-          {
-            number: "4",
-            title: "Enjoy",
-            content: "Sit back and watch the magic happen!",
-            backgroundColor: "#4D96FF",
-          },
-        ],
+        maxWidth: "800px",
+        align: "flex-start",
+        headingLevel: 2,
       },
       features: {
-        heading: "⭐ Super Powers ⭐",
-        backgroundColor: "#6BCB77",
-        headingColor: "#FFFFFF",
-        itemTitleColor: "#FFD93D",
-        itemTextColor: "#2C1810",
+        heading: "Our Services",
+        backgroundColor: "#f8f9fa",
+        headingColor: "#1a1a1a",
+        itemTitleColor: "#0066cc",
+        itemTextColor: "#666666",
         padding: "80px 20px",
         gap: 40,
         maxWidth: "1200px",
@@ -568,108 +560,57 @@ export const comicSplashConfig = {
         headingAlign: "center",
         items: [
           {
-            icon: "🎨",
-            title: "Creative Blast",
-            description: "Unleash your creativity with our colorful tools!",
-          },
-          {
             icon: "⚡",
-            title: "Lightning Speed",
-            description: "Fast as a superhero, because ain't nobody got time!",
+            title: "Fast Delivery",
+            description: "Quick turnaround times without compromising quality",
           },
           {
-            icon: "🎪",
-            title: "Fun Factory",
-            description: "Work feels like play when you're with us!",
+            icon: "🔒",
+            title: "Secure & Reliable",
+            description: "Enterprise-grade security and 99.9% uptime",
+          },
+          {
+            icon: "📊",
+            title: "Data Insights",
+            description: "Powerful analytics to drive informed decisions",
           },
         ],
       },
-      stats: {
-        heading: "🔥 By The Numbers 🔥",
-        backgroundColor: "#FFD93D",
-        headingColor: "#2C1810",
-        numberColor: "#FF6B9D",
-        labelColor: "#2C1810",
+      projects: {
+        heading: "Featured Work",
+        backgroundColor: "#ffffff",
+        headingColor: "#1a1a1a",
+        itemTitleColor: "#2563eb",
+        itemTextColor: "#666666",
         padding: "80px 20px",
         gap: 40,
-        columns: 4,
-        items: [
-          { value: "50K+", label: "Happy Users", color: "#FF6B9D" },
-          { value: "99.9%", label: "Uptime", color: "#FF6B9D" },
-          { value: "24/7", label: "Support", color: "#FF6B9D" },
-          { value: "100%", label: "Awesome", color: "#FF6B9D" },
-        ],
-      },
-      testimonials: {
-        heading: "🗨️ What People Say 🗨️",
-        backgroundColor: "#FFF5E1",
-        headingColor: "#2C1810",
-        padding: "80px 20px",
-        gap: 20,
+        maxWidth: "1200px",
         columns: 3,
-        showAvatar: true,
-        avatarSize: "large",
-        quotes: [
-          {
-            text: "This is absolutely AMAZING! My life changed overnight!",
-            author: "Happy Customer",
-            avatar: "😍",
-          },
-          {
-            text: "I can't believe how fun and easy this is to use!",
-            author: "Excited User",
-            avatar: "🤩",
-          },
-          {
-            text: "Best decision I ever made! Highly recommend!",
-            author: "Satisfied Client",
-            avatar: "🥳",
-          },
-        ],
-      },
-      imageGrid: {
-        heading: "🎨 Gallery of Awesome 🎨",
-        backgroundColor: "#4D96FF",
-        headingColor: "#FFFFFF",
-        padding: "80px 20px",
-        gap: 20,
-        columns: 3,
+        headingLevel: 2,
         headingAlign: "center",
-        images: [
+        items: [
           {
-            url: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=400",
-            alt: "Fun Design 1",
+            title: "E-Commerce Platform",
+            description: "Full-featured online shopping experience",
           },
           {
-            url: "https://images.unsplash.com/photo-1618556450994-a6a128ef0d9d?w=400",
-            alt: "Fun Design 2",
+            title: "Brand Strategy",
+            description: "Complete branding and marketing suite",
           },
           {
-            url: "https://images.unsplash.com/photo-1618556450991-2f1af64e8191?w=400",
-            alt: "Fun Design 3",
-          },
-          {
-            url: "https://images.unsplash.com/photo-1618556450994-2f1af64e8191?w=400",
-            alt: "Fun Design 4",
-          },
-          {
-            url: "https://images.unsplash.com/photo-1618556450991-2f1af64e8191?w=400",
-            alt: "Fun Design 5",
-          },
-          {
-            url: "https://images.unsplash.com/photo-1618556450994-a6a128ef0d9d?w=400",
-            alt: "Fun Design 6",
+            title: "Mobile Application",
+            description: "Cross-platform productivity app",
           },
         ],
       },
       cta: {
-        heading: "Ready to Join the Party? 🎉",
-        subheading: "Don't miss out on the fun! Click that button NOW!",
-        buttonText: "Count Me In! 🎊",
-        backgroundColor: "#4D96FF",
-        textColor: "#FFFFFF",
-        buttonColor: "#FFD93D",
-        buttonTextColor: "#2C1810",
+        heading: "Ready to Start Your Project?",
+        subheading: "Join hundreds of satisfied clients who trust us",
+        buttonText: "Contact Us Now",
+        backgroundColor: "#0066cc",
+        textColor: "#ffffff",
+        buttonColor: "#ffffff",
+        buttonTextColor: "#0066cc",
         padding: "80px 20px",
         gap: 20,
         maxWidth: "600px",
@@ -678,9 +619,9 @@ export const comicSplashConfig = {
         buttonSize: "large",
       },
       footer: {
-        text: "© 2026 Comic Splash Co. • Made with 💖 and lots of fun!",
-        backgroundColor: "#2C1810",
-        textColor: "#FFD93D",
+        text: "© 2026 BusinessPro. All rights reserved.",
+        backgroundColor: "#1a1a1a",
+        textColor: "#ffffff",
         padding: "40px 20px",
         align: "center",
       },

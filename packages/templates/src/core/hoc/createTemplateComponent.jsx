@@ -1,6 +1,6 @@
-import PropTypes from "prop-types";
+import PropTypes from 'prop-types';
 
-import { DynamicRenderer } from "../components/DynamicRenderer.jsx";
+import { DynamicRenderer } from '../components/DynamicRenderer';
 
 export const createTemplateComponent = (templateConfig) => {
   const TemplateComponent = ({ config }) => {

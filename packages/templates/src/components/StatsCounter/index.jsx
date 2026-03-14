@@ -1,39 +1,87 @@
-import "./index.scss";
+import './index.scss';
 
-import PropTypes from "prop-types";
+import PropTypes from 'prop-types';
 
-import { Container, Grid, Section, Title } from "@page-builder/ui";
+import {
+  Container,
+  Flex,
+  Grid,
+  Section,
+  Text,
+  Title,
+} from '@page-builder/ui';
 
 export const StatsCounter = ({
   heading,
   items,
   stats,
   backgroundColor,
+  columns = 4,
+  gap = 30,
+  padding = "80px 20px",
+  headingLevel = 2,
+  valueLevel = 2,
+  align = "center",
+  maxWidth,
   dataElement,
+  className = "",
+  renderStat,
+  ...props
 }) => {
   const data = items || stats || [];
 
   return (
     <Section
-      className="stats-counter"
+      className={`stats-counter ${className}`}
       backgroundColor={backgroundColor}
+      padding={padding}
       dataElement={dataElement}
+      {...props}
     >
-      <Container>
-        {heading && <Title>{heading}</Title>}
-        <Grid columns={4}>
-          {data.map((stat, index) => (
-            <div key={index} className="stat-item">
-              <div className="stat-item__value" style={{ color: stat.color }}>
-                {stat.value}
-              </div>
-              <div className="stat-item__label">{stat.label}</div>
-              {stat.trend && (
-                <div className="stat-item__trend">{stat.trend}</div>
-              )}
-            </div>
-          ))}
-        </Grid>
+      <Container maxWidth={maxWidth}>
+        <Flex direction="column" gap={gap}>
+          {heading && (
+            <Title level={headingLevel} className="stats-counter__heading">
+              {heading}
+            </Title>
+          )}
+          <Grid columns={columns} gap={gap}>
+            {data.map((stat, index) => (
+              <Grid.Item key={index}>
+                {renderStat ? (
+                  renderStat(stat, index)
+                ) : (
+                  <Flex
+                    direction="column"
+                    align={align}
+                    gap={8}
+                    className="stat-item"
+                  >
+                    <Title
+                      level={valueLevel}
+                      className="stat-item__value"
+                      style={{ color: stat.color, margin: 0 }}
+                    >
+                      {stat.value}
+                    </Title>
+                    <Text
+                      className="stat-item__label"
+                      align={align}
+                      weight="medium"
+                    >
+                      {stat.label}
+                    </Text>
+                    {stat.trend && (
+                      <Text className="stat-item__trend" size="small">
+                        {stat.trend}
+                      </Text>
+                    )}
+                  </Flex>
+                )}
+              </Grid.Item>
+            ))}
+          </Grid>
+        </Flex>
       </Container>
     </Section>
   );

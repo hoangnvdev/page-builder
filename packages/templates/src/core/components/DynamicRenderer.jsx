@@ -1,8 +1,8 @@
-import PropTypes from "prop-types";
+import PropTypes from 'prop-types';
 
-import { Page } from "@page-builder/ui";
+import { Page } from '@page-builder/ui';
 
-import { getComponentForElement } from "../registries/componentRegistry.js";
+import { getComponentForElement } from '../registries/componentRegistry';
 
 export const DynamicRenderer = ({ templateConfig, config }) => {
   const { page, elements } = config;

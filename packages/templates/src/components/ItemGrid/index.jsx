@@ -1,10 +1,16 @@
-import "./index.scss";
+import './index.scss';
 
-import PropTypes from "prop-types";
+import PropTypes from 'prop-types';
 
-import { Container, Section, Title } from "@page-builder/ui";
+import {
+  Container,
+  Flex,
+  Grid,
+  Section,
+  Title,
+} from '@page-builder/ui';
 
-import { ItemCard } from "../ItemCard";
+import { ItemCard } from '../ItemCard';
 
 export const ItemGrid = ({
   heading,
@@ -13,49 +19,57 @@ export const ItemGrid = ({
   headingColor,
   itemTitleColor,
   itemTextColor,
-  minItemWidth = "250px",
-  gap = "40px",
+  columns = 3,
+  gap = 40,
+  padding = "80px 20px",
+  headingLevel = 2,
+  headingAlign = "center",
+  maxWidth,
   dataElement,
+  className = "",
+  renderItem,
+  ...props
 }) => {
   return (
     <Section
       dataElement={dataElement}
-      padding="80px 20px"
+      padding={padding}
       backgroundColor={backgroundColor}
-      className="item-grid"
+      className={`item-grid ${className}`}
+      {...props}
     >
-      <Container>
-        <Title
-          level={3}
-          className="item-grid__heading"
-          style={{
-            fontSize: "2.5rem",
-            marginBottom: "50px",
-            textAlign: "center",
-            color: headingColor,
-          }}
-        >
-          {heading}
-        </Title>
-        <div
-          className="item-grid__container"
-          style={{
-            display: "grid",
-            gridTemplateColumns: `repeat(auto-fit, minmax(${minItemWidth}, 1fr))`,
-            gap: gap,
-          }}
-        >
-          {items.map((item, idx) => (
-            <ItemCard
-              key={item.id || idx}
-              icon={item.icon}
-              title={item.title}
-              description={item.description}
-              titleColor={itemTitleColor}
-              textColor={itemTextColor}
-            />
-          ))}
-        </div>
+      <Container maxWidth={maxWidth}>
+        <Flex direction="column" gap={gap}>
+          {heading && (
+            <Title
+              level={headingLevel}
+              className="item-grid__heading"
+              style={{
+                textAlign: headingAlign,
+                color: headingColor,
+              }}
+            >
+              {heading}
+            </Title>
+          )}
+          <Grid columns={columns} gap={gap} className="item-grid__container">
+            {items.map((item, idx) => (
+              <Grid.Item key={item.id || idx}>
+                {renderItem ? (
+                  renderItem(item, idx)
+                ) : (
+                  <ItemCard
+                    icon={item.icon}
+                    title={item.title}
+                    description={item.description}
+                    titleColor={itemTitleColor}
+                    textColor={itemTextColor}
+                  />
+                )}
+              </Grid.Item>
+            ))}
+          </Grid>
+        </Flex>
       </Container>
     </Section>
   );
@@ -75,7 +89,7 @@ ItemGrid.propTypes = {
   headingColor: PropTypes.string,
   itemTitleColor: PropTypes.string,
   itemTextColor: PropTypes.string,
-  minItemWidth: PropTypes.string,
-  gap: PropTypes.string,
+  columns: PropTypes.number,
+  gap: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   dataElement: PropTypes.string,
 };
