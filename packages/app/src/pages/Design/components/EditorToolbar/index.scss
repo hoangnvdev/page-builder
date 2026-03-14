@@ -15,3 +15,26 @@
     white-space: nowrap;
   }
 }
+
+@media (max-width: 768px) {
+  .editor-toolbar {
+    &__back-button {
+      font-size: 0.875rem;
+      padding: 0.5rem 0.75rem;
+    }
+
+    &__title {
+      font-size: 0.9rem;
+      max-width: 150px;
+    }
+  }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+  .editor-toolbar {
+    &__title {
+      font-size: 1rem;
+      max-width: 200px;
+    }
+  }
+}

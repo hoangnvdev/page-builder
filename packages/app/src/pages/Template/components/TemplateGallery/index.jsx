@@ -9,7 +9,7 @@ import { LoadingIndicator } from "@/components";
 import { fetchTemplateByIdFromAPI, fetchTemplatesFromAPI } from "@/services";
 import { selectTemplate } from "@/store/builderSlice";
 import { processTemplateConfig } from "@/utils";
-import { Button, EmptyState, Grid, SubTitle, Title } from "@page-builder/ui";
+import { Button, EmptyState, SubTitle, Title } from "@page-builder/ui";
 
 import { TemplateCard } from "../TemplateCard";
 
@@ -112,13 +112,13 @@ export const TemplateGallery = () => {
     }
 
     return (
-      <Grid columns={3} gap={24}>
+      <div className="template-gallery__grid">
         {templates.map((template) => (
-          <Grid.Item key={template.id}>
+          <div key={template.id} className="template-gallery__grid-item">
             <TemplateCard template={template} onSelect={handleSelectTemplate} />
-          </Grid.Item>
+          </div>
         ))}
-      </Grid>
+      </div>
     );
   };
 
