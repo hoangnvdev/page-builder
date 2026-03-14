@@ -1,21 +1,49 @@
-import "./index.scss";
+import './index.scss';
 
-import PropTypes from "prop-types";
+import PropTypes from 'prop-types';
 
-import { Section } from "@page-builder/ui";
+import {
+  Section,
+  Text,
+} from '@page-builder/ui';
 
-export const Marquee = ({ text, backgroundColor, textColor, dataElement }) => {
+export const Marquee = ({
+  text,
+  backgroundColor,
+  textColor,
+  padding = "20px",
+  textSize = "large",
+  textWeight = "bold",
+  speed = "20s",
+  repeat = 3,
+  dataElement,
+  className = "",
+  ...props
+}) => {
+  const repeatedText = Array(repeat).fill(text).join(" ");
+
   return (
     <Section
-      className="marquee"
+      className={`marquee ${className}`}
       backgroundColor={backgroundColor}
       dataElement={dataElement}
-      padding="20px"
+      padding={padding}
+      {...props}
     >
-      <div className="marquee__track">
-        <div className="marquee__content" style={{ color: textColor }}>
-          {text} {text} {text}
-        </div>
+      <div
+        className="marquee__track"
+        style={{
+          animationDuration: speed,
+        }}
+      >
+        <Text
+          className="marquee__content"
+          style={{ color: textColor }}
+          weight={textWeight}
+          size={textSize}
+        >
+          {repeatedText}
+        </Text>
       </div>
     </Section>
   );

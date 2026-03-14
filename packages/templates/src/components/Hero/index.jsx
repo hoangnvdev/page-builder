@@ -1,8 +1,15 @@
-import "./index.scss";
+import './index.scss';
 
-import PropTypes from "prop-types";
+import PropTypes from 'prop-types';
 
-import { Button, Container, Section, SubTitle, Title } from "@page-builder/ui";
+import {
+  Button,
+  Container,
+  Flex,
+  Section,
+  SubTitle,
+  Title,
+} from '@page-builder/ui';
 
 export const Hero = ({
   title,
@@ -11,61 +18,67 @@ export const Hero = ({
   backgroundColor,
   gradientStart,
   gradientEnd,
+  gradientAngle = "135deg",
   titleColor,
   subtitleColor,
   buttonColor,
+  buttonTextColor,
   onButtonClick,
+  padding = "100px 20px",
+  align = "center",
+  titleLevel = 1,
+  maxWidth = "800px",
+  gap = 24,
+  buttonSize = "large",
+  buttonVariant = "primary",
+  dataElement = "hero",
+  className = "",
+  ...props
 }) => {
   // Build background style - use gradient if provided, otherwise use solid color
   const backgroundStyle =
     gradientStart && gradientEnd
       ? {
-          background: `linear-gradient(135deg, ${gradientStart} 0%, ${gradientEnd} 100%)`,
+          background: `linear-gradient(${gradientAngle}, ${gradientStart} 0%, ${gradientEnd} 100%)`,
         }
       : {};
 
   return (
     <Section
-      dataElement="hero"
+      dataElement={dataElement}
       backgroundColor={gradientStart ? undefined : backgroundColor}
-      padding="100px 20px"
-      style={{ textAlign: "center", ...backgroundStyle }}
+      padding={padding}
+      className={`hero ${className}`}
+      style={backgroundStyle}
+      {...props}
     >
-      <Container maxWidth="800px">
-        <Title
-          level={2}
-          className="hero__title"
-          style={{
-            fontSize: "3.5rem",
-            margin: "0 0 20px 0",
-            fontWeight: "700",
-            color: titleColor,
-          }}
-        >
-          {title}
-        </Title>
-        <SubTitle
-          className="hero__subtitle"
-          style={{
-            fontSize: "1.3rem",
-            margin: "0 0 40px 0",
-            color: subtitleColor,
-          }}
-        >
-          {subtitle}
-        </SubTitle>
-        <Button
-          size="large"
-          onClick={onButtonClick}
-          className="hero__button"
-          style={{
-            backgroundColor: buttonColor,
-            padding: "16px 48px",
-            fontSize: "1.1rem",
-          }}
-        >
-          {buttonText}
-        </Button>
+      <Container maxWidth={maxWidth}>
+        <Flex direction="column" align={align} gap={gap}>
+          <Title
+            level={titleLevel}
+            className="hero__title"
+            style={{ color: titleColor }}
+          >
+            {title}
+          </Title>
+          <SubTitle className="hero__subtitle" style={{ color: subtitleColor }}>
+            {subtitle}
+          </SubTitle>
+          {buttonText && (
+            <Button
+              size={buttonSize}
+              variant={buttonVariant}
+              onClick={onButtonClick}
+              className="hero__button"
+              style={{
+                backgroundColor: buttonColor,
+                color: buttonTextColor,
+              }}
+            >
+              {buttonText}
+            </Button>
+          )}
+        </Flex>
       </Container>
     </Section>
   );

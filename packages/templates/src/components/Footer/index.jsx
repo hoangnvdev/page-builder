@@ -1,22 +1,61 @@
-import "./index.scss";
+import './index.scss';
 
-import PropTypes from "prop-types";
+import PropTypes from 'prop-types';
 
-import { Section, SubTitle } from "@page-builder/ui";
+import {
+  Container,
+  Flex,
+  Section,
+  Text,
+} from '@page-builder/ui';
 
-export const Footer = ({ text, backgroundColor, textColor }) => {
+export const Footer = ({
+  text,
+  backgroundColor,
+  textColor,
+  padding = "40px 20px",
+  align = "center",
+  maxWidth,
+  dataElement = "footer",
+  className = "",
+  children,
+  links,
+  ...props
+}) => {
   return (
     <Section
-      dataElement="footer"
+      dataElement={dataElement}
       backgroundColor={backgroundColor}
-      padding="40px 20px"
-      className="footer"
-      style={{ color: textColor, textAlign: "center" }}
+      padding={padding}
+      className={`footer ${className}`}
+      style={{ color: textColor }}
       as="footer"
+      {...props}
     >
-      <SubTitle className="footer__text" style={{ margin: 0 }}>
-        {text}
-      </SubTitle>
+      <Container maxWidth={maxWidth}>
+        <Flex direction="column" align={align} gap={16}>
+          {text && (
+            <Text className="footer__text" align={align}>
+              {text}
+            </Text>
+          )}
+          {links && links.length > 0 && (
+            <Flex gap={20} className="footer__links" wrap="wrap">
+              {links.map((link, index) => (
+                <a
+                  key={index}
+                  href={link.href}
+                  className="footer__link"
+                  style={{ color: textColor }}
+                >
+                  {link.text}
+                </a>
+              ))}
+            </Flex>
+          )}
+          {children}
+        </Flex>
+      </Container>
     </Section>
   );
 };
