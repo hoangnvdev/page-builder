@@ -41,15 +41,32 @@
   position: relative;
   transition: all 0.2s ease;
   cursor: pointer;
+  z-index: 1;
 
-  &:hover {
-    outline: 2px dashed #4096ff;
-    outline-offset: 4px;
+  &::before {
+    content: "";
+    position: absolute;
+    top: -6px;
+    left: -6px;
+    right: -6px;
+    bottom: -6px;
+    pointer-events: none;
+  }
+
+  &:hover:not(.selected) {
+    z-index: 100;
+
+    &::before {
+      border: 3px dashed #f97316;
+    }
   }
 
   &.selected {
-    outline: 2px solid #1677ff;
-    outline-offset: 4px;
-    background-color: rgba(22, 119, 255, 0.05);
+    z-index: 100;
+    background-color: rgba(249, 115, 22, 0.03);
+
+    &::before {
+      border: 3px solid #f97316;
+    }
   }
 }

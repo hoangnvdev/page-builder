@@ -10,9 +10,14 @@ export const Terminal = ({
   backgroundColor,
   promptColor,
   responseColor,
+  dataElement,
 }) => {
   return (
-    <Section className="terminal" backgroundColor={backgroundColor}>
+    <Section
+      className="terminal"
+      backgroundColor={backgroundColor}
+      dataElement={dataElement}
+    >
       <Container>
         {heading && <Title style={{ color: promptColor }}>{heading}</Title>}
         <div className="terminal__window">
@@ -56,4 +61,5 @@ Terminal.propTypes = {
   backgroundColor: PropTypes.string,
   promptColor: PropTypes.string,
   responseColor: PropTypes.string,
+  dataElement: PropTypes.string,
 };

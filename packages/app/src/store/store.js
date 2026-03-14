@@ -49,7 +49,10 @@ export const store = configureStore({
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: {
-        ignoredActions: ["builder/selectTemplate"],
+        ignoredActions: [
+          "builder/selectTemplate",
+          "builder/rehydrateTemplateComponent",
+        ],
         ignoredPaths: ["builder.selectedTemplate.component"],
       },
     }),

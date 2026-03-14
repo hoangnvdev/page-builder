@@ -4,9 +4,13 @@ import PropTypes from "prop-types";
 
 import { Container, Section, Title } from "@page-builder/ui";
 
-export const TechSpecs = ({ heading, specs, backgroundColor }) => {
+export const TechSpecs = ({ heading, specs, backgroundColor, dataElement }) => {
   return (
-    <Section className="tech-specs" backgroundColor={backgroundColor}>
+    <Section
+      className="tech-specs"
+      backgroundColor={backgroundColor}
+      dataElement={dataElement}
+    >
       <Container>
         {heading && <Title>{heading}</Title>}
         <div className="tech-specs__table">
@@ -31,4 +35,5 @@ TechSpecs.propTypes = {
     }),
   ).isRequired,
   backgroundColor: PropTypes.string,
+  dataElement: PropTypes.string,
 };

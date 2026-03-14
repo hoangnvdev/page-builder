@@ -247,5 +247,8 @@ export const getComponentForElement = (elementType, config, templateConfig) => {
   const { component, propsMapper } = registration;
   const props = propsMapper(config, templateConfig);
 
+  // Add dataElement prop to make the section selectable
+  props.dataElement = elementType;
+
   return { component, props };
 };

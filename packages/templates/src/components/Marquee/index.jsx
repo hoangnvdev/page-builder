@@ -4,9 +4,14 @@ import PropTypes from "prop-types";
 
 import { Section } from "@page-builder/ui";
 
-export const Marquee = ({ text, backgroundColor, textColor }) => {
+export const Marquee = ({ text, backgroundColor, textColor, dataElement }) => {
   return (
-    <Section className="marquee" backgroundColor={backgroundColor}>
+    <Section
+      className="marquee"
+      backgroundColor={backgroundColor}
+      dataElement={dataElement}
+      padding="20px"
+    >
       <div className="marquee__track">
         <div className="marquee__content" style={{ color: textColor }}>
           {text} {text} {text}
@@ -20,4 +25,5 @@ Marquee.propTypes = {
   text: PropTypes.string.isRequired,
   backgroundColor: PropTypes.string,
   textColor: PropTypes.string,
+  dataElement: PropTypes.string,
 };

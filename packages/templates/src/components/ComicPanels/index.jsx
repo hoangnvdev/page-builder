@@ -11,9 +11,9 @@ import {
   Title,
 } from "@page-builder/ui";
 
-export const ComicPanels = ({ heading, panels }) => {
+export const ComicPanels = ({ heading, panels, dataElement }) => {
   return (
-    <Section className="comic-panels">
+    <Section className="comic-panels" dataElement={dataElement}>
       <Container>
         {heading && <Title>{heading}</Title>}
         <Grid columns={2}>
@@ -44,4 +44,5 @@ ComicPanels.propTypes = {
       backgroundColor: PropTypes.string,
     }),
   ).isRequired,
+  dataElement: PropTypes.string,
 };

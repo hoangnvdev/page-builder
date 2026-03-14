@@ -4,9 +4,18 @@ import PropTypes from "prop-types";
 
 import { Card, Container, Grid, Section, Title } from "@page-builder/ui";
 
-export const TestimonialCards = ({ heading, quotes, backgroundColor }) => {
+export const TestimonialCards = ({
+  heading,
+  quotes,
+  backgroundColor,
+  dataElement,
+}) => {
   return (
-    <Section className="testimonial-cards" backgroundColor={backgroundColor}>
+    <Section
+      className="testimonial-cards"
+      backgroundColor={backgroundColor}
+      dataElement={dataElement}
+    >
       <Container>
         {heading && <Title>{heading}</Title>}
         <Grid columns={2}>
@@ -39,4 +48,5 @@ TestimonialCards.propTypes = {
     }),
   ).isRequired,
   backgroundColor: PropTypes.string,
+  dataElement: PropTypes.string,
 };

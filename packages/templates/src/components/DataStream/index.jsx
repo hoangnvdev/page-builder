@@ -4,9 +4,19 @@ import PropTypes from "prop-types";
 
 import { Container, Section, Title } from "@page-builder/ui";
 
-export const DataStream = ({ heading, lines, backgroundColor, textColor }) => {
+export const DataStream = ({
+  heading,
+  lines,
+  backgroundColor,
+  textColor,
+  dataElement,
+}) => {
   return (
-    <Section className="data-stream" backgroundColor={backgroundColor}>
+    <Section
+      className="data-stream"
+      backgroundColor={backgroundColor}
+      dataElement={dataElement}
+    >
       <Container>
         {heading && <Title>{heading}</Title>}
         <div className="data-stream__container">
@@ -33,4 +43,5 @@ DataStream.propTypes = {
   lines: PropTypes.arrayOf(PropTypes.string).isRequired,
   backgroundColor: PropTypes.string,
   textColor: PropTypes.string,
+  dataElement: PropTypes.string,
 };

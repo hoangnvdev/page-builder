@@ -11,9 +11,14 @@ export const SplitScreen = ({
   content,
   backgroundColor,
   textColor,
+  dataElement,
 }) => {
   return (
-    <Section className="split-screen" backgroundColor={backgroundColor}>
+    <Section
+      className="split-screen"
+      backgroundColor={backgroundColor}
+      dataElement={dataElement}
+    >
       <div
         className={`split-screen__container split-screen__container--${imagePosition}`}
       >
@@ -36,4 +41,5 @@ SplitScreen.propTypes = {
   content: PropTypes.string.isRequired,
   backgroundColor: PropTypes.string,
   textColor: PropTypes.string,
+  dataElement: PropTypes.string,
 };
