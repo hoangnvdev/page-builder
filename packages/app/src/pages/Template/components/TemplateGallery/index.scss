@@ -28,4 +28,20 @@
     margin-left: auto;
     margin-right: auto;
   }
+
+  &__loading,
+  &__error {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 400px;
+    padding: 2rem;
+  }
+
+  &__error {
+    button {
+      margin-top: 1rem;
+    }
+  }
 }
