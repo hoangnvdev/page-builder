@@ -50,7 +50,7 @@ This package is part of the page-builder monorepo and is managed via pnpm worksp
 
 ```jsx
 import { Button, Card, Input, Grid, Flex } from "@page-builder/ui";
-import "@page-builder/ui/dist/style.css"; // Import styles
+import "@page-builder/ui/styles"; // Import styles
 
 function MyComponent() {
   return (
@@ -72,11 +72,16 @@ function MyComponent() {
 
 ## Styling
 
-Components use SCSS modules for scoped styling. Import the compiled CSS bundle:
+Components use SCSS modules for scoped styling. Import the styles using the package export:
 
 ```js
-import "@page-builder/ui/dist/style.css";
+import "@page-builder/ui/styles";
 ```
+
+The package automatically resolves to:
+
+- **Development**: Source SCSS files (for hot reload)
+- **Production**: Compiled CSS bundle (optimized)
 
 ## Tree-Shaking
 
