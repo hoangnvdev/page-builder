@@ -31,5 +31,11 @@ yarn-error.log*
 .env.test.local
 .env.production.local
 
-# Documentation (working files)
+# Documentation (working files - keep local only)
 packages/templates/src/docs/
+doc/
+/doc/
+packages/*/doc/
+packages/app/doc/
+packages/templates/doc/
+packages/ui/doc/

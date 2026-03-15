@@ -7,6 +7,7 @@ export default defineConfig({
   plugins: [react()],
 
   build: {
+    target: ["es2020", "edge88", "firefox78", "chrome87", "safari14"],
     lib: {
       entry: resolve(__dirname, "src/index.js"),
       name: "PageBuilderTemplates",
@@ -14,9 +15,11 @@ export default defineConfig({
       fileName: (format) => `index.${format === "es" ? "mjs" : "js"}`,
     },
     rollupOptions: {
+      // Don't bundle these - they're peer dependencies
       external: [
         "react",
         "react-dom",
+        "react/jsx-runtime",
         "prop-types",
         "uuid",
         "@page-builder/ui",
@@ -31,7 +34,10 @@ export default defineConfig({
       },
     },
     cssCodeSplit: false,
+    cssMinify: true,
     outDir: "dist",
     emptyOutDir: true,
+    sourcemap: false,
+    minify: "esbuild",
   },
 });
