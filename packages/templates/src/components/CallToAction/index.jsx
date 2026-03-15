@@ -1,63 +1,141 @@
-import "./index.scss";
+import './index.scss';
 
-import PropTypes from "prop-types";
+import PropTypes from 'prop-types';
 
-import { Button, Section, SubTitle, Title } from "@page-builder/ui";
+import {
+  Button,
+  Container,
+  Flex,
+  Section,
+  SubTitle,
+  Title,
+} from '@page-builder/ui';
 
 export const CallToAction = ({
-  heading,
-  subheading,
+  // Title props
+  title,
+  titleSize,
+  titleWeight,
+  titleColor,
+
+  // Subtitle props
+  subtitle,
+  subtitleSize,
+  subtitleColor,
+
+  // Button props
   buttonText,
-  backgroundColor,
-  textColor,
+  buttonUrl,
   buttonColor,
   buttonTextColor,
-  onButtonClick,
+  buttonSize = "large",
+
+  // Section props
+  backgroundColor,
+  padding = "80px 20px",
+  align = "center",
+  maxWidth = "800px",
+  gap = "20px",
+
+  dataElement = "cta",
+  className = "",
+  ...props
 }) => {
   return (
     <Section
-      dataElement="cta"
+      data-element={dataElement}
       backgroundColor={backgroundColor}
-      padding="80px 20px"
-      className="call-to-action"
-      style={{ color: textColor, textAlign: "center" }}
+      padding={padding}
+      className={`call-to-action ${className}`}
+      {...props}
     >
-      <Title
-        level={3}
-        className="call-to-action__heading"
-        style={{ fontSize: "2.5rem", margin: "0 0 20px 0" }}
-      >
-        {heading}
-      </Title>
-      <SubTitle
-        className="call-to-action__subheading"
-        style={{ fontSize: "1.2rem", margin: "0 0 30px 0", opacity: 0.9 }}
-      >
-        {subheading}
-      </SubTitle>
-      <Button
-        onClick={onButtonClick}
-        className="call-to-action__button"
-        style={{
-          backgroundColor: buttonColor,
-          color: buttonTextColor,
-          padding: "14px 40px",
-          fontSize: "1.1rem",
-        }}
-      >
-        {buttonText}
-      </Button>
+      <Container maxWidth={maxWidth}>
+        <Flex direction="column" align={align} gap={gap}>
+          {title && (
+            <Title
+              level={2}
+              className="call-to-action__title"
+              style={{
+                fontSize: titleSize,
+                fontWeight: titleWeight,
+                color: titleColor,
+                margin: 0,
+              }}
+              data-element={`${dataElement}.title`}
+            >
+              {title}
+            </Title>
+          )}
+          {subtitle && (
+            <SubTitle
+              className="call-to-action__subtitle"
+              style={{
+                fontSize: subtitleSize,
+                color: subtitleColor,
+                opacity: 0.9,
+              }}
+              data-element={`${dataElement}.subtitle`}
+            >
+              {subtitle}
+            </SubTitle>
+          )}
+          {buttonText && (
+            <a
+              href={buttonUrl || "#"}
+              target={
+                buttonUrl &&
+                (buttonUrl.startsWith("http://") ||
+                  buttonUrl.startsWith("https://"))
+                  ? "_blank"
+                  : undefined
+              }
+              rel={
+                buttonUrl &&
+                (buttonUrl.startsWith("http://") ||
+                  buttonUrl.startsWith("https://"))
+                  ? "noopener noreferrer"
+                  : undefined
+              }
+              style={{ textDecoration: "none" }}
+            >
+              <Button
+                size={buttonSize}
+                variant="primary"
+                className="call-to-action__button"
+                style={{
+                  backgroundColor: buttonColor,
+                  color: buttonTextColor,
+                }}
+                data-element={`${dataElement}.button`}
+              >
+                {buttonText}
+              </Button>
+            </a>
+          )}
+        </Flex>
+      </Container>
     </Section>
   );
 };
 
 CallToAction.propTypes = {
-  heading: PropTypes.string.isRequired,
-  subheading: PropTypes.string.isRequired,
-  buttonText: PropTypes.string.isRequired,
-  backgroundColor: PropTypes.string,
-  textColor: PropTypes.string,
+  title: PropTypes.string,
+  titleSize: PropTypes.string,
+  titleWeight: PropTypes.string,
+  titleColor: PropTypes.string,
+  subtitle: PropTypes.string,
+  subtitleSize: PropTypes.string,
+  subtitleColor: PropTypes.string,
+  buttonText: PropTypes.string,
+  buttonUrl: PropTypes.string,
   buttonColor: PropTypes.string,
   buttonTextColor: PropTypes.string,
-  onButtonClick: PropTypes.func,
+  buttonSize: PropTypes.string,
+  backgroundColor: PropTypes.string,
+  padding: PropTypes.string,
+  align: PropTypes.string,
+  maxWidth: PropTypes.string,
+  gap: PropTypes.string,
+  dataElement: PropTypes.string,
+  className: PropTypes.string,
 };

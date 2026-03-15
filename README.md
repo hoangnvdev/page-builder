@@ -1,14 +1,28 @@
 # Page Builder
 
-A browser-based page builder for non-technical users to create static websites.
+A modern, high-performance browser-based page builder for creating and exporting static websites. Built with React, Redux Toolkit, and an optimized Vite build pipeline.
 
 ## Features
 
-- 🎨 **Template Gallery** - Browse and select from pre-built templates
-- ✏️ **Visual Editor** - Click and customize any element
-- 👁️ **Live Preview** - See changes in real-time
-- 📦 **HTML Export** - Download as ready-to-use static HTML
-- 🎯 **No Code Required** - Perfect for non-technical users
+- 🎨 **Template Gallery** - Browse and select from pre-built, professionally designed templates
+- ✏️ **Visual Editor** - Click and customize any element with an intuitive interface
+- 👁️ **Live Preview** - See changes in real-time with hot module replacement
+- 📦 **HTML Export** - Download production-ready static HTML
+- 🎯 **No Code Required** - Perfect for designers and non-technical users
+- ⚡ **Optimized Performance** - Lazy loading, code splitting, and modern build optimizations
+- 🧩 **Component System** - Extensive template component library with 18+ reusable sections
+- 🎭 **Config-Driven** - Templates defined by data, not hardcoded layouts
+
+## Prerequisites
+
+- **Node.js** 20.19+ or 22.12+ (required for Vite 8)
+- **pnpm** 10.0+ (package manager)
+
+You can use [nvm](https://github.com/nvm-sh/nvm) to manage Node.js versions:
+
+```bash
+nvm use
+```
 
 ## Quick Start
 
@@ -16,16 +30,19 @@ A browser-based page builder for non-technical users to create static websites.
 # Install dependencies (run from root)
 pnpm install
 
-# Start development server
+# Start development server (runs on http://localhost:3000)
 pnpm start
 
-# Build all packages
+# Build all packages for production
 pnpm build
 
 # Build individual packages
-pnpm build:ui         # UI components
+pnpm build:ui         # UI component library
 pnpm build:templates  # Template library
 pnpm build:app        # Main application
+
+# Preview production build
+pnpm preview
 ```
 
 ## How to Use
@@ -35,10 +52,19 @@ pnpm build:app        # Main application
 3. **Preview** - See your changes in real-time
 4. **Export** - Download your page as static HTML
 
-## Templates
+## Available Templates
 
-- **Modern Portfolio** - Clean, professional portfolio layout
-- **Business Landing** - Conversion-focused business page
+- **Business Pro** - Professional business landing page with modern design
+- **Comic Splash** - Creative, comic-style layout with unique visual elements
+- **Futuristic Tech** - Cutting-edge tech product showcase
+- **Refined Classic** - Timeless, elegant design for sophisticated brands
+
+Each template includes:
+
+- Fully customizable sections (Hero, Features, Testimonials, etc.)
+- Pre-configured layouts optimized for conversion
+- Responsive design for all devices
+- Export-ready HTML/CSS
 
 ## Project Structure
 
@@ -90,11 +116,29 @@ Each package is independently buildable and can be published to npm.
 
 ## Tech Stack
 
-- React 18
-- Redux Toolkit (state management)
-- Formik (forms)
-- Vite (build tool)
-- Lucide React (icons)
+### Core
+
+- **React 18** - UI framework with automatic JSX runtime
+- **Redux Toolkit** - State management with slices pattern
+- **React Router** - Client-side routing
+- **Vite** - Next-generation build tool with optimized configs
+
+### Libraries
+
+- **Formik** - Form handling and validation
+- **Lucide React** - Modern icon library
+- **UUID** - Unique identifier generation
+- **PropTypes** - Runtime type checking
+
+### Build Optimizations
+
+- Code splitting with dynamic imports
+- Tree-shaking for minimal bundle size
+- Modern ES2020+ target for smaller output
+- Optimized chunk splitting (vendor, UI, templates)
+- CSS code splitting and minification
+- Asset optimization (images, fonts)
+- esbuild for fast minification
 
 ## Export Format
 

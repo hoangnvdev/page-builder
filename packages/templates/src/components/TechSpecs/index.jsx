@@ -1,26 +1,83 @@
-import "./index.scss";
+import './index.scss';
 
-import PropTypes from "prop-types";
+import PropTypes from 'prop-types';
 
-import { Container, Section, Title } from "@page-builder/ui";
+import {
+  Container,
+  Divider,
+  Flex,
+  Section,
+  Text,
+  Title,
+} from '@page-builder/ui';
 
-export const TechSpecs = ({ heading, specs, backgroundColor, dataElement }) => {
+export const TechSpecs = ({
+  heading,
+  specs,
+  backgroundColor,
+  padding = "80px 20px",
+  headingLevel = 2,
+  maxWidth = "800px",
+  rowPadding = "16px 0",
+  showDividers = true,
+  dividerColor = "#e0e0e0",
+  dataElement,
+  className = "",
+  renderSpec,
+  ...props
+}) => {
   return (
     <Section
-      className="tech-specs"
+      className={`tech-specs ${className}`}
       backgroundColor={backgroundColor}
+      padding={padding}
       dataElement={dataElement}
+      {...props}
     >
-      <Container>
-        {heading && <Title>{heading}</Title>}
-        <div className="tech-specs__table">
-          {specs.map((spec, index) => (
-            <div key={index} className="tech-specs__row">
-              <div className="tech-specs__category">{spec.category}</div>
-              <div className="tech-specs__value">{spec.value}</div>
-            </div>
-          ))}
-        </div>
+      <Container maxWidth={maxWidth}>
+        <Flex direction="column" gap={24}>
+          {heading && (
+            <Title
+              level={headingLevel}
+              className="tech-specs__heading"
+              data-element={`${dataElement}.heading`}
+            >
+              {heading}
+            </Title>
+          )}
+          <Flex direction="column" gap={0} className="tech-specs__table">
+            {specs.map((spec, index) => (
+              <div key={index}>
+                {renderSpec ? (
+                  renderSpec(spec, index)
+                ) : (
+                  <Flex
+                    className="tech-specs__row"
+                    justify="space-between"
+                    style={{ padding: rowPadding }}
+                  >
+                    <Text
+                      className="tech-specs__category"
+                      weight="medium"
+                      data-element={`${dataElement}.spec-${index}.category`}
+                    >
+                      {spec.category}
+                    </Text>
+                    <Text
+                      className="tech-specs__value"
+                      data-element={`${dataElement}.spec-${index}.value`}
+                    >
+                      {spec.value}
+                    </Text>
+                  </Flex>
+                )}
+                {showDividers && index < specs.length - 1 && (
+                  <Divider color={dividerColor} spacing={0} />
+                )}
+              </div>
+            ))}
+          </Flex>
+        </Flex>
       </Container>
     </Section>
   );

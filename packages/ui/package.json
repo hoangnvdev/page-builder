@@ -10,7 +10,10 @@
       "development": "./src/index.js",
       "default": "./dist/index.mjs"
     },
-    "./styles": "./src/styles.js",
+    "./styles": {
+      "development": "./src/styles.js",
+      "default": "./dist/style.css"
+    },
     "./*": "./src/*/index.jsx"
   },
   "files": [
@@ -30,8 +33,8 @@
     "prop-types": "^15.8.1"
   },
   "devDependencies": {
-    "@vitejs/plugin-react": "^4.2.1",
-    "sass": "^1.80.0",
-    "vite": "^5.1.0"
+    "@vitejs/plugin-react": "^6.0.1",
+    "sass": "^1.98.0",
+    "vite": "^8.0.0"
   }
 }

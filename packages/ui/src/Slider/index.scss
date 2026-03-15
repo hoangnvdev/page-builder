@@ -1,0 +1,114 @@
+.slider {
+  width: 100%;
+
+  &__label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text-primary, #1a1a1a);
+  }
+
+  &__wrapper {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 8px;
+  }
+
+  &__input {
+    flex: 1;
+    height: 6px;
+    -webkit-appearance: none;
+    appearance: none;
+    background: var(--border-color, #e0e0e0);
+    border-radius: 3px;
+    outline: none;
+    cursor: pointer;
+    transition: background 0.2s ease;
+
+    &:hover {
+      background: var(--border-hover, #d0d0d0);
+    }
+
+    &:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    // Webkit (Chrome, Safari)
+    &::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: var(--primary-color, #007bff);
+      cursor: pointer;
+      transition: all 0.2s ease;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+      &:hover {
+        transform: scale(1.1);
+        box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
+      }
+
+      &:active {
+        transform: scale(0.95);
+      }
+    }
+
+    // Firefox
+    &::-moz-range-thumb {
+      width: 18px;
+      height: 18px;
+      border: none;
+      border-radius: 50%;
+      background: var(--primary-color, #007bff);
+      cursor: pointer;
+      transition: all 0.2s ease;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+      &:hover {
+        transform: scale(1.1);
+        box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
+      }
+
+      &:active {
+        transform: scale(0.95);
+      }
+    }
+
+    // Firefox track
+    &::-moz-range-track {
+      background: var(--border-color, #e0e0e0);
+      border-radius: 3px;
+    }
+  }
+
+  &__value {
+    min-width: 50px;
+    text-align: right;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--primary-color, #007bff);
+  }
+
+  &__labels {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 4px;
+    padding: 0 2px;
+  }
+
+  &__label-item {
+    font-size: 12px;
+    color: var(--text-secondary, #666);
+    transition: all 0.2s ease;
+
+    &.active {
+      color: var(--primary-color, #007bff);
+      font-weight: 600;
+    }
+  }
+}

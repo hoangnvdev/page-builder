@@ -1,0 +1,51 @@
+.text {
+  margin: 0;
+  line-height: 1.6;
+
+  // Size variants
+  &--small {
+    font-size: 0.875rem;
+  }
+
+  &--medium {
+    font-size: 1rem;
+  }
+
+  &--large {
+    font-size: 1.125rem;
+  }
+
+  // Weight variants
+  &--light {
+    font-weight: 300;
+  }
+
+  &--normal {
+    font-weight: 400;
+  }
+
+  &--medium {
+    font-weight: 500;
+  }
+
+  &--bold {
+    font-weight: 700;
+  }
+
+  // Alignment variants
+  &--align-left {
+    text-align: left;
+  }
+
+  &--align-center {
+    text-align: center;
+  }
+
+  &--align-right {
+    text-align: right;
+  }
+
+  &--align-justify {
+    text-align: justify;
+  }
+}

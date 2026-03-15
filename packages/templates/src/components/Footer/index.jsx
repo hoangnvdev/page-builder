@@ -1,28 +1,107 @@
-import "./index.scss";
+import './index.scss';
 
-import PropTypes from "prop-types";
+import PropTypes from 'prop-types';
 
-import { Section, SubTitle } from "@page-builder/ui";
+import {
+  Container,
+  Flex,
+  Section,
+  Text,
+} from '@page-builder/ui';
 
-export const Footer = ({ text, backgroundColor, textColor }) => {
+export const Footer = ({
+  // Text props
+  text,
+  textSize,
+  textWeight,
+  textDecoration,
+  textColor,
+
+  // Section props
+  backgroundColor,
+  padding = "40px 20px",
+  textAlign = "center",
+  flexAlign = "center",
+  maxWidth,
+
+  dataElement = "footer",
+  className = "",
+  children,
+  links,
+  ...props
+}) => {
+  // Handle italic as fontStyle instead of textDecoration
+  const isItalic = textDecoration === "italic";
+  const actualDecoration = isItalic ? "none" : textDecoration;
+  const fontStyle = isItalic ? "italic" : "normal";
+
   return (
     <Section
-      dataElement="footer"
+      data-element={dataElement}
       backgroundColor={backgroundColor}
-      padding="40px 20px"
-      className="footer"
-      style={{ color: textColor, textAlign: "center" }}
+      padding={padding}
+      className={`footer ${className}`}
       as="footer"
+      {...props}
     >
-      <SubTitle className="footer__text" style={{ margin: 0 }}>
-        {text}
-      </SubTitle>
+      <Container maxWidth={maxWidth}>
+        <Flex direction="column" align={flexAlign} gap="16px">
+          {text && (
+            <Text
+              className="footer__text"
+              align={textAlign}
+              style={{
+                fontSize: textSize,
+                fontWeight: textWeight,
+                textDecoration: actualDecoration,
+                fontStyle: fontStyle,
+                color: textColor,
+              }}
+              data-element={`${dataElement}.text`}
+            >
+              {text}
+            </Text>
+          )}
+          {links && links.length > 0 && (
+            <Flex gap="20px" className="footer__links" wrap="wrap">
+              {links.map((link, index) => (
+                <a
+                  key={index}
+                  href={link.href}
+                  className="footer__link"
+                  style={{ color: textColor }}
+                  data-element={`${dataElement}.link-${index}`}
+                >
+                  {link.text}
+                </a>
+              ))}
+            </Flex>
+          )}
+          {children}
+        </Flex>
+      </Container>
     </Section>
   );
 };
 
 Footer.propTypes = {
-  text: PropTypes.string.isRequired,
-  backgroundColor: PropTypes.string,
+  text: PropTypes.string,
+  textSize: PropTypes.string,
+  textWeight: PropTypes.string,
+  textDecoration: PropTypes.string,
   textColor: PropTypes.string,
+  backgroundColor: PropTypes.string,
+  padding: PropTypes.string,
+  textAlign: PropTypes.string,
+  flexAlign: PropTypes.string,
+  maxWidth: PropTypes.string,
+  dataElement: PropTypes.string,
+  className: PropTypes.string,
+  children: PropTypes.node,
+  links: PropTypes.arrayOf(
+    PropTypes.shape({
+      text: PropTypes.string,
+      href: PropTypes.string,
+    }),
+  ),
 };

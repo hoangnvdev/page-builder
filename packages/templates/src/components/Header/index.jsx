@@ -1,45 +1,73 @@
-import "./index.scss";
+import './index.scss';
 
-import PropTypes from "prop-types";
+import PropTypes from 'prop-types';
 
-import { Container, Flex, Link, Title } from "@page-builder/ui";
+import {
+  Container,
+  Flex,
+  Link,
+  Title,
+} from '@page-builder/ui';
 
 export const Header = ({
   companyName,
+  logo,
   backgroundColor,
   logoColor,
   linkColor,
   links = [],
+  padding = "20px 40px",
+  shadow = "0 2px 4px rgba(0,0,0,0.1)",
+  logoLevel = 1,
+  linkGap = 20,
+  maxWidth,
+  dataElement = "header",
+  className = "",
+  as = "header",
+  ...props
 }) => {
+  const Component = as;
+
   return (
-    <header
-      data-element="header"
-      className="header"
+    <Component
+      data-element={dataElement}
+      className={`header ${className}`}
       style={{
         backgroundColor,
-        padding: "20px 40px",
-        boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
+        padding,
+        boxShadow: shadow,
       }}
+      {...props}
     >
-      <Container>
+      <Container maxWidth={maxWidth}>
         <Flex justify="space-between" align="center">
-          <Title
-            level={1}
-            className="header__logo"
-            style={{ margin: 0, fontSize: "1.5rem", color: logoColor }}
-          >
-            {companyName}
-          </Title>
-          <Flex gap={20} as="nav" className="header__nav">
-            {links.map((link, index) => (
-              <Link key={index} href={link.href} color={linkColor}>
-                {link.text}
-              </Link>
-            ))}
-          </Flex>
+          {logo || (
+            <Title
+              level={logoLevel}
+              className="header__logo"
+              style={{ margin: 0, color: logoColor }}
+              data-element={`${dataElement}.companyName`}
+            >
+              {companyName}
+            </Title>
+          )}
+          {links.length > 0 && (
+            <Flex gap={linkGap} as="nav" className="header__nav">
+              {links.map((link, index) => (
+                <Link
+                  key={index}
+                  href={link.href}
+                  color={linkColor}
+                  data-element={`${dataElement}.link-${index}`}
+                >
+                  {link.text}
+                </Link>
+              ))}
+            </Flex>
+          )}
         </Flex>
       </Container>
-    </header>
+    </Component>
   );
 };
 

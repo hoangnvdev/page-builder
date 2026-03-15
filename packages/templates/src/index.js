@@ -1,30 +1,31 @@
 import {
-  businessLandingConfig,
-  modernPortfolioConfig,
-} from "./configs/index.js";
-// Legacy exports for backward compatibility
-import { createTemplateComponent } from "./core/hoc/createTemplateComponent.jsx";
+  businessProConfig,
+  comicSplashConfig,
+  futuristicTechConfig,
+  refinedClassicConfig,
+} from './configs/index.js';
+import { createTemplateComponent } from './hocs/index.js';
 
 // Core dynamic rendering system
+export { DynamicRenderer } from './components/index.js';
 export {
   componentRegistry,
-  createTemplateComponent,
-  DynamicRenderer,
   getComponentForElement,
   getTemplateById,
   templateRegistry,
-} from "./core/index.js";
+} from './registries/index.js';
+export { createTemplateComponent } from './hocs/index.js';
 
 // Template configs (for direct access if needed)
 export {
-  businessLandingConfig,
-  classicEleganceConfig,
+  businessProConfig,
   comicSplashConfig,
-  cyberpunkNeonConfig,
-  modernPortfolioConfig,
-  sciFiTechConfig,
-  swissBrutalistConfig,
-} from "./configs/index.js";
+  futuristicTechConfig,
+  refinedClassicConfig,
+} from './configs/index.js';
 
-export const ModernPortfolio = createTemplateComponent(modernPortfolioConfig);
-export const BusinessLanding = createTemplateComponent(businessLandingConfig);
+// Pre-built template components
+export const ComicSplash = createTemplateComponent(comicSplashConfig);
+export const BusinessPro = createTemplateComponent(businessProConfig);
+export const FuturisticTech = createTemplateComponent(futuristicTechConfig);
+export const RefinedClassic = createTemplateComponent(refinedClassicConfig);

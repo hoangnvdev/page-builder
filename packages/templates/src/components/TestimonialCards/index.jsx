@@ -1,37 +1,109 @@
-import "./index.scss";
+import './index.scss';
 
-import PropTypes from "prop-types";
+import PropTypes from 'prop-types';
 
-import { Card, Container, Grid, Section, Title } from "@page-builder/ui";
+import {
+  Avatar,
+  Card,
+  Container,
+  Flex,
+  Grid,
+  Section,
+  Text,
+  Title,
+} from '@page-builder/ui';
 
 export const TestimonialCards = ({
   heading,
   quotes,
   backgroundColor,
+  columns = 2,
+  gap = 20,
+  padding = "80px 20px",
+  headingLevel = 2,
+  avatarSize = "large",
+  showAvatar = true,
+  maxWidth,
   dataElement,
+  className = "",
+  renderQuote,
+  ...props
 }) => {
   return (
     <Section
-      className="testimonial-cards"
+      className={`testimonial-cards ${className}`}
       backgroundColor={backgroundColor}
+      padding={padding}
       dataElement={dataElement}
+      {...props}
     >
-      <Container>
-        {heading && <Title>{heading}</Title>}
-        <Grid columns={2}>
-          {quotes.map((quote, index) => (
-            <Card key={index} className="testimonial-card">
-              <div className="testimonial-card__avatar">{quote.avatar}</div>
-              <p className="testimonial-card__text">"{quote.text}"</p>
-              <div className="testimonial-card__author">
-                <div className="testimonial-card__name">{quote.author}</div>
-                {quote.title && (
-                  <div className="testimonial-card__title">{quote.title}</div>
+      <Container maxWidth={maxWidth}>
+        <Flex direction="column" gap={gap}>
+          {heading && (
+            <Title
+              level={headingLevel}
+              className="testimonial-cards__heading"
+              data-element={`${dataElement}.heading`}
+            >
+              {heading}
+            </Title>
+          )}
+          <Grid columns={columns} gap={gap}>
+            {quotes.map((quote, index) => (
+              <Grid.Item key={index}>
+                {renderQuote ? (
+                  renderQuote(quote, index)
+                ) : (
+                  <Card
+                    className="testimonial-card"
+                    data-element={`${dataElement}.card-${index}`}
+                  >
+                    <Card.Content>
+                      <Flex direction="column" gap={16}>
+                        {showAvatar && quote.avatar && (
+                          <Avatar
+                            className="testimonial-card__avatar"
+                            size={avatarSize}
+                            src={quote.avatarUrl}
+                            data-element={`${dataElement}.card-${index}.avatar`}
+                          >
+                            {quote.avatar}
+                          </Avatar>
+                        )}
+                        <Text
+                          className="testimonial-card__text"
+                          data-element={`${dataElement}.card-${index}.text`}
+                        >
+                          "{quote.text}"
+                        </Text>
+                        <Flex direction="column" gap={4}>
+                          <Text
+                            className="testimonial-card__name"
+                            weight="bold"
+                            size="medium"
+                            data-element={`${dataElement}.card-${index}.author`}
+                          >
+                            {quote.author}
+                          </Text>
+                          {quote.title && (
+                            <Text
+                              className="testimonial-card__title"
+                              size="small"
+                              color="#666"
+                              data-element={`${dataElement}.card-${index}.title`}
+                            >
+                              {quote.title}
+                            </Text>
+                          )}
+                        </Flex>
+                      </Flex>
+                    </Card.Content>
+                  </Card>
                 )}
-              </div>
-            </Card>
-          ))}
-        </Grid>
+              </Grid.Item>
+            ))}
+          </Grid>
+        </Flex>
       </Container>
     </Section>
   );

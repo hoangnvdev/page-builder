@@ -9,7 +9,7 @@
 
   # Environment variables
   [build.environment]
-    NODE_VERSION = "18"
+    NODE_VERSION = "20"
 
 # Redirects for SPA (single-page application)
 # This ensures all routes are handled by index.html

@@ -1,38 +1,71 @@
-import "./index.scss";
+import './index.scss';
 
-import PropTypes from "prop-types";
+import PropTypes from 'prop-types';
 
-import { Container, Section, Title } from "@page-builder/ui";
+import {
+  Container,
+  Flex,
+  Section,
+  Text,
+  Title,
+} from '@page-builder/ui';
 
 export const DataStream = ({
   heading,
   lines,
   backgroundColor,
   textColor,
+  padding = "80px 20px",
+  headingLevel = 2,
+  gap = 8,
+  animationDelay = 0.2,
+  fontFamily = "monospace",
+  maxWidth,
   dataElement,
+  className = "",
+  renderLine,
+  ...props
 }) => {
   return (
     <Section
-      className="data-stream"
+      className={`data-stream ${className}`}
       backgroundColor={backgroundColor}
+      padding={padding}
       dataElement={dataElement}
+      {...props}
     >
-      <Container>
-        {heading && <Title>{heading}</Title>}
-        <div className="data-stream__container">
-          {lines.map((line, index) => (
-            <div
-              key={index}
-              className="data-stream__line"
-              style={{
-                color: textColor,
-                animationDelay: `${index * 0.2}s`,
-              }}
+      <Container maxWidth={maxWidth}>
+        <Flex direction="column" gap={gap * 2}>
+          {heading && (
+            <Title
+              level={headingLevel}
+              className="data-stream__heading"
+              data-element={`${dataElement}.heading`}
             >
-              {line}
-            </div>
-          ))}
-        </div>
+              {heading}
+            </Title>
+          )}
+          <Flex direction="column" gap={gap} className="data-stream__container">
+            {lines.map((line, index) =>
+              renderLine ? (
+                renderLine(line, index)
+              ) : (
+                <Text
+                  key={index}
+                  className="data-stream__line"
+                  style={{
+                    color: textColor,
+                    animationDelay: `${index * animationDelay}s`,
+                    fontFamily,
+                  }}
+                  data-element={`${dataElement}.line-${index}`}
+                >
+                  {line}
+                </Text>
+              ),
+            )}
+          </Flex>
+        </Flex>
       </Container>
     </Section>
   );

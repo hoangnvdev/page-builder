@@ -1,9 +1,10 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
   selectedTemplate: null,
   currentConfig: null,
-  selectedElement: null,
+  selectedElement: null, // e.g., "hero", "header" - the section being edited
+  selectedSubElement: null, // e.g., "hero.title", "hero.button" - specific nested element within section
 };
 
 const builderSlice = createSlice({
@@ -16,6 +17,7 @@ const builderSlice = createSlice({
         JSON.stringify(action.payload.defaultConfig),
       );
       state.selectedElement = null;
+      state.selectedSubElement = null;
     },
 
     updatePageConfig: (state, action) => {
@@ -44,17 +46,30 @@ const builderSlice = createSlice({
     },
 
     selectElement: (state, action) => {
-      state.selectedElement = action.payload;
+      const elementId = action.payload;
+
+      // Check if this is a nested element (e.g., "hero.title", "header.companyName")
+      if (elementId && elementId.includes(".")) {
+        const parts = elementId.split(".");
+        state.selectedElement = parts[0]; // e.g., "hero"
+        state.selectedSubElement = elementId; // e.g., "hero.title"
+      } else {
+        // Top-level element selection (just section)
+        state.selectedElement = elementId;
+        state.selectedSubElement = null;
+      }
     },
 
     deselectElement: (state) => {
       state.selectedElement = null;
+      state.selectedSubElement = null;
     },
 
     resetToGallery: (state) => {
       state.selectedTemplate = null;
       state.currentConfig = null;
       state.selectedElement = null;
+      state.selectedSubElement = null;
     },
 
     resetCurrentConfig: (state) => {
@@ -63,6 +78,7 @@ const builderSlice = createSlice({
           JSON.stringify(state.selectedTemplate.defaultConfig),
         );
         state.selectedElement = null;
+        state.selectedSubElement = null;
       }
     },
 
