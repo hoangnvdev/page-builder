@@ -1,6 +1,6 @@
 # Page Builder - Deployment Guide
 
-**Last Updated**: March 15, 2026
+**Last Updated**: March 16, 2026
 
 ## Overview
 
@@ -10,8 +10,8 @@ This guide covers deploying the Page Builder application - a visual page builder
 
 - **Built application**: Run `pnpm build` from project root
 - **Git repository**: Connected to GitHub/GitLab
-- **Node.js 18+**: Required for build process
-- **pnpm 8+**: Package manager (faster than npm/yarn)
+- **Node.js 20.19+**: Required for Vite 8 (or 22.12+)
+- **pnpm 10+**: Package manager (faster than npm/yarn)
 - **Hosting account**: Netlify (recommended), Vercel, or other static host
 
 ## Netlify Deployment (Recommended)
@@ -32,7 +32,7 @@ This guide covers deploying the Page Builder application - a visual page builder
    The `netlify.toml` file in the root already configures everything, but verify:
    - **Build command**: `pnpm install && pnpm build`
    - **Publish directory**: `packages/app/dist`
-   - **Node version**: 18
+   - **Node version**: 20
 
    The build process:
    1. Builds `@page-builder/ui` (component library)
@@ -111,7 +111,7 @@ The existing `netlify.toml` already configures this:
   publish = "packages/app/dist"
 
 [build.environment]
-  NODE_VERSION = "18"
+  NODE_VERSION = "20"
 
 # SPA routing for React Router
 [[redirects]]
@@ -313,7 +313,7 @@ vercel --prod
 
 ```dockerfile
 # Build stage
-FROM node:18-alpine AS builder
+FROM node:20-alpine AS builder
 
 # Install pnpm
 RUN npm install -g pnpm

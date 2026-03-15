@@ -105,7 +105,7 @@ jobs:
 
       - uses: actions/setup-node@v3
         with:
-          node-version: 18
+          node-version: 20
           cache: 'pnpm'
 
       - name: Install dependencies
@@ -151,7 +151,7 @@ jobs:
 
       - uses: actions/setup-node@v3
         with:
-          node-version: 18
+          node-version: 20
           cache: "pnpm"
 
       - name: Install dependencies
@@ -193,7 +193,7 @@ jobs:
 
       - uses: actions/setup-node@v3
         with:
-          node-version: 18
+          node-version: 20
           cache: 'pnpm'
 
       - name: Install dependencies
@@ -318,7 +318,7 @@ on:
 ```yaml
 - uses: actions/setup-node@v3
   with:
-    node-version: 18
+    node-version: 20
     cache: "pnpm" # Auto-caches pnpm store
 ```
 
@@ -413,7 +413,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [16, 18, 20]
+        node-version: [20, 22]
 
     steps:
       - uses: actions/checkout@v3
@@ -510,7 +510,7 @@ jobs:
 # Match Node version
 - uses: actions/setup-node@v3
   with:
-    node-version: 18 # Match local version
+    node-version: 20 # Match with project requirements
 
 # Clear cache
 - run: rm -rf node_modules/.vite
