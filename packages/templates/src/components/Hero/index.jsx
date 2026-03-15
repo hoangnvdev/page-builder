@@ -21,6 +21,8 @@ export const Hero = ({
   gradientAngle = "135deg",
   titleColor,
   subtitleColor,
+  titleSize,
+  subtitleSize,
   buttonColor,
   buttonTextColor,
   onButtonClick,
@@ -57,11 +59,22 @@ export const Hero = ({
           <Title
             level={titleLevel}
             className="hero__title"
-            style={{ color: titleColor }}
+            style={{
+              color: titleColor,
+              ...(titleSize && { fontSize: titleSize }),
+            }}
+            data-element={`${dataElement}.title`}
           >
             {title}
           </Title>
-          <SubTitle className="hero__subtitle" style={{ color: subtitleColor }}>
+          <SubTitle
+            className="hero__subtitle"
+            style={{
+              color: subtitleColor,
+              ...(subtitleSize && { fontSize: subtitleSize }),
+            }}
+            data-element={`${dataElement}.subtitle`}
+          >
             {subtitle}
           </SubTitle>
           {buttonText && (
@@ -74,6 +87,7 @@ export const Hero = ({
                 backgroundColor: buttonColor,
                 color: buttonTextColor,
               }}
+              data-element={`${dataElement}.button`}
             >
               {buttonText}
             </Button>
@@ -93,6 +107,8 @@ Hero.propTypes = {
   gradientEnd: PropTypes.string,
   titleColor: PropTypes.string,
   subtitleColor: PropTypes.string,
+  titleSize: PropTypes.string,
+  subtitleSize: PropTypes.string,
   buttonColor: PropTypes.string,
   onButtonClick: PropTypes.func,
 };

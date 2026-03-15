@@ -644,7 +644,7 @@ pnpm build
 **See Also**:
 
 - [DEPLOYMENT.md](../DEPLOYMENT.md) - How to deploy the Page Builder
-- [../doc/BUILD_AND_DEPLOYMENT.md](../doc/BUILD_AND_DEPLOYMENT.md) - Detailed build process
+- [../docs/BUILD_AND_DEPLOYMENT.md](../docs/BUILD_AND_DEPLOYMENT.md) - Detailed build process
 - [Current CI Workflow](../. github/workflows/ci.yml) - See the actual workflow filesvg)
 
 ```

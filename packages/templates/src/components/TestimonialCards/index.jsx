@@ -40,7 +40,11 @@ export const TestimonialCards = ({
       <Container maxWidth={maxWidth}>
         <Flex direction="column" gap={gap}>
           {heading && (
-            <Title level={headingLevel} className="testimonial-cards__heading">
+            <Title
+              level={headingLevel}
+              className="testimonial-cards__heading"
+              data-element={`${dataElement}.heading`}
+            >
               {heading}
             </Title>
           )}
@@ -50,7 +54,10 @@ export const TestimonialCards = ({
                 {renderQuote ? (
                   renderQuote(quote, index)
                 ) : (
-                  <Card className="testimonial-card">
+                  <Card
+                    className="testimonial-card"
+                    data-element={`${dataElement}.card-${index}`}
+                  >
                     <Card.Content>
                       <Flex direction="column" gap={16}>
                         {showAvatar && quote.avatar && (
@@ -58,11 +65,15 @@ export const TestimonialCards = ({
                             className="testimonial-card__avatar"
                             size={avatarSize}
                             src={quote.avatarUrl}
+                            data-element={`${dataElement}.card-${index}.avatar`}
                           >
                             {quote.avatar}
                           </Avatar>
                         )}
-                        <Text className="testimonial-card__text">
+                        <Text
+                          className="testimonial-card__text"
+                          data-element={`${dataElement}.card-${index}.text`}
+                        >
                           "{quote.text}"
                         </Text>
                         <Flex direction="column" gap={4}>
@@ -70,6 +81,7 @@ export const TestimonialCards = ({
                             className="testimonial-card__name"
                             weight="bold"
                             size="medium"
+                            data-element={`${dataElement}.card-${index}.author`}
                           >
                             {quote.author}
                           </Text>
@@ -78,6 +90,7 @@ export const TestimonialCards = ({
                               className="testimonial-card__title"
                               size="small"
                               color="#666"
+                              data-element={`${dataElement}.card-${index}.title`}
                             >
                               {quote.title}
                             </Text>

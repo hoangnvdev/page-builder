@@ -1,11 +1,17 @@
-import { resolve } from 'path';
-import { defineConfig } from 'vite';
+import { resolve } from "path";
+import { defineConfig } from "vite";
 
-import react from '@vitejs/plugin-react';
+import react from "@vitejs/plugin-react";
 
 export default defineConfig({
-  plugins: [react()],
-
+  plugins: [
+    react({
+      jsxRuntime: "automatic",
+      babel: {
+        compact: false,
+      },
+    }),
+  ],
   build: {
     target: ["es2020", "edge88", "firefox78", "chrome87", "safari14"],
     lib: {
@@ -15,7 +21,6 @@ export default defineConfig({
       fileName: (format) => `index.${format === "es" ? "mjs" : "js"}`,
     },
     rollupOptions: {
-      // Don't bundle these - they're peer dependencies
       external: [
         "react",
         "react-dom",
@@ -32,6 +37,10 @@ export default defineConfig({
           uuid: "uuid",
         },
       },
+      treeshake: {
+        moduleSideEffects: false,
+        propertyReadSideEffects: false,
+      },
     },
     cssCodeSplit: false,
     cssMinify: true,
@@ -39,5 +48,6 @@ export default defineConfig({
     emptyOutDir: true,
     sourcemap: false,
     minify: "esbuild",
+    reportCompressedSize: false,
   },
 });

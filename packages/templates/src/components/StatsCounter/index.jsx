@@ -3,6 +3,7 @@ import './index.scss';
 import PropTypes from 'prop-types';
 
 import {
+  Card,
   Container,
   Flex,
   Grid,
@@ -12,20 +13,41 @@ import {
 } from '@page-builder/ui';
 
 export const StatsCounter = ({
-  heading,
+  // Section-level title
+  title,
+  titleSize,
+  titleWeight,
+  titleColor,
+
+  // Section-level props
   items,
   stats,
   backgroundColor,
   columns = 4,
-  gap = 30,
+  gap = "30px",
   padding = "80px 20px",
-  headingLevel = 2,
-  valueLevel = 2,
   align = "center",
   maxWidth,
+
+  // Card defaults
+  cardBackgroundColor = "transparent",
+  cardPadding = "20px",
+  cardAlign = "center",
+  cardBorderRadius = "0",
+  cardDropShadow = "none",
+
+  // Card title defaults
+  cardTitleSize = "2.5rem",
+  cardTitleWeight = "700",
+  cardTitleColor = "#FF6B9D",
+
+  // Card content defaults
+  cardContentSize = "1rem",
+  cardContentWeight = "400",
+  cardContentColor = "#2C1810",
+
   dataElement,
   className = "",
-  renderStat,
   ...props
 }) => {
   const data = items || stats || [];
@@ -35,51 +57,101 @@ export const StatsCounter = ({
       className={`stats-counter ${className}`}
       backgroundColor={backgroundColor}
       padding={padding}
-      dataElement={dataElement}
+      data-element={dataElement}
       {...props}
     >
       <Container maxWidth={maxWidth}>
-        <Flex direction="column" gap={gap}>
-          {heading && (
-            <Title level={headingLevel} className="stats-counter__heading">
-              {heading}
+        <Flex direction="column" gap={gap} align={align}>
+          {title && (
+            <Title
+              level={2}
+              className="stats-counter__title"
+              style={{
+                fontSize: titleSize,
+                fontWeight: titleWeight,
+                color: titleColor,
+                margin: 0,
+                marginBottom: gap,
+              }}
+              data-element={`${dataElement}.title`}
+            >
+              {title}
             </Title>
           )}
           <Grid columns={columns} gap={gap}>
-            {data.map((stat, index) => (
-              <Grid.Item key={index}>
-                {renderStat ? (
-                  renderStat(stat, index)
-                ) : (
-                  <Flex
-                    direction="column"
-                    align={align}
-                    gap={8}
+            {data.map((stat, index) => {
+              // Extract title and content with fallbacks
+              const statTitle = stat.title?.text || stat.title || stat.value;
+              const statContent =
+                stat.content?.text || stat.content || stat.label;
+
+              // Get individual overrides or fallback to card defaults
+              const itemBgColor = stat.backgroundColor || cardBackgroundColor;
+              const itemPadding = stat.padding || cardPadding;
+              const itemAlign = stat.align || cardAlign;
+              const itemBorderRadius = stat.borderRadius || cardBorderRadius;
+              const itemDropShadow = stat.dropShadow || cardDropShadow;
+
+              const itemTitleSize = stat.title?.size || cardTitleSize;
+              const itemTitleWeight = stat.title?.weight || cardTitleWeight;
+              const itemTitleColor = stat.title?.color || cardTitleColor;
+
+              const itemContentSize = stat.content?.size || cardContentSize;
+              const itemContentWeight =
+                stat.content?.weight || cardContentWeight;
+              const itemContentColor = stat.content?.color || cardContentColor;
+
+              return (
+                <Grid.Item key={index}>
+                  <Card
                     className="stat-item"
+                    style={{
+                      backgroundColor: itemBgColor,
+                      padding: 0,
+                      borderRadius: itemBorderRadius,
+                      boxShadow:
+                        itemDropShadow !== "none" ? itemDropShadow : "none",
+                      overflow: "visible",
+                    }}
                   >
-                    <Title
-                      level={valueLevel}
-                      className="stat-item__value"
-                      style={{ color: stat.color, margin: 0 }}
+                    <Card.Content
+                      style={{
+                        padding: itemPadding,
+                        textAlign: itemAlign,
+                      }}
+                      data-element={`${dataElement}.items.${index}`}
                     >
-                      {stat.value}
-                    </Title>
-                    <Text
-                      className="stat-item__label"
-                      align={align}
-                      weight="medium"
-                    >
-                      {stat.label}
-                    </Text>
-                    {stat.trend && (
-                      <Text className="stat-item__trend" size="small">
-                        {stat.trend}
-                      </Text>
-                    )}
-                  </Flex>
-                )}
-              </Grid.Item>
-            ))}
+                      <Flex direction="column" gap="8px">
+                        <Title
+                          level={2}
+                          className="stat-item__title"
+                          style={{
+                            fontSize: itemTitleSize,
+                            fontWeight: itemTitleWeight,
+                            color: itemTitleColor,
+                            margin: 0,
+                          }}
+                          data-element={`${dataElement}.items.${index}.title`}
+                        >
+                          {statTitle}
+                        </Title>
+                        <Text
+                          className="stat-item__content"
+                          style={{
+                            fontSize: itemContentSize,
+                            fontWeight: itemContentWeight,
+                            color: itemContentColor,
+                          }}
+                          data-element={`${dataElement}.items.${index}.content`}
+                        >
+                          {statContent}
+                        </Text>
+                      </Flex>
+                    </Card.Content>
+                  </Card>
+                </Grid.Item>
+              );
+            })}
           </Grid>
         </Flex>
       </Container>
@@ -88,23 +160,62 @@ export const StatsCounter = ({
 };
 
 StatsCounter.propTypes = {
-  heading: PropTypes.string,
+  title: PropTypes.string,
+  titleSize: PropTypes.string,
+  titleWeight: PropTypes.string,
+  titleColor: PropTypes.string,
   items: PropTypes.arrayOf(
     PropTypes.shape({
-      value: PropTypes.string.isRequired,
-      label: PropTypes.string.isRequired,
-      color: PropTypes.string,
-      trend: PropTypes.string,
+      title: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.shape({
+          text: PropTypes.string,
+          size: PropTypes.string,
+          weight: PropTypes.string,
+          color: PropTypes.string,
+        }),
+      ]),
+      content: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.shape({
+          text: PropTypes.string,
+          size: PropTypes.string,
+          weight: PropTypes.string,
+          color: PropTypes.string,
+        }),
+      ]),
+      backgroundColor: PropTypes.string,
+      padding: PropTypes.string,
+      align: PropTypes.string,
+      borderRadius: PropTypes.string,
+      dropShadow: PropTypes.string,
     }),
   ),
   stats: PropTypes.arrayOf(
     PropTypes.shape({
-      value: PropTypes.string.isRequired,
-      label: PropTypes.string.isRequired,
+      value: PropTypes.string,
+      label: PropTypes.string,
       color: PropTypes.string,
       trend: PropTypes.string,
     }),
   ),
   backgroundColor: PropTypes.string,
+  columns: PropTypes.number,
+  gap: PropTypes.string,
+  padding: PropTypes.string,
+  align: PropTypes.string,
+  maxWidth: PropTypes.string,
+  cardBackgroundColor: PropTypes.string,
+  cardPadding: PropTypes.string,
+  cardAlign: PropTypes.string,
+  cardBorderRadius: PropTypes.string,
+  cardDropShadow: PropTypes.string,
+  cardTitleSize: PropTypes.string,
+  cardTitleWeight: PropTypes.string,
+  cardTitleColor: PropTypes.string,
+  cardContentSize: PropTypes.string,
+  cardContentWeight: PropTypes.string,
+  cardContentColor: PropTypes.string,
   dataElement: PropTypes.string,
+  className: PropTypes.string,
 };

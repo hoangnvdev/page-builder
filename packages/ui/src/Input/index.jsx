@@ -1,8 +1,9 @@
-import "./index.scss";
+import './index.scss';
 
-import PropTypes from "prop-types";
+import PropTypes from 'prop-types';
 
 export const Input = ({
+  id,
   label,
   value,
   onChange,
@@ -28,12 +29,14 @@ export const Input = ({
   return (
     <div className="input" style={style}>
       {label && (
-        <label className="input__label">
+        <label className="input__label" htmlFor={id}>
           {label}
           {required && <span className="input__required">*</span>}
         </label>
       )}
       <input
+        id={id}
+        name={id}
         type={type}
         value={value}
         onChange={(e) => onChange(e.target.value)}
@@ -51,6 +54,7 @@ export const Input = ({
 };
 
 Input.propTypes = {
+  id: PropTypes.string,
   label: PropTypes.string,
   value: PropTypes.string,
   onChange: PropTypes.func.isRequired,

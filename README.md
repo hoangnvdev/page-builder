@@ -141,9 +141,9 @@ This project is optimized for deployment on Netlify with:
 - Asset optimization and code splitting
 - Security headers and caching rules
 
-See [DEPLOYMENT.md](DEPLOYMENxT.md) for detailed deployment instructions.
+See [DEPLOYMENT.md](DEPLOYMENT.md) for detailed deployment instructions.
 
-### CI/CDx
+### CI/CD
 
 GitHub Actions automatically:
 

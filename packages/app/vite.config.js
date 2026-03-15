@@ -1,10 +1,17 @@
-import path from 'path';
-import { defineConfig } from 'vite';
+import path from "path";
+import { defineConfig } from "vite";
 
-import react from '@vitejs/plugin-react';
+import react from "@vitejs/plugin-react";
 
 export default defineConfig({
-  plugins: [react()],
+  plugins: [
+    react({
+      jsxRuntime: "automatic",
+      babel: {
+        compact: false,
+      },
+    }),
+  ],
 
   resolve: {
     alias: {
@@ -17,6 +24,9 @@ export default defineConfig({
   server: {
     port: 3000,
     open: true,
+    hmr: {
+      overlay: true,
+    },
   },
 
   build: {
@@ -27,19 +37,30 @@ export default defineConfig({
     chunkSizeWarningLimit: 1000,
     cssCodeSplit: true,
     assetsInlineLimit: 4096,
+    reportCompressedSize: false,
 
     rollupOptions: {
       output: {
-        manualChunks: {
-          "react-vendor": [
-            "react",
-            "react-dom",
-            "react-redux",
-            "react-router-dom",
-          ],
-          "redux-vendor": ["@reduxjs/toolkit"],
-          "form-vendor": ["formik"],
-          "icons-vendor": ["lucide-react"],
+        manualChunks: (id) => {
+          if (id.includes("node_modules")) {
+            if (
+              id.includes("react") ||
+              id.includes("react-dom") ||
+              id.includes("react-redux") ||
+              id.includes("react-router-dom")
+            ) {
+              return "react-vendor";
+            }
+            if (id.includes("@reduxjs/toolkit")) {
+              return "redux-vendor";
+            }
+            if (id.includes("formik")) {
+              return "form-vendor";
+            }
+            if (id.includes("lucide-react")) {
+              return "icons-vendor";
+            }
+          }
         },
         assetFileNames: (assetInfo) => {
           const name = assetInfo.names?.[0] || assetInfo.name;
@@ -56,6 +77,10 @@ export default defineConfig({
         },
         chunkFileNames: "assets/js/[name]-[hash].js",
         entryFileNames: "assets/js/[name]-[hash].js",
+      },
+      treeshake: {
+        moduleSideEffects: false,
+        propertyReadSideEffects: false,
       },
     },
   },

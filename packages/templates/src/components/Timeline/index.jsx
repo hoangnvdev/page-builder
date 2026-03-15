@@ -43,7 +43,11 @@ export const Timeline = ({
       <Container maxWidth={maxWidth}>
         <Flex direction="column" gap={itemGap}>
           {heading && (
-            <Title level={headingLevel} className="timeline__heading">
+            <Title
+              level={headingLevel}
+              className="timeline__heading"
+              data-element={`${dataElement}.heading`}
+            >
               {heading}
             </Title>
           )}
@@ -74,6 +78,7 @@ export const Timeline = ({
                     borderRadius: "50%",
                     backgroundColor: item.dotColor || dotColor,
                   }}
+                  data-element={`${dataElement}.item-${index}.dot`}
                 />
                 {renderItem ? (
                   renderItem(item, index)
@@ -88,19 +93,28 @@ export const Timeline = ({
                       weight="bold"
                       size="small"
                       color="#666"
+                      data-element={`${dataElement}.item-${index}.date`}
                     >
                       {item.year || item.quarter || item.date}
                     </Text>
-                    <Title level={titleLevel} className="timeline__title">
+                    <Title
+                      level={titleLevel}
+                      className="timeline__title"
+                      data-element={`${dataElement}.item-${index}.title`}
+                    >
                       {item.title}
                     </Title>
-                    <Text className="timeline__description">
+                    <Text
+                      className="timeline__description"
+                      data-element={`${dataElement}.item-${index}.description`}
+                    >
                       {item.description}
                     </Text>
                     {item.status && (
                       <Badge
                         className={`timeline__status timeline__status--${item.status}`}
                         variant="primary"
+                        data-element={`${dataElement}.item-${index}.status`}
                       >
                         {item.status}
                       </Badge>

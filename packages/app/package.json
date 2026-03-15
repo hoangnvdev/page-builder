@@ -9,8 +9,8 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@page-builder/ui": "workspace:*",
     "@page-builder/templates": "workspace:*",
+    "@page-builder/ui": "workspace:*",
     "@reduxjs/toolkit": "^2.11.2",
     "formik": "^2.4.9",
     "lucide-react": "^0.344.0",
@@ -22,9 +22,9 @@
     "uuid": "^9.0.0"
   },
   "devDependencies": {
-    "@vitejs/plugin-react": "^4.2.1",
-    "sass": "^1.80.0",
+    "@vitejs/plugin-react": "^6.0.1",
+    "sass": "^1.98.0",
     "terser": "^5.36.0",
-    "vite": "^5.1.0"
+    "vite": "^8.0.0"
   }
 }

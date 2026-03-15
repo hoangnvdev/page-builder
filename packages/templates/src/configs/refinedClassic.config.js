@@ -1,3 +1,28 @@
+import {
+  alignOptions,
+  buttonSizeOptions,
+  cardContentSchema,
+  cardSchema,
+  cardTitleSchema,
+  color,
+  contentMaxWidthOptions,
+  fontFamilyOptions,
+  footerPaddingOptions,
+  footerTextSizeOptions,
+  gapOptions,
+  headingSchema,
+  headingSizeOptions,
+  languageOptions,
+  sectionPaddingOptions,
+  sectionSchema,
+  slider,
+  text,
+  textarea,
+  textDecorationOptions,
+  textSizeOptions,
+  weightOptions,
+} from "../utils/index.js";
+
 export const refinedClassicConfig = {
   id: "refined-classic",
   name: "Refined Classic",
@@ -7,356 +32,190 @@ export const refinedClassicConfig = {
 
   layout: ["hero", "about", "features", "cta", "footer"],
 
-  editableFields: [
-    // Page Settings
-    {
-      id: "page.fontFamily",
-      label: "Font Family",
-      type: "select",
-      options: [
-        { value: 'Garamond, "Times New Roman", serif', label: "Garamond" },
-        { value: '"Playfair Display", Georgia, serif', label: "Playfair" },
-        { value: '"Cormorant Garamond", serif', label: "Cormorant" },
-        {
-          value: '"Helvetica Neue", Helvetica, sans-serif',
-          label: "Helvetica",
-        },
-        { value: '"Roboto Mono", monospace', label: "Roboto Mono" },
-        { value: '"Inter", sans-serif', label: "Inter" },
-      ],
-    },
-    { id: "page.backgroundColor", label: "Page Background", type: "color" },
-    { id: "page.textColor", label: "Page Text Color", type: "color" },
-
-    // ===== HERO =====
-    // Content
-    { id: "elements.hero.title", label: "Title", type: "text" },
-    { id: "elements.hero.subtitle", label: "Subtitle", type: "textarea" },
-    { id: "elements.hero.buttonText", label: "Button Text", type: "text" },
-
-    // Colors
-    {
-      id: "elements.hero.backgroundColor",
-      label: "Background Color",
-      type: "color",
-    },
-    {
-      id: "elements.hero.gradientStart",
-      label: "Gradient Start (optional)",
-      type: "color",
-    },
-    {
-      id: "elements.hero.gradientEnd",
-      label: "Gradient End (optional)",
-      type: "color",
-    },
-    {
-      id: "elements.hero.gradientAngle",
-      label: "Gradient Angle",
-      type: "text",
-    },
-    { id: "elements.hero.titleColor", label: "Title Color", type: "color" },
-    {
-      id: "elements.hero.subtitleColor",
-      label: "Subtitle Color",
-      type: "color",
-    },
-    { id: "elements.hero.buttonColor", label: "Button Color", type: "color" },
-    {
-      id: "elements.hero.buttonTextColor",
-      label: "Button Text Color",
-      type: "color",
-    },
-
-    // Layout
-    { id: "elements.hero.padding", label: "Padding", type: "text" },
-    {
-      id: "elements.hero.gap",
-      label: "Gap",
-      type: "slider",
-      options: { min: 8, max: 80, step: 4 },
-    },
-    { id: "elements.hero.maxWidth", label: "Max Width", type: "text" },
-    {
-      id: "elements.hero.align",
-      label: "Alignment",
-      type: "select",
-      options: [
-        { value: "flex-start", label: "Left" },
-        { value: "center", label: "Center" },
-        { value: "flex-end", label: "Right" },
-      ],
-    },
-    {
-      id: "elements.hero.titleLevel",
-      label: "Title Heading Level",
-      type: "select",
-      options: [
-        { value: "1", label: "H1" },
-        { value: "2", label: "H2" },
-        { value: "3", label: "H3" },
-      ],
-    },
-    {
-      id: "elements.hero.buttonSize",
-      label: "Button Size",
-      type: "select",
-      options: [
-        { value: "small", label: "Small" },
-        { value: "medium", label: "Medium" },
-        { value: "large", label: "Large" },
-      ],
-    },
-
-    // ===== ABOUT =====
-    { id: "elements.about.heading", label: "Heading", type: "text" },
-    { id: "elements.about.content", label: "Content", type: "textarea" },
-    {
-      id: "elements.about.backgroundColor",
-      label: "Background Color",
-      type: "color",
-    },
-    {
-      id: "elements.about.headingColor",
-      label: "Heading Color",
-      type: "color",
-    },
-    { id: "elements.about.textColor", label: "Text Color", type: "color" },
-    { id: "elements.about.padding", label: "Padding", type: "text" },
-    {
-      id: "elements.about.gap",
-      label: "Gap",
-      type: "slider",
-      options: { min: 8, max: 80, step: 4 },
-    },
-    { id: "elements.about.maxWidth", label: "Max Width", type: "text" },
-    {
-      id: "elements.about.align",
-      label: "Alignment",
-      type: "select",
-      options: [
-        { value: "flex-start", label: "Left" },
-        { value: "center", label: "Center" },
-        { value: "flex-end", label: "Right" },
-      ],
-    },
-    {
-      id: "elements.about.headingLevel",
-      label: "Heading Level",
-      type: "select",
-      options: [
-        { value: "1", label: "H1" },
-        { value: "2", label: "H2" },
-        { value: "3", label: "H3" },
-      ],
-    },
-
-    // ===== FEATURES =====
-    { id: "elements.features.heading", label: "Heading", type: "text" },
-    {
-      id: "elements.features.items",
-      label: "Features List",
-      type: "features-list",
-    },
-    {
-      id: "elements.features.backgroundColor",
-      label: "Background Color",
-      type: "color",
-    },
-    {
-      id: "elements.features.headingColor",
-      label: "Heading Color",
-      type: "color",
-    },
-    {
-      id: "elements.features.itemTitleColor",
-      label: "Feature Title Color",
-      type: "color",
-    },
-    {
-      id: "elements.features.itemTextColor",
-      label: "Feature Text Color",
-      type: "color",
-    },
-    { id: "elements.features.padding", label: "Padding", type: "text" },
-    {
-      id: "elements.features.gap",
-      label: "Gap",
-      type: "slider",
-      options: { min: 8, max: 80, step: 4 },
-    },
-    {
-      id: "elements.features.maxWidth",
-      label: "Max Width",
-      type: "select",
-      options: [
-        { value: "1200px", label: "1200px" },
-        { value: "1400px", label: "1400px" },
-        { value: "100%", label: "Full width" },
-      ],
-    },
-    {
-      id: "elements.features.columns",
-      label: "Columns",
-      type: "slider",
-      options: { min: 1, max: 4, step: 1 },
-    },
-    {
-      id: "elements.features.headingLevel",
-      label: "Heading Level",
-      type: "select",
-      options: [
-        { value: "1", label: "H1" },
-        { value: "2", label: "H2" },
-        { value: "3", label: "H3" },
-      ],
-    },
-    {
-      id: "elements.features.headingAlign",
-      label: "Heading Alignment",
-      type: "select",
-      options: [
-        { value: "flex-start", label: "Left" },
-        { value: "center", label: "Center" },
-        { value: "flex-end", label: "Right" },
-      ],
-    },
-
-    // ===== CTA =====
-    { id: "elements.cta.heading", label: "Heading", type: "text" },
-    { id: "elements.cta.subheading", label: "Subheading", type: "text" },
-    { id: "elements.cta.buttonText", label: "Button Text", type: "text" },
-    {
-      id: "elements.cta.backgroundColor",
-      label: "Background Color",
-      type: "color",
-    },
-    { id: "elements.cta.textColor", label: "Text Color", type: "color" },
-    { id: "elements.cta.buttonColor", label: "Button Color", type: "color" },
-    {
-      id: "elements.cta.buttonTextColor",
-      label: "Button Text Color",
-      type: "color",
-    },
-    { id: "elements.cta.padding", label: "Padding", type: "text" },
-    {
-      id: "elements.cta.gap",
-      label: "Gap",
-      type: "slider",
-      options: { min: 8, max: 80, step: 4 },
-    },
-    { id: "elements.cta.maxWidth", label: "Max Width", type: "text" },
-    {
-      id: "elements.cta.align",
-      label: "Alignment",
-      type: "select",
-      options: [
-        { value: "flex-start", label: "Left" },
-        { value: "center", label: "Center" },
-        { value: "flex-end", label: "Right" },
-      ],
-    },
-    {
-      id: "elements.cta.titleLevel",
-      label: "Heading Level",
-      type: "select",
-      options: [
-        { value: "1", label: "H1" },
-        { value: "2", label: "H2" },
-        { value: "3", label: "H3" },
-      ],
-    },
-    {
-      id: "elements.cta.buttonSize",
-      label: "Button Size",
-      type: "select",
-      options: [
-        { value: "small", label: "Small" },
-        { value: "medium", label: "Medium" },
-        { value: "large", label: "Large" },
-      ],
-    },
-
-    // ===== FOOTER =====
-    { id: "elements.footer.text", label: "Footer Text", type: "text" },
-    {
-      id: "elements.footer.backgroundColor",
-      label: "Background Color",
-      type: "color",
-    },
-    { id: "elements.footer.textColor", label: "Text Color", type: "color" },
-    { id: "elements.footer.padding", label: "Padding", type: "text" },
-    {
-      id: "elements.footer.align",
-      label: "Alignment",
-      type: "select",
-      options: [
-        { value: "flex-start", label: "Left" },
-        { value: "center", label: "Center" },
-        { value: "flex-end", label: "Right" },
-      ],
-    },
-  ],
-
   configSchema: {
     page: {
       fontFamily: {
         type: "select",
         label: "Font Family",
-        options: [
-          { value: 'Garamond, "Times New Roman", serif', label: "Garamond" },
-          { value: '"Playfair Display", Georgia, serif', label: "Playfair" },
-          { value: '"Cormorant Garamond", serif', label: "Cormorant" },
-          {
-            value: '"Helvetica Neue", Helvetica, sans-serif',
-            label: "Helvetica",
-          },
-          { value: '"Roboto Mono", monospace', label: "Roboto Mono" },
-          { value: '"Inter", sans-serif', label: "Inter" },
-        ],
+        options: fontFamilyOptions,
       },
-      backgroundColor: { type: "color", label: "Page Background" },
-      textColor: { type: "color", label: "Page Text Color" },
+      title: text("Page Title (Browser Tab)"),
+      description: textarea("Meta Description (SEO)"),
+      keywords: text("Meta Keywords (comma-separated)"),
+      author: text("Author"),
+      language: {
+        type: "select",
+        label: "Language",
+        options: languageOptions,
+      },
     },
     elements: {
       hero: {
-        title: { type: "text", label: "Hero Title" },
-        subtitle: { type: "textarea", label: "Hero Subtitle" },
-        buttonText: { type: "text", label: "Button Text" },
-        backgroundColor: { type: "color", label: "Background Color" },
-        titleColor: { type: "color", label: "Title Color" },
-        subtitleColor: { type: "color", label: "Subtitle Color" },
-        buttonColor: { type: "color", label: "Button Color" },
-        buttonTextColor: { type: "color", label: "Button Text Color" },
+        ...sectionSchema(),
+        maxWidth: {
+          type: "select",
+          label: "Max Width",
+          options: [
+            { value: "800px", label: "Medium" },
+            { value: "900px", label: "Large" },
+            { value: "1200px", label: "Extra Large" },
+            { value: "100%", label: "Full" },
+          ],
+        },
+        title: {
+          text: text("Title"),
+          color: color("Title Color"),
+          size: {
+            type: "select",
+            label: "Title Size",
+            options: headingSizeOptions,
+          },
+        },
+        subtitle: {
+          text: textarea("Subtitle"),
+          color: color("Subtitle Color"),
+          size: {
+            type: "select",
+            label: "Subtitle Size",
+            options: textSizeOptions,
+          },
+        },
+        button: {
+          text: text("Button Text"),
+          color: color("Button Background Color"),
+          textColor: color("Button Text Color"),
+          size: {
+            type: "select",
+            label: "Button Size",
+            options: buttonSizeOptions,
+          },
+        },
       },
       about: {
-        heading: { type: "text", label: "Heading" },
-        content: { type: "textarea", label: "Content" },
-        backgroundColor: { type: "color", label: "Background Color" },
-        headingColor: { type: "color", label: "Heading Color" },
-        textColor: { type: "color", label: "Text Color" },
+        ...sectionSchema(),
+        heading: headingSchema(),
+        content: {
+          text: textarea("Content"),
+          color: color("Text Color"),
+          maxWidth: {
+            type: "select",
+            label: "Max Width",
+            options: contentMaxWidthOptions,
+          },
+          align: {
+            type: "select",
+            label: "Text Alignment",
+            options: alignOptions,
+          },
+        },
       },
       features: {
-        heading: { type: "text", label: "Section Heading" },
-        backgroundColor: { type: "color", label: "Background Color" },
-        headingColor: { type: "color", label: "Heading Color" },
-        itemTitleColor: { type: "color", label: "Feature Title Color" },
-        itemTextColor: { type: "color", label: "Feature Text Color" },
-        items: { type: "features-list", label: "Features" },
+        ...sectionSchema(),
+        columns: slider("Columns", 1, 4),
+        gap: {
+          type: "select",
+          label: "Gap Between Cards",
+          options: gapOptions,
+        },
+        heading: headingSchema(),
+        card: {
+          ...cardSchema(),
+          title: cardTitleSchema(),
+          content: cardContentSchema(),
+        },
+        items: {
+          type: "array",
+          label: "Features",
+          icon: text("Icon"),
+          title: {
+            text: text("Title"),
+          },
+          content: {
+            text: textarea("Description"),
+          },
+        },
       },
       cta: {
-        heading: { type: "text", label: "Heading" },
-        subheading: { type: "text", label: "Subheading" },
-        buttonText: { type: "text", label: "Button Text" },
-        backgroundColor: { type: "color", label: "Background Color" },
-        textColor: { type: "color", label: "Text Color" },
-        buttonColor: { type: "color", label: "Button Color" },
-        buttonTextColor: { type: "color", label: "Button Text Color" },
+        label: "Call To Action",
+        title: {
+          text: text("Title"),
+          size: {
+            type: "select",
+            label: "Title Size",
+            options: headingSizeOptions,
+          },
+          weight: {
+            type: "select",
+            label: "Title Weight",
+            options: weightOptions,
+          },
+          color: color("Title Color"),
+        },
+        subtitle: {
+          text: textarea("Subtitle"),
+          size: {
+            type: "select",
+            label: "Subtitle Size",
+            options: textSizeOptions,
+          },
+          color: color("Subtitle Color"),
+        },
+        button: {
+          text: text("Button Text"),
+          url: text("Button URL"),
+          color: color("Button Background Color"),
+          textColor: color("Button Text Color"),
+          size: {
+            type: "select",
+            label: "Button Size",
+            options: buttonSizeOptions,
+          },
+        },
+        backgroundColor: color("Background Color"),
+        padding: {
+          type: "select",
+          label: "Padding",
+          options: sectionPaddingOptions,
+        },
+        maxWidth: {
+          type: "select",
+          label: "Max Width",
+          options: [
+            { value: "600px", label: "Small" },
+            { value: "750px", label: "Medium" },
+            { value: "900px", label: "Large" },
+            { value: "100%", label: "Full" },
+          ],
+        },
+        align: { type: "select", label: "Alignment", options: alignOptions },
       },
       footer: {
-        text: { type: "text", label: "Footer Text" },
-        backgroundColor: { type: "color", label: "Background Color" },
-        textColor: { type: "color", label: "Text Color" },
+        text: {
+          text: text("Text"),
+          size: {
+            type: "select",
+            label: "Text Size",
+            options: footerTextSizeOptions,
+          },
+          weight: {
+            type: "select",
+            label: "Text Weight",
+            options: weightOptions,
+          },
+          decoration: {
+            type: "select",
+            label: "Text Decoration",
+            options: textDecorationOptions,
+          },
+          color: color("Text Color"),
+        },
+        backgroundColor: color("Background Color"),
+        padding: {
+          type: "select",
+          label: "Padding",
+          options: footerPaddingOptions,
+        },
+        align: { type: "select", label: "Alignment", options: alignOptions },
       },
     },
   },
@@ -364,98 +223,147 @@ export const refinedClassicConfig = {
   defaultConfig: {
     page: {
       fontFamily: 'Garamond, "Times New Roman", serif',
-      backgroundColor: "#FAF8F3",
-      textColor: "#2B2B2B",
+      title: "Refined Classic - Timeless Elegance",
+      description:
+        "Experience classical sophistication with modern precision. A timeless design for those who appreciate heritage craftsmanship and elegance.",
+      keywords: "classic, elegant, sophisticated, timeless, premium, luxury",
+      author: "",
+      language: "en",
     },
     elements: {
       hero: {
-        title: "Refined Excellence\nTimeless Distinction",
-        subtitle:
-          "Where classical sophistication meets contemporary precision. A harmonious blend of heritage craftsmanship and modern design principles, crafted for those who appreciate true quality.",
-        buttonText: "Discover More",
         backgroundColor: "#8B7355",
-        gradientStart: "",
-        gradientEnd: "",
-        gradientAngle: "135deg",
-        titleColor: "#FAF8F3",
-        subtitleColor: "#F5F1E8",
-        buttonColor: "#D4AF37",
-        buttonTextColor: "#2B2B2B",
-        padding: "120px 20px",
-        gap: 28,
+        padding: "120px 24px",
         maxWidth: "900px",
         align: "center",
-        titleLevel: 1,
-        buttonSize: "large",
+        title: {
+          text: "Refined Excellence\nTimeless Distinction",
+          color: "#FAF8F3",
+          size: "3rem",
+        },
+        subtitle: {
+          text: "Where classical sophistication meets contemporary precision. A harmonious blend of heritage craftsmanship and modern design principles, crafted for those who appreciate true quality.",
+          color: "#F5F1E8",
+          size: "1.125rem",
+        },
+        button: {
+          text: "Discover More",
+          color: "#D4AF37",
+          textColor: "#2B2B2B",
+          size: "medium",
+        },
       },
       about: {
-        heading: "Philosophy & Heritage",
-        content:
-          "Our approach marries time-honored traditions with bold contemporary thinking. We believe in the power of grid-based design, where every element has purpose and every space carries meaning. Through meticulous attention to typography, proportion, and negative space, we create experiences that feel both classic and unmistakably modern. This is design at its most refined—stripped of excess, rich in substance.",
         backgroundColor: "#FFFFFF",
-        headingColor: "#8B7355",
-        textColor: "#2B2B2B",
-        padding: "100px 20px",
-        gap: 24,
-        maxWidth: "850px",
-        align: "flex-start",
-        headingLevel: 2,
+        padding: "80px 24px",
+        maxWidth: "900px",
+        align: "center",
+        heading: {
+          text: "Philosophy & Heritage",
+          color: "#8B7355",
+          size: "2.5rem",
+          weight: "600",
+        },
+        content: {
+          text: "Our approach marries time-honored traditions with bold contemporary thinking. We believe in the power of grid-based design, where every element has purpose and every space carries meaning. Through meticulous attention to typography, proportion, and negative space, we create experiences that feel both classic and unmistakably modern. This is design at its most refined—stripped of excess, rich in substance.",
+          color: "#2B2B2B",
+          maxWidth: "800px",
+          align: "flex-start",
+        },
       },
       features: {
-        heading: "Pillars of Excellence",
         backgroundColor: "#F5F1E8",
-        headingColor: "#2B2B2B",
-        itemTitleColor: "#8B7355",
-        itemTextColor: "#5A5A5A",
-        padding: "100px 20px",
-        gap: 50,
+        padding: "80px 24px",
         maxWidth: "1200px",
+        align: "center",
         columns: 3,
-        headingLevel: 2,
-        headingAlign: "center",
+        gap: "32px",
+        heading: {
+          text: "Pillars of Excellence",
+          color: "#2B2B2B",
+          size: "2.5rem",
+          weight: "600",
+        },
+        card: {
+          backgroundColor: "transparent",
+          padding: "24px",
+          align: "center",
+          borderRadius: "0px",
+          dropShadow: "none",
+          title: {
+            color: "#2B2B2B",
+            size: "1.5rem",
+            weight: "600",
+          },
+          content: {
+            color: "#2B2B2B",
+            size: "1rem",
+          },
+        },
         items: [
           {
             icon: "◆",
-            title: "Artisan Craftsmanship",
-            description:
-              "Handcrafted with precision, guided by generations of expertise",
+            title: {
+              text: "Artisan Craftsmanship",
+            },
+            content: {
+              text: "Handcrafted with precision, guided by generations of expertise",
+            },
           },
           {
             icon: "▭",
-            title: "Systematic Design",
-            description:
-              "Grid-based layouts ensuring mathematical harmony and balance",
+            title: {
+              text: "Systematic Design",
+            },
+            content: {
+              text: "Grid-based layouts ensuring mathematical harmony and balance",
+            },
           },
           {
             icon: "◆",
-            title: "Premium Materials",
-            description:
-              "Only the finest components, sourced with uncompromising standards",
+            title: {
+              text: "Premium Materials",
+            },
+            content: {
+              text: "Only the finest components, sourced with uncompromising standards",
+            },
           },
         ],
       },
       cta: {
-        heading: "Begin Your Journey",
-        subheading:
-          "Experience the perfect union of classical refinement and contemporary precision",
-        buttonText: "Request Consultation",
         backgroundColor: "#2B2B2B",
-        textColor: "#FAF8F3",
-        buttonColor: "#D4AF37",
-        buttonTextColor: "#2B2B2B",
-        padding: "100px 20px",
-        gap: 24,
+        padding: "80px 24px",
         maxWidth: "750px",
         align: "center",
-        titleLevel: 2,
-        buttonSize: "large",
+        title: {
+          text: "Begin Your Journey",
+          size: "2.5rem",
+          weight: "600",
+          color: "#FAF8F3",
+        },
+        subtitle: {
+          text: "Experience the perfect union of classical refinement and contemporary precision",
+          size: "1.125rem",
+          color: "#FAF8F3",
+        },
+        button: {
+          text: "Request Consultation",
+          url: "#contact",
+          color: "#D4AF37",
+          textColor: "#2B2B2B",
+          size: "medium",
+        },
       },
       footer: {
-        text: "© MMXXVI • Heritage Since 1895 • A Legacy of Distinction",
         backgroundColor: "#8B7355",
-        textColor: "#FAF8F3",
-        padding: "40px 20px",
+        padding: "40px",
         align: "center",
+        text: {
+          text: "© MMXXVI • Heritage Since 1895 • A Legacy of Distinction",
+          size: "0.875rem",
+          weight: "400",
+          color: "#FAF8F3",
+        },
       },
     },
   },

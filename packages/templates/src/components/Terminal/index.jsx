@@ -41,6 +41,7 @@ export const Terminal = ({
               level={headingLevel}
               className="terminal__heading"
               style={{ color: promptColor }}
+              data-element={`${dataElement}.heading`}
             >
               {heading}
             </Title>
@@ -48,6 +49,7 @@ export const Terminal = ({
           <div
             className="terminal__window"
             style={{ backgroundColor: windowBgColor }}
+            data-element={`${dataElement}.window`}
           >
             {showHeader && (
               <Flex
@@ -71,6 +73,7 @@ export const Terminal = ({
                   <Text
                     className="terminal__prompt"
                     style={{ color: promptColor, fontFamily: "monospace" }}
+                    data-element={`${dataElement}.command-${index}.prompt`}
                   >
                     {cmd.prompt}
                   </Text>
@@ -78,6 +81,7 @@ export const Terminal = ({
                     <Text
                       className="terminal__response"
                       style={{ color: responseColor, fontFamily: "monospace" }}
+                      data-element={`${dataElement}.command-${index}.response`}
                     >
                       {cmd.response}
                     </Text>

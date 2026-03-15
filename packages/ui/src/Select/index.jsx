@@ -1,8 +1,9 @@
-import "./index.scss";
+import './index.scss';
 
-import PropTypes from "prop-types";
+import PropTypes from 'prop-types';
 
 export const Select = ({
+  id,
   label,
   value,
   onChange,
@@ -28,12 +29,14 @@ export const Select = ({
   return (
     <div className="select" style={style}>
       {label && (
-        <label className="select__label">
+        <label className="select__label" htmlFor={id}>
           {label}
           {required && <span className="select__required">*</span>}
         </label>
       )}
       <select
+        id={id}
+        name={id}
         value={value}
         onChange={(e) => onChange(e.target.value)}
         disabled={disabled}
@@ -60,6 +63,7 @@ export const Select = ({
 };
 
 Select.propTypes = {
+  id: PropTypes.string,
   label: PropTypes.string,
   value: PropTypes.string,
   onChange: PropTypes.func.isRequired,

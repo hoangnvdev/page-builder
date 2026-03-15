@@ -30,17 +30,16 @@ export const Marquee = ({
       padding={padding}
       {...props}
     >
-      <div
-        className="marquee__track"
-        style={{
-          animationDuration: speed,
-        }}
-      >
+      <div className="marquee__track">
         <Text
           className="marquee__content"
-          style={{ color: textColor }}
+          style={{
+            color: textColor,
+            animationDuration: speed,
+          }}
           weight={textWeight}
           size={textSize}
+          data-element={`${dataElement}.text`}
         >
           {repeatedText}
         </Text>
