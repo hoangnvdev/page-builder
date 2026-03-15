@@ -43,7 +43,10 @@ export default defineConfig({
         },
       },
       treeshake: {
-        moduleSideEffects: false,
+        moduleSideEffects: (id) => {
+          // Preserve side effects for CSS/SCSS imports
+          return id.endsWith(".css") || id.endsWith(".scss");
+        },
         propertyReadSideEffects: false,
       },
     },

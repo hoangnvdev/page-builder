@@ -36,9 +36,18 @@ export default defineConfig({
           "prop-types": "PropTypes",
           uuid: "uuid",
         },
+        assetFileNames: (assetInfo) => {
+          if (assetInfo.name?.endsWith(".css")) {
+            return "templates.css";
+          }
+          return "[name].[ext]";
+        },
       },
       treeshake: {
-        moduleSideEffects: false,
+        moduleSideEffects: (id) => {
+          // Preserve side effects for CSS/SCSS imports
+          return id.endsWith(".css") || id.endsWith(".scss");
+        },
         propertyReadSideEffects: false,
       },
     },

@@ -88,7 +88,7 @@ import {
   futuristicTechConfig,
   refinedClassicConfig,
 } from "@page-builder/templates";
-import "@page-builder/templates/dist/style.css";
+import "@page-builder/templates/styles";
 
 // Render a template using the dynamic renderer
 function Page() {
