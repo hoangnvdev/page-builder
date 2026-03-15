@@ -4,6 +4,10 @@
   "private": true,
   "packageManager": "pnpm@10.22.0",
   "description": "Page Builder monorepo - UI components, templates, and application",
+  "engines": {
+    "node": ">=20.19.0",
+    "pnpm": ">=10.0.0"
+  },
   "scripts": {
     "dev": "pnpm -r --parallel dev",
     "build": "pnpm -r build",

@@ -13,6 +13,17 @@ A modern, high-performance browser-based page builder for creating and exporting
 - 🧩 **Component System** - Extensive template component library with 18+ reusable sections
 - 🎭 **Config-Driven** - Templates defined by data, not hardcoded layouts
 
+## Prerequisites
+
+- **Node.js** 20.19+ or 22.12+ (required for Vite 8)
+- **pnpm** 10.0+ (package manager)
+
+You can use [nvm](https://github.com/nvm-sh/nvm) to manage Node.js versions:
+
+```bash
+nvm use
+```
+
 ## Quick Start
 
 ```bash
