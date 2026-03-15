@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 
 import { Page } from '@page-builder/ui';
 
-import { getComponentForElement } from '../registries/componentRegistry';
+import { getComponentForElement } from '../../registries/componentRegistry';
 
 export const DynamicRenderer = ({ templateConfig, config }) => {
   const { page, elements } = config;
@@ -14,11 +14,7 @@ export const DynamicRenderer = ({ templateConfig, config }) => {
   }
 
   return (
-    <Page
-      fontFamily={page.fontFamily}
-      backgroundColor={page.backgroundColor}
-      textColor={page.textColor}
-    >
+    <Page fontFamily={page.fontFamily}>
       {layout.map((elementKey, index) => {
         const elementConfig = elements[elementKey];
 

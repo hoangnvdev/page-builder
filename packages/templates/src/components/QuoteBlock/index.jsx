@@ -44,6 +44,7 @@ export const QuoteBlock = ({
             align="center"
             className="quote-block__quote"
             style={{ color: quoteColor, maxWidth }}
+            data-element={`${dataElement}.quote`}
           >
             "{quote}"
           </Text>
@@ -60,6 +61,7 @@ export const QuoteBlock = ({
               className="quote-block__author"
               weight="medium"
               style={{ color: quoteColor }}
+              data-element={`${dataElement}.author`}
             >
               {author}
             </Text>

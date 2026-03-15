@@ -1,10 +1,17 @@
-import { resolve } from 'path';
-import { defineConfig } from 'vite';
+import { resolve } from "path";
+import { defineConfig } from "vite";
 
-import react from '@vitejs/plugin-react';
+import react from "@vitejs/plugin-react";
 
 export default defineConfig({
-  plugins: [react()],
+  plugins: [
+    react({
+      jsxRuntime: "automatic",
+      babel: {
+        compact: false,
+      },
+    }),
+  ],
   build: {
     target: ["es2020", "edge88", "firefox78", "chrome87", "safari14"],
     lib: {
@@ -14,7 +21,6 @@ export default defineConfig({
       fileName: (format) => `index.${format === "es" ? "mjs" : "js"}`,
     },
     rollupOptions: {
-      // Only externalize React - bundle everything else
       external: (id) => {
         return (
           id === "react" ||
@@ -29,13 +35,16 @@ export default defineConfig({
           react: "React",
           "react-dom": "ReactDOM",
         },
-        // Bundle CSS to single file
         assetFileNames: (assetInfo) => {
           if (assetInfo.name?.endsWith(".css")) {
             return "style.css";
           }
           return "[name].[ext]";
         },
+      },
+      treeshake: {
+        moduleSideEffects: false,
+        propertyReadSideEffects: false,
       },
     },
     cssCodeSplit: false,
@@ -44,6 +53,7 @@ export default defineConfig({
     emptyOutDir: true,
     sourcemap: false,
     minify: "esbuild",
+    reportCompressedSize: false,
   },
   css: {
     preprocessorOptions: {

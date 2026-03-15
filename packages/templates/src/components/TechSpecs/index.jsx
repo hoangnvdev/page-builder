@@ -37,7 +37,11 @@ export const TechSpecs = ({
       <Container maxWidth={maxWidth}>
         <Flex direction="column" gap={24}>
           {heading && (
-            <Title level={headingLevel} className="tech-specs__heading">
+            <Title
+              level={headingLevel}
+              className="tech-specs__heading"
+              data-element={`${dataElement}.heading`}
+            >
               {heading}
             </Title>
           )}
@@ -52,10 +56,19 @@ export const TechSpecs = ({
                     justify="space-between"
                     style={{ padding: rowPadding }}
                   >
-                    <Text className="tech-specs__category" weight="medium">
+                    <Text
+                      className="tech-specs__category"
+                      weight="medium"
+                      data-element={`${dataElement}.spec-${index}.category`}
+                    >
                       {spec.category}
                     </Text>
-                    <Text className="tech-specs__value">{spec.value}</Text>
+                    <Text
+                      className="tech-specs__value"
+                      data-element={`${dataElement}.spec-${index}.value`}
+                    >
+                      {spec.value}
+                    </Text>
                   </Flex>
                 )}
                 {showDividers && index < specs.length - 1 && (

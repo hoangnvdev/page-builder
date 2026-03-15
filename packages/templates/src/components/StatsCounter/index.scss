@@ -2,6 +2,7 @@
   padding: 4rem 0;
 
   .stat-item {
+    overflow: visible;
     text-align: center;
     padding: 2rem 1rem;
     border-radius: 8px;
@@ -14,6 +15,20 @@
     &:hover {
       transform: translateY(-5px);
       box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    }
+
+    &__title {
+      font-size: 3rem;
+      font-weight: bold;
+      margin-bottom: 0.5rem;
+      text-shadow: 0 0 20px currentColor;
+    }
+
+    &__content {
+      font-size: 1rem;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      opacity: 0.8;
     }
 
     &__value {
@@ -35,5 +50,38 @@
       margin-top: 0.5rem;
       opacity: 0.7;
     }
+  }
+}
+
+// Selection styles for card elements
+.card__content[data-element] {
+  position: relative;
+  cursor: pointer;
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: -4px;
+    left: -4px;
+    right: -4px;
+    bottom: -4px;
+    border: 2px dashed transparent;
+    border-radius: inherit;
+    pointer-events: none;
+    transition: border-color 0.2s ease;
+  }
+
+  &:hover::before {
+    border-color: orange;
+  }
+
+  &[data-selected="true"]::before {
+    border-color: orange;
+    border-style: solid;
+  }
+
+  &[data-sub-element-selected="true"]::before {
+    border-color: blue;
+    border-style: solid;
   }
 }

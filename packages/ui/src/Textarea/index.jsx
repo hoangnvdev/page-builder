@@ -1,8 +1,9 @@
-import "./index.scss";
+import './index.scss';
 
-import PropTypes from "prop-types";
+import PropTypes from 'prop-types';
 
 export const Textarea = ({
+  id,
   label,
   value,
   onChange,
@@ -28,12 +29,14 @@ export const Textarea = ({
   return (
     <div className="textarea" style={style}>
       {label && (
-        <label className="textarea__label">
+        <label className="textarea__label" htmlFor={id}>
           {label}
           {required && <span className="textarea__required">*</span>}
         </label>
       )}
       <textarea
+        id={id}
+        name={id}
         value={value}
         onChange={(e) => onChange(e.target.value)}
         placeholder={placeholder}
@@ -51,6 +54,7 @@ export const Textarea = ({
 };
 
 Textarea.propTypes = {
+  id: PropTypes.string,
   label: PropTypes.string,
   value: PropTypes.string,
   onChange: PropTypes.func.isRequired,

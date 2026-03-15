@@ -44,6 +44,7 @@ export const SplitScreen = ({
         height="100%"
         width="100%"
         className="split-screen__placeholder"
+        data-element={`${dataElement}.image`}
       />
     </Flex>
   );
@@ -62,12 +63,17 @@ export const SplitScreen = ({
           level={headingLevel}
           className="split-screen__heading"
           style={{ color: headingColor }}
+          data-element={`${dataElement}.heading`}
         >
           {heading}
         </Title>
       )}
       {content && (
-        <Text size={contentSize} className="split-screen__text">
+        <Text
+          size={contentSize}
+          className="split-screen__text"
+          data-element={`${dataElement}.content`}
+        >
           {content}
         </Text>
       )}

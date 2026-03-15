@@ -4,19 +4,17 @@ import {
   futuristicTechConfig,
   refinedClassicConfig,
 } from './configs/index.js';
-import {
-  createTemplateComponent,
-} from './core/hoc/createTemplateComponent.jsx';
+import { createTemplateComponent } from './hocs/index.js';
 
 // Core dynamic rendering system
+export { DynamicRenderer } from './components/index.js';
 export {
   componentRegistry,
-  createTemplateComponent,
-  DynamicRenderer,
   getComponentForElement,
   getTemplateById,
   templateRegistry,
-} from './core/index.js';
+} from './registries/index.js';
+export { createTemplateComponent } from './hocs/index.js';
 
 // Template configs (for direct access if needed)
 export {

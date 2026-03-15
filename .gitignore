@@ -33,9 +33,9 @@ yarn-error.log*
 
 # Documentation (working files - keep local only)
 packages/templates/src/docs/
-doc/
-/doc/
-packages/*/doc/
-packages/app/doc/
-packages/templates/doc/
-packages/ui/doc/
+docs/
+/docs/
+packages/*/docs/
+packages/app/docs/
+packages/templates/docs/
+packages/ui/docs/

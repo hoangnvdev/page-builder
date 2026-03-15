@@ -1,18 +1,16 @@
-import './index.scss';
+import "./index.scss";
 
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 
-import {
-  Container,
-  Flex,
-  Section,
-  Text,
-  Title,
-} from '@page-builder/ui';
+import { Container, Flex, Section, Text, Title } from "@page-builder/ui";
 
 export const ContentSection = ({
   heading,
+  headingSize,
+  headingWeight,
   content,
+  contentMaxWidth,
+  contentAlign,
   backgroundColor,
   headingColor,
   textColor,
@@ -40,7 +38,12 @@ export const ContentSection = ({
             <Title
               level={headingLevel}
               className="content-section__heading"
-              style={{ color: headingColor }}
+              style={{
+                color: headingColor,
+                fontSize: headingSize,
+                fontWeight: headingWeight,
+              }}
+              data-element={`${dataElement}.heading`}
             >
               {heading}
             </Title>
@@ -48,7 +51,18 @@ export const ContentSection = ({
           {content && (
             <Text
               className="content-section__content"
-              style={{ color: textColor, lineHeight: "1.8" }}
+              style={{
+                color: textColor,
+                lineHeight: "1.8",
+                maxWidth: contentMaxWidth,
+                textAlign:
+                  contentAlign === "flex-start"
+                    ? "left"
+                    : contentAlign === "flex-end"
+                      ? "right"
+                      : contentAlign,
+              }}
+              data-element={`${dataElement}.content`}
             >
               {content}
             </Text>
@@ -62,7 +76,11 @@ export const ContentSection = ({
 
 ContentSection.propTypes = {
   heading: PropTypes.string.isRequired,
+  headingSize: PropTypes.string,
+  headingWeight: PropTypes.string,
   content: PropTypes.string.isRequired,
+  contentMaxWidth: PropTypes.string,
+  contentAlign: PropTypes.string,
   backgroundColor: PropTypes.string,
   headingColor: PropTypes.string,
   textColor: PropTypes.string,

@@ -3,8 +3,8 @@ import {
   comicSplashConfig,
   futuristicTechConfig,
   refinedClassicConfig,
-} from '../../configs';
-import { createTemplateComponent } from '../hoc/createTemplateComponent';
+} from '../configs';
+import { createTemplateComponent } from '../hocs/createTemplateComponent';
 
 export const templateRegistry = [
   {

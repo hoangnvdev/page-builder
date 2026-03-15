@@ -14,17 +14,28 @@ import { ItemCard } from '../ItemCard';
 
 export const ItemGrid = ({
   heading,
+  headingSize,
+  headingWeight,
+  headingColor,
   items,
   backgroundColor,
-  headingColor,
-  itemTitleColor,
-  itemTextColor,
   columns = 3,
   gap = 40,
   padding = "80px 20px",
   headingLevel = 2,
-  headingAlign = "center",
+  align = "flex-start",
   maxWidth,
+  cardBackgroundColor,
+  cardPadding,
+  cardAlign,
+  cardBorderRadius,
+  cardDropShadow,
+  cardTitleSize,
+  cardTitleWeight,
+  cardTitleColor,
+  cardContentSize,
+  cardContentWeight,
+  cardContentColor,
   dataElement,
   className = "",
   renderItem,
@@ -39,15 +50,17 @@ export const ItemGrid = ({
       {...props}
     >
       <Container maxWidth={maxWidth}>
-        <Flex direction="column" gap={gap}>
+        <Flex direction="column" gap={gap} align={align}>
           {heading && (
             <Title
               level={headingLevel}
               className="item-grid__heading"
               style={{
-                textAlign: headingAlign,
-                color: headingColor,
+                ...(headingSize && { fontSize: headingSize }),
+                ...(headingWeight && { fontWeight: headingWeight }),
+                ...(headingColor && { color: headingColor }),
               }}
+              data-element={`${dataElement}.heading`}
             >
               {heading}
             </Title>
@@ -60,10 +73,26 @@ export const ItemGrid = ({
                 ) : (
                   <ItemCard
                     icon={item.icon}
-                    title={item.title}
-                    description={item.description}
-                    titleColor={itemTitleColor}
-                    textColor={itemTextColor}
+                    title={item.title?.text || item.title}
+                    description={
+                      item.content?.text || item.content || item.description
+                    }
+                    backgroundColor={
+                      item.backgroundColor || cardBackgroundColor
+                    }
+                    padding={item.padding || cardPadding}
+                    align={item.align || cardAlign}
+                    borderRadius={item.borderRadius || cardBorderRadius}
+                    dropShadow={item.dropShadow || cardDropShadow}
+                    titleSize={item.title?.size || cardTitleSize}
+                    titleWeight={item.title?.weight || cardTitleWeight}
+                    titleColor={item.title?.color || cardTitleColor}
+                    descriptionSize={item.content?.size || cardContentSize}
+                    descriptionWeight={
+                      item.content?.weight || cardContentWeight
+                    }
+                    descriptionColor={item.content?.color || cardContentColor}
+                    dataElement={`${dataElement}.items.${idx}`}
                   />
                 )}
               </Grid.Item>
@@ -76,20 +105,59 @@ export const ItemGrid = ({
 };
 
 ItemGrid.propTypes = {
-  heading: PropTypes.string.isRequired,
+  heading: PropTypes.string,
+  headingSize: PropTypes.string,
+  headingWeight: PropTypes.string,
+  headingColor: PropTypes.string,
   items: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.string,
       icon: PropTypes.node,
-      title: PropTypes.string.isRequired,
-      description: PropTypes.string.isRequired,
+      title: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.shape({
+          text: PropTypes.string,
+          size: PropTypes.string,
+          weight: PropTypes.string,
+          color: PropTypes.string,
+        }),
+      ]),
+      content: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.shape({
+          text: PropTypes.string,
+          size: PropTypes.string,
+          weight: PropTypes.string,
+          color: PropTypes.string,
+        }),
+      ]),
+      description: PropTypes.string,
+      backgroundColor: PropTypes.string,
+      padding: PropTypes.string,
+      align: PropTypes.string,
+      borderRadius: PropTypes.string,
+      dropShadow: PropTypes.string,
     }),
   ).isRequired,
   backgroundColor: PropTypes.string,
-  headingColor: PropTypes.string,
-  itemTitleColor: PropTypes.string,
-  itemTextColor: PropTypes.string,
   columns: PropTypes.number,
   gap: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  padding: PropTypes.string,
+  headingLevel: PropTypes.number,
+  align: PropTypes.string,
+  maxWidth: PropTypes.string,
+  cardBackgroundColor: PropTypes.string,
+  cardPadding: PropTypes.string,
+  cardAlign: PropTypes.string,
+  cardBorderRadius: PropTypes.string,
+  cardDropShadow: PropTypes.string,
+  cardTitleSize: PropTypes.string,
+  cardTitleWeight: PropTypes.string,
+  cardTitleColor: PropTypes.string,
+  cardContentSize: PropTypes.string,
+  cardContentWeight: PropTypes.string,
+  cardContentColor: PropTypes.string,
   dataElement: PropTypes.string,
+  className: PropTypes.string,
+  renderItem: PropTypes.func,
 };

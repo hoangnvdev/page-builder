@@ -1,5 +1,7 @@
 import './index.scss';
 
+import { useMemo } from 'react';
+
 import PropTypes from 'prop-types';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -11,7 +13,9 @@ import {
   Input,
   Label,
   Select,
+  Slider,
   Textarea,
+  Toggle,
 } from '@page-builder/ui';
 
 export const FormField = ({
@@ -22,7 +26,13 @@ export const FormField = ({
   onChange,
   options,
   items,
+  min,
+  max,
+  step,
+  labels,
 }) => {
+  // Generate a stable unique ID for the field
+  const fieldId = useMemo(() => `field-${id.replace(/\./g, "-")}`, [id]);
   const handleItemChange = (index, field, newValue) => {
     const newItems = [...items];
     newItems[index] = { ...newItems[index], [field]: newValue };
@@ -46,19 +56,44 @@ export const FormField = ({
   const renderField = () => {
     switch (type) {
       case "text":
-        return <Input label={label} value={value} onChange={onChange} />;
+        return (
+          <Input id={fieldId} label={label} value={value} onChange={onChange} />
+        );
 
       case "textarea":
         return (
-          <Textarea label={label} value={value} onChange={onChange} rows={4} />
+          <Textarea
+            id={fieldId}
+            label={label}
+            value={value}
+            onChange={onChange}
+            rows={4}
+          />
         );
 
       case "color":
-        return <ColorPicker label={label} value={value} onChange={onChange} />;
+        return (
+          <ColorPicker
+            id={fieldId}
+            label={label}
+            value={value}
+            onChange={onChange}
+          />
+        );
 
       case "select":
+        // Skip select fields without options defined (incomplete schema)
+        if (!options || !Array.isArray(options) || options.length === 0) {
+          return (
+            <EmptyState
+              description={`The "${label}" field is missing options. Please update the schema configuration.`}
+              className="form-field__warning"
+            />
+          );
+        }
         return (
           <Select
+            id={fieldId}
             label={label}
             value={value}
             onChange={onChange}
@@ -69,6 +104,7 @@ export const FormField = ({
       case "number":
         return (
           <Input
+            id={fieldId}
             label={label}
             type="number"
             value={value}
@@ -81,43 +117,21 @@ export const FormField = ({
 
       case "toggle":
         return (
-          <div className="form-field__toggle">
-            <Label>{label}</Label>
-            <Flex gap={8} align="center">
-              <input
-                type="checkbox"
-                checked={value || false}
-                onChange={(e) => onChange(e.target.checked)}
-                className="form-field__checkbox"
-              />
-              <span className="form-field__toggle-label">
-                {value ? "Enabled" : "Disabled"}
-              </span>
-            </Flex>
-          </div>
+          <Toggle value={value || false} onChange={onChange} label={label} />
         );
 
       case "slider":
         return (
-          <div className="form-field__slider">
-            <Label>
-              {label}
-              <span className="form-field__slider-value">{value}</span>
-            </Label>
-            <input
-              type="range"
-              min={options?.min || 0}
-              max={options?.max || 100}
-              step={options?.step || 1}
-              value={value}
-              onChange={(e) => onChange(Number(e.target.value))}
-              className="form-field__slider-input"
-            />
-            <Flex justify="space-between" className="form-field__slider-labels">
-              <span>{options?.min || 0}</span>
-              <span>{options?.max || 100}</span>
-            </Flex>
-          </div>
+          <Slider
+            value={value ?? (min || 0)}
+            min={min || 0}
+            max={max || 100}
+            step={step || 1}
+            onChange={onChange}
+            label={label}
+            labels={labels}
+            showValue={!labels}
+          />
         );
 
       case "projects-list":
@@ -140,12 +154,14 @@ export const FormField = ({
             {items?.map((item, index) => (
               <div key={item.id || index} className="form-field__list-item">
                 <Input
+                  id={`${fieldId}-item-${index}-title`}
                   label={`${type === "projects-list" ? "Project" : "Feature"} ${index + 1} Title`}
                   value={item.title || ""}
                   onChange={(value) => handleItemChange(index, "title", value)}
                 />
 
                 <Textarea
+                  id={`${fieldId}-item-${index}-description`}
                   label="Description"
                   value={item.description || ""}
                   onChange={(value) =>
@@ -222,4 +238,8 @@ FormField.propTypes = {
       description: PropTypes.string,
     }),
   ),
+  min: PropTypes.number,
+  max: PropTypes.number,
+  step: PropTypes.number,
+  labels: PropTypes.arrayOf(PropTypes.string),
 };

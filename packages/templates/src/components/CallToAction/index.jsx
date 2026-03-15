@@ -12,61 +12,106 @@ import {
 } from '@page-builder/ui';
 
 export const CallToAction = ({
-  heading,
-  subheading,
+  // Title props
+  title,
+  titleSize,
+  titleWeight,
+  titleColor,
+
+  // Subtitle props
+  subtitle,
+  subtitleSize,
+  subtitleColor,
+
+  // Button props
   buttonText,
-  backgroundColor,
-  textColor,
+  buttonUrl,
   buttonColor,
   buttonTextColor,
-  onButtonClick,
+  buttonSize = "large",
+
+  // Section props
+  backgroundColor,
   padding = "80px 20px",
   align = "center",
-  headingLevel = 2,
-  buttonSize = "large",
-  buttonVariant = "primary",
   maxWidth = "800px",
-  gap = 20,
+  gap = "20px",
+
   dataElement = "cta",
   className = "",
   ...props
 }) => {
   return (
     <Section
-      dataElement={dataElement}
+      data-element={dataElement}
       backgroundColor={backgroundColor}
       padding={padding}
       className={`call-to-action ${className}`}
-      style={{ color: textColor }}
       {...props}
     >
       <Container maxWidth={maxWidth}>
         <Flex direction="column" align={align} gap={gap}>
-          <Title
-            level={headingLevel}
-            className="call-to-action__heading"
-            style={{ color: textColor }}
-          >
-            {heading}
-          </Title>
-          <SubTitle
-            className="call-to-action__subheading"
-            style={{ color: textColor, opacity: 0.9 }}
-          >
-            {subheading}
-          </SubTitle>
-          <Button
-            onClick={onButtonClick}
-            size={buttonSize}
-            variant={buttonVariant}
-            className="call-to-action__button"
-            style={{
-              backgroundColor: buttonColor,
-              color: buttonTextColor,
-            }}
-          >
-            {buttonText}
-          </Button>
+          {title && (
+            <Title
+              level={2}
+              className="call-to-action__title"
+              style={{
+                fontSize: titleSize,
+                fontWeight: titleWeight,
+                color: titleColor,
+                margin: 0,
+              }}
+              data-element={`${dataElement}.title`}
+            >
+              {title}
+            </Title>
+          )}
+          {subtitle && (
+            <SubTitle
+              className="call-to-action__subtitle"
+              style={{
+                fontSize: subtitleSize,
+                color: subtitleColor,
+                opacity: 0.9,
+              }}
+              data-element={`${dataElement}.subtitle`}
+            >
+              {subtitle}
+            </SubTitle>
+          )}
+          {buttonText && (
+            <a
+              href={buttonUrl || "#"}
+              target={
+                buttonUrl &&
+                (buttonUrl.startsWith("http://") ||
+                  buttonUrl.startsWith("https://"))
+                  ? "_blank"
+                  : undefined
+              }
+              rel={
+                buttonUrl &&
+                (buttonUrl.startsWith("http://") ||
+                  buttonUrl.startsWith("https://"))
+                  ? "noopener noreferrer"
+                  : undefined
+              }
+              style={{ textDecoration: "none" }}
+            >
+              <Button
+                size={buttonSize}
+                variant="primary"
+                className="call-to-action__button"
+                style={{
+                  backgroundColor: buttonColor,
+                  color: buttonTextColor,
+                }}
+                data-element={`${dataElement}.button`}
+              >
+                {buttonText}
+              </Button>
+            </a>
+          )}
         </Flex>
       </Container>
     </Section>
@@ -74,12 +119,23 @@ export const CallToAction = ({
 };
 
 CallToAction.propTypes = {
-  heading: PropTypes.string.isRequired,
-  subheading: PropTypes.string.isRequired,
-  buttonText: PropTypes.string.isRequired,
-  backgroundColor: PropTypes.string,
-  textColor: PropTypes.string,
+  title: PropTypes.string,
+  titleSize: PropTypes.string,
+  titleWeight: PropTypes.string,
+  titleColor: PropTypes.string,
+  subtitle: PropTypes.string,
+  subtitleSize: PropTypes.string,
+  subtitleColor: PropTypes.string,
+  buttonText: PropTypes.string,
+  buttonUrl: PropTypes.string,
   buttonColor: PropTypes.string,
   buttonTextColor: PropTypes.string,
-  onButtonClick: PropTypes.func,
+  buttonSize: PropTypes.string,
+  backgroundColor: PropTypes.string,
+  padding: PropTypes.string,
+  align: PropTypes.string,
+  maxWidth: PropTypes.string,
+  gap: PropTypes.string,
+  dataElement: PropTypes.string,
+  className: PropTypes.string,
 };

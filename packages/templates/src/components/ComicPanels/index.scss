@@ -9,6 +9,7 @@
     box-shadow: 8px 8px 0 rgba(0, 0, 0, 0.3);
     transform: rotate(-1deg);
     transition: transform 0.3s ease;
+    overflow: visible; // Allow selection border to show
 
     &:nth-child(even) {
       transform: rotate(1deg);
@@ -16,6 +17,30 @@
 
     &:hover {
       transform: rotate(0deg) scale(1.05);
+    }
+
+    // Ensure card content can show selection properly
+    .card__content {
+      border-radius: inherit;
+
+      // Enhanced selection states for card content
+      &[data-element]:hover:not(.selected):not(.selected-sub) {
+        &::before {
+          border-radius: inherit;
+        }
+      }
+
+      &[data-element].selected:not(.selected-sub) {
+        &::before {
+          border-radius: inherit;
+        }
+      }
+
+      &[data-element].selected-sub {
+        &::before {
+          border-radius: inherit;
+        }
+      }
     }
 
     &__number {

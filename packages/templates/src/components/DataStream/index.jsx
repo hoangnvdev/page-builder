@@ -37,7 +37,11 @@ export const DataStream = ({
       <Container maxWidth={maxWidth}>
         <Flex direction="column" gap={gap * 2}>
           {heading && (
-            <Title level={headingLevel} className="data-stream__heading">
+            <Title
+              level={headingLevel}
+              className="data-stream__heading"
+              data-element={`${dataElement}.heading`}
+            >
               {heading}
             </Title>
           )}
@@ -54,6 +58,7 @@ export const DataStream = ({
                     animationDelay: `${index * animationDelay}s`,
                     fontFamily,
                   }}
+                  data-element={`${dataElement}.line-${index}`}
                 >
                   {line}
                 </Text>

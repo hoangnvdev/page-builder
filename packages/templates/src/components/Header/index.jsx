@@ -46,6 +46,7 @@ export const Header = ({
               level={logoLevel}
               className="header__logo"
               style={{ margin: 0, color: logoColor }}
+              data-element={`${dataElement}.companyName`}
             >
               {companyName}
             </Title>
@@ -53,7 +54,12 @@ export const Header = ({
           {links.length > 0 && (
             <Flex gap={linkGap} as="nav" className="header__nav">
               {links.map((link, index) => (
-                <Link key={index} href={link.href} color={linkColor}>
+                <Link
+                  key={index}
+                  href={link.href}
+                  color={linkColor}
+                  data-element={`${dataElement}.link-${index}`}
+                >
                   {link.text}
                 </Link>
               ))}
