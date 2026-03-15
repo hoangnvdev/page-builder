@@ -5,6 +5,7 @@ import react from '@vitejs/plugin-react';
 
 export default defineConfig({
   plugins: [react()],
+
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "src"),
@@ -12,61 +13,58 @@ export default defineConfig({
     },
     dedupe: ["react", "react-dom"],
   },
+
   server: {
     port: 3000,
     open: true,
   },
 
   build: {
+    target: ["es2020", "edge88", "firefox78", "chrome87", "safari14"],
     outDir: "dist",
     sourcemap: false,
-    minify: "terser",
-    terserOptions: {
-      compress: {
-        drop_console: true,
-        drop_debugger: true,
-      },
-    },
+    minify: "esbuild",
     chunkSizeWarningLimit: 1000,
+    cssCodeSplit: true,
+    assetsInlineLimit: 4096,
+
     rollupOptions: {
       output: {
         manualChunks: {
-          // Vendor chunk for React ecosystem
           "react-vendor": [
             "react",
             "react-dom",
             "react-redux",
             "react-router-dom",
           ],
-          // Redux toolkit in separate chunk
           "redux-vendor": ["@reduxjs/toolkit"],
-          // Form libraries
           "form-vendor": ["formik"],
-          // Icons
           "icons-vendor": ["lucide-react"],
         },
         assetFileNames: (assetInfo) => {
           const name = assetInfo.names?.[0] || assetInfo.name;
-          const info = name.split(".");
-          let extType = info[info.length - 1];
-          if (/\.(png|jpe?g|svg|gif|tiff|bmp|ico)$/i.test(name)) {
-            extType = "images";
-          } else if (/\.(woff|woff2|eot|ttf|otf)$/i.test(name)) {
-            extType = "fonts";
+          if (/\.(png|jpe?g|svg|gif|webp|avif)$/i.test(name)) {
+            return "assets/images/[name]-[hash][extname]";
           }
-          return `assets/${extType}/[name]-[hash][extname]`;
+          if (/\.(woff|woff2|eot|ttf|otf)$/i.test(name)) {
+            return "assets/fonts/[name]-[hash][extname]";
+          }
+          if (/\.css$/i.test(name)) {
+            return "assets/css/[name]-[hash][extname]";
+          }
+          return "assets/[name]-[hash][extname]";
         },
         chunkFileNames: "assets/js/[name]-[hash].js",
         entryFileNames: "assets/js/[name]-[hash].js",
       },
     },
-    cssCodeSplit: true,
-    assetsInlineLimit: 4096,
   },
+
   preview: {
     port: 4173,
     open: true,
   },
+
   optimizeDeps: {
     include: [
       "react",
@@ -75,6 +73,7 @@ export default defineConfig({
       "@reduxjs/toolkit",
       "formik",
       "lucide-react",
+      "react-router-dom",
     ],
     exclude: ["@page-builder/ui", "@page-builder/templates"],
   },
