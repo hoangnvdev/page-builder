@@ -159,23 +159,20 @@ export const PropertyPanel = () => {
                 word.charAt(0).toUpperCase() + word.slice(1).toLowerCase(),
             )
             .join(" ");
-          return `${formattedSection} ${formattedArrayName} ${arrayIndex + 1} ${formattedProperty}`;
+          return `${formattedSection} ${formattedArrayName} ${arrayIndex} ${formattedProperty}`;
         }
 
-        return `${formattedSection} ${formattedArrayName} ${arrayIndex + 1}`;
+        return `${formattedSection} ${formattedArrayName} ${arrayIndex}`;
       }
 
       // Just section and index (e.g., "hero.0")
-      return `${formattedSection} Item ${arrayIndex + 1}`;
+      return `${formattedSection} Item ${arrayIndex}`;
     }
 
     // No array index - check if label looks malformed (contains spaces followed by numbers)
     if (label && /\s+\d+$/.test(label)) {
-      // Label ends with a number (like "Image 0"), try to make it friendlier
-      return label.replace(
-        /\s+(\d+)$/,
-        (match, num) => ` ${parseInt(num) + 1}`,
-      );
+      // Label ends with a number (like "Image 0"), keep it as is
+      return label;
     }
 
     return label;

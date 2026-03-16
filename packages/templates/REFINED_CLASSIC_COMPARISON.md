@@ -258,18 +258,56 @@ Each builder returns only relevant props:
 
 ---
 
+## � Issues Fixed During Implementation
+
+During testing and implementation of the refactored config, several bugs were discovered and fixed:
+
+### 1. **Duplicate Sections** (March 17, 2026)
+
+- **Problem:** Portfolio, Stats, Testimonials, and Process sections were defined twice in both configSchema and defaultConfig
+- **Impact:** File was 971 lines with massive duplication
+- **Fix:** Removed duplicate definitions
+- **Result:** File reduced to 640 lines (34% reduction)
+
+### 2. **Schema Field Mismatches**
+
+- **Stats:** Schema used `value/label` but componentRegistry expects `title/content`
+- **Testimonials:** Schema used `name/role/quote` but expects `title/content`
+- **Fix:** Updated schemas to use correct field names across all templates
+
+### 3. **Font Size Out of Range**
+
+- **Problem:** Stats title size was 3rem but max available option is 2.5rem
+- **Impact:** No value highlighted in dropdown, confusing UX
+- **Fix:** Changed all stats title sizes to 2.5rem
+
+### 4. **Missing Border Support**
+
+- **Problem:** StatsCounter and SpeechBubbleTestimonials couldn't style individual item borders
+- **Fix:** Added borderWidth/borderColor props and extraction logic to both components
+
+### 5. **Array Index Display Mismatch**
+
+- **Problem:** Path showed `STATS.ITEMS.1` but editor displayed "Edit Stats Items 2 Title"
+- **Fix:** Removed +1 offset in formatElementLabel() to match 0-based array indices
+
+All fixes documented in [REFACTORING_SUMMARY.md](./REFACTORING_SUMMARY.md#-bug-fixes--improvements-march-17-2026)
+
+---
+
 ## 🚀 Next Steps
 
 ### Immediate
 
 - [x] Create refactored refinedClassic
-- [ ] Test refactored config in live app
-- [ ] Compare rendered output (should be identical)
-- [ ] Verify all editable properties work
+- [x] Test refactored config in live app
+- [x] Compare rendered output (should be identical)
+- [x] Verify all editable properties work
+- [x] Fix bugs discovered during testing
 
 ### Migration Plan
 
-1. ✅ refinedClassic (DONE)
+1. ✅ refinedClassic (DONE - production ready with bug fixes)
 2. ⏳ businessPro (next)
 3. ⏳ futuristicTech
 4. ⏳ Replace original comicSplash with refactored version

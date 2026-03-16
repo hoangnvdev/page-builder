@@ -36,7 +36,17 @@ export const refinedClassicRefactoredConfig = {
     "Timeless elegance meets bold typography for sophisticated distinction",
   icon: "♔",
 
-  layout: ["hero", "about", "features", "portfolio", "stats", "testimonials", "process", "cta", "footer"],
+  layout: [
+    "hero",
+    "about",
+    "features",
+    "portfolio",
+    "stats",
+    "testimonials",
+    "process",
+    "cta",
+    "footer",
+  ],
 
   configSchema: {
     // ============================================
@@ -121,10 +131,10 @@ export const refinedClassicRefactoredConfig = {
       // STATS SECTION
       // --------------------------
       stats: mergeSchemas(sectionSchema(), gridLayoutProps(6), {
-        title: titleContentSchema(),
+        title: headingContentSchema(),
         card: mergeSchemas(cardSchema(), {
-          value: titleContentSchema(),
-          label: textContentSchema("text"),
+          title: headingContentSchema(),
+          content: textContentSchema("text"),
         }),
         items: arrayField("items"),
       }),
@@ -133,55 +143,11 @@ export const refinedClassicRefactoredConfig = {
       // TESTIMONIALS SECTION
       // --------------------------
       testimonials: mergeSchemas(sectionSchema(), gridLayoutProps(4), {
-        title: titleContentSchema(),
+        title: headingContentSchema(),
         card: mergeSchemas(cardSchema(), {
           avatar: avatarProps(),
-          name: textContentSchema("text"),
-          role: textContentSchema("text"),
-          quote: textContentSchema("text", true),
-        }),
-        quotes: arrayField("items"),
-      }),
-
-      // --------------------------
-      // PROCESS SECTION (Timeline)
-      // --------------------------
-      process: mergeSchemas(sectionSchema(), {
-        heading: headingContentSchema(),
-        items: arrayField("items"),
-      }),
-
-      // --------------------------
-      // PORTFOLIO SECTION (Image Grid)
-      // --------------------------
-      portfolio: mergeSchemas(sectionSchema(), gridLayoutProps(6), {
-        heading: headingContentSchema(),
-        image: imageProps(),
-        images: arrayField("items"),
-      }),
-
-      // --------------------------
-      // STATS SECTION
-      // --------------------------
-      stats: mergeSchemas(sectionSchema(), gridLayoutProps(6), {
-        title: titleContentSchema(),
-        card: mergeSchemas(cardSchema(), {
-          value: titleContentSchema(),
-          label: textContentSchema("text"),
-        }),
-        items: arrayField("items"),
-      }),
-
-      // --------------------------
-      // TESTIMONIALS SECTION
-      // --------------------------
-      testimonials: mergeSchemas(sectionSchema(), gridLayoutProps(4), {
-        title: titleContentSchema(),
-        card: mergeSchemas(cardSchema(), {
-          avatar: avatarProps(),
-          name: textContentSchema("text"),
-          role: textContentSchema("text"),
-          quote: textContentSchema("text", true),
+          title: textContentSchema("text", true),
+          content: textContentSchema("text"),
         }),
         quotes: arrayField("items"),
       }),
@@ -366,7 +332,8 @@ export const refinedClassicRefactoredConfig = {
             },
           },
         ],
-      },      portfolio: {
+      },
+      portfolio: {
         backgroundColor: "#2B2B2B",
         padding: "80px 24px",
         maxWidth: "1200px",
@@ -460,7 +427,7 @@ export const refinedClassicRefactoredConfig = {
           {
             title: {
               text: "100+",
-              size: "3rem",
+              size: "2.5rem",
               weight: "600",
               color: "#8B7355",
             },
@@ -474,7 +441,7 @@ export const refinedClassicRefactoredConfig = {
           {
             title: {
               text: "4",
-              size: "3rem",
+              size: "2.5rem",
               weight: "600",
               color: "#8B7355",
             },
@@ -488,7 +455,7 @@ export const refinedClassicRefactoredConfig = {
           {
             title: {
               text: "0",
-              size: "3rem",
+              size: "2.5rem",
               weight: "600",
               color: "#8B7355",
             },
@@ -502,7 +469,7 @@ export const refinedClassicRefactoredConfig = {
           {
             title: {
               text: "∞",
-              size: "3rem",
+              size: "2.5rem",
               weight: "600",
               color: "#8B7355",
             },
@@ -542,23 +509,17 @@ export const refinedClassicRefactoredConfig = {
               size: "large",
               backgroundColor: "#8B7355",
             },
-            name: {
-              text: "Eleanor Morrison",
-              size: "1rem",
-              weight: "600",
-              color: "#2B2B2B",
-            },
-            role: {
-              text: "Interior Designer",
-              size: "0.875rem",
-              weight: "400",
-              color: "#8B7355",
-            },
-            quote: {
+            title: {
               text: "Each piece tells a story. The joinery is museum-quality, and the natural grain selection is simply breathtaking. This isn't furniture—it's functional art.",
               size: "0.9375rem",
               weight: "400",
               color: "#2B2B2B",
+            },
+            content: {
+              text: "Eleanor Morrison, Interior Designer",
+              size: "0.875rem",
+              weight: "600",
+              color: "#8B7355",
             },
           },
           {
@@ -567,23 +528,17 @@ export const refinedClassicRefactoredConfig = {
               size: "large",
               backgroundColor: "#8B7355",
             },
-            name: {
-              text: "James Hartford",
-              size: "1rem",
-              weight: "600",
-              color: "#2B2B2B",
-            },
-            role: {
-              text: "Collector",
-              size: "0.875rem",
-              weight: "400",
-              color: "#8B7355",
-            },
-            quote: {
+            title: {
               text: "I've inherited pieces from my grandfather. Now I commission pieces for my grandchildren. This is furniture that bridges generations.",
               size: "0.9375rem",
               weight: "400",
               color: "#2B2B2B",
+            },
+            content: {
+              text: "James Hartford, Collector",
+              size: "0.875rem",
+              weight: "600",
+              color: "#8B7355",
             },
           },
           {
@@ -592,303 +547,17 @@ export const refinedClassicRefactoredConfig = {
               size: "large",
               backgroundColor: "#8B7355",
             },
-            name: {
-              text: "Sarah Kim",
-              size: "1rem",
-              weight: "600",
-              color: "#2B2B2B",
-            },
-            role: {
-              text: "Homeowner",
-              size: "0.875rem",
-              weight: "400",
-              color: "#8B7355",
-            },
-            quote: {
+            title: {
               text: "Watching them select the wood, seeing each tool stroke—it's like witnessing alchemy. Worth every moment of the wait.",
               size: "0.9375rem",
               weight: "400",
               color: "#2B2B2B",
             },
-          },
-        ],
-      },
-      process: {
-        backgroundColor: "#8B7355",
-        padding: "80px 24px",
-        maxWidth: "900px",
-        align: "flex-start",
-        heading: {
-          text: "The Making of an Heirloom",
-          color: "#FAF8F3",
-          size: "2.5rem",
-          weight: "600",
-        },
-        items: [
-          {
-            title: "Selection",
-            description:
-              "We walk the mill together, examining each board for character, grain pattern, and story. The wood chooses you as much as you choose it.",
-          },
-          {
-            title: "Design",
-            description:
-              "Hand-drawn plans honor both your vision and the wood's natural tendencies. No two pieces are identical—each design is as unique as the tree it came from.",
-          },
-          {
-            title: "Crafting",
-            description:
-              "100+ hours of hand-tool work. Mortise and tenon joints, hand-cut dovetails, surfaces planed to silk. This is where patience becomes permanence.",
-          },
-          {
-            title: "Finishing",
-            description:
-              "Seven coats of hand-rubbed oil, each layer revealing depth in the grain. We finish each piece as if our great-grandchildren will judge our work—because they will.",
-          },
-        ],
-      },      portfolio: {
-        backgroundColor: "#2B2B2B",
-        padding: "80px 24px",
-        maxWidth: "1200px",
-        align: "center",
-        columns: 3,
-        gap: "24px",
-        heading: {
-          text: "Gallery of Craftsmanship",
-          color: "#D4AF37",
-          size: "2.5rem",
-          weight: "600",
-        },
-        image: {
-          backgroundColor: "#8B7355",
-          padding: "12px",
-          borderRadius: "0px",
-          dropShadow: "0 4px 8px rgba(0,0,0,0.3)",
-        },
-        images: [
-          {
-            image: {
-              url: "",
-              alt: "Handcrafted Walnut Dining Table",
-              fit: "cover",
-              aspectRatio: "landscape",
-            },
-            caption: {
-              text: "Live-Edge Dining Table",
-              size: "0.875rem",
-              weight: "400",
-              color: "#FAF8F3",
-              textAlign: "center",
-              backgroundColor: "transparent",
-            },
-          },
-          {
-            image: {
-              url: "",
-              alt: "Oak Bookshelf with Brass Details",
-              fit: "cover",
-              aspectRatio: "landscape",
-            },
-            caption: {
-              text: "Custom Bookshelf",
-              size: "0.875rem",
-              weight: "400",
-              color: "#FAF8F3",
-              textAlign: "center",
-              backgroundColor: "transparent",
-            },
-          },
-          {
-            image: {
-              url: "",
-              alt: "Cherry Wood Rocking Chair",
-              fit: "cover",
-              aspectRatio: "landscape",
-            },
-            caption: {
-              text: "Heirloom Rocking Chair",
-              size: "0.875rem",
-              weight: "400",
-              color: "#FAF8F3",
-              textAlign: "center",
-              backgroundColor: "transparent",
-            },
-          },
-        ],
-      },
-      stats: {
-        backgroundColor: "#F5F1E8",
-        padding: "80px 24px",
-        maxWidth: "1200px",
-        align: "center",
-        columns: 4,
-        gap: "32px",
-        title: {
-          text: "By The Numbers",
-          size: "2.5rem",
-          weight: "600",
-          color: "#2B2B2B",
-        },
-        card: {
-          backgroundColor: "transparent",
-          padding: "20px",
-          align: "center",
-          borderRadius: "0",
-          dropShadow: "none",
-        },
-        items: [
-          {
-            title: {
-              text: "100+",
-              size: "3rem",
-              weight: "600",
-              color: "#8B7355",
-            },
             content: {
-              text: "Hours Per Piece",
-              size: "1rem",
-              weight: "400",
-              color: "#2B2B2B",
-            },
-          },
-          {
-            title: {
-              text: "4",
-              size: "3rem",
-              weight: "600",
-              color: "#8B7355",
-            },
-            content: {
-              text: "Generations",
-              size: "1rem",
-              weight: "400",
-              color: "#2B2B2B",
-            },
-          },
-          {
-            title: {
-              text: "0",
-              size: "3rem",
-              weight: "600",
-              color: "#8B7355",
-            },
-            content: {
-              text: "Power Tools",
-              size: "1rem",
-              weight: "400",
-              color: "#2B2B2B",
-            },
-          },
-          {
-            title: {
-              text: "∞",
-              size: "3rem",
-              weight: "600",
-              color: "#8B7355",
-            },
-            content: {
-              text: "Years to Last",
-              size: "1rem",
-              weight: "400",
-              color: "#2B2B2B",
-            },
-          },
-        ],
-      },
-      testimonials: {
-        backgroundColor: "#FFFFFF",
-        padding: "80px 24px",
-        maxWidth: "1200px",
-        align: "center",
-        columns: 3,
-        gap: "24px",
-        title: {
-          text: "Voices of Appreciation",
-          size: "2.5rem",
-          weight: "600",
-          color: "#2B2B2B",
-        },
-        card: {
-          backgroundColor: "#F5F1E8",
-          padding: "32px",
-          align: "center",
-          borderRadius: "0px",
-          dropShadow: "0 2px 4px rgba(0,0,0,0.1)",
-        },
-        quotes: [
-          {
-            avatar: {
-              text: "E.M.",
-              size: "large",
-              backgroundColor: "#8B7355",
-            },
-            name: {
-              text: "Eleanor Morrison",
-              size: "1rem",
-              weight: "600",
-              color: "#2B2B2B",
-            },
-            role: {
-              text: "Interior Designer",
+              text: "Sarah Kim, Homeowner",
               size: "0.875rem",
-              weight: "400",
-              color: "#8B7355",
-            },
-            quote: {
-              text: "Each piece tells a story. The joinery is museum-quality, and the natural grain selection is simply breathtaking. This isn't furniture—it's functional art.",
-              size: "0.9375rem",
-              weight: "400",
-              color: "#2B2B2B",
-            },
-          },
-          {
-            avatar: {
-              text: "J.H.",
-              size: "large",
-              backgroundColor: "#8B7355",
-            },
-            name: {
-              text: "James Hartford",
-              size: "1rem",
               weight: "600",
-              color: "#2B2B2B",
-            },
-            role: {
-              text: "Collector",
-              size: "0.875rem",
-              weight: "400",
               color: "#8B7355",
-            },
-            quote: {
-              text: "I've inherited pieces from my grandfather. Now I commission pieces for my grandchildren. This is furniture that bridges generations.",
-              size: "0.9375rem",
-              weight: "400",
-              color: "#2B2B2B",
-            },
-          },
-          {
-            avatar: {
-              text: "S.K.",
-              size: "large",
-              backgroundColor: "#8B7355",
-            },
-            name: {
-              text: "Sarah Kim",
-              size: "1rem",
-              weight: "600",
-              color: "#2B2B2B",
-            },
-            role: {
-              text: "Homeowner",
-              size: "0.875rem",
-              weight: "400",
-              color: "#8B7355",
-            },
-            quote: {
-              text: "Watching them select the wood, seeing each tool stroke—it's like witnessing alchemy. Worth every moment of the wait.",
-              size: "0.9375rem",
-              weight: "400",
-              color: "#2B2B2B",
             },
           },
         ],

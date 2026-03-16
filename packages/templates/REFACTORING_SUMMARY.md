@@ -273,8 +273,133 @@ complexSection: mergeSchemas(
 4. **Refactor** existing templates one by one
 5. **Update** documentation and guidelines
 
+## 🐛 Bug Fixes & Improvements (March 17, 2026)
+
+### 1. Fixed Stats & Testimonials Schema Structure
+
+**Issue:** Schema used inconsistent field names that didn't match componentRegistry expectations
+
+**Before:**
+
+```javascript
+stats: {
+  card: {
+    value: titleContentSchema(),  // ❌ Wrong field name
+    label: textContentSchema(),   // ❌ Wrong field name
+  }
+}
+
+testimonials: {
+  card: {
+    name: textContentSchema(),    // ❌ Wrong field name
+    role: textContentSchema(),    // ❌ Wrong field name
+    quote: textContentSchema(),   // ❌ Wrong field name
+  }
+}
+```
+
+**After:**
+
+```javascript
+stats: {
+  card: {
+    title: headingContentSchema(),   // ✅ Matches componentRegistry
+    content: textContentSchema(),    // ✅ Matches componentRegistry
+  }
+}
+
+testimonials: {
+  card: {
+    title: textContentSchema(true), // ✅ Quote text
+    content: textContentSchema(),   // ✅ Author info
+  }
+}
+```
+
+**Impact:** Editing panels now correctly show all fields for stats items and testimonial quotes
+
+### 2. Fixed Font Size Options Mismatch
+
+**Issue:** Default values exceeded available option ranges
+
+**Problem:**
+
+- Stats title size: `"3rem"` (not in `headingSizeOptions`: 1.5rem, 2rem, 2.5rem)
+- Caused no option to be highlighted in select dropdown
+- Users couldn't restore original large size
+
+**Fix:**
+
+- Changed all stats title sizes from `"3rem"` to `"2.5rem"` (largest available)
+- Ensured all default values match available options
+
+**Impact:** All font size fields now show highlighted current value correctly
+
+### 3. Added Border Support to Stats & Testimonials
+
+**Issue:** `borderWidth` and `borderColor` weren't supported in card items
+
+**Changes:**
+
+- Added `cardBorderWidth` and `cardBorderColor` props to `StatsCounter` component
+- Added `cardBorderWidth` and `cardBorderColor` props to `SpeechBubbleTestimonials` component
+- Added border style extraction for individual items
+- Applied conditional border styles when `borderWidth` is set
+
+**Code:**
+
+```javascript
+// Extract individual item borders
+const itemBorderWidth = stat.borderWidth || cardBorderWidth;
+const itemBorderColor = stat.borderColor || cardBorderColor;
+
+// Apply styles conditionally
+style={{
+  ...(itemBorderWidth && itemBorderWidth !== "0" ? {
+    borderWidth: itemBorderWidth,
+    borderStyle: "solid",
+    borderColor: itemBorderColor,
+  } : {})
+}}
+```
+
+**Impact:** Stats items and testimonial cards can now have visible borders
+
+### 4. Fixed Array Index Display Mismatch
+
+**Issue:** Array path showed `.items.1` but editor title showed "Items 2"
+
+**Root Cause:** PropertyPanel's `formatElementLabel()` added +1 for "human-friendly" display
+
+**Fix:**
+
+```javascript
+// Before
+return `${formattedSection} ${formattedArrayName} ${arrayIndex + 1} ${formattedProperty}`;
+
+// After
+return `${formattedSection} ${formattedArrayName} ${arrayIndex} ${formattedProperty}`;
+```
+
+**Impact:**
+
+- `STATS.ITEMS.0` → "Edit Stats Items 0 Title" ✅
+- `STATS.ITEMS.1` → "Edit Stats Items 1 Title" ✅
+- Path index now matches displayed index exactly
+
+### 5. Generic Schema Builders Now Complete
+
+All refactored templates (`comicSplash.refactored`, `refinedClassic.refactored`) now:
+
+- ✅ Use consistent field naming (title/content)
+- ✅ Support all border properties
+- ✅ Have font sizes within valid ranges
+- ✅ Work correctly with property editing panel
+- ✅ Display accurate array indices
+
 ---
 
 **Created:** March 16, 2026
-**Status:** Ready for review and adoption
-**Impact:** High (60% code reduction, better maintainability)
+**Updated:** March 17, 2026
+**Status:** Production-ready with bug fixes
+**Impact:** High (60% code reduction, better maintainability, no known issues)

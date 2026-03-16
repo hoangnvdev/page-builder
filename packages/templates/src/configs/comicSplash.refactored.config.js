@@ -130,10 +130,10 @@ export const comicSplashRefactoredConfig = {
       // STATS SECTION
       // --------------------------
       stats: mergeSchemas(sectionSchema(), gridLayoutProps(6), {
-        title: titleContentSchema(),
+        title: headingContentSchema(),
         card: mergeSchemas(cardSchema(), {
-          value: titleContentSchema(), // large number
-          label: textContentSchema("text"), // description
+          title: headingContentSchema(), // large number
+          content: textContentSchema("text"), // description
         }),
         items: arrayField("items"),
       }),
@@ -142,14 +142,13 @@ export const comicSplashRefactoredConfig = {
       // TESTIMONIALS SECTION
       // --------------------------
       testimonials: mergeSchemas(sectionSchema(), gridLayoutProps(4), {
-        title: titleContentSchema(),
+        title: headingContentSchema(),
         card: mergeSchemas(cardSchema(), {
           avatar: avatarProps(),
-          name: textContentSchema("text"),
-          role: textContentSchema("text"),
-          quote: textContentSchema("text", true),
+          title: textContentSchema("text", true),
+          content: textContentSchema("text"),
         }),
-        items: arrayField("items"),
+        quotes: arrayField("items"),
       }),
 
       // --------------------------
