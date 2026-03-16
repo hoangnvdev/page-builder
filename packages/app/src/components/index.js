@@ -1,3 +1,4 @@
-export { LanguageSwitcher } from './LanguageSwitcher';
-export { LoadingIndicator } from './LoadingIndicator';
-export { RTLProvider } from './RTLProvider';
+export { ErrorBoundary } from "./ErrorBoundary";
+export { LanguageSwitcher } from "./LanguageSwitcher";
+export { LoadingIndicator } from "./LoadingIndicator";
+export { RTLProvider } from "./RTLProvider";

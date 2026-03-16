@@ -4,15 +4,11 @@ import { useMemo } from "react";
 
 import PropTypes from "prop-types";
 import { useTranslation } from "react-i18next";
-import { v4 as uuidv4 } from "uuid";
 
 import {
-  Button,
   ColorPicker,
   EmptyState,
-  Flex,
   Input,
-  Label,
   Radio,
   Select,
   Slider,
@@ -27,7 +23,6 @@ export const FormField = ({
   value,
   onChange,
   options,
-  items,
   min,
   max,
   step,
@@ -50,24 +45,51 @@ export const FormField = ({
     // Fallback to original label for backward compatibility
     return label;
   }, [label, t]);
-  const handleItemChange = (index, field, newValue) => {
-    const newItems = [...items];
-    newItems[index] = { ...newItems[index], [field]: newValue };
-    onChange(newItems);
-  };
 
-  const handleAddItem = () => {
-    const newItem = {
-      id: uuidv4(),
-      title: "",
-      description: "",
-    };
-    onChange([...items, newItem]);
-  };
+  // Helper: Translate option labels
+  const getTranslatedOptions = (opts) =>
+    opts.map((option) => ({
+      ...option,
+      label: t(`options.${option.value}`, option.label),
+    }));
 
-  const handleRemoveItem = (index) => {
-    const newItems = items.filter((_, idx) => idx !== index);
-    onChange(newItems);
+  // Render select field (Radio.Group for <4 options, Select for >=4)
+  const renderSelectField = () => {
+    if (!options || !Array.isArray(options) || options.length === 0) {
+      return (
+        <EmptyState
+          description={t("formField.warning.missingOptions", {
+            label: translatedLabel,
+          })}
+          className="form-field__warning"
+        />
+      );
+    }
+
+    const translatedOptions = getTranslatedOptions(options);
+
+    if (options.length < 4) {
+      return (
+        <Radio.Group
+          id={fieldId}
+          label={translatedLabel}
+          value={value}
+          onChange={onChange}
+          options={translatedOptions}
+          orientation="vertical"
+        />
+      );
+    }
+
+    return (
+      <Select
+        id={fieldId}
+        label={translatedLabel}
+        value={value}
+        onChange={onChange}
+        options={translatedOptions}
+      />
+    );
   };
 
   const renderField = () => {
@@ -79,6 +101,9 @@ export const FormField = ({
             label={translatedLabel}
             value={value}
             onChange={onChange}
+            placeholder={
+              label === "icon" ? t("ui.icon.placeholder") : undefined
+            }
           />
         );
 
@@ -104,49 +129,7 @@ export const FormField = ({
         );
 
       case "select":
-        // Skip select fields without options defined (incomplete schema)
-        if (!options || !Array.isArray(options) || options.length === 0) {
-          return (
-            <EmptyState
-              description={t("formField.warning.missingOptions", {
-                label: translatedLabel,
-              })}
-              className="form-field__warning"
-            />
-          );
-        }
-        // Use Radio.Group for less than 4 options, Select for 4 or more
-        if (options.length < 4) {
-          // Translate option labels for better i18n support
-          const translatedOptions = options.map((option) => ({
-            ...option,
-            label: t(`options.${option.value}`, option.label),
-          }));
-          return (
-            <Radio.Group
-              id={fieldId}
-              label={translatedLabel}
-              value={value}
-              onChange={onChange}
-              options={translatedOptions}
-              orientation="vertical"
-            />
-          );
-        }
-        // Translate option labels for Select as well
-        const translatedOptions = options.map((option) => ({
-          ...option,
-          label: t(`options.${option.value}`, option.label),
-        }));
-        return (
-          <Select
-            id={fieldId}
-            label={translatedLabel}
-            value={value}
-            onChange={onChange}
-            options={translatedOptions}
-          />
-        );
+        return renderSelectField();
 
       case "number":
         return (
@@ -185,61 +168,6 @@ export const FormField = ({
           />
         );
 
-      case "projects-list":
-      case "features-list":
-        return (
-          <div className="form-field__container">
-            <Label className="form-field__label">
-              {translatedLabel}
-              <Flex gap={8} style={{ marginTop: "0.5rem" }}>
-                <Button
-                  variant="secondary"
-                  size="small"
-                  onClick={handleAddItem}
-                >
-                  {t("formField.button.addItem")}
-                </Button>
-              </Flex>
-            </Label>
-
-            {items?.map((item, index) => (
-              <div key={item.id || index} className="form-field__list-item">
-                <Input
-                  id={`${fieldId}-item-${index}-title`}
-                  label={`${type === "projects-list" ? t("formField.label.project") : t("formField.label.feature")} ${index + 1} ${t("formField.label.itemTitle")}`}
-                  value={item.title || ""}
-                  onChange={(value) => handleItemChange(index, "title", value)}
-                />
-
-                <Textarea
-                  id={`${fieldId}-item-${index}-description`}
-                  label={t("formField.label.description")}
-                  value={item.description || ""}
-                  onChange={(value) =>
-                    handleItemChange(index, "description", value)
-                  }
-                  rows={3}
-                />
-
-                <Button
-                  variant="danger"
-                  size="small"
-                  onClick={() => handleRemoveItem(index)}
-                >
-                  {t("formField.button.remove")}
-                </Button>
-              </div>
-            ))}
-
-            {(!items || items.length === 0) && (
-              <EmptyState
-                description={t("formField.emptyState.noItems")}
-                className="form-field__empty-state"
-              />
-            )}
-          </div>
-        );
-
       default:
         return (
           <EmptyState
@@ -264,8 +192,6 @@ FormField.propTypes = {
     "number",
     "toggle",
     "slider",
-    "projects-list",
-    "features-list",
   ]).isRequired,
   value: PropTypes.any,
   onChange: PropTypes.func.isRequired,
@@ -282,13 +208,6 @@ FormField.propTypes = {
       step: PropTypes.number,
     }),
   ]),
-  items: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.string,
-      title: PropTypes.string,
-      description: PropTypes.string,
-    }),
-  ),
   min: PropTypes.number,
   max: PropTypes.number,
   step: PropTypes.number,

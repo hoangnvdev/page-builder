@@ -1,22 +1,14 @@
-import './index.scss';
+import "./index.scss";
 
-import {
-  useEffect,
-  useState,
-} from 'react';
+import { useEffect, useState } from "react";
 
-import { useTranslation } from 'react-i18next';
-import {
-  useDispatch,
-  useSelector,
-} from 'react-redux';
+import { useTranslation } from "react-i18next";
+import { useDispatch, useSelector } from "react-redux";
 
-import {
-  deselectElement,
-  selectElement,
-} from '@/store/builderSlice';
-import { deepMerge } from '@helpers';
-import { EmptyState } from '@page-builder/ui';
+import { ErrorBoundary } from "@/components";
+import { deselectElement, selectElement } from "@/store/builderSlice";
+import { deepMerge } from "@helpers";
+import { EmptyState } from "@page-builder/ui";
 
 export const PreviewRenderer = () => {
   const { t } = useTranslation();
@@ -113,7 +105,9 @@ export const PreviewRenderer = () => {
     <>
       <div className="preview-renderer" onClick={handleBackgroundClick}>
         <div className="preview-renderer__frame" onClick={handleElementClick}>
-          <TemplateComponent config={tempConfig} />
+          <ErrorBoundary>
+            <TemplateComponent config={tempConfig} />
+          </ErrorBoundary>
         </div>
       </div>
 
