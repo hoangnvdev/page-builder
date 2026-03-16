@@ -2,6 +2,7 @@
  * Component Helper Utilities
  *
  * Shared helper functions used across template components
+ * All helpers include error handling for safe usage
  */
 
 /**
@@ -10,13 +11,18 @@
  * @returns {string} CSS box-shadow value
  */
 export const getDropShadow = (shadow) => {
-  const shadows = {
-    none: "none",
-    light: "0 2px 4px rgba(0, 0, 0, 0.1)",
-    medium: "0 4px 8px rgba(0, 0, 0, 0.15)",
-    heavy: "0 8px 16px rgba(0, 0, 0, 0.2)",
-  };
-  return shadows[shadow] || shadows.light;
+  try {
+    const shadows = {
+      none: "none",
+      light: "0 2px 4px rgba(0, 0, 0, 0.1)",
+      medium: "0 4px 8px rgba(0, 0, 0, 0.15)",
+      heavy: "0 8px 16px rgba(0, 0, 0, 0.2)",
+    };
+    return shadows[shadow] || shadows.light;
+  } catch (error) {
+    console.error("Error in getDropShadow:", error);
+    return "0 2px 4px rgba(0, 0, 0, 0.1)";
+  }
 };
 
 /**
@@ -25,12 +31,17 @@ export const getDropShadow = (shadow) => {
  * @returns {string} CSS aspect-ratio value
  */
 export const getAspectRatioValue = (ratio) => {
-  const ratioMap = {
-    square: "1 / 1",
-    portrait: "3 / 4",
-    landscape: "16 / 9",
-  };
-  return ratioMap[ratio] || ratio;
+  try {
+    const ratioMap = {
+      square: "1 / 1",
+      portrait: "3 / 4",
+      landscape: "16 / 9",
+    };
+    return ratioMap[ratio] || ratio;
+  } catch (error) {
+    console.error("Error in getAspectRatioValue:", error);
+    return "16 / 9";
+  }
 };
 
 /**
@@ -40,9 +51,14 @@ export const getAspectRatioValue = (ratio) => {
  * @returns {string} Text content
  */
 export const extractText = (value) => {
-  if (typeof value === "string") return value;
-  if (value && typeof value === "object") return value.text || "";
-  return "";
+  try {
+    if (typeof value === "string") return value;
+    if (value && typeof value === "object") return value.text || "";
+    return "";
+  } catch (error) {
+    console.error("Error in extractText:", error);
+    return "";
+  }
 };
 
 /**
@@ -53,15 +69,20 @@ export const extractText = (value) => {
  * @returns {*} Value at path or default value
  */
 export const getNestedValue = (obj, path, defaultValue = undefined) => {
-  if (!obj || typeof obj !== "object") return defaultValue;
+  try {
+    if (!obj || typeof obj !== "object") return defaultValue;
 
-  const keys = path.split(".");
-  let current = obj;
+    const keys = path.split(".");
+    let current = obj;
 
-  for (const key of keys) {
-    if (current[key] === undefined) return defaultValue;
-    current = current[key];
+    for (const key of keys) {
+      if (current[key] === undefined) return defaultValue;
+      current = current[key];
+    }
+
+    return current !== undefined ? current : defaultValue;
+  } catch (error) {
+    console.error("Error in getNestedValue:", error);
+    return defaultValue;
   }
-
-  return current !== undefined ? current : defaultValue;
 };

@@ -1,7 +1,7 @@
 {
   "editor": {
     "toolbar": {
-      "backButton": "Back to Templates",
+      "backButton": "← Back to Templates",
       "resetButton": "Reset to Default"
     },
     "loading": {
@@ -112,6 +112,25 @@
         "title": "We're preparing your design workspace...",
         "description": "One moment..."
       }
+    }
+  },
+  "errorBoundary": {
+    "page": {
+      "title": "Something went wrong",
+      "message": "We're sorry, but something unexpected happened. Please try reloading the page."
+    },
+    "component": {
+      "title": "Component Error",
+      "message": "This component failed to load. Please try again."
+    },
+    "inline": {
+      "message": "Failed to load"
+    },
+    "showDetails": "Show error details",
+    "actions": {
+      "reload": "Reload Page",
+      "goHome": "Go to Home",
+      "retry": "Retry"
     }
   },
   "options": {

@@ -6,7 +6,11 @@ import { useTranslation } from "react-i18next";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
-import { LanguageSwitcher, LoadingIndicator } from "@/components";
+import {
+  ErrorBoundary,
+  LanguageSwitcher,
+  LoadingIndicator,
+} from "@/components";
 import { fetchTemplateByIdFromAPI, fetchTemplatesFromAPI } from "@/services";
 import { selectTemplate } from "@/store/builderSlice";
 import { processTemplateConfig } from "@/utils";
@@ -117,7 +121,12 @@ export const TemplateGallery = () => {
       <div className="template-gallery__grid">
         {templates.map((template) => (
           <div key={template.id} className="template-gallery__grid-item">
-            <TemplateCard template={template} onSelect={handleSelectTemplate} />
+            <ErrorBoundary fallbackType="inline">
+              <TemplateCard
+                template={template}
+                onSelect={handleSelectTemplate}
+              />
+            </ErrorBoundary>
           </div>
         ))}
       </div>
@@ -132,9 +141,6 @@ export const TemplateGallery = () => {
     <div className="template-gallery">
       <div className="template-gallery__container">
         <div className="template-gallery__header">
-          <div className="template-gallery__header-actions">
-            <LanguageSwitcher />
-          </div>
           <div className="template-gallery__header-content">
             <Title level={1} className="template-gallery__title">
               {t("templateGallery.title")}
@@ -144,6 +150,9 @@ export const TemplateGallery = () => {
                 {t("templateGallery.subtitle")}
               </SubTitle>
             )}
+          </div>
+          <div className="template-gallery__header-actions">
+            <LanguageSwitcher />
           </div>
         </div>
 

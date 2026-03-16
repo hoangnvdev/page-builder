@@ -1,7 +1,13 @@
-import React from 'react';
+import React from "react";
 
-import { TemplateGallery } from '../../components/TemplateGallery';
+import { ErrorBoundary } from "@/components";
+
+import { TemplateGallery } from "../../components/TemplateGallery";
 
 export const TemplatePage = () => {
-  return <TemplateGallery />;
+  return (
+    <ErrorBoundary fallbackType="component">
+      <TemplateGallery />
+    </ErrorBoundary>
+  );
 };

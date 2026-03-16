@@ -105,7 +105,7 @@ export const PreviewRenderer = () => {
     <>
       <div className="preview-renderer" onClick={handleBackgroundClick}>
         <div className="preview-renderer__frame" onClick={handleElementClick}>
-          <ErrorBoundary>
+          <ErrorBoundary fallbackType="component">
             <TemplateComponent config={tempConfig} />
           </ErrorBoundary>
         </div>

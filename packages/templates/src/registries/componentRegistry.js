@@ -396,10 +396,22 @@ export const getComponentForElement = (elementType, config, templateConfig) => {
   }
 
   const { component, propsMapper } = registration;
-  const props = propsMapper(config, templateConfig);
 
-  // Add dataElement prop to make the section selectable
-  props.dataElement = elementType;
+  try {
+    const props = propsMapper(config, templateConfig);
 
-  return { component, props };
+    // Add dataElement prop to make the section selectable
+    props.dataElement = elementType;
+
+    return { component, props };
+  } catch (error) {
+    console.error(`Error mapping props for component: ${elementType}`, error);
+
+    if (process.env.NODE_ENV === "development") {
+      console.error("Component config:", config);
+      console.error("Template config:", templateConfig);
+    }
+
+    return null;
+  }
 };
