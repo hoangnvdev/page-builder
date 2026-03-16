@@ -13,6 +13,7 @@ import {
   Flex,
   Input,
   Label,
+  Radio,
   Select,
   Slider,
   Textarea,
@@ -35,6 +36,20 @@ export const FormField = ({
   const { t } = useTranslation();
   // Generate a stable unique ID for the field
   const fieldId = useMemo(() => `field-${id.replace(/\./g, "-")}`, [id]);
+
+  // Translate the label - support both translation keys and plain text
+  const translatedLabel = useMemo(() => {
+    // If label looks like a translation key (no spaces, camelCase or dot notation)
+    if (label && !label.includes(" ") && !label.match(/[()]/)) {
+      // Try with fields. prefix first
+      const withPrefix = t(`fields.${label}`, { defaultValue: "" });
+      if (withPrefix) return withPrefix;
+      // Try without prefix
+      return t(label, label);
+    }
+    // Fallback to original label for backward compatibility
+    return label;
+  }, [label, t]);
   const handleItemChange = (index, field, newValue) => {
     const newItems = [...items];
     newItems[index] = { ...newItems[index], [field]: newValue };
@@ -59,14 +74,19 @@ export const FormField = ({
     switch (type) {
       case "text":
         return (
-          <Input id={fieldId} label={label} value={value} onChange={onChange} />
+          <Input
+            id={fieldId}
+            label={translatedLabel}
+            value={value}
+            onChange={onChange}
+          />
         );
 
       case "textarea":
         return (
           <Textarea
             id={fieldId}
-            label={label}
+            label={translatedLabel}
             value={value}
             onChange={onChange}
             rows={4}
@@ -77,7 +97,7 @@ export const FormField = ({
         return (
           <ColorPicker
             id={fieldId}
-            label={label}
+            label={translatedLabel}
             value={value}
             onChange={onChange}
           />
@@ -88,18 +108,43 @@ export const FormField = ({
         if (!options || !Array.isArray(options) || options.length === 0) {
           return (
             <EmptyState
-              description={t("formField.warning.missingOptions", { label })}
+              description={t("formField.warning.missingOptions", {
+                label: translatedLabel,
+              })}
               className="form-field__warning"
             />
           );
         }
+        // Use Radio.Group for less than 4 options, Select for 4 or more
+        if (options.length < 4) {
+          // Translate option labels for better i18n support
+          const translatedOptions = options.map((option) => ({
+            ...option,
+            label: t(`options.${option.value}`, option.label),
+          }));
+          return (
+            <Radio.Group
+              id={fieldId}
+              label={translatedLabel}
+              value={value}
+              onChange={onChange}
+              options={translatedOptions}
+              orientation="vertical"
+            />
+          );
+        }
+        // Translate option labels for Select as well
+        const translatedOptions = options.map((option) => ({
+          ...option,
+          label: t(`options.${option.value}`, option.label),
+        }));
         return (
           <Select
             id={fieldId}
-            label={label}
+            label={translatedLabel}
             value={value}
             onChange={onChange}
-            options={options}
+            options={translatedOptions}
           />
         );
 
@@ -107,7 +152,7 @@ export const FormField = ({
         return (
           <Input
             id={fieldId}
-            label={label}
+            label={translatedLabel}
             type="number"
             value={value}
             onChange={onChange}
@@ -119,7 +164,11 @@ export const FormField = ({
 
       case "toggle":
         return (
-          <Toggle value={value || false} onChange={onChange} label={label} />
+          <Toggle
+            value={value || false}
+            onChange={onChange}
+            label={translatedLabel}
+          />
         );
 
       case "slider":
@@ -130,7 +179,7 @@ export const FormField = ({
             max={max || 100}
             step={step || 1}
             onChange={onChange}
-            label={label}
+            label={translatedLabel}
             labels={labels}
             showValue={!labels}
           />
@@ -141,7 +190,7 @@ export const FormField = ({
         return (
           <div className="form-field__container">
             <Label className="form-field__label">
-              {label}
+              {translatedLabel}
               <Flex gap={8} style={{ marginTop: "0.5rem" }}>
                 <Button
                   variant="secondary"

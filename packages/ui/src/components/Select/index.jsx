@@ -1,5 +1,6 @@
 import "./index.scss";
 
+import { ChevronDown } from "lucide-react";
 import PropTypes from "prop-types";
 import { useTranslation } from "react-i18next";
 
@@ -37,26 +38,29 @@ export const Select = ({
           {required && <span className="select__required">*</span>}
         </label>
       )}
-      <select
-        id={id}
-        name={id}
-        value={value}
-        onChange={(e) => onChange(e.target.value)}
-        disabled={disabled}
-        className={selectClasses}
-        {...props}
-      >
-        {(placeholder || t("ui.select.placeholder")) && (
-          <option value="" disabled>
-            {placeholder || t("ui.select.placeholder")}
-          </option>
-        )}
-        {options.map((option) => (
-          <option key={option.value} value={option.value}>
-            {option.label}
-          </option>
-        ))}
-      </select>
+      <div className="select__wrapper">
+        <select
+          id={id}
+          name={id}
+          value={value}
+          onChange={(e) => onChange(e.target.value)}
+          disabled={disabled}
+          className={selectClasses}
+          {...props}
+        >
+          {(placeholder || t("ui.select.placeholder")) && (
+            <option value="" disabled>
+              {placeholder || t("ui.select.placeholder")}
+            </option>
+          )}
+          {options.map((option) => (
+            <option key={option.value} value={option.value}>
+              {option.label}
+            </option>
+          ))}
+        </select>
+        <ChevronDown className="select__icon" size={16} />
+      </div>
       {error && <span className="select__error-text">{error}</span>}
       {helperText && !error && (
         <span className="select__helper-text">{helperText}</span>

@@ -1,27 +1,14 @@
-import './index.scss';
+import "./index.scss";
 
-import { useTranslation } from 'react-i18next';
-import {
-  useDispatch,
-  useSelector,
-} from 'react-redux';
+import { useTranslation } from "react-i18next";
+import { useDispatch, useSelector } from "react-redux";
 
-import { updateConfig } from '@/store/builderSlice';
-import { getFieldsForElement } from '@/utils/schemaProcessor';
-import {
-  deepMerge,
-  getNestedValue,
-  setNestedValue,
-} from '@helpers';
-import {
-  EmptyState,
-  Flex,
-  Panel,
-  SubTitle,
-  Title,
-} from '@page-builder/ui';
+import { updateConfig } from "@/store/builderSlice";
+import { getFieldsForElement } from "@/utils/schemaProcessor";
+import { deepMerge, getNestedValue, setNestedValue } from "@helpers";
+import { EmptyState, Flex, Panel, SubTitle, Title } from "@page-builder/ui";
 
-import { FormField } from '../FormField';
+import { FormField } from "../FormField";
 
 export const PropertyPanel = () => {
   const { t, i18n } = useTranslation();
@@ -205,13 +192,16 @@ export const PropertyPanel = () => {
     i18n.language.split("-")[0] === "ar" ||
     i18n.language.split("-")[0] === "he";
 
-  // Build title and subtitle with proper word order for RTL
+  // Check if current language is Vietnamese (needs prefix order like RTL)
+  const isVietnamese = i18n.language.split("-")[0] === "vi";
+
+  // Build title and subtitle with proper word order for RTL and Vietnamese
   const panelTitle = isRTL
     ? `${formattedLabel} ${t("propertyPanel.title.editPrefix")}`
     : `${t("propertyPanel.title.editPrefix")} ${formattedLabel}`;
 
   const panelSubtitle = selectedSubElement
-    ? isRTL
+    ? isRTL || isVietnamese
       ? `${t("propertyPanel.subtitle.sectionSuffix")} ${selectedElement.charAt(0).toUpperCase() + selectedElement.slice(1)}`
       : `${selectedElement.charAt(0).toUpperCase() + selectedElement.slice(1)} ${t("propertyPanel.subtitle.sectionSuffix")}`
     : selectedTemplate.name;

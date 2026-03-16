@@ -1,7 +1,7 @@
 {
   "editor": {
     "toolbar": {
-      "backButton": "← Back to Templates",
+      "backButton": "Back to Templates",
       "resetButton": "Reset to Default"
     },
     "loading": {
@@ -113,5 +113,62 @@
         "description": "One moment..."
       }
     }
+  },
+  "options": {
+    "flex-start": "Left",
+    "center": "Center",
+    "flex-end": "Right",
+    "space-between": "Space Between",
+    "1": "H1",
+    "2": "H2",
+    "3": "H3",
+    "small": "Small",
+    "medium": "Medium",
+    "large": "Large",
+    "xlarge": "Extra Large",
+    "100%": "Full width",
+    "1200px": "1200px",
+    "1400px": "1400px",
+    "600px": "Small",
+    "800px": "Medium",
+    "1000px": "Large",
+    "Arial, sans-serif": "Arial",
+    "Georgia, serif": "Georgia",
+    "\"Segoe UI\", sans-serif": "Segoe UI",
+    "system-ui, sans-serif": "System",
+    "\"Inter\", sans-serif": "Inter",
+    "\"Orbitron\", sans-serif": "Orbitron",
+    "\"Rajdhani\", sans-serif": "Rajdhani",
+    "\"Exo 2\", sans-serif": "Exo 2",
+    "\"Michroma\", sans-serif": "Michroma",
+    "\"Share Tech Mono\", monospace": "Share Tech Mono",
+    "\"Space Mono\", monospace": "Space Mono",
+    "en": "English",
+    "es": "Español",
+    "fr": "Français",
+    "de": "Deutsch",
+    "it": "Italiano",
+    "pt": "Português",
+    "ja": "日本語",
+    "zh": "中文",
+    "0": "None",
+    "none": "None",
+    "0px": "None",
+    "400": "Normal",
+    "600": "Semi Bold",
+    "700": "Bold",
+    "2rem": "Small",
+    "3rem": "Medium",
+    "4rem": "Large",
+    "15px": "Small",
+    "20px": "Medium",
+    "25px": "Medium",
+    "30px": "Large",
+    "35px": "Large",
+    "0.75rem": "Small",
+    "0.875rem": "Small",
+    "1rem": "Medium",
+    "1.125rem": "Large",
+    "Full": "Full"
   }
 }
