@@ -113,5 +113,24 @@
         "description": "Một chút thôi..."
       }
     }
+  },
+  "errorBoundary": {
+    "page": {
+      "title": "Đã xảy ra lỗi",
+      "message": "Xin lỗi, đã xảy ra sự cố không mong muốn. Vui lòng thử tải lại trang."
+    },
+    "component": {
+      "title": "Lỗi thành phần",
+      "message": "Thành phần này không tải được. Vui lòng thử lại."
+    },
+    "inline": {
+      "message": "Không tải được"
+    },
+    "showDetails": "Hiển thị chi tiết lỗi",
+    "actions": {
+      "reload": "Tải lại trang",
+      "goHome": "Về trang chủ",
+      "retry": "Thử lại"
+    }
   }
 }

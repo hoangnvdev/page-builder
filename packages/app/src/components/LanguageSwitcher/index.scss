@@ -131,6 +131,14 @@
     }
   }
 
+  // RTL layout adjustments
+  [dir="rtl"] & {
+    &__direction-badge {
+      margin-left: 0;
+      margin-right: auto;
+    }
+  }
+
   // Responsive: adjust for smaller screens
   @media (max-width: 768px) {
     &__trigger {
