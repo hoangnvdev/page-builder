@@ -1,0 +1,14 @@
+{
+  "input": {
+    "placeholder": "Nhập văn bản..."
+  },
+  "textarea": {
+    "placeholder": "Nhập văn bản..."
+  },
+  "select": {
+    "placeholder": "Chọn một tùy chọn..."
+  },
+  "colorPicker": {
+    "placeholder": "#000000 hoặc transparent"
+  }
+}

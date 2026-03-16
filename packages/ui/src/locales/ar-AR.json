@@ -1,0 +1,14 @@
+{
+  "input": {
+    "placeholder": "أدخل النص..."
+  },
+  "textarea": {
+    "placeholder": "أدخل النص..."
+  },
+  "select": {
+    "placeholder": "اختر خيار..."
+  },
+  "colorPicker": {
+    "placeholder": "#000000 أو transparent"
+  }
+}

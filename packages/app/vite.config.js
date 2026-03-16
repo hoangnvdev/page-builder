@@ -1,7 +1,7 @@
-import path from "path";
-import { defineConfig } from "vite";
+import path from 'path';
+import { defineConfig } from 'vite';
 
-import react from "@vitejs/plugin-react";
+import react from '@vitejs/plugin-react';
 
 export default defineConfig({
   plugins: [
@@ -54,8 +54,8 @@ export default defineConfig({
             if (id.includes("@reduxjs/toolkit")) {
               return "redux-vendor";
             }
-            if (id.includes("formik")) {
-              return "form-vendor";
+            if (id.includes("i18next") || id.includes("react-i18next")) {
+              return "i18n-vendor";
             }
             if (id.includes("lucide-react")) {
               return "icons-vendor";

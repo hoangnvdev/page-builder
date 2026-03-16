@@ -1,0 +1,117 @@
+{
+  "editor": {
+    "toolbar": {
+      "backButton": "← Quay lại Mẫu",
+      "resetButton": "Đặt lại về Mặc định"
+    },
+    "loading": {
+      "title": "Đang khôi phục Mẫu...",
+      "description": "Vui lòng đợi trong khi chúng tôi khôi phục thiết kế của bạn..."
+    },
+    "accessibility": {
+      "closePanel": "Đóng Bảng Chỉnh sửa",
+      "openPanel": "Mở Bảng Chỉnh sửa"
+    }
+  },
+  "export": {
+    "button": {
+      "exported": "Đã xuất!",
+      "exportHtml": "Xuất HTML"
+    },
+    "error": {
+      "failedMessage": "Xuất thất bại. Vui lòng thử lại."
+    }
+  },
+  "propertyPanel": {
+    "title": {
+      "properties": "Thuộc tính",
+      "pageSettings": "Cài đặt Trang",
+      "editPrefix": "Chỉnh sửa"
+    },
+    "subtitle": {
+      "sectionSuffix": "Phần"
+    },
+    "emptyState": {
+      "selectTemplate": "Chọn một mẫu để chỉnh sửa thuộc tính của nó",
+      "noPropertiesPrefix": "Không có thuộc tính có thể chỉnh sửa được xác định cho"
+    }
+  },
+  "templateCard": {
+    "button": {
+      "useTemplate": "Sử dụng Mẫu"
+    }
+  },
+  "templateGallery": {
+    "title": "Chọn Mẫu của Bạn",
+    "subtitle": "Chọn một mẫu để bắt đầu xây dựng trang của bạn. Tất cả các mẫu đều có thể tùy chỉnh hoàn toàn.",
+    "loading": {
+      "title": "Đang tải Mẫu",
+      "description": "Đang lấy các mẫu có sẵn..."
+    },
+    "preparing": {
+      "title": "Đang chuẩn bị Mẫu",
+      "description": "Đang tải mẫu bạn đã chọn..."
+    },
+    "error": {
+      "title": "Tải Mẫu thất bại"
+    },
+    "button": {
+      "retry": "Thử lại"
+    },
+    "emptyState": {
+      "title": "Không có Mẫu nào",
+      "description": "Không tìm thấy mẫu nào."
+    }
+  },
+  "formField": {
+    "button": {
+      "addItem": "+ Thêm Mục",
+      "remove": "Xóa"
+    },
+    "label": {
+      "project": "Dự án",
+      "feature": "Tính năng",
+      "itemTitle": "Tiêu đề",
+      "description": "Mô tả"
+    },
+    "warning": {
+      "missingOptions": "Trường \"{label}\" thiếu tùy chọn. Vui lòng cập nhật cấu hình schema."
+    },
+    "emptyState": {
+      "noItems": "Chưa có mục nào. Nhấp 'Thêm Mục' để tạo một mục."
+    },
+    "error": {
+      "unknownType": "Loại trường không xác định: \"{type}\". Vui lòng kiểm tra cấu hình trường."
+    }
+  },
+  "loading": {
+    "default": {
+      "title": "Đang tải...",
+      "description": "Vui lòng đợi trong khi chúng tôi lấy dữ liệu."
+    }
+  },
+  "preview": {
+    "emptyState": {
+      "title": "Mẫu không khả dụng",
+      "description": "Vui lòng quay lại thư viện mẫu và chọn lại một mẫu."
+    },
+    "helperTip": {
+      "message": "💡 Mẹo: Nhấp vào bất kỳ phần hoặc phần tử riêng lẻ nào (tiêu đề, nút, v.v.) để chỉnh sửa. Nhấp bên ngoài để xem cài đặt trang."
+    },
+    "accessibility": {
+      "closeTip": "Đóng mẹo"
+    }
+  },
+  "routes": {
+    "loading": {
+      "templatePage": {
+        "title": "Chúng tôi đang chuẩn bị các mẫu của bạn...",
+        "description": "Một chút thôi..."
+      },
+      "designPage": {
+        "title": "Chúng tôi đang chuẩn bị không gian thiết kế của bạn...",
+        "description": "Một chút thôi..."
+      }
+    }
+  }
+}

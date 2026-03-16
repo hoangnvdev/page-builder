@@ -1,6 +1,6 @@
-import './index.scss';
+import "./index.scss";
 
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 
 import {
   Card,
@@ -10,7 +10,7 @@ import {
   Section,
   Text,
   Title,
-} from '@page-builder/ui';
+} from "@page-builder/ui";
 
 export const ComicPanels = ({
   heading,
@@ -100,25 +100,24 @@ export const ComicPanels = ({
                       <Card.Title
                         className="comic-panel__title"
                         style={{
-                          fontSize: panel.title?.size || cardTitleSize,
-                          fontWeight: panel.title?.weight || cardTitleWeight,
-                          color: panel.title?.color || cardTitleColor,
+                          fontSize: panel.titleSize || cardTitleSize,
+                          fontWeight: panel.titleWeight || cardTitleWeight,
+                          color: panel.titleColor || cardTitleColor,
                         }}
                         data-element={`${dataElement}.panels.${index}.title`}
                       >
-                        {panel.title?.text || panel.title}
+                        {panel.title}
                       </Card.Title>
                       <Card.Description
                         className="comic-panel__content"
                         style={{
-                          fontSize: panel.content?.size || cardContentSize,
-                          fontWeight:
-                            panel.content?.weight || cardContentWeight,
-                          color: panel.content?.color || cardContentColor,
+                          fontSize: panel.contentSize || cardContentSize,
+                          fontWeight: panel.contentWeight || cardContentWeight,
+                          color: panel.contentColor || cardContentColor,
                         }}
                         data-element={`${dataElement}.panels.${index}.content`}
                       >
-                        {panel.content?.text || panel.content}
+                        {panel.content}
                       </Card.Description>
                     </Card.Content>
                   </Card>

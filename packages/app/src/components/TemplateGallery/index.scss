@@ -9,8 +9,22 @@
   }
 
   &__header {
-    text-align: center;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
     margin-bottom: 3rem;
+    gap: 2rem;
+  }
+
+  &__header-content {
+    flex: 1;
+    text-align: center;
+  }
+
+  &__header-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
   }
 
   &__title {
@@ -62,6 +76,13 @@
 
     &__header {
       margin-bottom: 2rem;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    &__header-actions {
+      width: 100%;
+      justify-content: center;
     }
 
     &__grid {

@@ -1,71 +1,23 @@
-import "@page-builder/ui/styles";
-import "@page-builder/templates/styles";
+import '@page-builder/ui/styles';
+import '@page-builder/templates/styles';
+import './global.scss';
 
-import { StrictMode } from "react";
+import { StrictMode } from 'react';
 
-import ReactDOM from "react-dom/client";
-import { Provider } from "react-redux";
+import ReactDOM from 'react-dom/client';
+import { I18nextProvider } from 'react-i18next';
+import { Provider } from 'react-redux';
 
-import App from "@/App";
-import { store } from "@/store/store";
-
-const globalStyles = `
-  * {
-    box-sizing: border-box;
-  }
-
-  html {
-    scrollbar-gutter: stable;
-    scrollbar-width: thin;
-    scrollbar-color: #c0c0c0 transparent;
-  }
-
-  /* Webkit browsers (Chrome, Safari, Edge) */
-  html::-webkit-scrollbar {
-    width: 12px;
-  }
-
-  html::-webkit-scrollbar-track {
-    background: transparent;
-  }
-
-  html::-webkit-scrollbar-thumb {
-    background: #c0c0c0;
-    border-radius: 6px;
-    border: 3px solid #fafafa;
-  }
-
-  html::-webkit-scrollbar-thumb:hover {
-    background: #a0a0a0;
-  }
-
-  body {
-    margin: 0;
-    padding: 0;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-      'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-      sans-serif;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-  }
-
-  #root {
-    min-height: 100vh;
-  }
-
-  button {
-    font-family: inherit;
-  }
-`;
-
-const styleElement = document.createElement("style");
-styleElement.textContent = globalStyles;
-document.head.appendChild(styleElement);
+import App from '@/App';
+import i18n from '@/i18n';
+import { store } from '@/store/store';
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <StrictMode>
-    <Provider store={store}>
-      <App />
-    </Provider>
+    <I18nextProvider i18n={i18n}>
+      <Provider store={store}>
+        <App />
+      </Provider>
+    </I18nextProvider>
   </StrictMode>,
 );

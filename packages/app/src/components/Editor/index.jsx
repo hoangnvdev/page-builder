@@ -1,26 +1,37 @@
-import "./index.scss";
+import './index.scss';
 
-import { useEffect, useState } from "react";
+import {
+  useEffect,
+  useState,
+} from 'react';
 
-import { ChevronDown, ChevronUp } from "lucide-react";
-import { useDispatch, useSelector } from "react-redux";
-import { Navigate, useNavigate } from "react-router-dom";
+import { FilePenLine } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
+import {
+  useDispatch,
+  useSelector,
+} from 'react-redux';
+import {
+  Navigate,
+  useNavigate,
+} from 'react-router-dom';
 
-import { LoadingIndicator } from "@/components";
-import { fetchTemplateByIdFromAPI } from "@/services";
+import { LoadingIndicator } from '@/components';
+import { fetchTemplateByIdFromAPI } from '@/services';
 import {
   rehydrateTemplateComponent,
   resetToGallery,
-} from "@/store/builderSlice";
-import { processTemplateConfig } from "@/utils";
-import { Flex } from "@page-builder/ui";
+} from '@/store/builderSlice';
+import { processTemplateConfig } from '@/utils';
+import { Flex } from '@page-builder/ui';
 
-import { EditorToolbar } from "../EditorToolbar";
-import { PreviewRenderer } from "../PreviewRenderer";
-import { PropertyPanel } from "../PropertyPanel";
-import { ResizableDivider } from "../ResizableDivider";
+import { EditorToolbar } from '../EditorToolbar';
+import { PreviewRenderer } from '../PreviewRenderer';
+import { PropertyPanel } from '../PropertyPanel';
+import { ResizableDivider } from '../ResizableDivider';
 
 export const Editor = () => {
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const selectedTemplate = useSelector(
@@ -86,8 +97,8 @@ export const Editor = () => {
   if (isRehydrating) {
     return (
       <LoadingIndicator
-        title="Restoring Template..."
-        description="Please wait while we restore your design..."
+        title={t("editor.loading.title")}
+        description={t("editor.loading.description")}
       />
     );
   }
@@ -142,13 +153,17 @@ export const Editor = () => {
           className="editor__toggle-panel"
           onClick={togglePanel}
           aria-label={
-            isPanelVisible ? "Close Editor Panel" : "Open Editor Panel"
+            isPanelVisible
+              ? t("editor.accessibility.closePanel")
+              : t("editor.accessibility.openPanel")
           }
         >
           <span className="editor__toggle-tooltip">
-            {isPanelVisible ? "Close Editor Panel" : "Open Editor Panel"}
+            {isPanelVisible
+              ? t("editor.accessibility.closePanel")
+              : t("editor.accessibility.openPanel")}
           </span>
-          {isPanelVisible ? <ChevronDown size={24} /> : <ChevronUp size={24} />}
+          <FilePenLine size={24} />
         </button>
       )}
     </Flex>

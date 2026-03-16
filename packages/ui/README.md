@@ -2,6 +2,48 @@
 
 A comprehensive, production-ready UI component library for the Page Builder application. Built with React and SCSS modules, optimized for tree-shaking and minimal bundle size.
 
+## Package Structure
+
+```
+packages/ui/src/
+├── assets/              # Static assets
+│   └── images/
+│       └── default-image.png  # Default fallback image
+├── components/          # All primitive UI components
+│   ├── Avatar/
+│   ├── Badge/
+│   ├── Button/
+│   ├── Card/
+│   ├── ColorPicker/
+│   ├── Container/
+│   ├── Divider/
+│   ├── EmptyState/
+│   ├── Flex/
+│   ├── Grid/
+│   ├── Image/
+│   ├── Input/
+│   ├── Label/
+│   ├── Link/
+│   ├── Page/
+│   ├── Panel/
+│   ├── Section/
+│   ├── Select/
+│   ├── Slider/
+│   ├── SubTitle/
+│   ├── Text/
+│   ├── Textarea/
+│   ├── Title/
+│   ├── Toggle/
+│   └── Toolbar/
+├── locales/             # i18n translation files (JSON)
+│   ├── en-EN.json
+│   ├── vn-VN.json
+│   ├── ja-JP.json
+│   └── ar-AR.json
+├── index.js             # Package exports
+└── styles.js            # Global style imports
+```
+
 ## Components
 
 ### Layout Components
@@ -68,6 +110,17 @@ function MyComponent() {
     </Grid>
   );
 }
+```
+
+### Importing Components
+
+All components are exported from the main package entry:
+
+```jsx
+// ✅ Recommended - named imports
+import { Button, Card, Input } from "@page-builder/ui";
+
+// All imports resolve to: @page-builder/ui/src/components/ComponentName
 ```
 
 ## Styling

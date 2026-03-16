@@ -1,10 +1,16 @@
-import "./index.scss";
+import './index.scss';
 
-import PropTypes from "prop-types";
+import PropTypes from 'prop-types';
+import { useTranslation } from 'react-i18next';
 
-import { Button, Card } from "@page-builder/ui";
+import {
+  Button,
+  Card,
+} from '@page-builder/ui';
 
 export const TemplateCard = ({ template, onSelect }) => {
+  const { t } = useTranslation();
+
   return (
     <Card hoverable>
       <Card.Image>
@@ -15,7 +21,7 @@ export const TemplateCard = ({ template, onSelect }) => {
         <Card.Description>{template.description}</Card.Description>
         <Card.Actions>
           <Button variant="primary" onClick={() => onSelect(template)}>
-            Use Template
+            {t("templateCard.button.useTemplate")}
           </Button>
         </Card.Actions>
       </Card.Content>

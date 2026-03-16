@@ -1,0 +1,326 @@
+{
+  "fields": {
+    "pageTitle": "Tiêu đề trang (Tab trình duyệt)",
+    "metaDescription": "Mô tả Meta (SEO)",
+    "metaKeywords": "Từ khóa Meta (phân cách bằng dấu phẩy)",
+    "author": "Tác giả",
+    "language": "Ngôn ngữ",
+    "fontFamily": "Phông chữ",
+    "pageBackground": "Nền trang",
+    "pageTextColor": "Màu chữ trang",
+    "backgroundColor": "Màu nền",
+    "gradientStart": "Gradient bắt đầu (tùy chọn)",
+    "gradientEnd": "Gradient kết thúc (tùy chọn)",
+    "gradientAngle": "Góc gradient",
+    "padding": "Khoảng cách trong",
+    "gap": "Khoảng cách",
+    "maxWidth": "Chiều rộng tối đa",
+    "textAlign": "Căn chỉnh văn bản",
+    "textColor": "Màu chữ",
+    "accentColor": "Màu nhấn mạnh",
+    "primaryColor": "Màu chính",
+    "secondaryColor": "Màu phụ",
+    "buttonRadius": "Bo góc nút",
+    "buttonBackground": "Nền nút",
+    "buttonText": "Văn bản nút",
+    "buttonTextColor": "Màu chữ nút",
+    "buttonHoverBg": "Nền nút khi di chuột",
+    "linkColor": "Màu liên kết",
+    "dividerColor": "Màu đường phân cách",
+    "borderColor": "Màu viền",
+    "borderWidth": "Độ dày viền",
+    "borderRadius": "Bo góc viền",
+    "shadowColor": "Màu bóng đổ",
+    "shadowBlur": "Độ mờ bóng đổ",
+    "title": "Tiêu đề",
+    "subtitle": "Tiêu đề phụ",
+    "heading": "Đề mục",
+    "subheading": "Đề mục phụ",
+    "description": "Mô tả",
+    "text": "Văn bản",
+    "content": "Nội dung",
+    "quote": "Trích dẫn",
+    "role": "Vai trò / Chức danh",
+    "company": "Công ty",
+    "date": "Ngày",
+    "year": "Năm",
+    "label": "Nhãn",
+    "value": "Giá trị",
+    "metric": "Chỉ số",
+    "suffix": "Hậu tố",
+    "prefix": "Tiền tố",
+    "logoUrl": "URL Logo",
+    "logoAlt": "Văn bản thay thế Logo",
+    "imageUrl": "URL Hình ảnh",
+    "imageAlt": "Văn bản thay thế hình ảnh",
+    "iconUrl": "URL Biểu tượng",
+    "iconAlt": "Văn bản thay thế biểu tượng",
+    "videoUrl": "URL Video",
+    "videoCaption": "Chú thích video",
+    "linkUrl": "URL Liên kết",
+    "linkText": "Văn bản liên kết",
+    "buttonUrl": "URL Nút",
+    "ctaText": "Văn bản kêu gọi hành động",
+    "ctaUrl": "URL kêu gọi hành động",
+    "items": "Mục",
+    "sectionTitle": "Tiêu đề phần",
+    "sectionSubtitle": "Tiêu đề phụ phần",
+    "columns": "Cột",
+    "columnSpacing": "Khoảng cách cột",
+    "rowSpacing": "Khoảng cách hàng",
+    "alignItems": "Căn chỉnh mục",
+    "justifyContent": "Căn đều nội dung",
+    "itemBackground": "Nền mục",
+    "itemTextColor": "Màu chữ mục",
+    "itemBorderColor": "Màu viền mục",
+    "itemBorderRadius": "Bo góc viền mục",
+    "itemBorderWidth": "Độ dày viền mục",
+    "itemPadding": "Khoảng cách trong mục",
+    "itemGap": "Khoảng cách mục",
+    "fontSize": "Cỡ chữ",
+    "fontWeight": "Độ đậm chữ",
+    "lineHeight": "Chiều cao dòng",
+    "letterSpacing": "Khoảng cách chữ",
+    "layout": "Bố cục",
+    "direction": "Hướng",
+    "reverse": "Đảo ngược",
+    "showImage": "Hiển thị hình ảnh",
+    "showIcon": "Hiển thị biểu tượng",
+    "showButton": "Hiển thị nút",
+    "showDivider": "Hiển thị đường phân cách",
+    "showQuote": "Hiển thị trích dẫn",
+    "showAuthor": "Hiển thị tác giả",
+    "showDate": "Hiển thị ngày",
+    "animationDuration": "Thời gian hoạt ảnh",
+    "animationDelay": "Độ trễ hoạt ảnh"
+  },
+  "options": {
+    "left": "Trái",
+    "center": "Giữa",
+    "right": "Phải",
+    "start": "Đầu",
+    "end": "Cuối",
+    "spaceBetween": "Khoảng cách đều",
+    "spaceAround": "Khoảng cách xung quanh",
+    "spaceEvenly": "Khoảng cách đồng đều",
+    "flexStart": "Đầu flex",
+    "flexEnd": "Cuối flex",
+    "stretch": "Kéo giãn",
+    "baseline": "Đường cơ sở",
+    "horizontal": "Ngang",
+    "vertical": "Dọc",
+    "row": "Hàng",
+    "column": "Cột",
+    "grid": "Lưới",
+    "flex": "Flex",
+    "none": "Không có",
+    "small": "Nhỏ",
+    "medium": "Trung bình",
+    "large": "Lớn",
+    "xs": "Rất nhỏ",
+    "sm": "Nhỏ",
+    "md": "Trung bình",
+    "lg": "Lớn",
+    "xl": "Rất lớn",
+    "2xl": "2X Lớn",
+    "3xl": "3X Lớn",
+    "normal": "Bình thường",
+    "bold": "Đậm",
+    "light": "Nhẹ",
+    "semibold": "Bán đậm",
+    "true": "Có",
+    "false": "Không",
+    "enabled": "Bật",
+    "disabled": "Tắt",
+    "visible": "Hiển thị",
+    "hidden": "Ẩn",
+    "slide": "Trượt",
+    "fade": "Mờ dần",
+    "zoom": "Phóng to",
+    "bounce": "Nảy",
+    "slow": "Chậm",
+    "fast": "Nhanh",
+    "auto": "Tự động"
+  },
+  "nav": {
+    "home": "Trang chủ",
+    "about": "Giới thiệu",
+    "services": "Dịch vụ",
+    "products": "Sản phẩm",
+    "contact": "Liên hệ",
+    "features": "Tính năng",
+    "pricing": "Bảng giá",
+    "blog": "Blog"
+  },
+  "templates": {
+    "businessPro": {
+      "name": "Doanh nghiệp chuyên nghiệp",
+      "description": "Trang đích doanh nghiệp chuyên nghiệp",
+      "defaults": {
+        "hero": {
+          "title": "Chào mừng đến với doanh nghiệp chúng tôi",
+          "subtitle": "Giải pháp chuyên nghiệp cho công ty hiện đại",
+          "description": "Chúng tôi cung cấp các giải pháp sáng tạo để giúp doanh nghiệp của bạn phát triển và thành công trong kỷ nguyên số.",
+          "ctaText": "Bắt đầu",
+          "ctaUrl": "#lienhe"
+        },
+        "features": {
+          "sectionTitle": "Dịch vụ của chúng tôi",
+          "items": [
+            {
+              "title": "Tư vấn",
+              "description": "Dịch vụ tư vấn doanh nghiệp chuyên gia",
+              "iconUrl": "💼"
+            },
+            {
+              "title": "Chiến lược",
+              "description": "Lập kế hoạch chiến lược dựa trên dữ liệu",
+              "iconUrl": "📊"
+            },
+            {
+              "title": "Triển khai",
+              "description": "Thực hiện và hỗ trợ liền mạch",
+              "iconUrl": "🚀"
+            }
+          ]
+        },
+        "testimonials": {
+          "sectionTitle": "Khách hàng nói gì về chúng tôi",
+          "items": [
+            {
+              "quote": "Dịch vụ và kết quả xuất sắc!",
+              "author": "John Smith",
+              "role": "CEO, Tech Corp"
+            }
+          ]
+        },
+        "cta": {
+          "title": "Sẵn sàng bắt đầu?",
+          "subtitle": "Liên hệ với chúng tôi ngay hôm nay để được tư vấn miễn phí",
+          "buttonText": "Liên hệ",
+          "buttonUrl": "#lienhe"
+        }
+      }
+    },
+    "comicSplash": {
+      "name": "Phong cách truyện tranh",
+      "description": "Trang đích phong cách truyện tranh táo bạo",
+      "defaults": {
+        "hero": {
+          "title": "POW! Chào mừng anh hùng!",
+          "subtitle": "Cuộc phiêu lưu của bạn bắt đầu tại đây",
+          "ctaText": "Tham gia ngay",
+          "ctaUrl": "#dangky"
+        },
+        "features": {
+          "items": [
+            {
+              "title": "Siêu năng lực",
+              "description": "Mở khóa khả năng tuyệt vời"
+            },
+            {
+              "title": "Nhiệm vụ sử thi",
+              "description": "Bắt đầu cuộc phiêu lưu huyền thoại"
+            },
+            {
+              "title": "Liên minh anh hùng",
+              "description": "Hợp tác với các anh hùng khác"
+            }
+          ]
+        }
+      }
+    },
+    "futuristicTech": {
+      "name": "Công nghệ tương lai",
+      "description": "Trang đích công nghệ hiện đại với hoạt ảnh",
+      "defaults": {
+        "hero": {
+          "title": "Công nghệ sẵn sàng cho tương lai",
+          "subtitle": "Đổi mới với tốc độ ánh sáng",
+          "description": "Giải pháp tiên tiến được hỗ trợ bởi trí tuệ nhân tạo và thuật toán nâng cao.",
+          "ctaText": "Khám phá công nghệ",
+          "ctaUrl": "#congnghe"
+        },
+        "features": {
+          "sectionTitle": "Tính năng nâng cao",
+          "items": [
+            {
+              "title": "Hỗ trợ AI",
+              "description": "Tự động hóa và thông tin chi tiết thông minh"
+            },
+            {
+              "title": "Dữ liệu thời gian thực",
+              "description": "Cập nhật trực tiếp và phân tích"
+            },
+            {
+              "title": "An toàn & Nhanh",
+              "description": "Bảo mật và hiệu suất cấp doanh nghiệp"
+            }
+          ]
+        },
+        "stats": {
+          "items": [
+            {
+              "value": "99.9",
+              "suffix": "%",
+              "label": "Thời gian hoạt động"
+            },
+            {
+              "value": "10",
+              "suffix": "ms",
+              "label": "Thời gian phản hồi"
+            },
+            {
+              "value": "1M+",
+              "label": "Người dùng"
+            }
+          ]
+        }
+      }
+    },
+    "refinedClassic": {
+      "name": "Cổ điển tinh tế",
+      "description": "Thiết kế thanh lịch và vượt thời gian",
+      "defaults": {
+        "hero": {
+          "title": "Sự thanh lịch vượt thời gian",
+          "subtitle": "Nơi truyền thống gặp gỡ sự tinh tế hiện đại",
+          "description": "Trải nghiệm sự cân bằng hoàn hảo giữa thiết kế cổ điển và chức năng hiện đại.",
+          "ctaText": "Khám phá thêm",
+          "ctaUrl": "#gioithieu"
+        },
+        "about": {
+          "sectionTitle": "Câu chuyện của chúng tôi",
+          "content": "Được thành lập trên các nguyên tắc xuất sắc và tay nghề, chúng tôi đã cung cấp chất lượng trong hơn một thập kỷ."
+        },
+        "services": {
+          "sectionTitle": "Chúng tôi cung cấp gì",
+          "items": [
+            {
+              "title": "Chất lượng cao cấp",
+              "description": "Thủ công với sự chú ý đến từng chi tiết"
+            },
+            {
+              "title": "Tay nghề chuyên gia",
+              "description": "Nhiều thập kỷ kinh nghiệm kết hợp"
+            },
+            {
+              "title": "Dịch vụ cá nhân hóa",
+              "description": "Được điều chỉnh theo nhu cầu độc đáo của bạn"
+            }
+          ]
+        },
+        "testimonials": {
+          "sectionTitle": "Lời chứng thực của khách hàng",
+          "items": [
+            {
+              "quote": "Chất lượng và dịch vụ đặc biệt. Rất được khuyến nghị!",
+              "author": "Sarah Johnson",
+              "role": "Nhà thiết kế"
+            }
+          ]
+        }
+      }
+    }
+  }
+}

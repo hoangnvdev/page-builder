@@ -12,6 +12,7 @@ A modern, high-performance browser-based page builder for creating and exporting
 - ⚡ **Optimized Performance** - Lazy loading, code splitting, and modern build optimizations
 - 🧩 **Component System** - Extensive template component library with 18+ reusable sections
 - 🎭 **Config-Driven** - Templates defined by data, not hardcoded layouts
+- 🌐 **Internationalization** - Multi-language support (English, Vietnamese, Japanese, Arabic) with RTL layout
 
 ## Prerequisites
 
@@ -75,27 +76,37 @@ page-builder/
 ├── packages/
 │   ├── ui/                     # @page-builder/ui
 │   │   ├── src/                # Reusable UI components library
-│   │   │   ├── Button/
-│   │   │   ├── Card/
-│   │   │   ├── ColorPicker/
-│   │   │   ├── Input/
-│   │   │   ├── Panel/
-│   │   │   └── ... (12 components)
+│   │   │   ├── assets/         # Static assets (images, etc.)
+│   │   │   ├── components/     # All primitive UI components
+│   │   │   │   ├── Button/
+│   │   │   │   ├── Card/
+│   │   │   │   ├── ColorPicker/
+│   │   │   │   ├── Input/
+│   │   │   │   ├── Panel/
+│   │   │   │   └── ... (25 components)
+│   │   │   ├── locales/        # i18n translation files (JSON)
+│   │   │   ├── index.js        # Package exports
+│   │   │   └── styles.js       # Style imports
 │   │   └── package.json        # Publishable package
 │   │
 │   ├── templates/              # @page-builder/templates
 │   │   ├── src/                # Template library
-│   │   │   ├── ModernPortfolio/
-│   │   │   ├── BusinessLanding/
-│   │   │   └── templateRegistry.js
+│   │   │   ├── components/     # Template components
+│   │   │   ├── configs/        # Template configurations
+│   │   │   ├── locales/        # i18n translation files (JSON)
+│   │   │   ├── registries/     # Component & template registries
+│   │   │   └── utils/          # Helper functions
 │   │   └── package.json        # Depends on @page-builder/ui
 │   │
 │   └── app/                    # @page-builder/app
 │       ├── src/                # Main application
+│       │   ├── components/     # App components
+│       │   ├── locales/        # Translation files
 │       │   ├── pages/          # Design & Template pages
 │       │   ├── routes/         # React Router config
 │       │   ├── store/          # Redux Toolkit state
-│       │   └── utils/          # App-specific utilities
+│       │   ├── utils/          # App-specific utilities
+│       │   └── i18n.js         # i18n configuration
 │       ├── index.html
 │       └── package.json        # Depends on ui + templates
 │
@@ -113,6 +124,15 @@ page-builder/
 ```
 
 Each package is independently buildable and can be published to npm.
+
+## Documentation
+
+Comprehensive documentation is available in the [`docs/`](docs/) directory:
+
+- **[i18n Architecture](docs/i18n-architecture.md)** - Complete internationalization system guide
+- **[RTL Support](docs/rtl-support.md)** - Right-to-left layout implementation
+- **[Default Image Usage](docs/default-image-usage.md)** - Default image fallback system
+- **[Documentation Index](docs/README.md)** - Full documentation overview
 
 ## Tech Stack
 

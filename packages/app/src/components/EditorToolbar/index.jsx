@@ -1,14 +1,25 @@
-import "./index.scss";
+import './index.scss';
 
-import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useTranslation } from 'react-i18next';
+import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
-import { resetCurrentConfig, resetToGallery } from "@/store/builderSlice";
-import { Button, Divider, Title, Toolbar } from "@page-builder/ui";
+import {
+  resetCurrentConfig,
+  resetToGallery,
+} from '@/store/builderSlice';
+import {
+  Button,
+  Divider,
+  Title,
+  Toolbar,
+} from '@page-builder/ui';
 
-import { ExportButton } from "../ExportButton";
+import { ExportButton } from '../ExportButton';
+import { LanguageSwitcher } from '../LanguageSwitcher';
 
 export const EditorToolbar = ({ selectedTemplate }) => {
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -27,7 +38,7 @@ export const EditorToolbar = ({ selectedTemplate }) => {
           onClick={handleResetToGallery}
           className="editor-toolbar__back-button"
         >
-          ← Back to Templates
+          {t("editor.toolbar.backButton")}
         </Button>
         <Divider orientation="vertical" spacing={0} />
         <Title level={2} className="editor-toolbar__title">
@@ -36,8 +47,10 @@ export const EditorToolbar = ({ selectedTemplate }) => {
       </Toolbar.Left>
 
       <Toolbar.Right>
+        <LanguageSwitcher />
+        <Divider orientation="vertical" spacing={0} />
         <Button variant="secondary" onClick={handleResetCurrentConfig}>
-          Reset to Default
+          {t("editor.toolbar.resetButton")}
         </Button>
         <ExportButton />
       </Toolbar.Right>

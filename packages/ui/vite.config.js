@@ -1,7 +1,7 @@
-import { resolve } from "path";
-import { defineConfig } from "vite";
+import { resolve } from 'path';
+import { defineConfig } from 'vite';
 
-import react from "@vitejs/plugin-react";
+import react from '@vitejs/plugin-react';
 
 export default defineConfig({
   plugins: [
@@ -26,6 +26,8 @@ export default defineConfig({
           id === "react" ||
           id === "react-dom" ||
           id === "react/jsx-runtime" ||
+          id === "i18next" ||
+          id === "react-i18next" ||
           id.startsWith("react/") ||
           id.startsWith("react-dom/")
         );
