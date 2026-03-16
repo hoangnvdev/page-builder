@@ -1,14 +1,8 @@
-import './index.scss';
+import "./index.scss";
 
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 
-import {
-  Container,
-  Divider,
-  Flex,
-  Section,
-  Text,
-} from '@page-builder/ui';
+import { Container, Divider, Flex, Section, Text } from "@page-builder/ui";
 
 export const QuoteBlock = ({
   quote,
@@ -33,7 +27,6 @@ export const QuoteBlock = ({
       backgroundColor={backgroundColor}
       padding={padding}
       dataElement={dataElement}
-      {...props}
     >
       <Container maxWidth={maxWidth}>
         <Flex direction="column" align="center" gap={gap}>

@@ -10,5 +10,8 @@
   },
   "colorPicker": {
     "placeholder": "#000000 أو transparent"
+  },
+  "icon": {
+    "placeholder": "أدخل رمز، إيموجي أو نص"
   }
 }

@@ -47,7 +47,6 @@ export const ComicPanels = ({
       backgroundColor={backgroundColor}
       padding={padding}
       dataElement={dataElement}
-      {...props}
     >
       <Container maxWidth={maxWidth}>
         <Flex direction="column" gap={gap} align={align}>

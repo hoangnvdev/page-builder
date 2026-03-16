@@ -60,7 +60,6 @@ export const SpeechBubbleTestimonials = ({
       backgroundColor={backgroundColor}
       padding={padding}
       data-element={dataElement}
-      {...props}
     >
       <Container maxWidth={maxWidth}>
         <Flex direction="column" gap={gap} align={align}>

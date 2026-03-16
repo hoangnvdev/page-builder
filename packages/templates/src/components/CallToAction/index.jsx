@@ -1,6 +1,6 @@
-import './index.scss';
+import "./index.scss";
 
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 
 import {
   Button,
@@ -9,7 +9,7 @@ import {
   Section,
   SubTitle,
   Title,
-} from '@page-builder/ui';
+} from "@page-builder/ui";
 
 export const CallToAction = ({
   // Title props
@@ -21,6 +21,7 @@ export const CallToAction = ({
   // Subtitle props
   subtitle,
   subtitleSize,
+  subtitleWeight,
   subtitleColor,
 
   // Button props
@@ -28,6 +29,7 @@ export const CallToAction = ({
   buttonUrl,
   buttonColor,
   buttonTextColor,
+  buttonBorderRadius,
   buttonSize = "large",
 
   // Section props
@@ -47,7 +49,6 @@ export const CallToAction = ({
       backgroundColor={backgroundColor}
       padding={padding}
       className={`call-to-action ${className}`}
-      {...props}
     >
       <Container maxWidth={maxWidth}>
         <Flex direction="column" align={align} gap={gap}>
@@ -71,6 +72,7 @@ export const CallToAction = ({
               className="call-to-action__subtitle"
               style={{
                 fontSize: subtitleSize,
+                fontWeight: subtitleWeight,
                 color: subtitleColor,
                 opacity: 0.9,
               }}
@@ -105,6 +107,9 @@ export const CallToAction = ({
                 style={{
                   backgroundColor: buttonColor,
                   color: buttonTextColor,
+                  ...(buttonBorderRadius && {
+                    borderRadius: buttonBorderRadius,
+                  }),
                 }}
                 data-element={`${dataElement}.button`}
               >
@@ -125,11 +130,13 @@ CallToAction.propTypes = {
   titleColor: PropTypes.string,
   subtitle: PropTypes.string,
   subtitleSize: PropTypes.string,
+  subtitleWeight: PropTypes.string,
   subtitleColor: PropTypes.string,
   buttonText: PropTypes.string,
   buttonUrl: PropTypes.string,
   buttonColor: PropTypes.string,
   buttonTextColor: PropTypes.string,
+  buttonBorderRadius: PropTypes.string,
   buttonSize: PropTypes.string,
   backgroundColor: PropTypes.string,
   padding: PropTypes.string,

@@ -78,7 +78,6 @@ export const SplitScreen = ({
       backgroundColor={backgroundColor}
       dataElement={dataElement}
       padding={padding}
-      {...props}
     >
       <Container maxWidth={maxWidth}>
         <Flex className="split-screen__container">

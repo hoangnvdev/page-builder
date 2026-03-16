@@ -1,11 +1,8 @@
-import './index.scss';
+import "./index.scss";
 
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 
-import {
-  Card,
-  Flex,
-} from '@page-builder/ui';
+import { Card, Flex } from "@page-builder/ui";
 
 export const ItemCard = ({
   icon,
@@ -14,6 +11,8 @@ export const ItemCard = ({
   backgroundColor,
   padding,
   borderRadius,
+  borderWidth,
+  borderColor,
   dropShadow,
   titleSize,
   titleWeight,
@@ -41,6 +40,9 @@ export const ItemCard = ({
         ...(backgroundColor && { backgroundColor }),
         ...(padding && { padding: 0 }), // Remove default padding
         ...(borderRadius && { borderRadius }),
+        ...(borderWidth && { borderWidth }),
+        ...(borderColor && { borderColor }),
+        ...(borderWidth || borderColor ? { borderStyle: "solid" } : {}),
         ...(dropShadow && {
           boxShadow: dropShadow !== "none" ? dropShadow : "none",
         }),
@@ -105,6 +107,8 @@ ItemCard.propTypes = {
   backgroundColor: PropTypes.string,
   padding: PropTypes.string,
   borderRadius: PropTypes.string,
+  borderWidth: PropTypes.string,
+  borderColor: PropTypes.string,
   dropShadow: PropTypes.string,
   titleSize: PropTypes.string,
   titleWeight: PropTypes.string,
@@ -113,7 +117,7 @@ ItemCard.propTypes = {
   descriptionWeight: PropTypes.string,
   descriptionColor: PropTypes.string,
   textColor: PropTypes.string,
-  gap: PropTypes.number,
+  gap: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   iconSize: PropTypes.string,
   align: PropTypes.string,
   hoverable: PropTypes.bool,

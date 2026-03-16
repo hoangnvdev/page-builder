@@ -1,15 +1,8 @@
-import './index.scss';
+import "./index.scss";
 
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 
-import {
-  Badge,
-  Container,
-  Flex,
-  Section,
-  Text,
-  Title,
-} from '@page-builder/ui';
+import { Badge, Container, Flex, Section, Text, Title } from "@page-builder/ui";
 
 export const Timeline = ({
   heading,
@@ -38,7 +31,6 @@ export const Timeline = ({
       backgroundColor={backgroundColor}
       padding={padding}
       dataElement={dataElement}
-      {...props}
     >
       <Container maxWidth={maxWidth}>
         <Flex direction="column" gap={itemGap}>

@@ -10,5 +10,8 @@
   },
   "colorPicker": {
     "placeholder": "#000000 or transparent"
+  },
+  "icon": {
+    "placeholder": "Enter symbol, emoji or text"
   }
 }
