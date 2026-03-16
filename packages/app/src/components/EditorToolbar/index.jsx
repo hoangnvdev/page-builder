@@ -1,22 +1,15 @@
-import './index.scss';
+import "./index.scss";
 
-import { useTranslation } from 'react-i18next';
-import { useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { ArrowLeft } from "lucide-react";
+import { useTranslation } from "react-i18next";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
-import {
-  resetCurrentConfig,
-  resetToGallery,
-} from '@/store/builderSlice';
-import {
-  Button,
-  Divider,
-  Title,
-  Toolbar,
-} from '@page-builder/ui';
+import { resetCurrentConfig, resetToGallery } from "@/store/builderSlice";
+import { Button, Divider, Title, Toolbar } from "@page-builder/ui";
 
-import { ExportButton } from '../ExportButton';
-import { LanguageSwitcher } from '../LanguageSwitcher';
+import { ExportButton } from "../ExportButton";
+import { LanguageSwitcher } from "../LanguageSwitcher";
 
 export const EditorToolbar = ({ selectedTemplate }) => {
   const { t } = useTranslation();
@@ -38,6 +31,7 @@ export const EditorToolbar = ({ selectedTemplate }) => {
           onClick={handleResetToGallery}
           className="editor-toolbar__back-button"
         >
+          <ArrowLeft size={16} />
           {t("editor.toolbar.backButton")}
         </Button>
         <Divider orientation="vertical" spacing={0} />

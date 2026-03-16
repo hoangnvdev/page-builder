@@ -1,32 +1,18 @@
-import './index.scss';
+import "./index.scss";
 
-import {
-  useEffect,
-  useState,
-} from 'react';
+import { useEffect, useState } from "react";
 
-import { useTranslation } from 'react-i18next';
-import { useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { useTranslation } from "react-i18next";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
-import {
-  LanguageSwitcher,
-  LoadingIndicator,
-} from '@/components';
-import {
-  fetchTemplateByIdFromAPI,
-  fetchTemplatesFromAPI,
-} from '@/services';
-import { selectTemplate } from '@/store/builderSlice';
-import { processTemplateConfig } from '@/utils';
-import {
-  Button,
-  EmptyState,
-  SubTitle,
-  Title,
-} from '@page-builder/ui';
+import { LanguageSwitcher, LoadingIndicator } from "@/components";
+import { fetchTemplateByIdFromAPI, fetchTemplatesFromAPI } from "@/services";
+import { selectTemplate } from "@/store/builderSlice";
+import { processTemplateConfig } from "@/utils";
+import { Button, EmptyState, SubTitle, Title } from "@page-builder/ui";
 
-import { TemplateCard } from '../TemplateCard';
+import { TemplateCard } from "../TemplateCard";
 
 export const TemplateGallery = () => {
   const { t } = useTranslation();
@@ -146,6 +132,9 @@ export const TemplateGallery = () => {
     <div className="template-gallery">
       <div className="template-gallery__container">
         <div className="template-gallery__header">
+          <div className="template-gallery__header-actions">
+            <LanguageSwitcher />
+          </div>
           <div className="template-gallery__header-content">
             <Title level={1} className="template-gallery__title">
               {t("templateGallery.title")}
@@ -155,9 +144,6 @@ export const TemplateGallery = () => {
                 {t("templateGallery.subtitle")}
               </SubTitle>
             )}
-          </div>
-          <div className="template-gallery__header-actions">
-            <LanguageSwitcher />
           </div>
         </div>
 
