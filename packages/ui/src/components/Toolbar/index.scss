@@ -7,6 +7,7 @@
   padding: 0 16px;
   box-sizing: border-box;
   flex-shrink: 0;
+  min-height: 60px;
 
   &__left {
     display: flex;
@@ -31,12 +32,23 @@
 
 @media (max-width: 768px) {
   .toolbar {
-    padding: 0 8px;
+    padding: 0.75rem;
+    min-height: auto !important;
+    height: auto !important;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    align-items: flex-start;
+    align-content: flex-start;
+    overflow: visible !important;
 
     &__left,
     &__center,
     &__right {
-      gap: 8px;
+      gap: 0.5rem;
+    }
+
+    &__left {
+      min-width: 0; // Allow flex items to shrink
     }
   }
 }
