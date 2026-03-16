@@ -15,22 +15,18 @@ import {
   textSizeOptions,
   titleSizeOptions,
   weightOptions,
-} from '../constants/index.js';
-import {
-  color,
-  text,
-  textarea,
-} from './fieldBuilders.js';
+} from "../constants/index.js";
+import { color, text, textarea } from "./fieldBuilders.js";
 
 /**
  * Create a standard section schema with common properties
  * @returns {Object} Section schema object
  */
 export const sectionSchema = () => ({
-  backgroundColor: color("Background Color"),
-  padding: { type: "select", label: "Padding", options: sectionPaddingOptions },
-  maxWidth: { type: "select", label: "Max Width", options: maxWidthOptions },
-  align: { type: "select", label: "Alignment", options: alignOptions },
+  backgroundColor: color("backgroundColor"),
+  padding: { type: "select", label: "padding", options: sectionPaddingOptions },
+  maxWidth: { type: "select", label: "maxWidth", options: maxWidthOptions },
+  align: { type: "select", label: "textAlign", options: alignOptions },
 });
 
 /**
@@ -38,10 +34,10 @@ export const sectionSchema = () => ({
  * @returns {Object} Heading schema object
  */
 export const headingSchema = () => ({
-  text: text("Heading"),
-  size: { type: "select", label: "Heading Size", options: headingSizeOptions },
-  weight: { type: "select", label: "Heading Weight", options: weightOptions },
-  color: color("Heading Color"),
+  text: text("heading"),
+  size: { type: "select", label: "fontSize", options: headingSizeOptions },
+  weight: { type: "select", label: "fontWeight", options: weightOptions },
+  color: color("textColor"),
 });
 
 /**
@@ -49,17 +45,17 @@ export const headingSchema = () => ({
  * @returns {Object} Card schema object
  */
 export const cardSchema = () => ({
-  backgroundColor: color("Background Color"),
-  padding: { type: "select", label: "Padding", options: cardPaddingOptions },
-  align: { type: "select", label: "Text Alignment", options: alignOptions },
+  backgroundColor: color("backgroundColor"),
+  padding: { type: "select", label: "padding", options: cardPaddingOptions },
+  align: { type: "select", label: "textAlign", options: alignOptions },
   borderRadius: {
     type: "select",
-    label: "Border Radius",
+    label: "borderRadius",
     options: borderRadiusOptions,
   },
   dropShadow: {
     type: "select",
-    label: "Drop Shadow",
+    label: "shadowBlur",
     options: dropShadowOptions,
   },
 });
@@ -69,10 +65,10 @@ export const cardSchema = () => ({
  * @returns {Object} Card title schema object
  */
 export const cardTitleSchema = () => ({
-  text: text("Title"),
-  size: { type: "select", label: "Title Size", options: titleSizeOptions },
-  weight: { type: "select", label: "Title Weight", options: weightOptions },
-  color: color("Title Color"),
+  text: text("title"),
+  size: { type: "select", label: "fontSize", options: titleSizeOptions },
+  weight: { type: "select", label: "fontWeight", options: weightOptions },
+  color: color("textColor"),
 });
 
 /**
@@ -80,8 +76,8 @@ export const cardTitleSchema = () => ({
  * @returns {Object} Card content schema object
  */
 export const cardContentSchema = () => ({
-  text: textarea("Content"),
-  size: { type: "select", label: "Text Size", options: textSizeOptions },
-  weight: { type: "select", label: "Text Weight", options: weightOptions },
-  color: color("Text Color"),
+  text: textarea("content"),
+  size: { type: "select", label: "fontSize", options: textSizeOptions },
+  weight: { type: "select", label: "fontWeight", options: weightOptions },
+  color: color("textColor"),
 });

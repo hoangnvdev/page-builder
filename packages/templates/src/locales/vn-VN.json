@@ -92,7 +92,8 @@
     "showAuthor": "Hiển thị tác giả",
     "showDate": "Hiển thị ngày",
     "animationDuration": "Thời gian hoạt ảnh",
-    "animationDelay": "Độ trễ hoạt ảnh"
+    "animationDelay": "Độ trễ hoạt ảnh",
+    "icon": "Biểu tượng"
   },
   "options": {
     "left": "Trái",

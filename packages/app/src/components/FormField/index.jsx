@@ -4,15 +4,12 @@ import { useMemo } from "react";
 
 import PropTypes from "prop-types";
 import { useTranslation } from "react-i18next";
-import { v4 as uuidv4 } from "uuid";
 
 import {
-  Button,
   ColorPicker,
   EmptyState,
-  Flex,
   Input,
-  Label,
+  Radio,
   Select,
   Slider,
   Textarea,
@@ -26,7 +23,6 @@ export const FormField = ({
   value,
   onChange,
   options,
-  items,
   min,
   max,
   step,
@@ -35,38 +31,87 @@ export const FormField = ({
   const { t } = useTranslation();
   // Generate a stable unique ID for the field
   const fieldId = useMemo(() => `field-${id.replace(/\./g, "-")}`, [id]);
-  const handleItemChange = (index, field, newValue) => {
-    const newItems = [...items];
-    newItems[index] = { ...newItems[index], [field]: newValue };
-    onChange(newItems);
-  };
 
-  const handleAddItem = () => {
-    const newItem = {
-      id: uuidv4(),
-      title: "",
-      description: "",
-    };
-    onChange([...items, newItem]);
-  };
+  // Translate the label - support both translation keys and plain text
+  const translatedLabel = useMemo(() => {
+    // If label looks like a translation key (no spaces, camelCase or dot notation)
+    if (label && !label.includes(" ") && !label.match(/[()]/)) {
+      // Try with fields. prefix first
+      const withPrefix = t(`fields.${label}`, { defaultValue: "" });
+      if (withPrefix) return withPrefix;
+      // Try without prefix
+      return t(label, label);
+    }
+    // Fallback to original label for backward compatibility
+    return label;
+  }, [label, t]);
 
-  const handleRemoveItem = (index) => {
-    const newItems = items.filter((_, idx) => idx !== index);
-    onChange(newItems);
+  // Helper: Translate option labels
+  const getTranslatedOptions = (opts) =>
+    opts.map((option) => ({
+      ...option,
+      label: t(`options.${option.value}`, option.label),
+    }));
+
+  // Render select field (Radio.Group for <4 options, Select for >=4)
+  const renderSelectField = () => {
+    if (!options || !Array.isArray(options) || options.length === 0) {
+      return (
+        <EmptyState
+          description={t("formField.warning.missingOptions", {
+            label: translatedLabel,
+          })}
+          className="form-field__warning"
+        />
+      );
+    }
+
+    const translatedOptions = getTranslatedOptions(options);
+
+    if (options.length < 4) {
+      return (
+        <Radio.Group
+          id={fieldId}
+          label={translatedLabel}
+          value={value}
+          onChange={onChange}
+          options={translatedOptions}
+          orientation="vertical"
+        />
+      );
+    }
+
+    return (
+      <Select
+        id={fieldId}
+        label={translatedLabel}
+        value={value}
+        onChange={onChange}
+        options={translatedOptions}
+      />
+    );
   };
 
   const renderField = () => {
     switch (type) {
       case "text":
         return (
-          <Input id={fieldId} label={label} value={value} onChange={onChange} />
+          <Input
+            id={fieldId}
+            label={translatedLabel}
+            value={value}
+            onChange={onChange}
+            placeholder={
+              label === "icon" ? t("ui.icon.placeholder") : undefined
+            }
+          />
         );
 
       case "textarea":
         return (
           <Textarea
             id={fieldId}
-            label={label}
+            label={translatedLabel}
             value={value}
             onChange={onChange}
             rows={4}
@@ -77,37 +122,20 @@ export const FormField = ({
         return (
           <ColorPicker
             id={fieldId}
-            label={label}
+            label={translatedLabel}
             value={value}
             onChange={onChange}
           />
         );
 
       case "select":
-        // Skip select fields without options defined (incomplete schema)
-        if (!options || !Array.isArray(options) || options.length === 0) {
-          return (
-            <EmptyState
-              description={t("formField.warning.missingOptions", { label })}
-              className="form-field__warning"
-            />
-          );
-        }
-        return (
-          <Select
-            id={fieldId}
-            label={label}
-            value={value}
-            onChange={onChange}
-            options={options}
-          />
-        );
+        return renderSelectField();
 
       case "number":
         return (
           <Input
             id={fieldId}
-            label={label}
+            label={translatedLabel}
             type="number"
             value={value}
             onChange={onChange}
@@ -119,7 +147,11 @@ export const FormField = ({
 
       case "toggle":
         return (
-          <Toggle value={value || false} onChange={onChange} label={label} />
+          <Toggle
+            value={value || false}
+            onChange={onChange}
+            label={translatedLabel}
+          />
         );
 
       case "slider":
@@ -130,65 +162,10 @@ export const FormField = ({
             max={max || 100}
             step={step || 1}
             onChange={onChange}
-            label={label}
+            label={translatedLabel}
             labels={labels}
             showValue={!labels}
           />
-        );
-
-      case "projects-list":
-      case "features-list":
-        return (
-          <div className="form-field__container">
-            <Label className="form-field__label">
-              {label}
-              <Flex gap={8} style={{ marginTop: "0.5rem" }}>
-                <Button
-                  variant="secondary"
-                  size="small"
-                  onClick={handleAddItem}
-                >
-                  {t("formField.button.addItem")}
-                </Button>
-              </Flex>
-            </Label>
-
-            {items?.map((item, index) => (
-              <div key={item.id || index} className="form-field__list-item">
-                <Input
-                  id={`${fieldId}-item-${index}-title`}
-                  label={`${type === "projects-list" ? t("formField.label.project") : t("formField.label.feature")} ${index + 1} ${t("formField.label.itemTitle")}`}
-                  value={item.title || ""}
-                  onChange={(value) => handleItemChange(index, "title", value)}
-                />
-
-                <Textarea
-                  id={`${fieldId}-item-${index}-description`}
-                  label={t("formField.label.description")}
-                  value={item.description || ""}
-                  onChange={(value) =>
-                    handleItemChange(index, "description", value)
-                  }
-                  rows={3}
-                />
-
-                <Button
-                  variant="danger"
-                  size="small"
-                  onClick={() => handleRemoveItem(index)}
-                >
-                  {t("formField.button.remove")}
-                </Button>
-              </div>
-            ))}
-
-            {(!items || items.length === 0) && (
-              <EmptyState
-                description={t("formField.emptyState.noItems")}
-                className="form-field__empty-state"
-              />
-            )}
-          </div>
         );
 
       default:
@@ -215,8 +192,6 @@ FormField.propTypes = {
     "number",
     "toggle",
     "slider",
-    "projects-list",
-    "features-list",
   ]).isRequired,
   value: PropTypes.any,
   onChange: PropTypes.func.isRequired,
@@ -233,13 +208,6 @@ FormField.propTypes = {
       step: PropTypes.number,
     }),
   ]),
-  items: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.string,
-      title: PropTypes.string,
-      description: PropTypes.string,
-    }),
-  ),
   min: PropTypes.number,
   max: PropTypes.number,
   step: PropTypes.number,

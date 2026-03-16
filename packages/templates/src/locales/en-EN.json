@@ -92,7 +92,8 @@
     "showAuthor": "Show Author",
     "showDate": "Show Date",
     "animationDuration": "Animation Duration",
-    "animationDelay": "Animation Delay"
+    "animationDelay": "Animation Delay",
+    "icon": "Icon"
   },
   "options": {
     "left": "Left",

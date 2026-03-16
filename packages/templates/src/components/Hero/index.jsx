@@ -1,6 +1,6 @@
-import './index.scss';
+import "./index.scss";
 
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 
 import {
   Button,
@@ -9,7 +9,7 @@ import {
   Section,
   SubTitle,
   Title,
-} from '@page-builder/ui';
+} from "@page-builder/ui";
 
 export const Hero = ({
   title,
@@ -22,9 +22,12 @@ export const Hero = ({
   titleColor,
   subtitleColor,
   titleSize,
+  titleWeight,
   subtitleSize,
+  subtitleWeight,
   buttonColor,
   buttonTextColor,
+  buttonBorderRadius,
   onButtonClick,
   padding = "100px 20px",
   align = "center",
@@ -52,7 +55,6 @@ export const Hero = ({
       padding={padding}
       className={`hero ${className}`}
       style={backgroundStyle}
-      {...props}
     >
       <Container maxWidth={maxWidth}>
         <Flex direction="column" align={align} gap={gap}>
@@ -62,6 +64,7 @@ export const Hero = ({
             style={{
               color: titleColor,
               ...(titleSize && { fontSize: titleSize }),
+              ...(titleWeight && { fontWeight: titleWeight }),
             }}
             data-element={`${dataElement}.title`}
           >
@@ -72,6 +75,7 @@ export const Hero = ({
             style={{
               color: subtitleColor,
               ...(subtitleSize && { fontSize: subtitleSize }),
+              ...(subtitleWeight && { fontWeight: subtitleWeight }),
             }}
             data-element={`${dataElement}.subtitle`}
           >
@@ -86,6 +90,7 @@ export const Hero = ({
               style={{
                 backgroundColor: buttonColor,
                 color: buttonTextColor,
+                ...(buttonBorderRadius && { borderRadius: buttonBorderRadius }),
               }}
               data-element={`${dataElement}.button`}
             >
@@ -105,10 +110,24 @@ Hero.propTypes = {
   backgroundColor: PropTypes.string,
   gradientStart: PropTypes.string,
   gradientEnd: PropTypes.string,
+  gradientAngle: PropTypes.string,
   titleColor: PropTypes.string,
   subtitleColor: PropTypes.string,
   titleSize: PropTypes.string,
+  titleWeight: PropTypes.string,
   subtitleSize: PropTypes.string,
+  subtitleWeight: PropTypes.string,
   buttonColor: PropTypes.string,
+  buttonTextColor: PropTypes.string,
+  buttonBorderRadius: PropTypes.string,
+  buttonSize: PropTypes.string,
+  buttonVariant: PropTypes.string,
   onButtonClick: PropTypes.func,
+  padding: PropTypes.string,
+  align: PropTypes.string,
+  titleLevel: PropTypes.number,
+  maxWidth: PropTypes.string,
+  gap: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  dataElement: PropTypes.string,
+  className: PropTypes.string,
 };

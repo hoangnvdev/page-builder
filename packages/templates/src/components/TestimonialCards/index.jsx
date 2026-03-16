@@ -1,6 +1,6 @@
-import './index.scss';
+import "./index.scss";
 
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 
 import {
   Avatar,
@@ -11,7 +11,7 @@ import {
   Section,
   Text,
   Title,
-} from '@page-builder/ui';
+} from "@page-builder/ui";
 
 export const TestimonialCards = ({
   heading,
@@ -35,7 +35,6 @@ export const TestimonialCards = ({
       backgroundColor={backgroundColor}
       padding={padding}
       dataElement={dataElement}
-      {...props}
     >
       <Container maxWidth={maxWidth}>
         <Flex direction="column" gap={gap}>

@@ -1,15 +1,20 @@
 import {
   businessProConfig,
   comicSplashConfig,
+  comicSplashRefactoredConfig,
   futuristicTechConfig,
-  refinedClassicConfig,
-} from '../configs';
-import { createTemplateComponent } from '../hocs/createTemplateComponent';
+  refinedClassicRefactoredConfig,
+} from "../configs";
+import { createTemplateComponent } from "../hocs/createTemplateComponent";
 
 export const templateRegistry = [
   {
     ...comicSplashConfig,
     component: createTemplateComponent(comicSplashConfig),
+  },
+  {
+    ...comicSplashRefactoredConfig,
+    component: createTemplateComponent(comicSplashRefactoredConfig),
   },
   {
     ...businessProConfig,
@@ -20,8 +25,8 @@ export const templateRegistry = [
     component: createTemplateComponent(futuristicTechConfig),
   },
   {
-    ...refinedClassicConfig,
-    component: createTemplateComponent(refinedClassicConfig),
+    ...refinedClassicRefactoredConfig,
+    component: createTemplateComponent(refinedClassicRefactoredConfig),
   },
 ];
 

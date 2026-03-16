@@ -10,5 +10,8 @@
   },
   "colorPicker": {
     "placeholder": "#000000 または transparent"
+  },
+  "icon": {
+    "placeholder": "記号、絵文字、またはテキストを入力"
   }
 }

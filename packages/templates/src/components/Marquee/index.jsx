@@ -1,11 +1,8 @@
-import './index.scss';
+import "./index.scss";
 
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 
-import {
-  Section,
-  Text,
-} from '@page-builder/ui';
+import { Section, Text } from "@page-builder/ui";
 
 export const Marquee = ({
   text,
@@ -28,7 +25,6 @@ export const Marquee = ({
       backgroundColor={backgroundColor}
       dataElement={dataElement}
       padding={padding}
-      {...props}
     >
       <div className="marquee__track">
         <Text

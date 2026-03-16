@@ -29,6 +29,11 @@
     gap: 0.5rem;
   }
 
+  &__header-content {
+    text-align: center;
+    width: 100%;
+  }
+
   &__title {
     font-size: clamp(2rem, 5vw, 3rem);
     margin: 0 0 1rem 0;

@@ -10,5 +10,8 @@
   },
   "colorPicker": {
     "placeholder": "#000000 hoặc transparent"
+  },
+  "icon": {
+    "placeholder": "Nhập ký hiệu, emoji hoặc văn bản"
   }
 }

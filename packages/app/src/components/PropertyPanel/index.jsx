@@ -1,27 +1,14 @@
-import './index.scss';
+import "./index.scss";
 
-import { useTranslation } from 'react-i18next';
-import {
-  useDispatch,
-  useSelector,
-} from 'react-redux';
+import { useTranslation } from "react-i18next";
+import { useDispatch, useSelector } from "react-redux";
 
-import { updateConfig } from '@/store/builderSlice';
-import { getFieldsForElement } from '@/utils/schemaProcessor';
-import {
-  deepMerge,
-  getNestedValue,
-  setNestedValue,
-} from '@helpers';
-import {
-  EmptyState,
-  Flex,
-  Panel,
-  SubTitle,
-  Title,
-} from '@page-builder/ui';
+import { updateConfig } from "@/store/builderSlice";
+import { getFieldsForElement } from "@/utils/schemaProcessor";
+import { deepMerge, getNestedValue, setNestedValue } from "@helpers";
+import { EmptyState, Flex, Panel, SubTitle, Title } from "@page-builder/ui";
 
-import { FormField } from '../FormField';
+import { FormField } from "../FormField";
 
 export const PropertyPanel = () => {
   const { t, i18n } = useTranslation();
@@ -172,23 +159,20 @@ export const PropertyPanel = () => {
                 word.charAt(0).toUpperCase() + word.slice(1).toLowerCase(),
             )
             .join(" ");
-          return `${formattedSection} ${formattedArrayName} ${arrayIndex + 1} ${formattedProperty}`;
+          return `${formattedSection} ${formattedArrayName} ${arrayIndex} ${formattedProperty}`;
         }
 
-        return `${formattedSection} ${formattedArrayName} ${arrayIndex + 1}`;
+        return `${formattedSection} ${formattedArrayName} ${arrayIndex}`;
       }
 
       // Just section and index (e.g., "hero.0")
-      return `${formattedSection} Item ${arrayIndex + 1}`;
+      return `${formattedSection} Item ${arrayIndex}`;
     }
 
     // No array index - check if label looks malformed (contains spaces followed by numbers)
     if (label && /\s+\d+$/.test(label)) {
-      // Label ends with a number (like "Image 0"), try to make it friendlier
-      return label.replace(
-        /\s+(\d+)$/,
-        (match, num) => ` ${parseInt(num) + 1}`,
-      );
+      // Label ends with a number (like "Image 0"), keep it as is
+      return label;
     }
 
     return label;
@@ -205,13 +189,16 @@ export const PropertyPanel = () => {
     i18n.language.split("-")[0] === "ar" ||
     i18n.language.split("-")[0] === "he";
 
-  // Build title and subtitle with proper word order for RTL
+  // Check if current language is Vietnamese (needs prefix order like RTL)
+  const isVietnamese = i18n.language.split("-")[0] === "vi";
+
+  // Build title and subtitle with proper word order for RTL and Vietnamese
   const panelTitle = isRTL
     ? `${formattedLabel} ${t("propertyPanel.title.editPrefix")}`
     : `${t("propertyPanel.title.editPrefix")} ${formattedLabel}`;
 
   const panelSubtitle = selectedSubElement
-    ? isRTL
+    ? isRTL || isVietnamese
       ? `${t("propertyPanel.subtitle.sectionSuffix")} ${selectedElement.charAt(0).toUpperCase() + selectedElement.slice(1)}`
       : `${selectedElement.charAt(0).toUpperCase() + selectedElement.slice(1)} ${t("propertyPanel.subtitle.sectionSuffix")}`
     : selectedTemplate.name;

@@ -34,6 +34,8 @@ export const StatsCounter = ({
   cardPadding = "20px",
   cardAlign = "center",
   cardBorderRadius = "0",
+  cardBorderWidth = "0",
+  cardBorderColor = "transparent",
   cardDropShadow = "none",
 
   // Card title defaults
@@ -58,7 +60,6 @@ export const StatsCounter = ({
       backgroundColor={backgroundColor}
       padding={padding}
       data-element={dataElement}
-      {...props}
     >
       <Container maxWidth={maxWidth}>
         <Flex direction="column" gap={gap} align={align}>
@@ -90,6 +91,8 @@ export const StatsCounter = ({
               const itemPadding = stat.padding || cardPadding;
               const itemAlign = stat.align || cardAlign;
               const itemBorderRadius = stat.borderRadius || cardBorderRadius;
+              const itemBorderWidth = stat.borderWidth || cardBorderWidth;
+              const itemBorderColor = stat.borderColor || cardBorderColor;
               const itemDropShadow = stat.dropShadow || cardDropShadow;
 
               const itemTitleSize = stat.titleSize || cardTitleSize;
@@ -108,6 +111,13 @@ export const StatsCounter = ({
                       backgroundColor: itemBgColor,
                       padding: 0,
                       borderRadius: itemBorderRadius,
+                      ...(itemBorderWidth && itemBorderWidth !== "0"
+                        ? {
+                            borderWidth: itemBorderWidth,
+                            borderStyle: "solid",
+                            borderColor: itemBorderColor,
+                          }
+                        : {}),
                       boxShadow:
                         itemDropShadow !== "none" ? itemDropShadow : "none",
                       overflow: "visible",
@@ -208,6 +218,8 @@ StatsCounter.propTypes = {
   cardPadding: PropTypes.string,
   cardAlign: PropTypes.string,
   cardBorderRadius: PropTypes.string,
+  cardBorderWidth: PropTypes.string,
+  cardBorderColor: PropTypes.string,
   cardDropShadow: PropTypes.string,
   cardTitleSize: PropTypes.string,
   cardTitleWeight: PropTypes.string,

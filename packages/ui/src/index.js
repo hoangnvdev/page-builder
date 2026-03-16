@@ -14,6 +14,7 @@ export { Label } from "./components/Label";
 export { Link } from "./components/Link";
 export { Page } from "./components/Page";
 export { Panel } from "./components/Panel";
+export { Radio } from "./components/Radio";
 export { Section } from "./components/Section";
 export { Select } from "./components/Select";
 export { Slider } from "./components/Slider";
