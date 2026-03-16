@@ -22,18 +22,57 @@
     text-overflow: ellipsis;
     white-space: nowrap;
   }
+
+  &__divider {
+    // Target dividers for responsive hiding
+  }
 }
 
 @media (max-width: 768px) {
   .editor-toolbar {
+    padding: 0.75rem !important;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    min-height: auto !important;
+    height: auto !important;
+    overflow: visible !important;
+
     &__back-button {
       font-size: 0.875rem;
       padding: 0.5rem 0.75rem;
+      min-width: auto;
     }
 
     &__title {
-      font-size: 0.9rem;
-      max-width: 150px;
+      font-size: 0.875rem;
+      max-width: none;
+      flex: 1;
+    }
+
+    // Hide dividers on mobile to save space
+    .divider {
+      display: none;
+    }
+
+    // Make left section take full width (first row)
+    .toolbar__left {
+      flex: 1 1 100%;
+      gap: 0.5rem !important;
+      align-items: center;
+    }
+
+    // Make right section wrap to second row
+    .toolbar__right {
+      flex: 1 1 100%;
+      gap: 0.5rem !important;
+      justify-content: flex-start;
+      align-items: center;
+    }
+
+    // Reduce button sizes slightly
+    button {
+      font-size: 0.875rem;
+      padding: 0.5rem 0.75rem;
     }
   }
 }
