@@ -5,3 +5,4 @@ export {
   getParentElementId,
   isSection,
 } from './componentRegistry.js';
+export { applyDirection, getDirection, isRTL, RTL_LANGUAGES } from './rtl.js';

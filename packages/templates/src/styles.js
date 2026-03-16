@@ -1,12 +1,12 @@
 // Import UI component styles that are used in templates
-import '../../ui/src/Text/index.scss';
-import '../../ui/src/Card/index.scss';
-import '../../ui/src/Grid/index.scss';
-import '../../ui/src/Flex/index.scss';
-import '../../ui/src/Section/index.scss';
-import '../../ui/src/Container/index.scss';
-import '../../ui/src/Title/index.scss';
-import '../../ui/src/Button/index.scss';
+import '../../ui/src/components/Text/index.scss';
+import '../../ui/src/components/Card/index.scss';
+import '../../ui/src/components/Grid/index.scss';
+import '../../ui/src/components/Flex/index.scss';
+import '../../ui/src/components/Section/index.scss';
+import '../../ui/src/components/Container/index.scss';
+import '../../ui/src/components/Title/index.scss';
+import '../../ui/src/components/Button/index.scss';
 // Import template component styles
 import './components/CallToAction/index.scss';
 import './components/ComicPanels/index.scss';

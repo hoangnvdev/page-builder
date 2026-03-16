@@ -1,7 +1,7 @@
-import { resolve } from "path";
-import { defineConfig } from "vite";
+import { resolve } from 'path';
+import { defineConfig } from 'vite';
 
-import react from "@vitejs/plugin-react";
+import react from '@vitejs/plugin-react';
 
 export default defineConfig({
   plugins: [
@@ -25,6 +25,8 @@ export default defineConfig({
         "react",
         "react-dom",
         "react/jsx-runtime",
+        "i18next",
+        "react-i18next",
         "prop-types",
         "uuid",
         "@page-builder/ui",

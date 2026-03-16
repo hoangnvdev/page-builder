@@ -1,5 +1,6 @@
 import './index.scss';
 
+import { useTranslation } from 'react-i18next';
 import {
   useDispatch,
   useSelector,
@@ -23,6 +24,7 @@ import {
 import { FormField } from '../FormField';
 
 export const PropertyPanel = () => {
+  const { t, i18n } = useTranslation();
   const dispatch = useDispatch();
   const selectedTemplate = useSelector(
     (state) => state.builder.selectedTemplate,
@@ -42,10 +44,12 @@ export const PropertyPanel = () => {
     return (
       <Panel position="right" width="100%" className="property-panel">
         <Panel.Header>
-          <Title level={3}>Properties</Title>
+          <Title level={3}>{t("propertyPanel.title.properties")}</Title>
         </Panel.Header>
         <Panel.Content>
-          <EmptyState description="Select a template to edit its properties" />
+          <EmptyState
+            description={t("propertyPanel.emptyState.selectTemplate")}
+          />
         </Panel.Content>
       </Panel>
     );
@@ -61,7 +65,7 @@ export const PropertyPanel = () => {
     return (
       <Panel position="right" width="100%" className="property-panel">
         <Panel.Header>
-          <Title level={3}>Page Settings</Title>
+          <Title level={3}>{t("propertyPanel.title.pageSettings")}</Title>
           <SubTitle className="property-panel__subtitle">
             {selectedTemplate.name}
           </SubTitle>
@@ -103,11 +107,11 @@ export const PropertyPanel = () => {
     return (
       <Panel position="right" width="100%" className="property-panel">
         <Panel.Header>
-          <Title level={3}>Properties</Title>
+          <Title level={3}>{t("propertyPanel.title.properties")}</Title>
         </Panel.Header>
         <Panel.Content>
           <EmptyState
-            description={`No editable properties defined for "${activeElementId}"`}
+            description={`${t("propertyPanel.emptyState.noPropertiesPrefix")} "${activeElementId}"`}
           />
         </Panel.Content>
       </Panel>
@@ -121,10 +125,95 @@ export const PropertyPanel = () => {
     dispatch(updateConfig(newConfig));
   };
 
+  // Format element label for display
+  const formatElementLabel = (label, elementId) => {
+    const parts = elementId.split(".");
+
+    // Check if this is selecting an array item (has a numeric index in the path)
+    const arrayIndexPos = parts.findIndex((part) => /^\d+$/.test(part));
+
+    if (arrayIndexPos !== -1) {
+      // This is an array item selection
+      const arrayIndex = parseInt(parts[arrayIndexPos]);
+      const sectionName = parts[0]; // e.g., "imageGrid"
+
+      // Format the section name properly
+      const formattedSection = sectionName
+        .replace(/([A-Z])/g, " $1")
+        .trim()
+        .split(" ")
+        .map(
+          (word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase(),
+        )
+        .join(" ");
+
+      // Get the array name if there's a sub-path before the index
+      if (arrayIndexPos > 1) {
+        const arrayName = parts[arrayIndexPos - 1];
+        const formattedArrayName = arrayName
+          .replace(/([A-Z])/g, " $1")
+          .trim()
+          .split(" ")
+          .map(
+            (word) =>
+              word.charAt(0).toUpperCase() + word.slice(1).toLowerCase(),
+          )
+          .join(" ");
+
+        // If there are more parts after the index, it's a nested property
+        if (arrayIndexPos + 1 < parts.length) {
+          const propertyName = parts.slice(arrayIndexPos + 1).join(" ");
+          const formattedProperty = propertyName
+            .replace(/([A-Z])/g, " $1")
+            .trim()
+            .split(" ")
+            .map(
+              (word) =>
+                word.charAt(0).toUpperCase() + word.slice(1).toLowerCase(),
+            )
+            .join(" ");
+          return `${formattedSection} ${formattedArrayName} ${arrayIndex + 1} ${formattedProperty}`;
+        }
+
+        return `${formattedSection} ${formattedArrayName} ${arrayIndex + 1}`;
+      }
+
+      // Just section and index (e.g., "hero.0")
+      return `${formattedSection} Item ${arrayIndex + 1}`;
+    }
+
+    // No array index - check if label looks malformed (contains spaces followed by numbers)
+    if (label && /\s+\d+$/.test(label)) {
+      // Label ends with a number (like "Image 0"), try to make it friendlier
+      return label.replace(
+        /\s+(\d+)$/,
+        (match, num) => ` ${parseInt(num) + 1}`,
+      );
+    }
+
+    return label;
+  };
+
   // Get panel title and subtitle
-  const panelTitle = `Edit ${elementFields.label}`;
+  const formattedLabel = formatElementLabel(
+    elementFields.label,
+    activeElementId,
+  );
+
+  // Check if current language is RTL
+  const isRTL =
+    i18n.language.split("-")[0] === "ar" ||
+    i18n.language.split("-")[0] === "he";
+
+  // Build title and subtitle with proper word order for RTL
+  const panelTitle = isRTL
+    ? `${formattedLabel} ${t("propertyPanel.title.editPrefix")}`
+    : `${t("propertyPanel.title.editPrefix")} ${formattedLabel}`;
+
   const panelSubtitle = selectedSubElement
-    ? `${selectedElement.charAt(0).toUpperCase() + selectedElement.slice(1)} Section`
+    ? isRTL
+      ? `${t("propertyPanel.subtitle.sectionSuffix")} ${selectedElement.charAt(0).toUpperCase() + selectedElement.slice(1)}`
+      : `${selectedElement.charAt(0).toUpperCase() + selectedElement.slice(1)} ${t("propertyPanel.subtitle.sectionSuffix")}`
     : selectedTemplate.name;
 
   return (

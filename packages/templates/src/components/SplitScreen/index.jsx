@@ -1,20 +1,12 @@
-import './index.scss';
+import "./index.scss";
 
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 
-import {
-  Container,
-  Flex,
-  Image,
-  Section,
-  Text,
-  Title,
-} from '@page-builder/ui';
+import { Container, Flex, Image, Section, Text, Title } from "@page-builder/ui";
 
 export const SplitScreen = ({
   imagePosition = "left",
   imageSrc,
-  imagePlaceholder,
   imageAlt = "",
   heading,
   content,
@@ -38,7 +30,6 @@ export const SplitScreen = ({
     <Flex flex={1} className="split-screen__image">
       <Image
         src={imageSrc}
-        placeholder={imagePlaceholder}
         alt={imageAlt}
         fit={imageFit}
         height="100%"
@@ -110,7 +101,8 @@ export const SplitScreen = ({
 
 SplitScreen.propTypes = {
   imagePosition: PropTypes.oneOf(["left", "right"]),
-  imagePlaceholder: PropTypes.string,
+  imageSrc: PropTypes.string,
+  imageAlt: PropTypes.string,
   heading: PropTypes.string.isRequired,
   content: PropTypes.string.isRequired,
   backgroundColor: PropTypes.string,

@@ -1,0 +1,118 @@
+{
+  "editor": {
+    "toolbar": {
+      "backButton": "→ العودة إلى القوالب",
+      "resetButton": "إعادة تعيين إلى الافتراضي"
+    },
+    "loading": {
+      "title": "جارٍ استعادة القالب...",
+      "description": "يرجى الانتظار بينما نستعيد تصميمك..."
+    },
+    "accessibility": {
+      "closePanel": "إغلاق لوحة المحرر",
+      "openPanel": "فتح لوحة المحرر"
+    }
+  },
+  "export": {
+    "button": {
+      "exported": "تم التصدير!",
+      "exportHtml": "تصدير HTML"
+    },
+    "error": {
+      "failedMessage": "فشل التصدير. يرجى المحاولة مرة أخرى."
+    }
+  },
+  "propertyPanel": {
+    "title": {
+      "properties": "الخصائص",
+      "pageSettings": "إعدادات الصفحة",
+      "editPrefix": "تحرير"
+    },
+    "subtitle": {
+      "sectionSuffix": "قسم"
+    },
+    "emptyState": {
+      "selectTemplate": "حدد قالبًا لتحرير خصائصه",
+      "noPropertiesPrefix": "لا توجد خصائص قابلة للتحرير محددة لـ"
+    }
+  },
+  "templateCard": {
+    "button": {
+      "useTemplate": "استخدام القالب"
+    }
+  },
+  "templateGallery": {
+    "title": "اختر القالب الخاص بك",
+    "subtitle": "حدد قالبًا لبدء إنشاء صفحتك. جميع القوالب قابلة للتخصيص بالكامل.",
+    "loading": {
+      "title": "جارٍ تحميل القوالب",
+      "description": "جارٍ جلب القوالب المتاحة..."
+    },
+    "preparing": {
+      "title": "جارٍ تحضير القالب",
+      "description": "جارٍ تحميل القالب المحدد..."
+    },
+    "error": {
+      "title": "فشل تحميل القوالب"
+    },
+    "button": {
+      "retry": "إعادة المحاولة"
+    },
+    "emptyState": {
+      "title": "لا توجد قوالب متاحة",
+      "description": "لم يتم العثور على قوالب."
+    }
+  },
+  "formField": {
+    "button": {
+      "addItem": "+ إضافة عنصر",
+      "remove": "إزالة"
+    },
+    "label": {
+      "project": "مشروع",
+      "feature": "ميزة",
+      "itemTitle": "العنوان",
+      "description": "الوصف"
+    },
+
+    "warning": {
+      "missingOptions": "حقل \"{label}\" يفتقد الخيارات. يرجى تحديث تكوين المخطط."
+    },
+    "emptyState": {
+      "noItems": "لا توجد عناصر بعد. انقر على 'إضافة عنصر' لإنشاء واحد."
+    },
+    "error": {
+      "unknownType": "نوع حقل غير معروف: \"{type}\". يرجى التحقق من تكوين الحقل."
+    }
+  },
+  "loading": {
+    "default": {
+      "title": "جارٍ التحميل...",
+      "description": "يرجى الانتظار بينما نجلب البيانات."
+    }
+  },
+  "preview": {
+    "emptyState": {
+      "title": "القالب غير متاح",
+      "description": "يرجى العودة إلى معرض القوالب وتحديد قالب مرة أخرى."
+    },
+    "helperTip": {
+      "message": "💡 نصيحة: انقر على أي قسم أو عنصر فردي (عنوان، زر، إلخ) لتحريره. انقر خارجًا لعرض إعدادات الصفحة."
+    },
+    "accessibility": {
+      "closeTip": "إغلاق النصيحة"
+    }
+  },
+  "routes": {
+    "loading": {
+      "templatePage": {
+        "title": "نحن نحضر قوالبك...",
+        "description": "لحظة واحدة..."
+      },
+      "designPage": {
+        "title": "نحن نحضر مساحة التصميم الخاصة بك...",
+        "description": "لحظة واحدة..."
+      }
+    }
+  }
+}

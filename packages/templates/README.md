@@ -78,6 +78,45 @@ Timeless, elegant design for sophisticated brands:
 - **ComicPanels** - Comic-style layouts
 - **SplitScreen** - Side-by-side layouts
 
+## Project Structure
+
+```
+packages/templates/
+├── src/
+│   ├── components/          # 18+ reusable template sections
+│   │   ├── CallToAction/
+│   │   ├── ComicPanels/
+│   │   ├── ContentSection/
+│   │   ├── DataStream/
+│   │   ├── DynamicRenderer/
+│   │   ├── Footer/
+│   │   ├── Header/
+│   │   ├── Hero/
+│   │   └── ... (10 more)
+│   ├── configs/             # Template configurations
+│   │   ├── businessPro.config.js
+│   │   ├── comicSplash.config.js
+│   │   ├── futuristicTech.config.js
+│   │   └── refinedClassic.config.js
+│   ├── constants/           # Shared constants
+│   ├── hocs/                # Higher-order components
+│   │   └── createTemplateComponent.jsx
+│   ├── locales/             # i18n translation files
+│   │   └── en-EN.js
+│   ├── registries/          # Component & template registries
+│   │   ├── componentRegistry.js
+│   │   └── templateRegistry.js
+│   ├── helpers/             # Helper utilities
+│   │   ├── componentHelpers.js
+│   │   └── translationHelpers.js
+│   ├── utils/               # Utility functions
+│   │   ├── fieldBuilders.js
+│   │   └── schemaBuilders.js
+│   ├── index.js             # Package exports
+│   └── styles.js            # Style imports
+└── package.json
+```
+
 ## Usage
 
 ```jsx

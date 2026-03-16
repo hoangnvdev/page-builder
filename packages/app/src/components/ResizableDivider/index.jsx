@@ -1,8 +1,11 @@
-import "./index.scss";
+import './index.scss';
 
-import { useEffect, useRef } from "react";
+import {
+  useEffect,
+  useRef,
+} from 'react';
 
-import PropTypes from "prop-types";
+import PropTypes from 'prop-types';
 
 export const ResizableDivider = ({ onResize, orientation = "horizontal" }) => {
   const isDraggingRef = useRef(false);
@@ -12,9 +15,12 @@ export const ResizableDivider = ({ onResize, orientation = "horizontal" }) => {
       if (!isDraggingRef.current) return;
 
       if (orientation === "horizontal") {
-        // Desktop: adjust left panel width
+        // Desktop: adjust panel width (RTL-aware)
         const containerWidth = window.innerWidth;
-        const newWidth = e.clientX;
+        const isRTL = document.documentElement.getAttribute("dir") === "rtl";
+
+        // Calculate position from the correct side based on direction
+        const newWidth = isRTL ? containerWidth - e.clientX : e.clientX;
         const percentage = (newWidth / containerWidth) * 100;
         const minPanelPercentage = (350 / containerWidth) * 100;
         const maxPreviewPercentage = 100 - minPanelPercentage;
@@ -43,7 +49,10 @@ export const ResizableDivider = ({ onResize, orientation = "horizontal" }) => {
       const touch = e.touches[0];
       if (orientation === "horizontal") {
         const containerWidth = window.innerWidth;
-        const newWidth = touch.clientX;
+        const isRTL = document.documentElement.getAttribute("dir") === "rtl";
+
+        // Calculate position from the correct side based on direction
+        const newWidth = isRTL ? containerWidth - touch.clientX : touch.clientX;
         const percentage = (newWidth / containerWidth) * 100;
         const minPanelPercentage = (350 / containerWidth) * 100;
         const maxPreviewPercentage = 100 - minPanelPercentage;

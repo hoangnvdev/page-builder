@@ -1,6 +1,6 @@
-import './index.scss';
+import "./index.scss";
 
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 
 import {
   Card,
@@ -10,7 +10,7 @@ import {
   Section,
   Text,
   Title,
-} from '@page-builder/ui';
+} from "@page-builder/ui";
 
 export const StatsCounter = ({
   // Section-level title
@@ -80,10 +80,10 @@ export const StatsCounter = ({
           )}
           <Grid columns={columns} gap={gap}>
             {data.map((stat, index) => {
-              // Extract title and content with fallbacks
-              const statTitle = stat.title?.text || stat.title || stat.value;
-              const statContent =
-                stat.content?.text || stat.content || stat.label;
+              // After unwrapping, title and content are simple strings
+              // and styling properties are flattened (titleSize, titleWeight, etc.)
+              const statTitle = stat.title || stat.value;
+              const statContent = stat.content || stat.label;
 
               // Get individual overrides or fallback to card defaults
               const itemBgColor = stat.backgroundColor || cardBackgroundColor;
@@ -92,14 +92,13 @@ export const StatsCounter = ({
               const itemBorderRadius = stat.borderRadius || cardBorderRadius;
               const itemDropShadow = stat.dropShadow || cardDropShadow;
 
-              const itemTitleSize = stat.title?.size || cardTitleSize;
-              const itemTitleWeight = stat.title?.weight || cardTitleWeight;
-              const itemTitleColor = stat.title?.color || cardTitleColor;
+              const itemTitleSize = stat.titleSize || cardTitleSize;
+              const itemTitleWeight = stat.titleWeight || cardTitleWeight;
+              const itemTitleColor = stat.titleColor || cardTitleColor;
 
-              const itemContentSize = stat.content?.size || cardContentSize;
-              const itemContentWeight =
-                stat.content?.weight || cardContentWeight;
-              const itemContentColor = stat.content?.color || cardContentColor;
+              const itemContentSize = stat.contentSize || cardContentSize;
+              const itemContentWeight = stat.contentWeight || cardContentWeight;
+              const itemContentColor = stat.contentColor || cardContentColor;
 
               return (
                 <Grid.Item key={index}>

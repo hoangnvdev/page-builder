@@ -37,21 +37,21 @@
       width: 56px;
       height: 56px;
       border-radius: 50%;
-      background-color: #f97316;
+      background-color: #3b82f6;
       color: white;
       border: none;
       box-shadow:
-        0 4px 12px rgba(249, 115, 22, 0.4),
+        0 4px 12px rgba(59, 130, 246, 0.4),
         0 2px 4px rgba(0, 0, 0, 0.1);
       cursor: pointer;
       z-index: 1000;
       transition: all 0.3s ease;
 
       &:hover {
-        background-color: #ea580c;
+        background-color: #2563eb;
         transform: scale(1.05);
         box-shadow:
-          0 6px 16px rgba(249, 115, 22, 0.5),
+          0 6px 16px rgba(59, 130, 246, 0.5),
           0 3px 6px rgba(0, 0, 0, 0.15);
       }
 

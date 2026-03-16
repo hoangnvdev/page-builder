@@ -1,14 +1,17 @@
-import React from "react";
+import React from 'react';
 
-import { BrowserRouter } from "react-router-dom";
+import { BrowserRouter } from 'react-router-dom';
 
-import { AppRoutes } from "@/routes";
+import { RTLProvider } from '@/components';
+import { AppRoutes } from '@/routes';
 
 function App() {
   return (
-    <BrowserRouter>
-      <AppRoutes />
-    </BrowserRouter>
+    <RTLProvider>
+      <BrowserRouter>
+        <AppRoutes />
+      </BrowserRouter>
+    </RTLProvider>
   );
 }
 

@@ -1,6 +1,6 @@
-import './index.scss';
+import "./index.scss";
 
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 
 import {
   Avatar,
@@ -11,7 +11,7 @@ import {
   Section,
   Text,
   Title,
-} from '@page-builder/ui';
+} from "@page-builder/ui";
 
 export const SpeechBubbleTestimonials = ({
   // Section-level title
@@ -82,19 +82,11 @@ export const SpeechBubbleTestimonials = ({
           )}
           <Grid columns={columns} gap={gap}>
             {quotes.map((quote, index) => {
-              // Extract avatar, title (quote text), and content (author) with fallbacks
-              const avatarText = quote.avatar?.text || quote.avatar;
-              const titleText =
-                quote.title?.text ||
-                quote.title ||
-                quote.text ||
-                quote.content?.text ||
-                quote.content;
-              const contentText =
-                quote.content?.text ||
-                quote.content ||
-                quote.author?.text ||
-                quote.author;
+              // After unwrapping, avatar, title, content are simple strings/values
+              // and styling properties are flattened (avatarSize, titleSize, etc.)
+              const avatarText = quote.avatar;
+              const titleText = quote.title || quote.text || quote.content;
+              const contentText = quote.content || quote.author;
 
               // Get individual overrides or fallback to card defaults
               const itemBgColor = quote.backgroundColor || cardBackgroundColor;
@@ -103,18 +95,18 @@ export const SpeechBubbleTestimonials = ({
               const itemBorderRadius = quote.borderRadius || cardBorderRadius;
               const itemDropShadow = quote.dropShadow || cardDropShadow;
 
-              const itemAvatarSize = quote.avatar?.size || cardAvatarSize;
+              const itemAvatarSize = quote.avatarSize || cardAvatarSize;
               const itemAvatarBgColor =
-                quote.avatar?.backgroundColor || cardAvatarBackgroundColor;
+                quote.avatarBackgroundColor || cardAvatarBackgroundColor;
 
-              const itemTitleSize = quote.title?.size || cardTitleSize;
-              const itemTitleWeight = quote.title?.weight || cardTitleWeight;
-              const itemTitleColor = quote.title?.color || cardTitleColor;
+              const itemTitleSize = quote.titleSize || cardTitleSize;
+              const itemTitleWeight = quote.titleWeight || cardTitleWeight;
+              const itemTitleColor = quote.titleColor || cardTitleColor;
 
-              const itemContentSize = quote.content?.size || cardContentSize;
+              const itemContentSize = quote.contentSize || cardContentSize;
               const itemContentWeight =
-                quote.content?.weight || cardContentWeight;
-              const itemContentColor = quote.content?.color || cardContentColor;
+                quote.contentWeight || cardContentWeight;
+              const itemContentColor = quote.contentColor || cardContentColor;
 
               return (
                 <Grid.Item key={index}>
