@@ -1,9 +1,10 @@
-import './index.scss';
+import "./index.scss";
 
-import { useMemo } from 'react';
+import { useMemo } from "react";
 
-import PropTypes from 'prop-types';
-import { v4 as uuidv4 } from 'uuid';
+import PropTypes from "prop-types";
+import { useTranslation } from "react-i18next";
+import { v4 as uuidv4 } from "uuid";
 
 import {
   Button,
@@ -16,7 +17,7 @@ import {
   Slider,
   Textarea,
   Toggle,
-} from '@page-builder/ui';
+} from "@page-builder/ui";
 
 export const FormField = ({
   id,
@@ -31,6 +32,7 @@ export const FormField = ({
   step,
   labels,
 }) => {
+  const { t } = useTranslation();
   // Generate a stable unique ID for the field
   const fieldId = useMemo(() => `field-${id.replace(/\./g, "-")}`, [id]);
   const handleItemChange = (index, field, newValue) => {
@@ -86,7 +88,7 @@ export const FormField = ({
         if (!options || !Array.isArray(options) || options.length === 0) {
           return (
             <EmptyState
-              description={`The "${label}" field is missing options. Please update the schema configuration.`}
+              description={t("formField.warning.missingOptions", { label })}
               className="form-field__warning"
             />
           );
@@ -146,7 +148,7 @@ export const FormField = ({
                   size="small"
                   onClick={handleAddItem}
                 >
-                  + Add Item
+                  {t("formField.button.addItem")}
                 </Button>
               </Flex>
             </Label>
@@ -155,14 +157,14 @@ export const FormField = ({
               <div key={item.id || index} className="form-field__list-item">
                 <Input
                   id={`${fieldId}-item-${index}-title`}
-                  label={`${type === "projects-list" ? "Project" : "Feature"} ${index + 1} Title`}
+                  label={`${type === "projects-list" ? t("formField.label.project") : t("formField.label.feature")} ${index + 1} ${t("formField.label.itemTitle")}`}
                   value={item.title || ""}
                   onChange={(value) => handleItemChange(index, "title", value)}
                 />
 
                 <Textarea
                   id={`${fieldId}-item-${index}-description`}
-                  label="Description"
+                  label={t("formField.label.description")}
                   value={item.description || ""}
                   onChange={(value) =>
                     handleItemChange(index, "description", value)
@@ -175,14 +177,14 @@ export const FormField = ({
                   size="small"
                   onClick={() => handleRemoveItem(index)}
                 >
-                  Remove
+                  {t("formField.button.remove")}
                 </Button>
               </div>
             ))}
 
             {(!items || items.length === 0) && (
               <EmptyState
-                description="No items yet. Click 'Add Item' to create one."
+                description={t("formField.emptyState.noItems")}
                 className="form-field__empty-state"
               />
             )}
@@ -192,7 +194,7 @@ export const FormField = ({
       default:
         return (
           <EmptyState
-            description={`Unknown field type: "${type}". Please check the field configuration.`}
+            description={t("formField.error.unknownType", { type })}
             className="form-field__error"
           />
         );

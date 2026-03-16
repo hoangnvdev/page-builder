@@ -2,13 +2,18 @@ import React from "react";
 
 import { BrowserRouter } from "react-router-dom";
 
+import { ErrorBoundary, RTLProvider } from "@/components";
 import { AppRoutes } from "@/routes";
 
 function App() {
   return (
-    <BrowserRouter>
-      <AppRoutes />
-    </BrowserRouter>
+    <ErrorBoundary fallbackType="page" resetPath="/template">
+      <RTLProvider>
+        <BrowserRouter>
+          <AppRoutes />
+        </BrowserRouter>
+      </RTLProvider>
+    </ErrorBoundary>
   );
 }
 

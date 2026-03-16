@@ -2,11 +2,12 @@ import "./index.scss";
 
 import { useEffect, useState } from "react";
 
-import { ChevronDown, ChevronUp } from "lucide-react";
+import { FilePenLine } from "lucide-react";
+import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
 import { Navigate, useNavigate } from "react-router-dom";
 
-import { LoadingIndicator } from "@/components";
+import { ErrorBoundary, LoadingIndicator } from "@/components";
 import { fetchTemplateByIdFromAPI } from "@/services";
 import {
   rehydrateTemplateComponent,
@@ -21,6 +22,7 @@ import { PropertyPanel } from "../PropertyPanel";
 import { ResizableDivider } from "../ResizableDivider";
 
 export const Editor = () => {
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const selectedTemplate = useSelector(
@@ -86,8 +88,8 @@ export const Editor = () => {
   if (isRehydrating) {
     return (
       <LoadingIndicator
-        title="Restoring Template..."
-        description="Please wait while we restore your design..."
+        title={t("editor.loading.title")}
+        description={t("editor.loading.description")}
       />
     );
   }
@@ -115,7 +117,9 @@ export const Editor = () => {
               isMobile && !showPanel ? "100%" : `${splitPercentage}%`,
           }}
         >
-          <PreviewRenderer />
+          <ErrorBoundary fallbackType="component">
+            <PreviewRenderer />
+          </ErrorBoundary>
         </div>
 
         {showPanel && (
@@ -131,7 +135,9 @@ export const Editor = () => {
                 [isMobile ? "height" : "width"]: `${100 - splitPercentage}%`,
               }}
             >
-              <PropertyPanel />
+              <ErrorBoundary fallbackType="component">
+                <PropertyPanel />
+              </ErrorBoundary>
             </div>
           </>
         )}
@@ -142,13 +148,17 @@ export const Editor = () => {
           className="editor__toggle-panel"
           onClick={togglePanel}
           aria-label={
-            isPanelVisible ? "Close Editor Panel" : "Open Editor Panel"
+            isPanelVisible
+              ? t("editor.accessibility.closePanel")
+              : t("editor.accessibility.openPanel")
           }
         >
           <span className="editor__toggle-tooltip">
-            {isPanelVisible ? "Close Editor Panel" : "Open Editor Panel"}
+            {isPanelVisible
+              ? t("editor.accessibility.closePanel")
+              : t("editor.accessibility.openPanel")}
           </span>
-          {isPanelVisible ? <ChevronDown size={24} /> : <ChevronUp size={24} />}
+          <FilePenLine size={24} />
         </button>
       )}
     </Flex>

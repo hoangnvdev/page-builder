@@ -95,6 +95,83 @@ const unwrapNestedObjects = (obj) => {
   return obj;
 };
 
+/**
+ * Unwrap panel items for ComicPanels component.
+ * Transforms nested structures like {title: {text, size, weight, color}}
+ * into flat structure: {title: text, titleSize, titleWeight, titleColor}
+ */
+const unwrapPanelItems = (panels) => {
+  if (!Array.isArray(panels)) return panels;
+
+  return panels.map((panel) => {
+    const unwrapped = { ...panel };
+
+    // Unwrap title
+    if (
+      panel.title &&
+      typeof panel.title === "object" &&
+      "text" in panel.title
+    ) {
+      unwrapped.title = panel.title.text;
+      if (panel.title.size) unwrapped.titleSize = panel.title.size;
+      if (panel.title.weight) unwrapped.titleWeight = panel.title.weight;
+      if (panel.title.color) unwrapped.titleColor = panel.title.color;
+    }
+
+    // Unwrap content
+    if (
+      panel.content &&
+      typeof panel.content === "object" &&
+      "text" in panel.content
+    ) {
+      unwrapped.content = panel.content.text;
+      if (panel.content.size) unwrapped.contentSize = panel.content.size;
+      if (panel.content.weight) unwrapped.contentWeight = panel.content.weight;
+      if (panel.content.color) unwrapped.contentColor = panel.content.color;
+    }
+
+    return unwrapped;
+  });
+};
+
+/**
+ * Generic helper to unwrap array items with nested text objects.
+ * Transforms {prop: {text, size, weight, color}} into {prop: text, propSize, propWeight, propColor}
+ *
+ * @param {Array} items - Array of items with nested objects
+ * @param {Array} propsToUnwrap - Array of property names to unwrap (e.g., ['title', 'content', 'caption', 'avatar'])
+ * @returns {Array} Array with unwrapped properties
+ */
+const unwrapArrayItems = (items, propsToUnwrap = []) => {
+  if (!Array.isArray(items)) return items;
+
+  return items.map((item) => {
+    const unwrapped = { ...item };
+
+    propsToUnwrap.forEach((propName) => {
+      const propValue = item[propName];
+
+      if (propValue && typeof propValue === "object") {
+        // If it has a 'text' property, extract it
+        if ("text" in propValue) {
+          unwrapped[propName] = propValue.text;
+
+          // Extract all other properties with capitalized prop names
+          Object.keys(propValue).forEach((key) => {
+            if (key !== "text") {
+              const capitalizedKey =
+                propName + key.charAt(0).toUpperCase() + key.slice(1);
+              unwrapped[capitalizedKey] = propValue[key];
+            }
+          });
+        }
+      }
+    });
+
+    return unwrapped;
+  });
+};
+
 export const componentRegistry = {
   header: {
     component: Header,
@@ -118,10 +195,11 @@ export const componentRegistry = {
   hero: {
     component: Hero,
     propsMapper: (config) => ({
-      title: config.title?.text || config.title,
-      subtitle: config.subtitle?.text || config.subtitle,
-      buttonText:
+      title: unwrapText(config.title?.text || config.title),
+      subtitle: unwrapText(config.subtitle?.text || config.subtitle),
+      buttonText: unwrapText(
         config.button?.text || config.buttonText || config.ctaButtonText,
+      ),
       backgroundColor: config.backgroundColor,
       gradientStart: config.gradientStart,
       gradientEnd: config.gradientEnd,
@@ -149,11 +227,11 @@ export const componentRegistry = {
     component: ItemGrid,
     propsMapper: (config) => {
       return {
-        heading: config.heading?.text || config.heading,
+        heading: unwrapText(config.heading?.text || config.heading),
         headingSize: config.heading?.size,
         headingWeight: config.heading?.weight,
         headingColor: config.heading?.color,
-        items: config.items, // Pass items directly without unwrapping
+        items: unwrapArrayItems(config.items, ["title", "content"]),
         backgroundColor: config.backgroundColor,
         columns: config.columns,
         gap: config.gap,
@@ -185,14 +263,18 @@ export const componentRegistry = {
   projects: {
     component: ItemGrid,
     propsMapper: (config) => {
-      const unwrappedItems = unwrapNestedObjects(config.items);
+      const unwrappedItems = unwrapArrayItems(config.items, [
+        "title",
+        "content",
+        "description",
+      ]);
       const normalizedItems = unwrappedItems?.map((item) => ({
         ...item,
         description: item.description || item.content,
       }));
 
       return {
-        heading: config.heading,
+        heading: unwrapText(config.heading),
         items: normalizedItems,
         backgroundColor: config.backgroundColor,
         headingColor: config.headingColor,
@@ -302,11 +384,11 @@ export const componentRegistry = {
   comicPanels: {
     component: ComicPanels,
     propsMapper: (config) => ({
-      heading: config.heading?.text || config.heading,
+      heading: unwrapText(config.heading?.text || config.heading),
       headingSize: config.heading?.size,
       headingWeight: config.heading?.weight,
       headingColor: config.heading?.color,
-      panels: config.panels, // Pass panels directly without unwrapping
+      panels: unwrapArrayItems(config.panels, ["title", "content"]),
       columns: config.columns,
       gap: config.gap,
       backgroundColor: config.backgroundColor,
@@ -379,8 +461,8 @@ export const componentRegistry = {
         cardContentWeight: config.card?.content?.weight,
         cardContentColor: config.card?.content?.color,
 
-        // Pass quotes directly without unwrapping
-        quotes: config.quotes,
+        // Unwrap nested text objects in quotes
+        quotes: unwrapArrayItems(config.quotes, ["title", "content", "avatar"]),
       };
     },
   },
@@ -448,8 +530,8 @@ export const componentRegistry = {
         cardContentWeight: config.card?.content?.weight,
         cardContentColor: config.card?.content?.color,
 
-        // Pass items directly without unwrapping
-        items: config.items,
+        // Unwrap nested text objects in items
+        items: unwrapArrayItems(config.items, ["title", "content"]),
       };
     },
   },
@@ -521,7 +603,7 @@ export const componentRegistry = {
       headingSize: config.heading?.size,
       headingWeight: config.heading?.weight,
       headingColor: config.heading?.color,
-      images: unwrapNestedObjects(config.images),
+      images: unwrapArrayItems(config.images, ["caption"]),
       backgroundColor: config.backgroundColor,
       columns: config.columns,
       gap: config.gap,
@@ -668,10 +750,22 @@ export const getComponentForElement = (elementType, config, templateConfig) => {
   }
 
   const { component, propsMapper } = registration;
-  const props = propsMapper(config, templateConfig);
 
-  // Add dataElement prop to make the section selectable
-  props.dataElement = elementType;
+  try {
+    const props = propsMapper(config, templateConfig);
 
-  return { component, props };
+    // Add dataElement prop to make the section selectable
+    props.dataElement = elementType;
+
+    return { component, props };
+  } catch (error) {
+    console.error(`Error mapping props for component: ${elementType}`, error);
+
+    if (process.env.NODE_ENV === "development") {
+      console.error("Component config:", config);
+      console.error("Template config:", templateConfig);
+    }
+
+    return null;
+  }
 };

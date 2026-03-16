@@ -1,0 +1,136 @@
+{
+  "editor": {
+    "toolbar": {
+      "backButton": "← Back to Templates",
+      "resetButton": "Reset to Default"
+    },
+    "loading": {
+      "title": "Restoring Template...",
+      "description": "Please wait while we restore your design..."
+    },
+    "accessibility": {
+      "closePanel": "Close Editor Panel",
+      "openPanel": "Open Editor Panel"
+    }
+  },
+  "export": {
+    "button": {
+      "exported": "Exported!",
+      "exportHtml": "Export HTML"
+    },
+    "error": {
+      "failedMessage": "Failed to export. Please try again."
+    }
+  },
+  "propertyPanel": {
+    "title": {
+      "properties": "Properties",
+      "pageSettings": "Page Settings",
+      "editPrefix": "Edit"
+    },
+    "subtitle": {
+      "sectionSuffix": "Section"
+    },
+    "emptyState": {
+      "selectTemplate": "Select a template to edit its properties",
+      "noPropertiesPrefix": "No editable properties defined for"
+    }
+  },
+  "templateCard": {
+    "button": {
+      "useTemplate": "Use Template"
+    }
+  },
+  "templateGallery": {
+    "title": "Choose Your Template",
+    "subtitle": "Select a template to start building your page. All templates are fully customizable.",
+    "loading": {
+      "title": "Loading Templates",
+      "description": "Fetching available templates..."
+    },
+    "preparing": {
+      "title": "Preparing Template",
+      "description": "Loading your selected template..."
+    },
+    "error": {
+      "title": "Failed to Load Templates"
+    },
+    "button": {
+      "retry": "Retry"
+    },
+    "emptyState": {
+      "title": "No Templates Available",
+      "description": "No templates found."
+    }
+  },
+  "formField": {
+    "button": {
+      "addItem": "+ Add Item",
+      "remove": "Remove"
+    },
+    "label": {
+      "project": "Project",
+      "feature": "Feature",
+      "itemTitle": "Title",
+      "description": "Description"
+    },
+    "warning": {
+      "missingOptions": "The \"{label}\" field is missing options. Please update the schema configuration."
+    },
+    "emptyState": {
+      "noItems": "No items yet. Click 'Add Item' to create one."
+    },
+    "error": {
+      "unknownType": "Unknown field type: \"{type}\". Please check the field configuration."
+    }
+  },
+  "loading": {
+    "default": {
+      "title": "Loading...",
+      "description": "Please wait while we fetch the data."
+    }
+  },
+  "preview": {
+    "emptyState": {
+      "title": "Template Not Available",
+      "description": "Please return to the template gallery and select a template again."
+    },
+    "helperTip": {
+      "message": "💡 Tip: Click on any section or individual element (title, button, etc.) to edit it. Click outside to view page settings."
+    },
+    "accessibility": {
+      "closeTip": "Close tip"
+    }
+  },
+  "routes": {
+    "loading": {
+      "templatePage": {
+        "title": "We're preparing your templates...",
+        "description": "One moment..."
+      },
+      "designPage": {
+        "title": "We're preparing your design workspace...",
+        "description": "One moment..."
+      }
+    }
+  },
+  "errorBoundary": {
+    "page": {
+      "title": "Something went wrong",
+      "message": "We're sorry, but something unexpected happened. Please try reloading the page."
+    },
+    "component": {
+      "title": "Component Error",
+      "message": "This component failed to load. Please try again."
+    },
+    "inline": {
+      "message": "Failed to load"
+    },
+    "showDetails": "Show error details",
+    "actions": {
+      "reload": "Reload Page",
+      "goHome": "Go to Home",
+      "retry": "Retry"
+    }
+  }
+}

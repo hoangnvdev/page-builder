@@ -1,0 +1,54 @@
+.toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #fff;
+  border-bottom: 1px solid #e0e0e0;
+  padding: 0 16px;
+  box-sizing: border-box;
+  flex-shrink: 0;
+  min-height: 60px;
+
+  &__left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  &__center {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex: 1;
+    justify-content: center;
+  }
+
+  &__right {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+}
+
+@media (max-width: 768px) {
+  .toolbar {
+    padding: 0.75rem;
+    min-height: auto !important;
+    height: auto !important;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    align-items: flex-start;
+    align-content: flex-start;
+    overflow: visible !important;
+
+    &__left,
+    &__center,
+    &__right {
+      gap: 0.5rem;
+    }
+
+    &__left {
+      min-width: 0; // Allow flex items to shrink
+    }
+  }
+}

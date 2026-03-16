@@ -1,0 +1,14 @@
+{
+  "input": {
+    "placeholder": "テキストを入力..."
+  },
+  "textarea": {
+    "placeholder": "テキストを入力..."
+  },
+  "select": {
+    "placeholder": "オプションを選択..."
+  },
+  "colorPicker": {
+    "placeholder": "#000000 または transparent"
+  }
+}

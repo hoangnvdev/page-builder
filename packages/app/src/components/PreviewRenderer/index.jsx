@@ -1,23 +1,17 @@
-import './index.scss';
+import "./index.scss";
 
-import {
-  useEffect,
-  useState,
-} from 'react';
+import { useEffect, useState } from "react";
 
-import {
-  useDispatch,
-  useSelector,
-} from 'react-redux';
+import { useTranslation } from "react-i18next";
+import { useDispatch, useSelector } from "react-redux";
 
-import {
-  deselectElement,
-  selectElement,
-} from '@/store/builderSlice';
-import { deepMerge } from '@helpers';
-import { EmptyState } from '@page-builder/ui';
+import { ErrorBoundary } from "@/components";
+import { deselectElement, selectElement } from "@/store/builderSlice";
+import { deepMerge } from "@helpers";
+import { EmptyState } from "@page-builder/ui";
 
 export const PreviewRenderer = () => {
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   const selectedTemplate = useSelector(
     (state) => state.builder.selectedTemplate,
@@ -93,8 +87,8 @@ export const PreviewRenderer = () => {
       <div className="preview-renderer">
         <EmptyState
           icon="📄"
-          title="Template Not Available"
-          description="Please return to the template gallery and select a template again."
+          title={t("preview.emptyState.title")}
+          description={t("preview.emptyState.description")}
         />
       </div>
     );
@@ -111,20 +105,21 @@ export const PreviewRenderer = () => {
     <>
       <div className="preview-renderer" onClick={handleBackgroundClick}>
         <div className="preview-renderer__frame" onClick={handleElementClick}>
-          <TemplateComponent config={tempConfig} />
+          <ErrorBoundary fallbackType="component">
+            <TemplateComponent config={tempConfig} />
+          </ErrorBoundary>
         </div>
       </div>
 
       {showHelperText && (
         <div className="preview-renderer__helper-text">
           <span className="preview-renderer__helper-text-content">
-            💡 Tip: Click on any section or individual element (title, button,
-            etc.) to edit it. Click outside to view page settings.
+            {t("preview.helperTip.message")}
           </span>
           <button
             className="preview-renderer__helper-text-close"
             onClick={handleDismissHelper}
-            aria-label="Close tip"
+            aria-label={t("preview.accessibility.closeTip")}
           >
             ✕
           </button>

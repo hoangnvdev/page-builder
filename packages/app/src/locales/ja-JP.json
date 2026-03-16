@@ -1,0 +1,136 @@
+{
+  "editor": {
+    "toolbar": {
+      "backButton": "← テンプレートに戻る",
+      "resetButton": "デフォルトにリセット"
+    },
+    "loading": {
+      "title": "テンプレートを復元中...",
+      "description": "デザインを復元しています。お待ちください..."
+    },
+    "accessibility": {
+      "closePanel": "エディターパネルを閉じる",
+      "openPanel": "エディターパネルを開く"
+    }
+  },
+  "export": {
+    "button": {
+      "exported": "エクスポート完了！",
+      "exportHtml": "HTMLをエクスポート"
+    },
+    "error": {
+      "failedMessage": "エクスポートに失敗しました。もう一度お試しください。"
+    }
+  },
+  "propertyPanel": {
+    "title": {
+      "properties": "プロパティ",
+      "pageSettings": "ページ設定",
+      "editPrefix": "編集"
+    },
+    "subtitle": {
+      "sectionSuffix": "セクション"
+    },
+    "emptyState": {
+      "selectTemplate": "編集するテンプレートを選択してください",
+      "noPropertiesPrefix": "編集可能なプロパティが定義されていません:"
+    }
+  },
+  "templateCard": {
+    "button": {
+      "useTemplate": "このテンプレートを使用"
+    }
+  },
+  "templateGallery": {
+    "title": "テンプレートを選択",
+    "subtitle": "テンプレートを選択してページの作成を開始します。すべてのテンプレートは完全にカスタマイズ可能です。",
+    "loading": {
+      "title": "テンプレートを読み込み中",
+      "description": "利用可能なテンプレートを取得中..."
+    },
+    "preparing": {
+      "title": "テンプレートを準備中",
+      "description": "選択したテンプレートを読み込んでいます..."
+    },
+    "error": {
+      "title": "テンプレートの読み込みに失敗しました"
+    },
+    "button": {
+      "retry": "再試行"
+    },
+    "emptyState": {
+      "title": "利用可能なテンプレートがありません",
+      "description": "テンプレートが見つかりませんでした。"
+    }
+  },
+  "formField": {
+    "button": {
+      "addItem": "+ アイテムを追加",
+      "remove": "削除"
+    },
+    "label": {
+      "project": "プロジェクト",
+      "feature": "機能",
+      "itemTitle": "タイトル",
+      "description": "説明"
+    },
+    "warning": {
+      "missingOptions": "「{label}」フィールドにオプションがありません。スキーマ設定を更新してください。"
+    },
+    "emptyState": {
+      "noItems": "アイテムがありません。「アイテムを追加」をクリックして作成してください。"
+    },
+    "error": {
+      "unknownType": "不明なフィールドタイプ:「{type}」。フィールド設定を確認してください。"
+    }
+  },
+  "loading": {
+    "default": {
+      "title": "読み込み中...",
+      "description": "データを取得しています。お待ちください。"
+    }
+  },
+  "preview": {
+    "emptyState": {
+      "title": "テンプレートが利用できません",
+      "description": "テンプレートギャラリーに戻って、もう一度テンプレートを選択してください。"
+    },
+    "helperTip": {
+      "message": "💡 ヒント：セクションや個別の要素（タイトル、ボタンなど）をクリックして編集できます。外側をクリックするとページ設定が表示されます。"
+    },
+    "accessibility": {
+      "closeTip": "ヒントを閉じる"
+    }
+  },
+  "routes": {
+    "loading": {
+      "templatePage": {
+        "title": "テンプレートを準備しています...",
+        "description": "少々お待ちください..."
+      },
+      "designPage": {
+        "title": "デザインワークスペースを準備しています...",
+        "description": "少々お待ちください..."
+      }
+    }
+  },
+  "errorBoundary": {
+    "page": {
+      "title": "問題が発生しました",
+      "message": "申し訳ございませんが、予期しない問題が発生しました。ページを再読み込みしてください。"
+    },
+    "component": {
+      "title": "コンポーネントエラー",
+      "message": "このコンポーネントの読み込みに失敗しました。もう一度お試しください。"
+    },
+    "inline": {
+      "message": "読み込みに失敗しました"
+    },
+    "showDetails": "エラーの詳細を表示",
+    "actions": {
+      "reload": "ページを再読み込み",
+      "goHome": "ホームに戻る",
+      "retry": "再試行"
+    }
+  }
+}

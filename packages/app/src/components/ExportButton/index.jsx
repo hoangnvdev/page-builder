@@ -1,13 +1,22 @@
-import "./index.scss";
+import './index.scss';
 
-import { useState } from "react";
+import { useState } from 'react';
 
-import { useSelector } from "react-redux";
+import {
+  Check,
+  Download,
+} from 'lucide-react';
+import { useTranslation } from 'react-i18next';
+import { useSelector } from 'react-redux';
 
-import { downloadHTML, exportToHTML } from "@/utils/exportHTML.jsx";
-import { Button } from "@page-builder/ui";
+import {
+  downloadHTML,
+  exportToHTML,
+} from '@/utils/exportHTML.jsx';
+import { Button } from '@page-builder/ui';
 
 export const ExportButton = () => {
+  const { t } = useTranslation();
   const selectedTemplate = useSelector(
     (state) => state.builder.selectedTemplate,
   );
@@ -40,19 +49,24 @@ export const ExportButton = () => {
       }, 1000);
     } catch (error) {
       console.error("Export failed:", error);
-      alert("Failed to export. Please try again.");
+      alert(t("export.error.failedMessage"));
       setIsExporting(false);
     }
   };
 
   return (
-    <Button
-      variant="export"
-      onClick={handleExport}
-      disabled={isExporting}
-      icon={isExporting ? "✓" : "↓"}
-    >
-      {isExporting ? "Exported!" : "Export HTML"}
+    <Button variant="export" onClick={handleExport} disabled={isExporting}>
+      {isExporting ? (
+        <>
+          <Check size={16} />
+          {t("export.button.exported")}
+        </>
+      ) : (
+        <>
+          <Download size={16} />
+          {t("export.button.exportHtml")}
+        </>
+      )}
     </Button>
   );
 };

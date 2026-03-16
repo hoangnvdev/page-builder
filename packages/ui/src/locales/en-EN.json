@@ -1,0 +1,14 @@
+{
+  "input": {
+    "placeholder": "Enter text..."
+  },
+  "textarea": {
+    "placeholder": "Enter text..."
+  },
+  "select": {
+    "placeholder": "Select an option..."
+  },
+  "colorPicker": {
+    "placeholder": "#000000 or transparent"
+  }
+}

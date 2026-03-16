@@ -1,16 +1,10 @@
-import './index.scss';
+import "./index.scss";
 
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 
-import {
-  Container,
-  Flex,
-  Grid,
-  Section,
-  Title,
-} from '@page-builder/ui';
+import { Container, Flex, Grid, Section, Title } from "@page-builder/ui";
 
-import { ItemCard } from '../ItemCard';
+import { ItemCard } from "../ItemCard";
 
 export const ItemGrid = ({
   heading,
@@ -73,10 +67,8 @@ export const ItemGrid = ({
                 ) : (
                   <ItemCard
                     icon={item.icon}
-                    title={item.title?.text || item.title}
-                    description={
-                      item.content?.text || item.content || item.description
-                    }
+                    title={item.title}
+                    description={item.content || item.description}
                     backgroundColor={
                       item.backgroundColor || cardBackgroundColor
                     }
@@ -84,14 +76,12 @@ export const ItemGrid = ({
                     align={item.align || cardAlign}
                     borderRadius={item.borderRadius || cardBorderRadius}
                     dropShadow={item.dropShadow || cardDropShadow}
-                    titleSize={item.title?.size || cardTitleSize}
-                    titleWeight={item.title?.weight || cardTitleWeight}
-                    titleColor={item.title?.color || cardTitleColor}
-                    descriptionSize={item.content?.size || cardContentSize}
-                    descriptionWeight={
-                      item.content?.weight || cardContentWeight
-                    }
-                    descriptionColor={item.content?.color || cardContentColor}
+                    titleSize={item.titleSize || cardTitleSize}
+                    titleWeight={item.titleWeight || cardTitleWeight}
+                    titleColor={item.titleColor || cardTitleColor}
+                    descriptionSize={item.contentSize || cardContentSize}
+                    descriptionWeight={item.contentWeight || cardContentWeight}
+                    descriptionColor={item.contentColor || cardContentColor}
                     dataElement={`${dataElement}.items.${idx}`}
                   />
                 )}

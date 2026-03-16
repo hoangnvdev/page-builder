@@ -1,0 +1,326 @@
+{
+  "fields": {
+    "pageTitle": "Page Title (Browser Tab)",
+    "metaDescription": "Meta Description (SEO)",
+    "metaKeywords": "Meta Keywords (comma-separated)",
+    "author": "Author",
+    "language": "Language",
+    "fontFamily": "Font Family",
+    "pageBackground": "Page Background",
+    "pageTextColor": "Page Text Color",
+    "backgroundColor": "Background Color",
+    "gradientStart": "Gradient Start (optional)",
+    "gradientEnd": "Gradient End (optional)",
+    "gradientAngle": "Gradient Angle",
+    "padding": "Padding",
+    "gap": "Gap",
+    "maxWidth": "Max Width",
+    "textAlign": "Text Alignment",
+    "textColor": "Text Color",
+    "accentColor": "Accent Color",
+    "primaryColor": "Primary Color",
+    "secondaryColor": "Secondary Color",
+    "buttonRadius": "Button Border Radius",
+    "buttonBackground": "Button Background",
+    "buttonText": "Button Text",
+    "buttonTextColor": "Button Text Color",
+    "buttonHoverBg": "Button Hover Background",
+    "linkColor": "Link Color",
+    "dividerColor": "Divider Color",
+    "borderColor": "Border Color",
+    "borderWidth": "Border Width",
+    "borderRadius": "Border Radius",
+    "shadowColor": "Shadow Color",
+    "shadowBlur": "Shadow Blur",
+    "title": "Title",
+    "subtitle": "Subtitle",
+    "heading": "Heading",
+    "subheading": "Subheading",
+    "description": "Description",
+    "text": "Text",
+    "content": "Content",
+    "quote": "Quote",
+    "role": "Role / Title",
+    "company": "Company",
+    "date": "Date",
+    "year": "Year",
+    "label": "Label",
+    "value": "Value",
+    "metric": "Metric",
+    "suffix": "Suffix",
+    "prefix": "Prefix",
+    "logoUrl": "Logo URL",
+    "logoAlt": "Logo Alt Text",
+    "imageUrl": "Image URL",
+    "imageAlt": "Image Alt Text",
+    "iconUrl": "Icon URL",
+    "iconAlt": "Icon Alt Text",
+    "videoUrl": "Video URL",
+    "videoCaption": "Video Caption",
+    "linkUrl": "Link URL",
+    "linkText": "Link Text",
+    "buttonUrl": "Button URL",
+    "ctaText": "Call to Action Text",
+    "ctaUrl": "Call to Action URL",
+    "items": "Items",
+    "sectionTitle": "Section Title",
+    "sectionSubtitle": "Section Subtitle",
+    "columns": "Columns",
+    "columnSpacing": "Column Spacing",
+    "rowSpacing": "Row Spacing",
+    "alignItems": "Align Items",
+    "justifyContent": "Justify Content",
+    "itemBackground": "Item Background",
+    "itemTextColor": "Item Text Color",
+    "itemBorderColor": "Item Border Color",
+    "itemBorderRadius": "Item Border Radius",
+    "itemBorderWidth": "Item Border Width",
+    "itemPadding": "Item Padding",
+    "itemGap": "Item Gap",
+    "fontSize": "Font Size",
+    "fontWeight": "Font Weight",
+    "lineHeight": "Line Height",
+    "letterSpacing": "Letter Spacing",
+    "layout": "Layout",
+    "direction": "Direction",
+    "reverse": "Reverse",
+    "showImage": "Show Image",
+    "showIcon": "Show Icon",
+    "showButton": "Show Button",
+    "showDivider": "Show Divider",
+    "showQuote": "Show Quote",
+    "showAuthor": "Show Author",
+    "showDate": "Show Date",
+    "animationDuration": "Animation Duration",
+    "animationDelay": "Animation Delay"
+  },
+  "options": {
+    "left": "Left",
+    "center": "Center",
+    "right": "Right",
+    "start": "Start",
+    "end": "End",
+    "spaceBetween": "Space Between",
+    "spaceAround": "Space Around",
+    "spaceEvenly": "Space Evenly",
+    "flexStart": "Flex Start",
+    "flexEnd": "Flex End",
+    "stretch": "Stretch",
+    "baseline": "Baseline",
+    "horizontal": "Horizontal",
+    "vertical": "Vertical",
+    "row": "Row",
+    "column": "Column",
+    "grid": "Grid",
+    "flex": "Flex",
+    "none": "None",
+    "small": "Small",
+    "medium": "Medium",
+    "large": "Large",
+    "xs": "Extra Small",
+    "sm": "Small",
+    "md": "Medium",
+    "lg": "Large",
+    "xl": "Extra Large",
+    "2xl": "2X Large",
+    "3xl": "3X Large",
+    "normal": "Normal",
+    "bold": "Bold",
+    "light": "Light",
+    "semibold": "Semibold",
+    "true": "Yes",
+    "false": "No",
+    "enabled": "Enabled",
+    "disabled": "Disabled",
+    "visible": "Visible",
+    "hidden": "Hidden",
+    "slide": "Slide",
+    "fade": "Fade",
+    "zoom": "Zoom",
+    "bounce": "Bounce",
+    "slow": "Slow",
+    "fast": "Fast",
+    "auto": "Auto"
+  },
+  "nav": {
+    "home": "Home",
+    "about": "About",
+    "services": "Services",
+    "products": "Products",
+    "contact": "Contact",
+    "features": "Features",
+    "pricing": "Pricing",
+    "blog": "Blog"
+  },
+  "templates": {
+    "businessPro": {
+      "name": "Business Pro",
+      "description": "Professional business landing page",
+      "defaults": {
+        "hero": {
+          "title": "Welcome to Our Business",
+          "subtitle": "Professional solutions for modern companies",
+          "description": "We provide innovative solutions to help your business grow and succeed in the digital age.",
+          "ctaText": "Get Started",
+          "ctaUrl": "#contact"
+        },
+        "features": {
+          "sectionTitle": "Our Services",
+          "items": [
+            {
+              "title": "Consulting",
+              "description": "Expert business consulting services",
+              "iconUrl": "💼"
+            },
+            {
+              "title": "Strategy",
+              "description": "Data-driven strategic planning",
+              "iconUrl": "📊"
+            },
+            {
+              "title": "Implementation",
+              "description": "Seamless execution and support",
+              "iconUrl": "🚀"
+            }
+          ]
+        },
+        "testimonials": {
+          "sectionTitle": "What Our Clients Say",
+          "items": [
+            {
+              "quote": "Outstanding service and results!",
+              "author": "John Smith",
+              "role": "CEO, Tech Corp"
+            }
+          ]
+        },
+        "cta": {
+          "title": "Ready to Get Started?",
+          "subtitle": "Contact us today for a free consultation",
+          "buttonText": "Contact Us",
+          "buttonUrl": "#contact"
+        }
+      }
+    },
+    "comicSplash": {
+      "name": "Comic Splash",
+      "description": "Bold comic book style landing page",
+      "defaults": {
+        "hero": {
+          "title": "POW! Welcome Hero!",
+          "subtitle": "Your adventure starts here",
+          "ctaText": "Join Now",
+          "ctaUrl": "#signup"
+        },
+        "features": {
+          "items": [
+            {
+              "title": "Super Powers",
+              "description": "Unlock amazing abilities"
+            },
+            {
+              "title": "Epic Quests",
+              "description": "Embark on legendary adventures"
+            },
+            {
+              "title": "Hero League",
+              "description": "Join forces with other heroes"
+            }
+          ]
+        }
+      }
+    },
+    "futuristicTech": {
+      "name": "Futuristic Tech",
+      "description": "Modern tech landing page with animations",
+      "defaults": {
+        "hero": {
+          "title": "Future-Ready Technology",
+          "subtitle": "Innovation at the speed of light",
+          "description": "Cutting-edge solutions powered by artificial intelligence and advanced algorithms.",
+          "ctaText": "Explore Tech",
+          "ctaUrl": "#tech"
+        },
+        "features": {
+          "sectionTitle": "Advanced Features",
+          "items": [
+            {
+              "title": "AI-Powered",
+              "description": "Intelligent automation and insights"
+            },
+            {
+              "title": "Real-Time Data",
+              "description": "Live updates and analytics"
+            },
+            {
+              "title": "Secure & Fast",
+              "description": "Enterprise-grade security and performance"
+            }
+          ]
+        },
+        "stats": {
+          "items": [
+            {
+              "value": "99.9",
+              "suffix": "%",
+              "label": "Uptime"
+            },
+            {
+              "value": "10",
+              "suffix": "ms",
+              "label": "Response Time"
+            },
+            {
+              "value": "1M+",
+              "label": "Users"
+            }
+          ]
+        }
+      }
+    },
+    "refinedClassic": {
+      "name": "Refined Classic",
+      "description": "Elegant and timeless design",
+      "defaults": {
+        "hero": {
+          "title": "Timeless Elegance",
+          "subtitle": "Where tradition meets modern sophistication",
+          "description": "Experience the perfect balance of classic design and contemporary functionality.",
+          "ctaText": "Discover More",
+          "ctaUrl": "#about"
+        },
+        "about": {
+          "sectionTitle": "Our Story",
+          "content": "Founded on principles of excellence and craftsmanship, we've been delivering quality for over a decade."
+        },
+        "services": {
+          "sectionTitle": "What We Offer",
+          "items": [
+            {
+              "title": "Premium Quality",
+              "description": "Handcrafted with attention to detail"
+            },
+            {
+              "title": "Expert Craftsmanship",
+              "description": "Decades of combined experience"
+            },
+            {
+              "title": "Personalized Service",
+              "description": "Tailored to your unique needs"
+            }
+          ]
+        },
+        "testimonials": {
+          "sectionTitle": "Client Testimonials",
+          "items": [
+            {
+              "quote": "Exceptional quality and service. Highly recommended!",
+              "author": "Sarah Johnson",
+              "role": "Designer"
+            }
+          ]
+        }
+      }
+    }
+  }
+}

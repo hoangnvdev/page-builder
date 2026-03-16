@@ -1,8 +1,9 @@
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 
-import { Page } from '@page-builder/ui';
+import { Page } from "@page-builder/ui";
 
-import { getComponentForElement } from '../../registries/componentRegistry';
+import { getComponentForElement } from "../../registries/componentRegistry";
+import ComponentErrorBoundary from "../ComponentErrorBoundary";
 
 export const DynamicRenderer = ({ templateConfig, config }) => {
   const { page, elements } = config;
@@ -12,6 +13,16 @@ export const DynamicRenderer = ({ templateConfig, config }) => {
     console.warn("No layout defined in template configuration");
     return null;
   }
+
+  const handleComponentError = (error, errorInfo, componentName) => {
+    console.error(
+      `Template: ${templateConfig.id} - Component: ${componentName} - Error:`,
+      error,
+    );
+
+    // TODO: Send to error tracking service
+    // Example: trackComponentError({ templateId: templateConfig.id, componentName, error, errorInfo });
+  };
 
   return (
     <Page fontFamily={page.fontFamily}>
@@ -35,7 +46,15 @@ export const DynamicRenderer = ({ templateConfig, config }) => {
 
         const { component: Component, props } = result;
 
-        return <Component key={`${elementKey}-${index}`} {...props} />;
+        return (
+          <ComponentErrorBoundary
+            key={`${elementKey}-${index}`}
+            componentName={elementKey}
+            onError={handleComponentError}
+          >
+            <Component {...props} />
+          </ComponentErrorBoundary>
+        );
       })}
     </Page>
   );

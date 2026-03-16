@@ -1,6 +1,6 @@
-import './index.scss';
+import "./index.scss";
 
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 
 import {
   Card,
@@ -11,12 +11,12 @@ import {
   Section,
   Text,
   Title,
-} from '@page-builder/ui';
+} from "@page-builder/ui";
 
 import {
   getAspectRatioValue,
   getDropShadow,
-} from '../../utils/componentHelpers';
+} from "../../helpers/componentHelpers";
 
 export const ImageGrid = ({
   heading,
@@ -92,15 +92,15 @@ export const ImageGrid = ({
               const imgFit = imgData.fit || imageFit || "cover";
               const imgAspectRatio = imgData.aspectRatio || imageAspectRatio;
 
-              // Extract nested caption props (backward compatible)
-              const capData = item.caption || {};
-              const capText = capData.text || item.caption || captionText || "";
-              const capSize = capData.size || captionSize;
-              const capWeight = capData.weight || captionWeight;
-              const capColor = capData.color || captionColor;
-              const capAlign = capData.textAlign || captionTextAlign;
+              // After unwrapping, caption is a simple string
+              // and styling properties are flattened (captionSize, captionWeight, etc.)
+              const capText = item.caption || captionText || "";
+              const capSize = item.captionSize || captionSize;
+              const capWeight = item.captionWeight || captionWeight;
+              const capColor = item.captionColor || captionColor;
+              const capAlign = item.captionTextAlign || captionTextAlign;
               const capBgColor =
-                capData.backgroundColor || captionBackgroundColor;
+                item.captionBackgroundColor || captionBackgroundColor;
 
               return (
                 <Grid.Item key={index}>
@@ -132,7 +132,6 @@ export const ImageGrid = ({
                           src={imgUrl}
                           alt={imgAlt}
                           fit={imgFit}
-                          placeholder={item.placeholder || "▓"}
                           height="100%"
                           style={{
                             width: "100%",

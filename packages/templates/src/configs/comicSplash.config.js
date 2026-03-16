@@ -1003,7 +1003,7 @@ export const comicSplashConfig = {
         images: [
           {
             image: {
-              url: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=400",
+              url: "",
               alt: "Fun Design 1",
               fit: "cover",
               aspectRatio: "square",
@@ -1019,7 +1019,7 @@ export const comicSplashConfig = {
           },
           {
             image: {
-              url: "https://images.unsplash.com/photo-1618556450994-a6a128ef0d9d?w=400",
+              url: "",
               alt: "Fun Design 2",
               fit: "cover",
               aspectRatio: "square",
@@ -1035,7 +1035,7 @@ export const comicSplashConfig = {
           },
           {
             image: {
-              url: "https://images.unsplash.com/photo-1618556450991-2f1af64e8191?w=400",
+              url: "",
               alt: "Fun Design 3",
               fit: "cover",
               aspectRatio: "square",
@@ -1051,7 +1051,7 @@ export const comicSplashConfig = {
           },
           {
             image: {
-              url: "https://images.unsplash.com/photo-1618556450994-2f1af64e8191?w=400",
+              url: "",
               alt: "Fun Design 4",
               fit: "cover",
               aspectRatio: "square",
@@ -1067,7 +1067,7 @@ export const comicSplashConfig = {
           },
           {
             image: {
-              url: "https://images.unsplash.com/photo-1618556450991-2f1af64e8191?w=400",
+              url: "",
               alt: "Fun Design 5",
               fit: "cover",
               aspectRatio: "square",
@@ -1083,7 +1083,7 @@ export const comicSplashConfig = {
           },
           {
             image: {
-              url: "https://images.unsplash.com/photo-1618556450994-a6a128ef0d9d?w=400",
+              url: "",
               alt: "Fun Design 6",
               fit: "cover",
               aspectRatio: "square",

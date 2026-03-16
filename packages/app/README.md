@@ -15,6 +15,7 @@ This is the user-facing application that brings together the UI component librar
 - **HTML Export** - Export finished designs as static HTML
 - **Component Customization** - Edit text, colors, images, and layout properties
 - **Responsive Preview** - View designs at different breakpoints
+- **Internationalization (i18n)** - Multi-language support with react-i18next
 
 ## Tech Stack
 
@@ -22,7 +23,7 @@ This is the user-facing application that brings together the UI component librar
 - **Redux Toolkit** - State management
 - **React Router** - Client-side routing
 - **Vite** - Build tool with optimized configuration
-- **Formik** - Form handling
+- **i18next** - Internationalization framework
 - **Lucide React** - Icons
 
 ## Project Structure
@@ -31,9 +32,18 @@ This is the user-facing application that brings together the UI component librar
 packages/app/
 ├── src/
 │   ├── components/          # App-specific UI components
+│   │   ├── Editor/
+│   │   ├── EditorToolbar/
+│   │   ├── ExportButton/
+│   │   ├── FormField/
 │   │   ├── LoadingIndicator/
+│   │   ├── PreviewRenderer/
+│   │   ├── PropertyPanel/
+│   │   ├── TemplateCard/
+│   │   ├── TemplateGallery/
 │   │   └── index.js
-│   ├── hooks/              # Custom React hooks
+│   ├── locales/            # i18n translation files
+│   │   └── en-EN.js
 │   ├── pages/              # Route pages
 │   │   ├── Design/         # Main builder interface
 │   │   ├── Template/       # Template selection
@@ -51,7 +61,8 @@ packages/app/
 │   │   ├── processTemplateConfig.js
 │   │   └── index.js
 │   ├── App.jsx             # Root app component
-│   └── main.jsx            # App entry point
+│   ├── i18n.js             # i18n configuration
+│   └── main.jsx            # App entry point with I18nextProvider
 ├── helpers/                # Helper utilities
 │   ├── object.js
 │   └── index.js

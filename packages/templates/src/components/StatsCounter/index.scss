@@ -72,16 +72,16 @@
   }
 
   &:hover::before {
-    border-color: orange;
+    border-color: #3b82f6;
   }
 
   &[data-selected="true"]::before {
-    border-color: orange;
+    border-color: #3b82f6;
     border-style: solid;
   }
 
   &[data-sub-element-selected="true"]::before {
-    border-color: blue;
+    border-color: #3b82f6;
     border-style: solid;
   }
 }

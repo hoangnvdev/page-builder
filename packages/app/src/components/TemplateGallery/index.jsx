@@ -2,10 +2,15 @@ import "./index.scss";
 
 import { useEffect, useState } from "react";
 
+import { useTranslation } from "react-i18next";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
-import { LoadingIndicator } from "@/components";
+import {
+  ErrorBoundary,
+  LanguageSwitcher,
+  LoadingIndicator,
+} from "@/components";
 import { fetchTemplateByIdFromAPI, fetchTemplatesFromAPI } from "@/services";
 import { selectTemplate } from "@/store/builderSlice";
 import { processTemplateConfig } from "@/utils";
@@ -14,6 +19,7 @@ import { Button, EmptyState, SubTitle, Title } from "@page-builder/ui";
 import { TemplateCard } from "../TemplateCard";
 
 export const TemplateGallery = () => {
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -70,8 +76,8 @@ export const TemplateGallery = () => {
     if (loading) {
       return (
         <LoadingIndicator
-          title="Loading Templates"
-          description="Fetching available templates..."
+          title={t("templateGallery.loading.title")}
+          description={t("templateGallery.loading.description")}
         />
       );
     }
@@ -80,8 +86,8 @@ export const TemplateGallery = () => {
       return (
         <LoadingIndicator
           icon="🎨"
-          title="Preparing Template"
-          description="Loading your selected template..."
+          title={t("templateGallery.preparing.title")}
+          description={t("templateGallery.preparing.description")}
         />
       );
     }
@@ -91,11 +97,11 @@ export const TemplateGallery = () => {
         <div className="template-gallery__error">
           <EmptyState
             icon="❌"
-            title="Failed to Load Templates"
+            title={t("templateGallery.error.title")}
             description={error}
           />
           <Button onClick={loadTemplates} style={{ marginTop: "1rem" }}>
-            Retry
+            {t("templateGallery.button.retry")}
           </Button>
         </div>
       );
@@ -105,8 +111,8 @@ export const TemplateGallery = () => {
       return (
         <EmptyState
           icon="📄"
-          title="No Templates Available"
-          description="No templates found."
+          title={t("templateGallery.emptyState.title")}
+          description={t("templateGallery.emptyState.description")}
         />
       );
     }
@@ -115,7 +121,12 @@ export const TemplateGallery = () => {
       <div className="template-gallery__grid">
         {templates.map((template) => (
           <div key={template.id} className="template-gallery__grid-item">
-            <TemplateCard template={template} onSelect={handleSelectTemplate} />
+            <ErrorBoundary fallbackType="inline">
+              <TemplateCard
+                template={template}
+                onSelect={handleSelectTemplate}
+              />
+            </ErrorBoundary>
           </div>
         ))}
       </div>
@@ -130,15 +141,19 @@ export const TemplateGallery = () => {
     <div className="template-gallery">
       <div className="template-gallery__container">
         <div className="template-gallery__header">
-          <Title level={1} className="template-gallery__title">
-            Choose Your Template
-          </Title>
-          {!loading && !error && templates.length > 0 && (
-            <SubTitle className="template-gallery__description">
-              Select a template to start building your page. All templates are
-              fully customizable.
-            </SubTitle>
-          )}
+          <div className="template-gallery__header-content">
+            <Title level={1} className="template-gallery__title">
+              {t("templateGallery.title")}
+            </Title>
+            {!loading && !error && templates.length > 0 && (
+              <SubTitle className="template-gallery__description">
+                {t("templateGallery.subtitle")}
+              </SubTitle>
+            )}
+          </div>
+          <div className="template-gallery__header-actions">
+            <LanguageSwitcher />
+          </div>
         </div>
 
         {renderContent()}
