@@ -18,159 +18,20 @@ import { TechSpecs } from "../components/TechSpecs";
 import { Terminal } from "../components/Terminal";
 import { TestimonialCards } from "../components/TestimonialCards";
 import { Timeline } from "../components/Timeline";
-
-/**
- * Helper function to unwrap nested config objects.
- * If value is an object with a 'text' property, return the text.
- * Otherwise return the value as-is.
- */
-const unwrapText = (value) => {
-  if (value && typeof value === "object" && "text" in value) {
-    return value.text;
-  }
-  return value;
-};
-
-/**
- * Map text alignment values to flexbox alignment values
- * @param {string} align - Text alignment value (left, center, right)
- * @returns {string} Flexbox alignment value (flex-start, center, flex-end)
- */
-const mapAlignToFlex = (align) => {
-  const alignMap = {
-    left: "flex-start",
-    center: "center",
-    right: "flex-end",
-  };
-  return alignMap[align] || align;
-};
-
-/**
- * Map animation speed labels to CSS duration values
- * @param {string} speed - Speed label (slow, medium, fast)
- * @returns {string} CSS duration value (30s, 20s, 10s)
- */
-const mapSpeedToDuration = (speed) => {
-  const speedMap = {
-    slow: "30s",
-    medium: "20s",
-    fast: "10s",
-  };
-  return speedMap[speed] || speed;
-};
-
-/**
- * Recursively unwrap nested objects in an array or object.
- * Transforms structures like {text: "...", fontSize: "..."} to just the text value.
- */
-const unwrapNestedObjects = (obj) => {
-  if (Array.isArray(obj)) {
-    return obj.map(unwrapNestedObjects);
-  }
-  if (obj && typeof obj === "object") {
-    const unwrapped = {};
-    for (const [key, value] of Object.entries(obj)) {
-      // Special handling for known nested object fields that should be unwrapped to their text value
-      if (
-        [
-          "title",
-          "content",
-          "text",
-          "icon",
-          "button",
-          "avatar",
-          "caption",
-          "label",
-          "description",
-          "author",
-        ].includes(key)
-      ) {
-        unwrapped[key] = unwrapText(value);
-      } else {
-        unwrapped[key] = value;
-      }
-    }
-    return unwrapped;
-  }
-  return obj;
-};
-
-/**
- * Unwrap panel items for ComicPanels component.
- * Transforms nested structures like {title: {text, size, weight, color}}
- * into flat structure: {title: text, titleSize, titleWeight, titleColor}
- */
-const unwrapPanelItems = (panels) => {
-  if (!Array.isArray(panels)) return panels;
-
-  return panels.map((panel) => {
-    const unwrapped = { ...panel };
-
-    // Unwrap title
-    if (
-      panel.title &&
-      typeof panel.title === "object" &&
-      "text" in panel.title
-    ) {
-      unwrapped.title = panel.title.text;
-      if (panel.title.size) unwrapped.titleSize = panel.title.size;
-      if (panel.title.weight) unwrapped.titleWeight = panel.title.weight;
-      if (panel.title.color) unwrapped.titleColor = panel.title.color;
-    }
-
-    // Unwrap content
-    if (
-      panel.content &&
-      typeof panel.content === "object" &&
-      "text" in panel.content
-    ) {
-      unwrapped.content = panel.content.text;
-      if (panel.content.size) unwrapped.contentSize = panel.content.size;
-      if (panel.content.weight) unwrapped.contentWeight = panel.content.weight;
-      if (panel.content.color) unwrapped.contentColor = panel.content.color;
-    }
-
-    return unwrapped;
-  });
-};
-
-/**
- * Generic helper to unwrap array items with nested text objects.
- * Transforms {prop: {text, size, weight, color}} into {prop: text, propSize, propWeight, propColor}
- *
- * @param {Array} items - Array of items with nested objects
- * @param {Array} propsToUnwrap - Array of property names to unwrap (e.g., ['title', 'content', 'caption', 'avatar'])
- * @returns {Array} Array with unwrapped properties
- */
-const unwrapArrayItems = (items, propsToUnwrap = []) => {
-  if (!Array.isArray(items)) return items;
-
-  return items.map((item) => {
-    const unwrapped = { ...item };
-
-    propsToUnwrap.forEach((propName) => {
-      const propValue = item[propName];
-
-      if (propValue && typeof propValue === "object") {
-        // If it has a 'text' property, extract it
-        if ("text" in propValue) {
-          unwrapped[propName] = propValue.text;
-
-          // Extract all other properties with capitalized prop names
-          Object.keys(propValue).forEach((key) => {
-            if (key !== "text") {
-              const capitalizedKey =
-                propName + key.charAt(0).toUpperCase() + key.slice(1);
-              unwrapped[capitalizedKey] = propValue[key];
-            }
-          });
-        }
-      }
-    });
-
-    return unwrapped;
-  });
-};
+import {
+  mapAlignToFlex,
+  mapButtonProps,
+  mapCardContentProps,
+  mapCardProps,
+  mapHeadingProps,
+  mapLevel,
+  mapSectionProps,
+  mapSpeedToDuration,
+  mapTextContentProps,
+  unwrapArrayItems,
+  unwrapNestedObjects,
+  unwrapText,
+} from "../utils/configMappers";
 
 export const componentRegistry = {
   header: {
@@ -184,10 +45,7 @@ export const componentRegistry = {
       links: templateConfig?.navLinks || [],
       padding: config.padding,
       shadow: config.shadow,
-      logoLevel:
-        typeof config.logoLevel === "string"
-          ? Number(config.logoLevel)
-          : config.logoLevel,
+      logoLevel: mapLevel(config.logoLevel),
       linkGap: config.linkGap,
       maxWidth: config.maxWidth,
     }),
@@ -195,70 +53,24 @@ export const componentRegistry = {
   hero: {
     component: Hero,
     propsMapper: (config) => ({
-      title: unwrapText(config.title?.text || config.title),
-      subtitle: unwrapText(config.subtitle?.text || config.subtitle),
-      buttonText: unwrapText(
-        config.button?.text || config.buttonText || config.ctaButtonText,
-      ),
-      backgroundColor: config.backgroundColor,
-      gradientStart: config.gradientStart,
-      gradientEnd: config.gradientEnd,
-      gradientAngle: config.gradientAngle,
-      titleColor: config.title?.color || config.titleColor,
-      subtitleColor: config.subtitle?.color || config.subtitleColor,
-      buttonColor:
-        config.button?.color || config.buttonColor || config.ctaButtonColor,
-      buttonTextColor: config.button?.textColor || config.buttonTextColor,
-      padding: config.padding,
-      align: mapAlignToFlex(config.align),
-      titleLevel:
-        typeof config.titleLevel === "string"
-          ? Number(config.titleLevel)
-          : config.titleLevel,
-      maxWidth: config.maxWidth,
-      gap: config.gap,
-      titleSize: config.title?.size || config.titleSize,
-      subtitleSize: config.subtitle?.size || config.subtitleSize,
-      buttonSize: config.button?.size || config.buttonSize,
-      buttonVariant: config.buttonVariant,
+      ...mapTextContentProps(config, "title"),
+      ...mapTextContentProps(config, "subtitle"),
+      ...mapButtonProps(config),
+      ...mapSectionProps(config),
+      titleLevel: mapLevel(config.titleLevel),
     }),
   },
   features: {
     component: ItemGrid,
-    propsMapper: (config) => {
-      return {
-        heading: unwrapText(config.heading?.text || config.heading),
-        headingSize: config.heading?.size,
-        headingWeight: config.heading?.weight,
-        headingColor: config.heading?.color,
-        items: unwrapArrayItems(config.items, ["title", "content"]),
-        backgroundColor: config.backgroundColor,
-        columns: config.columns,
-        gap: config.gap,
-        padding: config.padding,
-        headingLevel:
-          typeof config.headingLevel === "string"
-            ? Number(config.headingLevel)
-            : config.headingLevel,
-        align: mapAlignToFlex(config.align),
-        maxWidth: config.maxWidth,
-        // Card-level props as defaults
-        cardBackgroundColor: config.card?.backgroundColor,
-        cardPadding: config.card?.padding,
-        cardAlign: config.card?.align,
-        cardBorderRadius: config.card?.borderRadius,
-        cardDropShadow: config.card?.dropShadow,
-        // Card title props as defaults
-        cardTitleSize: config.card?.title?.size,
-        cardTitleWeight: config.card?.title?.weight,
-        cardTitleColor: config.card?.title?.color,
-        // Card content props as defaults
-        cardContentSize: config.card?.content?.size,
-        cardContentWeight: config.card?.content?.weight,
-        cardContentColor: config.card?.content?.color,
-        renderItem: config.renderItem,
-      };
-    },
+    propsMapper: (config) => ({
+      ...mapHeadingProps(config),
+      ...mapSectionProps(config),
+      ...mapCardProps(config),
+      ...mapCardContentProps(config),
+      items: unwrapArrayItems(config.items, ["title", "content"]),
+      columns: config.columns,
+      renderItem: config.renderItem,
+    }),
   },
   projects: {
     component: ItemGrid,
@@ -283,10 +95,7 @@ export const componentRegistry = {
         columns: config.columns || 3,
         gap: config.gap || "30px",
         padding: config.padding,
-        headingLevel:
-          typeof config.headingLevel === "string"
-            ? Number(config.headingLevel)
-            : config.headingLevel,
+        headingLevel: mapLevel(config.headingLevel),
         headingAlign: config.headingAlign,
         maxWidth: config.maxWidth,
         renderItem: config.renderItem,
@@ -296,74 +105,36 @@ export const componentRegistry = {
   about: {
     component: ContentSection,
     propsMapper: (config) => ({
-      heading: config.heading?.text || config.heading,
-      headingSize: config.heading?.size,
-      headingWeight: config.heading?.weight,
-      content: config.content?.text || config.content,
+      ...mapHeadingProps(config),
+      ...mapTextContentProps(config, "content"),
+      ...mapSectionProps(config),
       contentMaxWidth: config.content?.maxWidth,
       contentAlign: mapAlignToFlex(config.content?.align),
-      headingColor: config.heading?.color || config.headingColor,
       textColor: config.content?.color || config.textColor,
-      backgroundColor: config.backgroundColor,
-      maxWidth: config.maxWidth,
-      padding: config.padding,
-      headingLevel:
-        typeof config.headingLevel === "string"
-          ? Number(config.headingLevel)
-          : config.headingLevel,
-      align: mapAlignToFlex(config.align),
-      gap: config.gap,
     }),
   },
   cta: {
     component: CallToAction,
     propsMapper: (config) => ({
-      // Title props
+      ...mapTextContentProps(config, "title"),
+      ...mapTextContentProps(config, "subtitle"),
+      ...mapButtonProps(config),
+      ...mapSectionProps(config),
+      // Handle alt naming
       title: unwrapText(config.title?.text || config.title || config.heading),
-      titleSize: config.title?.size,
-      titleWeight: config.title?.weight,
-      titleColor: config.title?.color,
-
-      // Subtitle props
       subtitle: unwrapText(
         config.subtitle?.text || config.subtitle || config.subheading,
       ),
-      subtitleSize: config.subtitle?.size,
-      subtitleColor: config.subtitle?.color,
-
-      // Button props
-      buttonText: unwrapText(
-        config.button?.text || config.button || config.buttonText,
-      ),
-      buttonUrl: config.button?.url || config.buttonUrl,
-      buttonColor: config.button?.color || config.buttonColor,
-      buttonTextColor: config.button?.textColor || config.buttonTextColor,
-      buttonSize: config.button?.size || config.buttonSize,
-
-      // Section props
-      backgroundColor: config.backgroundColor,
-      padding: config.padding,
-      align: mapAlignToFlex(config.align),
-      maxWidth: config.maxWidth,
-      gap: config.gap,
     }),
   },
   footer: {
     component: Footer,
     propsMapper: (config) => ({
-      // Text props
-      text: unwrapText(config.text?.text || config.text),
-      textSize: config.text?.size,
-      textWeight: config.text?.weight,
+      ...mapTextContentProps(config, "text"),
+      ...mapSectionProps(config),
       textDecoration: config.text?.decoration,
-      textColor: config.text?.color || config.textColor,
-
-      // Section props
-      backgroundColor: config.backgroundColor,
-      padding: config.padding,
-      textAlign: config.align, // Keep original for Text component
-      flexAlign: mapAlignToFlex(config.align), // Map for Flex component
-      maxWidth: config.maxWidth,
+      textAlign: config.align,
+      flexAlign: mapAlignToFlex(config.align),
       links: config.links,
     }),
   },
@@ -384,100 +155,43 @@ export const componentRegistry = {
   comicPanels: {
     component: ComicPanels,
     propsMapper: (config) => ({
-      heading: unwrapText(config.heading?.text || config.heading),
-      headingSize: config.heading?.size,
-      headingWeight: config.heading?.weight,
-      headingColor: config.heading?.color,
+      ...mapHeadingProps(config),
+      ...mapSectionProps(config),
+      ...mapCardProps(config),
+      ...mapCardContentProps(config),
       panels: unwrapArrayItems(config.panels, ["title", "content"]),
       columns: config.columns,
-      gap: config.gap,
-      backgroundColor: config.backgroundColor,
-      padding: config.padding,
-      headingLevel:
-        typeof config.headingLevel === "string"
-          ? Number(config.headingLevel)
-          : config.headingLevel,
-      maxWidth: config.maxWidth,
-      align: mapAlignToFlex(config.align),
-      // Card-level props as defaults
-      cardBackgroundColor: config.card?.backgroundColor,
-      cardPadding: config.card?.padding,
-      cardAlign: config.card?.align,
-      cardBorderRadius: config.card?.borderRadius,
-      cardDropShadow: config.card?.dropShadow,
-      // Card title props as defaults
-      cardTitleSize: config.card?.title?.size,
-      cardTitleWeight: config.card?.title?.weight,
-      cardTitleColor: config.card?.title?.color,
-      // Card content props as defaults
-      cardContentSize: config.card?.content?.size,
-      cardContentWeight: config.card?.content?.weight,
-      cardContentColor: config.card?.content?.color,
       renderPanel: config.renderPanel,
     }),
   },
   testimonials: {
     component: (props) => {
-      // Use SpeechBubbleTestimonials if quotes have avatars (Comic style)
-      // Use TestimonialCards if quotes don't have avatars (Classic style)
       const hasAvatar = props.quotes?.[0]?.avatar;
       const Component = hasAvatar ? SpeechBubbleTestimonials : TestimonialCards;
       return React.createElement(Component, props);
     },
-    propsMapper: (config) => {
-      return {
-        // Section-level title
-        title: unwrapText(config.title?.text || config.title),
-        titleSize: config.title?.size,
-        titleWeight: config.title?.weight,
-        titleColor: config.title?.color,
-
-        // Section-level props
-        backgroundColor: config.backgroundColor,
-        columns: config.columns,
-        gap: config.gap,
-        padding: config.padding,
-        align: mapAlignToFlex(config.align),
-        maxWidth: config.maxWidth,
-
-        // Card defaults
-        cardBackgroundColor: config.card?.backgroundColor,
-        cardPadding: config.card?.padding,
-        cardAlign: mapAlignToFlex(config.card?.align),
-        cardBorderRadius: config.card?.borderRadius,
-        cardDropShadow: config.card?.dropShadow,
-
-        // Card avatar defaults
-        cardAvatarSize: config.card?.avatar?.size,
-        cardAvatarBackgroundColor: config.card?.avatar?.backgroundColor,
-
-        // Card title defaults (quote text)
-        cardTitleSize: config.card?.title?.size,
-        cardTitleWeight: config.card?.title?.weight,
-        cardTitleColor: config.card?.title?.color,
-
-        // Card content defaults (author)
-        cardContentSize: config.card?.content?.size,
-        cardContentWeight: config.card?.content?.weight,
-        cardContentColor: config.card?.content?.color,
-
-        // Unwrap nested text objects in quotes
-        quotes: unwrapArrayItems(config.quotes, ["title", "content", "avatar"]),
-      };
-    },
+    propsMapper: (config) => ({
+      ...mapTextContentProps(config, "title"),
+      ...mapSectionProps(config),
+      ...mapCardProps(config),
+      ...mapCardContentProps(config),
+      quotes: unwrapArrayItems(config.quotes, ["title", "content", "avatar"]),
+      columns: config.columns,
+      cardAlign: mapAlignToFlex(config.card?.align),
+    }),
   },
   // Cyberpunk Components
   terminal: {
     component: Terminal,
     propsMapper: (config) => {
       // Migrate old 'lines' structure to new 'commands' structure
-      let commands = config.commands;
-      if (!commands && config.lines) {
-        commands = config.lines.map((line) => ({
+      const commands =
+        config.commands ||
+        config.lines?.map((line) => ({
           prompt: line.text || line.prompt || "",
           response: line.response || "",
         }));
-      }
+
       return {
         heading: config.heading,
         commands,
@@ -486,10 +200,7 @@ export const componentRegistry = {
         responseColor: config.responseColor || config.accentColor,
         windowBgColor: config.windowBgColor,
         padding: config.padding,
-        headingLevel:
-          typeof config.headingLevel === "string"
-            ? Number(config.headingLevel)
-            : config.headingLevel,
+        headingLevel: mapLevel(config.headingLevel),
         showHeader: config.showHeader,
         maxWidth: config.maxWidth,
       };
@@ -497,43 +208,15 @@ export const componentRegistry = {
   },
   stats: {
     component: StatsCounter,
-    propsMapper: (config) => {
-      return {
-        // Section-level title
-        title: unwrapText(config.title?.text || config.title),
-        titleSize: config.title?.size,
-        titleWeight: config.title?.weight,
-        titleColor: config.title?.color,
-
-        // Section-level props
-        backgroundColor: config.backgroundColor,
-        columns: config.columns,
-        gap: config.gap,
-        padding: config.padding,
-        align: mapAlignToFlex(config.align),
-        maxWidth: config.maxWidth,
-
-        // Card defaults
-        cardBackgroundColor: config.card?.backgroundColor,
-        cardPadding: config.card?.padding,
-        cardAlign: mapAlignToFlex(config.card?.align),
-        cardBorderRadius: config.card?.borderRadius,
-        cardDropShadow: config.card?.dropShadow,
-
-        // Card title defaults
-        cardTitleSize: config.card?.title?.size,
-        cardTitleWeight: config.card?.title?.weight,
-        cardTitleColor: config.card?.title?.color,
-
-        // Card content defaults
-        cardContentSize: config.card?.content?.size,
-        cardContentWeight: config.card?.content?.weight,
-        cardContentColor: config.card?.content?.color,
-
-        // Unwrap nested text objects in items
-        items: unwrapArrayItems(config.items, ["title", "content"]),
-      };
-    },
+    propsMapper: (config) => ({
+      ...mapTextContentProps(config, "title"),
+      ...mapSectionProps(config),
+      ...mapCardProps(config),
+      ...mapCardContentProps(config),
+      items: unwrapArrayItems(config.items, ["title", "content"]),
+      columns: config.columns,
+      cardAlign: mapAlignToFlex(config.card?.align),
+    }),
   },
   dataStream: {
     component: DataStream,
@@ -543,10 +226,7 @@ export const componentRegistry = {
       backgroundColor: config.backgroundColor,
       textColor: config.textColor,
       padding: config.padding,
-      headingLevel:
-        typeof config.headingLevel === "string"
-          ? Number(config.headingLevel)
-          : config.headingLevel,
+      headingLevel: mapLevel(config.headingLevel),
       gap: config.gap,
       animationDelay: config.animationDelay,
       fontFamily: config.fontFamily,
@@ -568,10 +248,7 @@ export const componentRegistry = {
       textColor: config.textColor,
       headingColor: config.headingColor,
       padding: config.padding,
-      headingLevel:
-        typeof config.headingLevel === "string"
-          ? Number(config.headingLevel)
-          : config.headingLevel,
+      headingLevel: mapLevel(config.headingLevel),
       contentSize: config.contentSize,
       imageFit: config.imageFit,
       ratio: config.ratio,
@@ -599,34 +276,24 @@ export const componentRegistry = {
   imageGrid: {
     component: ImageGrid,
     propsMapper: (config) => ({
-      heading: unwrapText(config.heading),
-      headingSize: config.heading?.size,
-      headingWeight: config.heading?.weight,
-      headingColor: config.heading?.color,
+      ...mapHeadingProps(config),
+      ...mapSectionProps(config),
       images: unwrapArrayItems(config.images, ["caption"]),
-      backgroundColor: config.backgroundColor,
       columns: config.columns,
-      gap: config.gap,
-      padding: config.padding,
-      headingLevel:
-        typeof config.headingLevel === "string"
-          ? Number(config.headingLevel)
-          : config.headingLevel,
       imageHeight: config.imageHeight,
-      maxWidth: config.maxWidth,
       renderImage: config.renderImage,
-      // Card defaults (with backward compatibility)
+      // Card/Image props
       cardBackgroundColor:
         config.image?.backgroundColor || config.card?.backgroundColor,
       cardPadding: config.image?.padding || config.card?.padding,
       cardBorderRadius: config.image?.borderRadius || config.card?.borderRadius,
       cardDropShadow: config.image?.dropShadow || config.card?.dropShadow,
-      // Image defaults
+      // Image props
       imageUrl: config.image?.image?.url,
       imageAlt: config.image?.image?.alt,
       imageFit: config.image?.image?.fit,
       imageAspectRatio: config.image?.image?.aspectRatio,
-      // Caption defaults
+      // Caption props
       captionText: unwrapText(config.image?.caption),
       captionSize: config.image?.caption?.size,
       captionWeight: config.image?.caption?.weight,
@@ -644,10 +311,7 @@ export const componentRegistry = {
       columns: config.columns || 3,
       gap: config.gap,
       padding: config.padding,
-      headingLevel:
-        typeof config.headingLevel === "string"
-          ? Number(config.headingLevel)
-          : config.headingLevel,
+      headingLevel: mapLevel(config.headingLevel),
       imageHeight: config.imageHeight,
       maxWidth: config.maxWidth,
       renderImage: config.renderImage,
@@ -666,14 +330,8 @@ export const componentRegistry = {
       dotSize: config.dotSize,
       itemGap: config.itemGap,
       padding: config.padding,
-      headingLevel:
-        typeof config.headingLevel === "string"
-          ? Number(config.headingLevel)
-          : config.headingLevel,
-      titleLevel:
-        typeof config.titleLevel === "string"
-          ? Number(config.titleLevel)
-          : config.titleLevel,
+      headingLevel: mapLevel(config.headingLevel),
+      titleLevel: mapLevel(config.titleLevel),
       maxWidth: config.maxWidth,
       renderItem: config.renderItem,
     }),
@@ -690,14 +348,8 @@ export const componentRegistry = {
       dotSize: config.dotSize,
       itemGap: config.itemGap,
       padding: config.padding,
-      headingLevel:
-        typeof config.headingLevel === "string"
-          ? Number(config.headingLevel)
-          : config.headingLevel,
-      titleLevel:
-        typeof config.titleLevel === "string"
-          ? Number(config.titleLevel)
-          : config.titleLevel,
+      headingLevel: mapLevel(config.headingLevel),
+      titleLevel: mapLevel(config.titleLevel),
       maxWidth: config.maxWidth,
       renderItem: config.renderItem,
     }),
@@ -712,10 +364,7 @@ export const componentRegistry = {
       columns: config.columns,
       gap: config.gap,
       padding: config.padding,
-      headingLevel:
-        typeof config.headingLevel === "string"
-          ? Number(config.headingLevel)
-          : config.headingLevel,
+      headingLevel: mapLevel(config.headingLevel),
       valueLevel: config.valueLevel,
       align: mapAlignToFlex(config.align),
       maxWidth: config.maxWidth,
@@ -729,10 +378,7 @@ export const componentRegistry = {
       specs: config.specs,
       backgroundColor: config.backgroundColor,
       padding: config.padding,
-      headingLevel:
-        typeof config.headingLevel === "string"
-          ? Number(config.headingLevel)
-          : config.headingLevel,
+      headingLevel: mapLevel(config.headingLevel),
       maxWidth: config.maxWidth,
       rowPadding: config.rowPadding,
       showDividers: config.showDividers,
@@ -750,10 +396,22 @@ export const getComponentForElement = (elementType, config, templateConfig) => {
   }
 
   const { component, propsMapper } = registration;
-  const props = propsMapper(config, templateConfig);
 
-  // Add dataElement prop to make the section selectable
-  props.dataElement = elementType;
+  try {
+    const props = propsMapper(config, templateConfig);
 
-  return { component, props };
+    // Add dataElement prop to make the section selectable
+    props.dataElement = elementType;
+
+    return { component, props };
+  } catch (error) {
+    console.error(`Error mapping props for component: ${elementType}`, error);
+
+    if (process.env.NODE_ENV === "development") {
+      console.error("Component config:", config);
+      console.error("Template config:", templateConfig);
+    }
+
+    return null;
+  }
 };

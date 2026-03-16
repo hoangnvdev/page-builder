@@ -1,13 +1,8 @@
-import './index.scss';
+import "./index.scss";
 
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 
-import {
-  Container,
-  Flex,
-  Link,
-  Title,
-} from '@page-builder/ui';
+import { Container, Flex, Link, Title } from "@page-builder/ui";
 
 export const Header = ({
   companyName,
@@ -37,7 +32,6 @@ export const Header = ({
         padding,
         boxShadow: shadow,
       }}
-      {...props}
     >
       <Container maxWidth={maxWidth}>
         <Flex justify="space-between" align="center">

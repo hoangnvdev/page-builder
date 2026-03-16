@@ -9,6 +9,8 @@ export const ContentSection = ({
   headingSize,
   headingWeight,
   content,
+  contentSize,
+  contentWeight,
   contentMaxWidth,
   contentAlign,
   backgroundColor,
@@ -30,7 +32,6 @@ export const ContentSection = ({
       padding={padding}
       backgroundColor={backgroundColor}
       className={`content-section ${className}`}
-      {...props}
     >
       <Container maxWidth={maxWidth}>
         <Flex direction="column" gap={gap} align={align}>
@@ -61,6 +62,8 @@ export const ContentSection = ({
                     : contentAlign === "flex-end"
                       ? "right"
                       : contentAlign,
+                ...(contentSize && { fontSize: contentSize }),
+                ...(contentWeight && { fontWeight: contentWeight }),
               }}
               data-element={`${dataElement}.content`}
             >
@@ -79,11 +82,19 @@ ContentSection.propTypes = {
   headingSize: PropTypes.string,
   headingWeight: PropTypes.string,
   content: PropTypes.string.isRequired,
+  contentSize: PropTypes.string,
+  contentWeight: PropTypes.string,
   contentMaxWidth: PropTypes.string,
   contentAlign: PropTypes.string,
   backgroundColor: PropTypes.string,
   headingColor: PropTypes.string,
   textColor: PropTypes.string,
   maxWidth: PropTypes.string,
+  padding: PropTypes.string,
+  headingLevel: PropTypes.number,
+  align: PropTypes.string,
+  gap: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   dataElement: PropTypes.string,
+  className: PropTypes.string,
+  children: PropTypes.node,
 };

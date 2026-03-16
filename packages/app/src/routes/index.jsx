@@ -1,13 +1,9 @@
-import React from 'react';
+import React from "react";
 
-import { useTranslation } from 'react-i18next';
-import {
-  Navigate,
-  Route,
-  Routes,
-} from 'react-router-dom';
+import { useTranslation } from "react-i18next";
+import { Navigate, Route, Routes } from "react-router-dom";
 
-import { LoadingIndicator } from '@/components';
+import { ErrorBoundary, LoadingIndicator } from "@/components";
 
 const LazyDesignPage = React.lazy(() =>
   import("@/pages/Design").then((module) => ({ default: module.DesignPage })),
@@ -27,31 +23,35 @@ export const AppRoutes = () => {
       <Route
         path="/template"
         element={
-          <React.Suspense
-            fallback={
-              <LoadingIndicator
-                title={t("routes.loading.templatePage.title")}
-                description={t("routes.loading.templatePage.description")}
-              />
-            }
-          >
-            <LazyTemplatePage />
-          </React.Suspense>
+          <ErrorBoundary fallbackType="page" resetPath="/template">
+            <React.Suspense
+              fallback={
+                <LoadingIndicator
+                  title={t("routes.loading.templatePage.title")}
+                  description={t("routes.loading.templatePage.description")}
+                />
+              }
+            >
+              <LazyTemplatePage />
+            </React.Suspense>
+          </ErrorBoundary>
         }
       />
       <Route
         path="/design"
         element={
-          <React.Suspense
-            fallback={
-              <LoadingIndicator
-                title={t("routes.loading.designPage.title")}
-                description={t("routes.loading.designPage.description")}
-              />
-            }
-          >
-            <LazyDesignPage />
-          </React.Suspense>
+          <ErrorBoundary fallbackType="page" resetPath="/template">
+            <React.Suspense
+              fallback={
+                <LoadingIndicator
+                  title={t("routes.loading.designPage.title")}
+                  description={t("routes.loading.designPage.description")}
+                />
+              }
+            >
+              <LazyDesignPage />
+            </React.Suspense>
+          </ErrorBoundary>
         }
       />
     </Routes>

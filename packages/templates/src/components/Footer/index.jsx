@@ -1,13 +1,8 @@
-import './index.scss';
+import "./index.scss";
 
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 
-import {
-  Container,
-  Flex,
-  Section,
-  Text,
-} from '@page-builder/ui';
+import { Container, Flex, Section, Text } from "@page-builder/ui";
 
 export const Footer = ({
   // Text props
@@ -42,7 +37,6 @@ export const Footer = ({
       padding={padding}
       className={`footer ${className}`}
       as="footer"
-      {...props}
     >
       <Container maxWidth={maxWidth}>
         <Flex direction="column" align={flexAlign} gap="16px">

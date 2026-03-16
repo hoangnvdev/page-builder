@@ -30,6 +30,13 @@ export const borderRadiusOptions = [
   { value: "20px", label: "More Rounded" },
 ];
 
+export const borderWidthOptions = [
+  { value: "0", label: "None" },
+  { value: "1px", label: "Small" },
+  { value: "2px", label: "Medium" },
+  { value: "4px", label: "Large" },
+];
+
 export const dropShadowOptions = [
   { value: "none", label: "None" },
   { value: "0 2px 4px rgba(0,0,0,0.1)", label: "Light Shadow" },

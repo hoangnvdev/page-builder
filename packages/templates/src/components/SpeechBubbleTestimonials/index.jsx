@@ -34,6 +34,8 @@ export const SpeechBubbleTestimonials = ({
   cardPadding = "25px",
   cardAlign = "center",
   cardBorderRadius = "20px",
+  cardBorderWidth = "0",
+  cardBorderColor = "transparent",
   cardDropShadow = "0 2px 4px rgba(0,0,0,0.1)",
 
   // Card avatar defaults
@@ -60,7 +62,6 @@ export const SpeechBubbleTestimonials = ({
       backgroundColor={backgroundColor}
       padding={padding}
       data-element={dataElement}
-      {...props}
     >
       <Container maxWidth={maxWidth}>
         <Flex direction="column" gap={gap} align={align}>
@@ -93,6 +94,8 @@ export const SpeechBubbleTestimonials = ({
               const itemPadding = quote.padding || cardPadding;
               const itemAlign = quote.align || cardAlign;
               const itemBorderRadius = quote.borderRadius || cardBorderRadius;
+              const itemBorderWidth = quote.borderWidth || cardBorderWidth;
+              const itemBorderColor = quote.borderColor || cardBorderColor;
               const itemDropShadow = quote.dropShadow || cardDropShadow;
 
               const itemAvatarSize = quote.avatarSize || cardAvatarSize;
@@ -116,6 +119,13 @@ export const SpeechBubbleTestimonials = ({
                       backgroundColor: itemBgColor,
                       padding: 0,
                       borderRadius: itemBorderRadius,
+                      ...(itemBorderWidth && itemBorderWidth !== "0"
+                        ? {
+                            borderWidth: itemBorderWidth,
+                            borderStyle: "solid",
+                            borderColor: itemBorderColor,
+                          }
+                        : {}),
                       boxShadow:
                         itemDropShadow !== "none" ? itemDropShadow : "none",
                       overflow: "visible",
@@ -228,6 +238,8 @@ SpeechBubbleTestimonials.propTypes = {
   cardPadding: PropTypes.string,
   cardAlign: PropTypes.string,
   cardBorderRadius: PropTypes.string,
+  cardBorderWidth: PropTypes.string,
+  cardBorderColor: PropTypes.string,
   cardDropShadow: PropTypes.string,
   cardAvatarSize: PropTypes.string,
   cardAvatarBackgroundColor: PropTypes.string,

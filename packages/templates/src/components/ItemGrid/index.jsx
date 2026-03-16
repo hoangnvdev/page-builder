@@ -21,8 +21,11 @@ export const ItemGrid = ({
   maxWidth,
   cardBackgroundColor,
   cardPadding,
+  cardGap,
   cardAlign,
   cardBorderRadius,
+  cardBorderWidth,
+  cardBorderColor,
   cardDropShadow,
   cardTitleSize,
   cardTitleWeight,
@@ -41,7 +44,6 @@ export const ItemGrid = ({
       padding={padding}
       backgroundColor={backgroundColor}
       className={`item-grid ${className}`}
-      {...props}
     >
       <Container maxWidth={maxWidth}>
         <Flex direction="column" gap={gap} align={align}>
@@ -73,8 +75,11 @@ export const ItemGrid = ({
                       item.backgroundColor || cardBackgroundColor
                     }
                     padding={item.padding || cardPadding}
+                    gap={item.gap || cardGap}
                     align={item.align || cardAlign}
                     borderRadius={item.borderRadius || cardBorderRadius}
+                    borderWidth={item.borderWidth || cardBorderWidth}
+                    borderColor={item.borderColor || cardBorderColor}
                     dropShadow={item.dropShadow || cardDropShadow}
                     titleSize={item.titleSize || cardTitleSize}
                     titleWeight={item.titleWeight || cardTitleWeight}
@@ -138,8 +143,11 @@ ItemGrid.propTypes = {
   maxWidth: PropTypes.string,
   cardBackgroundColor: PropTypes.string,
   cardPadding: PropTypes.string,
+  cardGap: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   cardAlign: PropTypes.string,
   cardBorderRadius: PropTypes.string,
+  cardBorderWidth: PropTypes.string,
+  cardBorderColor: PropTypes.string,
   cardDropShadow: PropTypes.string,
   cardTitleSize: PropTypes.string,
   cardTitleWeight: PropTypes.string,

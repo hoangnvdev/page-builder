@@ -1,34 +1,25 @@
-import './index.scss';
+import "./index.scss";
 
-import {
-  useEffect,
-  useState,
-} from 'react';
+import { useEffect, useState } from "react";
 
-import { FilePenLine } from 'lucide-react';
-import { useTranslation } from 'react-i18next';
-import {
-  useDispatch,
-  useSelector,
-} from 'react-redux';
-import {
-  Navigate,
-  useNavigate,
-} from 'react-router-dom';
+import { FilePenLine } from "lucide-react";
+import { useTranslation } from "react-i18next";
+import { useDispatch, useSelector } from "react-redux";
+import { Navigate, useNavigate } from "react-router-dom";
 
-import { LoadingIndicator } from '@/components';
-import { fetchTemplateByIdFromAPI } from '@/services';
+import { ErrorBoundary, LoadingIndicator } from "@/components";
+import { fetchTemplateByIdFromAPI } from "@/services";
 import {
   rehydrateTemplateComponent,
   resetToGallery,
-} from '@/store/builderSlice';
-import { processTemplateConfig } from '@/utils';
-import { Flex } from '@page-builder/ui';
+} from "@/store/builderSlice";
+import { processTemplateConfig } from "@/utils";
+import { Flex } from "@page-builder/ui";
 
-import { EditorToolbar } from '../EditorToolbar';
-import { PreviewRenderer } from '../PreviewRenderer';
-import { PropertyPanel } from '../PropertyPanel';
-import { ResizableDivider } from '../ResizableDivider';
+import { EditorToolbar } from "../EditorToolbar";
+import { PreviewRenderer } from "../PreviewRenderer";
+import { PropertyPanel } from "../PropertyPanel";
+import { ResizableDivider } from "../ResizableDivider";
 
 export const Editor = () => {
   const { t } = useTranslation();
@@ -126,7 +117,9 @@ export const Editor = () => {
               isMobile && !showPanel ? "100%" : `${splitPercentage}%`,
           }}
         >
-          <PreviewRenderer />
+          <ErrorBoundary fallbackType="component">
+            <PreviewRenderer />
+          </ErrorBoundary>
         </div>
 
         {showPanel && (
@@ -142,7 +135,9 @@ export const Editor = () => {
                 [isMobile ? "height" : "width"]: `${100 - splitPercentage}%`,
               }}
             >
-              <PropertyPanel />
+              <ErrorBoundary fallbackType="component">
+                <PropertyPanel />
+              </ErrorBoundary>
             </div>
           </>
         )}
