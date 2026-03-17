@@ -26,6 +26,11 @@
     font-size: 18px;
     font-weight: 600;
     color: #333;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    word-break: break-word;
+    hyphens: auto;
+    min-width: 0;
   }
 
   &__description {
@@ -34,6 +39,11 @@
     color: #666;
     max-width: 400px;
     line-height: 1.5;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    word-break: break-word;
+    hyphens: auto;
+    min-width: 0;
   }
 
   &__action {

@@ -51,6 +51,8 @@
     "prefix": "Prefix",
     "logoUrl": "Logo URL",
     "logoAlt": "Logo Alt Text",
+    "logoType": "Logo Type",
+    "logoText": "Logo Text/Emoji",
     "imageUrl": "Image URL",
     "imageAlt": "Image Alt Text",
     "iconUrl": "Icon URL",
@@ -59,6 +61,8 @@
     "videoCaption": "Video Caption",
     "linkUrl": "Link URL",
     "linkText": "Link Text",
+    "linkHref": "Link URL",
+    "links": "Navigation Links",
     "buttonUrl": "Button URL",
     "ctaText": "Call to Action Text",
     "ctaUrl": "Call to Action URL",
@@ -93,9 +97,13 @@
     "showDate": "Show Date",
     "animationDuration": "Animation Duration",
     "animationDelay": "Animation Delay",
-    "icon": "Icon"
+    "icon": "Icon",
+    "companyName": "Company Name",
+    "headingLevel": "Heading Level"
   },
   "options": {
+    "text": "Text",
+    "image": "Image",
     "left": "Left",
     "center": "Center",
     "right": "Right",

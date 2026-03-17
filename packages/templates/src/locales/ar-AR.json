@@ -51,6 +51,8 @@
     "prefix": "البادئة",
     "logoUrl": "رابط الشعار",
     "logoAlt": "النص البديل للشعار",
+    "logoType": "نوع الشعار",
+    "logoText": "نص/رمز تعبيري للشعار",
     "imageUrl": "رابط الصورة",
     "imageAlt": "النص البديل للصورة",
     "iconUrl": "رابط الأيقونة",
@@ -59,6 +61,8 @@
     "videoCaption": "تسمية الفيديو",
     "linkUrl": "رابط الارتباط",
     "linkText": "نص الرابط",
+    "linkHref": "رابط URL",
+    "links": "روابط التنقل",
     "buttonUrl": "رابط الزر",
     "ctaText": "نص الدعوة للعمل",
     "ctaUrl": "رابط الدعوة للعمل",
@@ -93,9 +97,13 @@
     "showDate": "إظهار التاريخ",
     "animationDuration": "مدة الحركة",
     "animationDelay": "تأخير الحركة",
-    "icon": "أيقونة"
+    "icon": "أيقونة",
+    "companyName": "اسم الشركة",
+    "headingLevel": "مستوى العنوان"
   },
   "options": {
+    "text": "نص",
+    "image": "صورة",
     "left": "يسار",
     "center": "وسط",
     "right": "يمين",
