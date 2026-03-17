@@ -1,31 +1,187 @@
 import "./index.scss";
 
+import { memo, useCallback, useMemo, useRef } from "react";
+
 import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
 
+import { useSelection } from "@/contexts/SelectionContext";
 import { updateConfig } from "@/store/builderSlice";
-import { getFieldsForElement } from "@/utils/schemaProcessor";
+import {
+  getFieldsForElement,
+  getSingularTemplateName,
+} from "@/utils/schemaProcessor";
 import { deepMerge, getNestedValue, setNestedValue } from "@helpers";
-import { EmptyState, Flex, Panel, SubTitle, Title } from "@page-builder/ui";
+import {
+  EmptyState,
+  FieldGroup,
+  Flex,
+  Panel,
+  SubTitle,
+  Title,
+} from "@page-builder/ui";
 
 import { FormField } from "../FormField";
 
 export const PropertyPanel = () => {
   const { t, i18n } = useTranslation();
   const dispatch = useDispatch();
+  const { selectedElement, selectedSubElement } = useSelection();
   const selectedTemplate = useSelector(
     (state) => state.builder.selectedTemplate,
   );
   const currentConfig = useSelector((state) => state.builder.currentConfig);
-  const selectedElement = useSelector((state) => state.builder.selectedElement);
-  const selectedSubElement = useSelector(
-    (state) => state.builder.selectedSubElement,
+
+  // Store stable onChange handlers for each field path
+  const onChangeHandlers = useRef(new Map());
+
+  // Cache for enhanced field options (cleared when template changes)
+  const enhancedFieldsCache = useRef(new Map());
+  const lastTemplateId = useRef(selectedTemplate?.id);
+
+  // Clear cache when template changes
+  if (lastTemplateId.current !== selectedTemplate?.id) {
+    enhancedFieldsCache.current.clear();
+    lastTemplateId.current = selectedTemplate?.id;
+  }
+
+  // Memoize tempConfig to avoid recreating it on every render
+  const tempConfig = useMemo(
+    () => deepMerge(selectedTemplate?.defaultConfig || {}, currentConfig || {}),
+    [selectedTemplate?.defaultConfig, currentConfig],
   );
 
-  const tempConfig = deepMerge(
-    selectedTemplate?.defaultConfig || {},
-    currentConfig || {},
+  // Helper: Enhance field options to include template default if not present
+  // This preserves custom template values and allows users to reset individual fields
+  const enhanceFieldOptions = useCallback(
+    (field) => {
+      // Check cache first
+      if (enhancedFieldsCache.current.has(field.path)) {
+        return enhancedFieldsCache.current.get(field.path);
+      }
+
+      // Only enhance select fields with options
+      if (
+        field.type !== "select" ||
+        !field.options ||
+        !Array.isArray(field.options)
+      ) {
+        enhancedFieldsCache.current.set(field.path, field);
+        return field;
+      }
+
+      // Get the template default value for this field
+      const templateDefaultValue = getNestedValue(
+        selectedTemplate?.defaultConfig || {},
+        field.path,
+      );
+
+      // If no template default or it's already in options, return as-is
+      if (
+        templateDefaultValue === undefined ||
+        field.options.some((opt) => opt.value === templateDefaultValue)
+      ) {
+        enhancedFieldsCache.current.set(field.path, field);
+        return field;
+      }
+
+      // Add template default to options with a user-friendly label
+      const enhancedOptions = [
+        ...field.options,
+        {
+          value: templateDefaultValue,
+          label: t("propertyPanel.templateDefault"),
+        },
+      ];
+
+      const enhancedField = {
+        ...field,
+        options: enhancedOptions,
+      };
+
+      enhancedFieldsCache.current.set(field.path, enhancedField);
+      return enhancedField;
+    },
+    [selectedTemplate, t],
   );
+
+  // Check if a field should be visible based on its dependency
+  // Memoized to avoid recalculation on every render
+  // IMPORTANT: Must be called before any conditional returns (Rules of Hooks)
+  const shouldShowField = useCallback(
+    (field) => {
+      if (!field.dependency) return true;
+
+      const { dependsOn, showWhen, operator = "equals" } = field.dependency;
+
+      // Get the value of the field this field depends on
+      const dependencyValue = getNestedValue(tempConfig, dependsOn);
+
+      // Check the operator
+      switch (operator) {
+        case "equals":
+          return dependencyValue === showWhen;
+        case "notEquals":
+          return dependencyValue !== showWhen;
+        case "includes":
+          return (
+            Array.isArray(dependencyValue) && dependencyValue.includes(showWhen)
+          );
+        case "exists":
+          return (
+            dependencyValue !== undefined &&
+            dependencyValue !== null &&
+            dependencyValue !== ""
+          );
+        default:
+          return true;
+      }
+    },
+    [tempConfig],
+  );
+
+  // Handle field changes - MUST be defined before any conditional returns (Rules of Hooks)
+  const handleFieldChange = useCallback(
+    (fieldPath, value) => {
+      // Extract section name from field path
+      const pathParts = fieldPath.split(".");
+      const sectionName =
+        pathParts[0] === "elements" ? pathParts[1] : pathParts[0];
+
+      // Read fresh config from Redux and update
+      dispatch((dispatch, getState) => {
+        const state = getState();
+        const currentConfig = state.builder.currentConfig;
+        const selectedTemplate = state.builder.selectedTemplate;
+
+        const tempConfig = deepMerge(
+          selectedTemplate?.defaultConfig || {},
+          currentConfig || {},
+        );
+        const newConfig = JSON.parse(JSON.stringify(tempConfig));
+        setNestedValue(newConfig, fieldPath, value);
+        dispatch(updateConfig(newConfig));
+      });
+    },
+    [dispatch],
+  );
+
+  // Get or create a stable onChange handler for a specific field path
+  const getOnChangeHandler = useCallback(
+    (fieldPath) => {
+      if (!onChangeHandlers.current.has(fieldPath)) {
+        onChangeHandlers.current.set(fieldPath, (value) =>
+          handleFieldChange(fieldPath, value),
+        );
+      }
+      return onChangeHandlers.current.get(fieldPath);
+    },
+    [handleFieldChange],
+  );
+
+  //============================================
+  // EARLY RETURNS (all hooks must be above)
+  //============================================
 
   if (!selectedTemplate) {
     return (
@@ -60,20 +216,21 @@ export const PropertyPanel = () => {
         <Panel.Content>
           <Flex direction="column" gap={24}>
             {pageFields.fields.map((field) => {
+              const enhancedField = enhanceFieldOptions(field);
               const fieldValue = getNestedValue(tempConfig, field.path);
               return (
                 <FormField
                   key={field.path}
                   id={field.path}
-                  label={field.label}
-                  type={field.type}
+                  label={enhancedField.label}
+                  type={enhancedField.type}
                   value={fieldValue || ""}
                   onChange={(value) => {
                     const newConfig = JSON.parse(JSON.stringify(tempConfig));
                     setNestedValue(newConfig, field.path, value);
                     dispatch(updateConfig(newConfig));
                   }}
-                  options={field.options}
+                  options={enhancedField.options}
                   min={field.min}
                   max={field.max}
                   step={field.step}
@@ -90,7 +247,10 @@ export const PropertyPanel = () => {
   // Get fields for the selected element from the schema
   const elementFields = getFieldsForElement(selectedTemplate, activeElementId);
 
-  if (!elementFields.fields || elementFields.fields.length === 0) {
+  if (
+    !elementFields.fields ||
+    (elementFields.fields.length === 0 && elementFields.groups?.length === 0)
+  ) {
     return (
       <Panel position="right" width="100%" className="property-panel">
         <Panel.Header>
@@ -104,13 +264,6 @@ export const PropertyPanel = () => {
       </Panel>
     );
   }
-
-  // Handle field changes
-  const handleFieldChange = (fieldPath, value) => {
-    const newConfig = JSON.parse(JSON.stringify(tempConfig));
-    setNestedValue(newConfig, fieldPath, value);
-    dispatch(updateConfig(newConfig));
-  };
 
   // Format element label for display
   const formatElementLabel = (label, elementId) => {
@@ -137,7 +290,9 @@ export const PropertyPanel = () => {
       // Get the array name if there's a sub-path before the index
       if (arrayIndexPos > 1) {
         const arrayName = parts[arrayIndexPos - 1];
-        const formattedArrayName = arrayName
+        // Convert to singular and capitalize
+        const singularName = getSingularTemplateName(arrayName);
+        const formattedArrayName = singularName
           .replace(/([A-Z])/g, " $1")
           .trim()
           .split(" ")
@@ -146,6 +301,9 @@ export const PropertyPanel = () => {
               word.charAt(0).toUpperCase() + word.slice(1).toLowerCase(),
           )
           .join(" ");
+
+        // Convert to 1-based index
+        const displayIndex = arrayIndex + 1;
 
         // If there are more parts after the index, it's a nested property
         if (arrayIndexPos + 1 < parts.length) {
@@ -159,14 +317,16 @@ export const PropertyPanel = () => {
                 word.charAt(0).toUpperCase() + word.slice(1).toLowerCase(),
             )
             .join(" ");
-          return `${formattedSection} ${formattedArrayName} ${arrayIndex} ${formattedProperty}`;
+          return `${formattedSection} ${formattedArrayName} ${displayIndex} ${formattedProperty}`;
         }
 
-        return `${formattedSection} ${formattedArrayName} ${arrayIndex}`;
+        return `${formattedSection} ${formattedArrayName} ${displayIndex}`;
       }
 
       // Just section and index (e.g., "hero.0")
-      return `${formattedSection} Item ${arrayIndex}`;
+      // Convert to 1-based index
+      const displayIndex = arrayIndex + 1;
+      return `${formattedSection} Item ${displayIndex}`;
     }
 
     // No array index - check if label looks malformed (contains spaces followed by numbers)
@@ -178,7 +338,7 @@ export const PropertyPanel = () => {
     return label;
   };
 
-  // Get panel title and subtitle
+  // Calculate panel title and subtitle (inline - not expensive)
   const formattedLabel = formatElementLabel(
     elementFields.label,
     activeElementId,
@@ -213,32 +373,90 @@ export const PropertyPanel = () => {
       </Panel.Header>
       <Panel.Content>
         <Flex direction="column" gap={24}>
-          {elementFields.fields.map((field) => {
-            let fieldValue = getNestedValue(tempConfig, field.path);
+          {/* Render ungrouped fields (section properties) first */}
+          {elementFields.fields
+            .filter((field) => !field.groupKey) // Only fields not in a group
+            .map((field) => {
+              // Check if field should be visible
+              if (!shouldShowField(field)) return null;
 
-            // Convert numbers to strings for Select component if needed
-            if (field.type === "select" && typeof fieldValue === "number") {
-              fieldValue = String(fieldValue);
-            }
+              const enhancedField = enhanceFieldOptions(field);
+              let fieldValue = getNestedValue(tempConfig, field.path);
 
-            return (
-              <FormField
-                key={field.path}
-                id={field.path}
-                label={field.label}
-                type={field.type}
-                value={fieldValue ?? ""}
-                onChange={(value) => handleFieldChange(field.path, value)}
-                options={field.options}
-                min={field.min}
-                max={field.max}
-                step={field.step}
-                labels={field.labels}
-              />
-            );
-          })}
+              // Convert numbers to strings for Select component if needed
+              if (
+                enhancedField.type === "select" &&
+                typeof fieldValue === "number"
+              ) {
+                fieldValue = String(fieldValue);
+              }
+
+              return (
+                <FormField
+                  key={field.path}
+                  id={field.path}
+                  label={enhancedField.label}
+                  type={enhancedField.type}
+                  value={fieldValue ?? ""}
+                  onChange={getOnChangeHandler(field.path)}
+                  options={enhancedField.options}
+                  min={field.min}
+                  max={field.max}
+                  step={field.step}
+                  labels={field.labels}
+                />
+              );
+            })}
+
+          {/* Render field groups (child sections) after */}
+          {elementFields.groups?.map((group) => (
+            <FieldGroup
+              key={group.id}
+              title={group.label}
+              collapsible={group.collapsible}
+              defaultExpanded={group.defaultExpanded}
+            >
+              <Flex direction="column" gap={16}>
+                {group.fields.map((field) => {
+                  // Check if field should be visible
+                  if (!shouldShowField(field)) return null;
+
+                  const enhancedField = enhanceFieldOptions(field);
+                  let fieldValue = getNestedValue(tempConfig, field.path);
+
+                  // Convert numbers to strings for Select component if needed
+                  if (
+                    enhancedField.type === "select" &&
+                    typeof fieldValue === "number"
+                  ) {
+                    fieldValue = String(fieldValue);
+                  }
+
+                  return (
+                    <FormField
+                      key={field.path}
+                      id={field.path}
+                      label={enhancedField.label}
+                      type={enhancedField.type}
+                      value={fieldValue ?? ""}
+                      onChange={getOnChangeHandler(field.path)}
+                      options={enhancedField.options}
+                      min={field.min}
+                      max={field.max}
+                      step={field.step}
+                      labels={field.labels}
+                    />
+                  );
+                })}
+              </Flex>
+            </FieldGroup>
+          ))}
         </Flex>
       </Panel.Content>
     </Panel>
   );
 };
+
+// Memoize to prevent rerenders during resize drag operations
+export const MemoizedPropertyPanel = memo(PropertyPanel);
+MemoizedPropertyPanel.displayName = "MemoizedPropertyPanel";

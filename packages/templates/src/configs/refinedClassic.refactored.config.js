@@ -7,7 +7,11 @@
  * - Composite schemas for reusable patterns
  */
 
-import { color, text, textarea } from "../utils/fieldBuilders.js";
+import {
+  color,
+  text,
+  textarea,
+} from '../utils/fieldBuilders.js';
 import {
   arrayField,
   avatarProps,
@@ -20,18 +24,18 @@ import {
   sectionSchema,
   textContentSchema,
   titleContentSchema,
-} from "../utils/genericSchemaBuilders.js";
+} from '../utils/genericSchemaBuilders.js';
 import {
   fontFamilyOptions,
   footerPaddingOptions,
   footerTextSizeOptions,
   languageOptions,
   textDecorationOptions,
-} from "../utils/index.js";
+} from '../utils/index.js';
 
 export const refinedClassicRefactoredConfig = {
   id: "refined-classic-refactored",
-  name: "Refined Classic (Refactored)",
+  name: "Refined Classic",
   description:
     "Timeless elegance meets bold typography for sophisticated distinction",
   icon: "♔",
@@ -43,7 +47,6 @@ export const refinedClassicRefactoredConfig = {
     "portfolio",
     "stats",
     "testimonials",
-    "process",
     "cta",
     "footer",
   ],
@@ -150,14 +153,6 @@ export const refinedClassicRefactoredConfig = {
           content: textContentSchema("text"),
         }),
         quotes: arrayField("items"),
-      }),
-
-      // --------------------------
-      // PROCESS SECTION (Timeline)
-      // --------------------------
-      process: mergeSchemas(sectionSchema(), {
-        heading: headingContentSchema(),
-        items: arrayField("items"),
       }),
 
       // --------------------------
@@ -559,40 +554,6 @@ export const refinedClassicRefactoredConfig = {
               weight: "600",
               color: "#8B7355",
             },
-          },
-        ],
-      },
-      process: {
-        backgroundColor: "#8B7355",
-        padding: "80px 24px",
-        maxWidth: "900px",
-        align: "flex-start",
-        heading: {
-          text: "The Making of an Heirloom",
-          color: "#FAF8F3",
-          size: "2.5rem",
-          weight: "600",
-        },
-        items: [
-          {
-            title: "Selection",
-            description:
-              "We walk the mill together, examining each board for character, grain pattern, and story. The wood chooses you as much as you choose it.",
-          },
-          {
-            title: "Design",
-            description:
-              "Hand-drawn plans honor both your vision and the wood's natural tendencies. No two pieces are identical—each design is as unique as the tree it came from.",
-          },
-          {
-            title: "Crafting",
-            description:
-              "100+ hours of hand-tool work. Mortise and tenon joints, hand-cut dovetails, surfaces planed to silk. This is where patience becomes permanence.",
-          },
-          {
-            title: "Finishing",
-            description:
-              "Seven coats of hand-rubbed oil, each layer revealing depth in the grain. We finish each piece as if our great-grandchildren will judge our work—because they will.",
           },
         ],
       },

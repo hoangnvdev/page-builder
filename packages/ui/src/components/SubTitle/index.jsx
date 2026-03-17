@@ -1,16 +1,22 @@
-import "./index.scss";
+import './index.scss';
 
-import PropTypes from "prop-types";
+import { memo } from 'react';
 
-export const SubTitle = ({ children, className = "", style, ...props }) => {
-  const subTitleClasses = ["subtitle", className].filter(Boolean).join(" ");
+import PropTypes from 'prop-types';
 
-  return (
-    <p className={subTitleClasses} style={style} {...props}>
-      {children}
-    </p>
-  );
-};
+export const SubTitle = memo(
+  ({ children, className = "", style, ...props }) => {
+    const subTitleClasses = ["subtitle", className].filter(Boolean).join(" ");
+
+    return (
+      <p className={subTitleClasses} style={style} {...props}>
+        {children}
+      </p>
+    );
+  },
+);
+
+SubTitle.displayName = "SubTitle";
 
 SubTitle.propTypes = {
   children: PropTypes.node.isRequired,

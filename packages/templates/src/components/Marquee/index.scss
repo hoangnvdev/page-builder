@@ -18,6 +18,15 @@
     animation: marquee 20s linear infinite;
     pointer-events: none;
   }
+
+  // Mobile responsiveness
+  @media (max-width: 768px) {
+    &__content {
+      gap: 2rem;
+      font-size: 1.25rem;
+      animation: marquee 15s linear infinite;
+    }
+  }
 }
 
 @keyframes marquee {

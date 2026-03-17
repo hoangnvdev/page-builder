@@ -1,78 +1,78 @@
 export const alignOptions = [
-  { value: "left", label: "Left" },
-  { value: "center", label: "Center" },
-  { value: "right", label: "Right" },
+  { value: "left", label: "left" },
+  { value: "center", label: "center" },
+  { value: "right", label: "right" },
 ];
 
 export const sectionPaddingOptions = [
-  { value: "40px 20px", label: "Small" },
-  { value: "80px 20px", label: "Medium" },
-  { value: "120px 20px", label: "Large" },
+  { value: "40px 20px", label: "small" },
+  { value: "80px 20px", label: "medium" },
+  { value: "120px 20px", label: "large" },
 ];
 
 export const maxWidthOptions = [
-  { value: "800px", label: "Medium" },
-  { value: "1000px", label: "Large" },
-  { value: "1200px", label: "Extra Large" },
-  { value: "100%", label: "Full" },
+  { value: "800px", label: "medium" },
+  { value: "1000px", label: "large" },
+  { value: "1200px", label: "extraLarge" },
+  { value: "100%", label: "full" },
 ];
 
 export const cardPaddingOptions = [
-  { value: "10px", label: "Small" },
-  { value: "20px", label: "Medium" },
-  { value: "30px", label: "Large" },
+  { value: "10px", label: "small" },
+  { value: "20px", label: "medium" },
+  { value: "30px", label: "large" },
 ];
 
 export const borderRadiusOptions = [
-  { value: "0px", label: "None" },
-  { value: "8px", label: "Less Rounded" },
-  { value: "12px", label: "Rounded" },
-  { value: "20px", label: "More Rounded" },
+  { value: "0px", label: "none" },
+  { value: "8px", label: "lessRounded" },
+  { value: "12px", label: "rounded" },
+  { value: "20px", label: "moreRounded" },
 ];
 
 export const borderWidthOptions = [
-  { value: "0", label: "None" },
-  { value: "1px", label: "Small" },
-  { value: "2px", label: "Medium" },
-  { value: "4px", label: "Large" },
+  { value: "0", label: "none" },
+  { value: "1px", label: "small" },
+  { value: "2px", label: "medium" },
+  { value: "4px", label: "large" },
 ];
 
 export const dropShadowOptions = [
-  { value: "none", label: "None" },
-  { value: "0 2px 4px rgba(0,0,0,0.1)", label: "Light Shadow" },
-  { value: "0 4px 8px rgba(0,0,0,0.15)", label: "Shadow" },
-  { value: "0 8px 16px rgba(0,0,0,0.2)", label: "More Shadow" },
+  { value: "none", label: "none" },
+  { value: "0 2px 4px rgba(0,0,0,0.1)", label: "lightShadow" },
+  { value: "0 4px 8px rgba(0,0,0,0.15)", label: "shadow" },
+  { value: "0 8px 16px rgba(0,0,0,0.2)", label: "moreShadow" },
 ];
 
 export const headingSizeOptions = [
-  { value: "1.5rem", label: "Small" },
-  { value: "2rem", label: "Medium" },
-  { value: "2.5rem", label: "Large" },
+  { value: "1.5rem", label: "small" },
+  { value: "2rem", label: "medium" },
+  { value: "2.5rem", label: "large" },
 ];
 
 export const titleSizeOptions = [
-  { value: "1rem", label: "Small" },
-  { value: "1.25rem", label: "Medium" },
-  { value: "1.5rem", label: "Large" },
+  { value: "1rem", label: "small" },
+  { value: "1.25rem", label: "medium" },
+  { value: "1.5rem", label: "large" },
 ];
 
 export const textSizeOptions = [
-  { value: "0.875rem", label: "Small" },
-  { value: "1rem", label: "Medium" },
-  { value: "1.125rem", label: "Large" },
+  { value: "0.875rem", label: "small" },
+  { value: "1rem", label: "medium" },
+  { value: "1.125rem", label: "large" },
 ];
 
 export const weightOptions = [
-  { value: "400", label: "Normal" },
-  { value: "500", label: "Medium" },
-  { value: "600", label: "Semi Bold" },
-  { value: "700", label: "Bold" },
+  { value: "400", label: "normal" },
+  { value: "500", label: "medium" },
+  { value: "600", label: "semiBold" },
+  { value: "700", label: "bold" },
 ];
 
 export const gapOptions = [
-  { value: "10px", label: "Small" },
-  { value: "20px", label: "Medium" },
-  { value: "30px", label: "Large" },
+  { value: "10px", label: "small" },
+  { value: "20px", label: "medium" },
+  { value: "30px", label: "large" },
 ];
 
 export const fontFamilyOptions = [
@@ -100,56 +100,56 @@ export const languageOptions = [
 ];
 
 export const contentMaxWidthOptions = [
-  { value: "600px", label: "Small" },
-  { value: "800px", label: "Medium" },
-  { value: "1000px", label: "Large" },
-  { value: "100%", label: "Full" },
+  { value: "600px", label: "small" },
+  { value: "800px", label: "medium" },
+  { value: "1000px", label: "large" },
+  { value: "100%", label: "full" },
 ];
 
 export const heroTitleSizeOptions = [
-  { value: "2rem", label: "Small" },
-  { value: "3rem", label: "Medium" },
-  { value: "4rem", label: "Large" },
+  { value: "2rem", label: "small" },
+  { value: "3rem", label: "medium" },
+  { value: "4rem", label: "large" },
 ];
 
 export const subtitleSizeOptions = [
-  { value: "0.875rem", label: "Small" },
-  { value: "1rem", label: "Medium" },
-  { value: "1.25rem", label: "Large" },
+  { value: "0.875rem", label: "small" },
+  { value: "1rem", label: "medium" },
+  { value: "1.25rem", label: "large" },
 ];
 
 export const buttonSizeOptions = [
-  { value: "small", label: "Small" },
-  { value: "medium", label: "Medium" },
-  { value: "large", label: "Large" },
+  { value: "small", label: "small" },
+  { value: "medium", label: "medium" },
+  { value: "large", label: "large" },
 ];
 
 export const footerTextSizeOptions = [
-  { value: "0.75rem", label: "Small" },
-  { value: "0.875rem", label: "Medium" },
-  { value: "1rem", label: "Large" },
+  { value: "0.75rem", label: "small" },
+  { value: "0.875rem", label: "medium" },
+  { value: "1rem", label: "large" },
 ];
 
 export const textDecorationOptions = [
-  { value: "none", label: "None" },
-  { value: "underline", label: "Underline" },
-  { value: "italic", label: "Italic" },
+  { value: "none", label: "none" },
+  { value: "underline", label: "underline" },
+  { value: "italic", label: "italic" },
 ];
 
 export const marqueeSpeedOptions = [
-  { value: "slow", label: "Slow" },
-  { value: "medium", label: "Medium" },
-  { value: "fast", label: "Fast" },
+  { value: "slow", label: "slow" },
+  { value: "medium", label: "medium" },
+  { value: "fast", label: "fast" },
 ];
 
 export const marqueePaddingOptions = [
-  { value: "10px 20px", label: "Small" },
-  { value: "20px 20px", label: "Medium" },
-  { value: "30px 20px", label: "Large" },
+  { value: "10px 20px", label: "small" },
+  { value: "20px 20px", label: "medium" },
+  { value: "30px 20px", label: "large" },
 ];
 
 export const footerPaddingOptions = [
-  { value: "20px", label: "Small" },
-  { value: "40px", label: "Medium" },
-  { value: "60px", label: "Large" },
+  { value: "20px", label: "small" },
+  { value: "40px", label: "medium" },
+  { value: "60px", label: "large" },
 ];

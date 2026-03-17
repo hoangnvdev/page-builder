@@ -19,55 +19,7 @@
     cursor: default;
     position: relative;
     width: 100%;
-  }
-
-  &__helper-text {
-    position: absolute;
-    bottom: 2rem;
-    left: 50%;
-    transform: translateX(-50%);
-    background-color: rgba(0, 0, 0, 0.85);
-    color: white;
-    padding: 0.75rem 1.5rem 0.75rem 1.5rem;
-    border-radius: 8px;
-    font-size: 0.9rem;
-    pointer-events: auto;
-    z-index: 1000;
-    max-width: 600px;
-    text-align: center;
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-
-    &-content {
-      flex: 1;
-    }
-
-    &-close {
-      background: none;
-      border: none;
-      color: white;
-      font-size: 1.25rem;
-      cursor: pointer;
-      padding: 0;
-      width: 24px;
-      height: 24px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border-radius: 4px;
-      transition: background-color 0.2s ease;
-      flex-shrink: 0;
-
-      &:hover {
-        background-color: rgba(255, 255, 255, 0.2);
-      }
-
-      &:active {
-        background-color: rgba(255, 255, 255, 0.3);
-      }
-    }
+    z-index: 1; // Ensure frame stays below editor panel in mobile
   }
 }
 
@@ -122,7 +74,11 @@
       opacity: 0.9;
     }
   }
+}
 
+// CSS-based selection - using simple class-based selectors (performant!)
+// JS adds 'selected' class only to the specific element via ref query
+[data-element] {
   // Section-level selection and nested element selection - unified style
   &.selected:not(.selected-sub),
   &.selected-sub {
@@ -179,10 +135,18 @@
     }
 
     &__helper-text {
-      font-size: 0.75rem;
-      padding: 0.5rem 0.75rem;
-      bottom: 0.5rem;
+      font-size: 0.8125rem;
+      padding: 0.875rem 1rem;
+      bottom: 0.75rem;
       max-width: calc(100% - 1rem);
+      border-radius: 10px;
+      gap: 0.75rem;
+
+      &-close {
+        width: 24px;
+        height: 24px;
+        font-size: 1rem;
+      }
     }
   }
 }

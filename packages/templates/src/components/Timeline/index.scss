@@ -75,4 +75,51 @@
       color: white;
     }
   }
+
+  // Mobile responsiveness
+  @media (max-width: 768px) {
+    padding: 2rem 0;
+
+    &__track {
+      padding: 1rem 0;
+      margin-left: 1rem;
+      border-left-width: 2px;
+    }
+
+    &__item {
+      padding-left: 2rem;
+      margin-bottom: 2rem;
+    }
+
+    &__dot {
+      left: -7px;
+      width: 14px;
+      height: 14px;
+      border-width: 2px;
+    }
+
+    &__content {
+      padding: 1rem;
+    }
+
+    &__year {
+      font-size: 0.75rem;
+      letter-spacing: 1px;
+    }
+
+    &__title {
+      font-size: 1.25rem;
+      margin: 0.4rem 0;
+    }
+
+    &__description {
+      font-size: 0.9rem;
+      line-height: 1.5;
+    }
+
+    &__status {
+      padding: 0.2rem 0.6rem;
+      font-size: 0.7rem;
+    }
+  }
 }

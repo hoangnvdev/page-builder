@@ -1,12 +1,25 @@
-import "./index.scss";
+import './index.scss';
 
-import PropTypes from "prop-types";
+import { useMemo } from 'react';
 
-import { Container, Flex, Link, Title } from "@page-builder/ui";
+import PropTypes from 'prop-types';
+
+import {
+  Container,
+  Flex,
+  Image,
+  Link,
+  Title,
+} from '@page-builder/ui';
 
 export const Header = ({
   companyName,
   logo,
+  logoType,
+  logoText,
+  logoUrl,
+  logoWidth,
+  logoHeight,
   backgroundColor,
   logoColor,
   linkColor,
@@ -23,36 +36,107 @@ export const Header = ({
 }) => {
   const Component = as;
 
+  // Memoize logo text style
+  const logoTextStyle = useMemo(
+    () => ({
+      fontSize: logoWidth || "40px",
+      color: logoColor,
+    }),
+    [logoWidth, logoColor],
+  );
+
+  // Memoize company name style
+  const companyNameStyle = useMemo(
+    () => ({
+      margin: 0,
+      color: logoColor,
+    }),
+    [logoColor],
+  );
+
+  // Memoize header style
+  const headerStyle = useMemo(
+    () => ({
+      backgroundColor,
+      padding,
+      boxShadow: shadow,
+    }),
+    [backgroundColor, padding, shadow],
+  );
+
+  // Render logo based on type
+  const renderLogo = () => {
+    // If legacy logo prop provided (for backward compatibility)
+    if (logo) {
+      return logo;
+    }
+
+    // New logo system with type selection
+    if (logoType === "image" && logoUrl) {
+      return (
+        <div
+          className="header__logo-wrapper"
+          data-element={`${dataElement}.logo`}
+        >
+          <Image
+            src={logoUrl}
+            alt={companyName || "Logo"}
+            width={logoWidth || "40px"}
+            height={logoHeight || "40px"}
+            fit="contain"
+            className="header__logo-image"
+          />
+        </div>
+      );
+    }
+
+    // Text/Emoji logo
+    if (logoType === "text" && logoText) {
+      return (
+        <div
+          className="header__logo-text"
+          style={logoTextStyle}
+          data-element={`${dataElement}.logo.text`}
+        >
+          {logoText}
+        </div>
+      );
+    }
+
+    // Fallback to company name
+    return (
+      <Title
+        level={logoLevel}
+        className="header__logo"
+        style={companyNameStyle}
+        data-element={`${dataElement}.companyName`}
+      >
+        {companyName}
+      </Title>
+    );
+  };
+
   return (
     <Component
       data-element={dataElement}
       className={`header ${className}`}
-      style={{
-        backgroundColor,
-        padding,
-        boxShadow: shadow,
-      }}
+      style={headerStyle}
     >
       <Container maxWidth={maxWidth}>
         <Flex justify="space-between" align="center">
-          {logo || (
-            <Title
-              level={logoLevel}
-              className="header__logo"
-              style={{ margin: 0, color: logoColor }}
-              data-element={`${dataElement}.companyName`}
-            >
-              {companyName}
-            </Title>
-          )}
+          {renderLogo()}
           {links.length > 0 && (
             <Flex gap={linkGap} as="nav" className="header__nav">
               {links.map((link, index) => (
                 <Link
                   key={index}
                   href={link.href}
-                  color={linkColor}
-                  data-element={`${dataElement}.link-${index}`}
+                  color={link.color || linkColor}
+                  style={{
+                    fontSize: link.size,
+                    fontWeight: link.weight,
+                  }}
+                  data-element={`${dataElement}.links.${index}`}
                 >
                   {link.text}
                 </Link>

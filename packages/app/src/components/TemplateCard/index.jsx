@@ -1,12 +1,11 @@
-import './index.scss';
+import "./index.scss";
 
-import PropTypes from 'prop-types';
-import { useTranslation } from 'react-i18next';
+import PropTypes from "prop-types";
+import { useTranslation } from "react-i18next";
 
-import {
-  Button,
-  Card,
-} from '@page-builder/ui';
+import { Card } from "@page-builder/ui";
+
+import { AppButton } from "../AppButton";
 
 export const TemplateCard = ({ template, onSelect }) => {
   const { t } = useTranslation();
@@ -20,9 +19,9 @@ export const TemplateCard = ({ template, onSelect }) => {
         <Card.Title>{template.name}</Card.Title>
         <Card.Description>{template.description}</Card.Description>
         <Card.Actions>
-          <Button variant="primary" onClick={() => onSelect(template)}>
+          <AppButton variant="primary" onClick={() => onSelect(template)}>
             {t("templateCard.button.useTemplate")}
-          </Button>
+          </AppButton>
         </Card.Actions>
       </Card.Content>
     </Card>

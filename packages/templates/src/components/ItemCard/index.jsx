@@ -1,8 +1,13 @@
-import "./index.scss";
+import './index.scss';
 
-import PropTypes from "prop-types";
+import { useMemo } from 'react';
 
-import { Card, Flex } from "@page-builder/ui";
+import PropTypes from 'prop-types';
+
+import {
+  Card,
+  Flex,
+} from '@page-builder/ui';
 
 export const ItemCard = ({
   icon,
@@ -31,36 +36,79 @@ export const ItemCard = ({
   children,
   ...props
 }) => {
+  // Memoize card style
+  const cardStyle = useMemo(
+    () => ({
+      ...(backgroundColor && { backgroundColor }),
+      ...(padding && { padding: 0 }), // Remove default padding
+      ...(borderRadius && { borderRadius }),
+      ...(borderWidth && { borderWidth }),
+      ...(borderColor && { borderColor }),
+      ...(borderWidth || borderColor ? { borderStyle: "solid" } : {}),
+      ...(dropShadow && {
+        boxShadow: dropShadow !== "none" ? dropShadow : "none",
+      }),
+    }),
+    [
+      backgroundColor,
+      padding,
+      borderRadius,
+      borderWidth,
+      borderColor,
+      dropShadow,
+    ],
+  );
+
+  // Memoize content style
+  const contentStyle = useMemo(
+    () => ({
+      ...(padding && { padding }), // Apply custom padding here
+      ...(align && { textAlign: align }),
+    }),
+    [padding, align],
+  );
+
+  // Memoize icon style
+  const iconStyle = useMemo(
+    () => (iconSize ? { fontSize: iconSize } : undefined),
+    [iconSize],
+  );
+
+  // Memoize title style
+  const titleStyle = useMemo(
+    () => ({
+      ...(titleSize && { fontSize: titleSize }),
+      ...(titleWeight && { fontWeight: titleWeight }),
+      ...(titleColor && { color: titleColor }),
+    }),
+    [titleSize, titleWeight, titleColor],
+  );
+
+  // Memoize description style
+  const descriptionStyle = useMemo(
+    () => ({
+      ...(descriptionSize && { fontSize: descriptionSize }),
+      ...(descriptionWeight && { fontWeight: descriptionWeight }),
+      ...(descriptionColor && { color: descriptionColor }),
+      ...(textColor && !descriptionColor && { color: textColor }),
+    }),
+    [descriptionSize, descriptionWeight, descriptionColor, textColor],
+  );
+
   return (
     <Card
       className={`item-card ${className}`}
       hoverable={hoverable}
       onClick={onClick}
-      style={{
-        ...(backgroundColor && { backgroundColor }),
-        ...(padding && { padding: 0 }), // Remove default padding
-        ...(borderRadius && { borderRadius }),
-        ...(borderWidth && { borderWidth }),
-        ...(borderColor && { borderColor }),
-        ...(borderWidth || borderColor ? { borderStyle: "solid" } : {}),
-        ...(dropShadow && {
-          boxShadow: dropShadow !== "none" ? dropShadow : "none",
-        }),
-      }}
+      style={cardStyle}
       {...props}
     >
-      <Card.Content
-        style={{
-          ...(padding && { padding }), // Apply custom padding here
-          ...(align && { textAlign: align }),
-        }}
-        data-element={dataElement}
-      >
+      <Card.Content style={contentStyle} data-element={dataElement}>
         <Flex direction="column" gap={gap}>
           {icon && (
             <div
               className="item-card__icon"
-              style={iconSize ? { fontSize: iconSize } : undefined}
+              style={iconStyle}
               data-element={dataElement ? `${dataElement}.icon` : undefined}
             >
               {icon}
@@ -69,11 +117,7 @@ export const ItemCard = ({
           {title && (
             <Card.Title
               className="item-card__title"
-              style={{
-                ...(titleSize && { fontSize: titleSize }),
-                ...(titleWeight && { fontWeight: titleWeight }),
-                ...(titleColor && { color: titleColor }),
-              }}
+              style={titleStyle}
               data-element={dataElement ? `${dataElement}.title` : undefined}
             >
               {title}
@@ -82,12 +126,7 @@ export const ItemCard = ({
           {description && (
             <Card.Description
               className="item-card__description"
-              style={{
-                ...(descriptionSize && { fontSize: descriptionSize }),
-                ...(descriptionWeight && { fontWeight: descriptionWeight }),
-                ...(descriptionColor && { color: descriptionColor }),
-                ...(textColor && !descriptionColor && { color: textColor }),
-              }}
+              style={descriptionStyle}
               data-element={dataElement ? `${dataElement}.content` : undefined}
             >
               {description}

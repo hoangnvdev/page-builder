@@ -1,84 +1,86 @@
 {
   "editor": {
     "toolbar": {
-      "backButton": "← Quay lại Mẫu",
-      "resetButton": "Đặt lại về Mặc định"
+      "backButton": "Tất cả Mẫu",
+      "resetButton": "Làm Lại"
     },
     "loading": {
-      "title": "Đang khôi phục Mẫu...",
-      "description": "Vui lòng đợi trong khi chúng tôi khôi phục thiết kế của bạn..."
+      "title": "Đang Chuẩn Bị...",
+      "description": "Vui lòng đợi một chút để chúng tôi chuẩn bị mọi thứ..."
     },
     "accessibility": {
-      "closePanel": "Đóng Bảng Chỉnh sửa",
-      "openPanel": "Mở Bảng Chỉnh sửa"
+      "closePanel": "Ẩn Công Cụ",
+      "openPanel": "Hiện Công Cụ",
+      "showPreview": "Xem Trước"
     }
   },
   "export": {
     "button": {
-      "exported": "Đã xuất!",
-      "exportHtml": "Xuất HTML"
+      "exported": "✓ Đã Tải!",
+      "exportHtml": "Tải HTML"
     },
     "error": {
-      "failedMessage": "Xuất thất bại. Vui lòng thử lại."
+      "failedMessage": "Ối! Tải xuống thất bại. Hãy thử lại nhé."
     }
   },
   "propertyPanel": {
     "title": {
-      "properties": "Thuộc tính",
-      "pageSettings": "Cài đặt Trang",
-      "editPrefix": "Chỉnh sửa"
+      "properties": "Chỉnh Sửa",
+      "pageSettings": "Cài Đặt Trang",
+      "editPrefix": "Đang Chỉnh"
     },
     "subtitle": {
       "sectionSuffix": "Phần"
     },
     "emptyState": {
-      "selectTemplate": "Chọn một mẫu để chỉnh sửa thuộc tính của nó",
-      "noPropertiesPrefix": "Không có thuộc tính có thể chỉnh sửa được xác định cho"
-    }
+      "selectTemplate": "Chọn một mẫu để bắt đầu chỉnh sửa",
+      "noPropertiesPrefix": "Không có gì để chỉnh sửa cho"
+    },
+    "templateDefault": "Template Default"
   },
   "templateCard": {
     "button": {
-      "useTemplate": "Sử dụng Mẫu"
+      "useTemplate": "Dùng Mẫu Này"
     }
   },
   "templateGallery": {
-    "title": "Chọn Mẫu của Bạn",
-    "subtitle": "Chọn một mẫu để bắt đầu xây dựng trang của bạn. Tất cả các mẫu đều có thể tùy chỉnh hoàn toàn.",
+    "title": "Chọn Mẫu Yêu Thích",
+    "subtitle": "Chọn một thiết kế bạn thích và biến nó thành của riêng bạn.\nMọi mẫu đều có thể tùy chỉnh.",
     "loading": {
-      "title": "Đang tải Mẫu",
-      "description": "Đang lấy các mẫu có sẵn..."
+      "title": "Đang Tải...",
+      "description": "Đang lấy tất cả các mẫu có sẵn..."
     },
     "preparing": {
-      "title": "Đang chuẩn bị Mẫu",
-      "description": "Đang tải mẫu bạn đã chọn..."
+      "title": "Sắp Xong Rồi!",
+      "description": "Đang thiết lập màn vẽ của bạn..."
     },
     "error": {
-      "title": "Tải Mẫu thất bại"
+      "title": "Không Thể Tải Mẫu"
     },
     "button": {
-      "retry": "Thử lại"
+      "retry": "Thử Lại"
     },
     "emptyState": {
-      "title": "Không có Mẫu nào",
-      "description": "Không tìm thấy mẫu nào."
+      "title": "Chưa Có Mẫu Nào",
+      "description": "Hiện tại chúng tôi chưa có mẫu nào khả dụng."
     }
   },
   "formField": {
     "button": {
-      "addItem": "+ Thêm Mục",
+      "addItem": "+ Thêm Nữa",
       "remove": "Xóa"
     },
     "label": {
-      "project": "Dự án",
-      "feature": "Tính năng",
-      "itemTitle": "Tiêu đề",
-      "description": "Mô tả"
+      "project": "Dự Án",
+      "feature": "Tính Năng",
+      "itemTitle": "Tiêu Đề",
+      "description": "Mô Tả"
     },
     "warning": {
       "missingOptions": "Trường \"{label}\" thiếu tùy chọn. Vui lòng cập nhật cấu hình schema."
     },
     "emptyState": {
-      "noItems": "Chưa có mục nào. Nhấp 'Thêm Mục' để tạo một mục."
+      "noItems": "Chưa có gì cả. Nhấn '+ Thêm Nữa' để bắt đầu."
     },
     "error": {
       "unknownType": "Loại trường không xác định: \"{type}\". Vui lòng kiểm tra cấu hình trường."
@@ -92,11 +94,11 @@
   },
   "preview": {
     "emptyState": {
-      "title": "Mẫu không khả dụng",
-      "description": "Vui lòng quay lại thư viện mẫu và chọn lại một mẫu."
+      "title": "Chưa Chọn Mẫu",
+      "description": "Quay lại thư viện và chọn một mẫu để bắt đầu nhé."
     },
     "helperTip": {
-      "message": "💡 Mẹo: Nhấp vào bất kỳ phần hoặc phần tử riêng lẻ nào (tiêu đề, nút, v.v.) để chỉnh sửa. Nhấp bên ngoài để xem cài đặt trang."
+      "message": "� Chào bạn! Nhấp vào bất kỳ chữ, nút, hoặc phần nào để bắt đầu tùy chỉnh thiết kế của bạn."
     },
     "accessibility": {
       "closeTip": "Đóng mẹo"
@@ -188,6 +190,23 @@
     "0.875rem": "Small",
     "1rem": "Medium",
     "1.125rem": "Large",
-    "Full": "Full"
+    "Full": "Full",
+    "terminalWindowBackground": "Terminal Window Background",
+    "statNumberColor": "Stat Number Color",
+    "statLabelColor": "Stat Label Color",
+    "statNumberSize": "Stat Number Size",
+    "statNumberWeight": "Stat Number Weight",
+    "statLabelSize": "Stat Label Size",
+    "statLabelWeight": "Stat Label Weight",
+    "sectionTitle": "Section Title",
+    "gradientAngle": "Gradient Angle",
+    "statsSectionTitle": "Stats Section Title",
+    "statsTitleSize": "Stats Title Size",
+    "statsTitleWeight": "Stats Title Weight",
+    "statsTitleColor": "Stats Title Color",
+    "statsItems": "Stats Items",
+    "terminalCommands": "Terminal Commands",
+    "gradientStart": "Gradient Start Color",
+    "gradientEnd": "Gradient End Color"
   }
 }

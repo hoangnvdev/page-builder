@@ -1,10 +1,18 @@
-import "./index.scss";
+import './index.scss';
 
-import PropTypes from "prop-types";
+import { useMemo } from 'react';
 
-import { Container, Flex, Grid, Section, Title } from "@page-builder/ui";
+import PropTypes from 'prop-types';
 
-import { ItemCard } from "../ItemCard";
+import {
+  Container,
+  Flex,
+  Grid,
+  Section,
+  Title,
+} from '@page-builder/ui';
+
+import { ItemCard } from '../ItemCard';
 
 export const ItemGrid = ({
   heading,
@@ -38,6 +46,16 @@ export const ItemGrid = ({
   renderItem,
   ...props
 }) => {
+  // Memoize heading style
+  const headingStyle = useMemo(
+    () => ({
+      ...(headingSize && { fontSize: headingSize }),
+      ...(headingWeight && { fontWeight: headingWeight }),
+      ...(headingColor && { color: headingColor }),
+    }),
+    [headingSize, headingWeight, headingColor],
+  );
+
   return (
     <Section
       dataElement={dataElement}
@@ -51,11 +69,7 @@ export const ItemGrid = ({
             <Title
               level={headingLevel}
               className="item-grid__heading"
-              style={{
-                ...(headingSize && { fontSize: headingSize }),
-                ...(headingWeight && { fontWeight: headingWeight }),
-                ...(headingColor && { color: headingColor }),
-              }}
+              style={headingStyle}
               data-element={`${dataElement}.heading`}
             >
               {heading}

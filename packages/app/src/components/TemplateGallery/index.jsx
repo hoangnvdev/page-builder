@@ -64,11 +64,12 @@ export const TemplateGallery = () => {
 
       dispatch(selectTemplate(processedTemplate));
       navigate("/design");
+      // Don't clear selectingTemplateId here - keep loading indicator visible during navigation
+      // Component will unmount when route changes anyway
     } catch (err) {
       console.error("Failed to select template:", err);
       setError(err.message || "Failed to load template");
-    } finally {
-      setSelectingTemplateId(null);
+      setSelectingTemplateId(null); // Only clear on error
     }
   };
 
@@ -121,7 +122,7 @@ export const TemplateGallery = () => {
       <div className="template-gallery__grid">
         {templates.map((template) => (
           <div key={template.id} className="template-gallery__grid-item">
-            <ErrorBoundary fallbackType="inline">
+            <ErrorBoundary mode="inline" t={t}>
               <TemplateCard
                 template={template}
                 onSelect={handleSelectTemplate}

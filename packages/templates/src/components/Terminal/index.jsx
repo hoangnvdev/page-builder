@@ -1,16 +1,32 @@
-import "./index.scss";
+import './index.scss';
 
-import PropTypes from "prop-types";
+import { useMemo } from 'react';
 
-import { Container, Flex, Section, Text, Title } from "@page-builder/ui";
+import PropTypes from 'prop-types';
+
+import {
+  Container,
+  Flex,
+  Section,
+  Text,
+  Title,
+} from '@page-builder/ui';
 
 export const Terminal = ({
   heading,
+  headingSize,
+  headingWeight,
+  headingColor,
   commands,
   backgroundColor,
   promptColor,
   responseColor,
-  windowBgColor = "#1e1e1e",
+  windowBgColor,
+  windowPadding,
+  windowBorderRadius,
+  windowDropShadow,
+  windowBorderWidth,
+  windowBorderColor,
   padding = "80px 20px",
   headingLevel = 2,
   showHeader = true,
@@ -20,6 +36,47 @@ export const Terminal = ({
   children,
   ...props
 }) => {
+  // Memoize heading style
+  const headingStyle = useMemo(
+    () => ({
+      color: headingColor || promptColor,
+      fontSize: headingSize,
+      fontWeight: headingWeight,
+    }),
+    [headingColor, promptColor, headingSize, headingWeight],
+  );
+
+  // Memoize window style
+  const windowStyle = useMemo(
+    () => ({
+      backgroundColor: windowBgColor || "#1e1e1e",
+      padding: windowPadding,
+      borderRadius: windowBorderRadius,
+      boxShadow: windowDropShadow,
+      borderWidth: windowBorderWidth,
+      borderColor: windowBorderColor,
+      borderStyle:
+        windowBorderWidth && windowBorderWidth !== "0" ? "solid" : "none",
+    }),
+    [
+      windowBgColor,
+      windowPadding,
+      windowBorderRadius,
+      windowDropShadow,
+      windowBorderWidth,
+      windowBorderColor,
+    ],
+  );
+
+  // Memoize cursor style
+  const cursorStyle = useMemo(
+    () => ({
+      color: promptColor || "#00ff9f",
+      fontFamily: "monospace",
+    }),
+    [promptColor],
+  );
+
   return (
     <Section
       className={`terminal ${className}`}
@@ -33,7 +90,7 @@ export const Terminal = ({
             <Title
               level={headingLevel}
               className="terminal__heading"
-              style={{ color: promptColor }}
+              style={headingStyle}
               data-element={`${dataElement}.heading`}
             >
               {heading}
@@ -41,7 +98,7 @@ export const Terminal = ({
           )}
           <div
             className="terminal__window"
-            style={{ backgroundColor: windowBgColor }}
+            style={windowStyle}
             data-element={`${dataElement}.window`}
           >
             {showHeader && (
@@ -65,26 +122,33 @@ export const Terminal = ({
                 >
                   <Text
                     className="terminal__prompt"
-                    style={{ color: promptColor, fontFamily: "monospace" }}
-                    data-element={`${dataElement}.command-${index}.prompt`}
+                    style={{
+                      color: cmd.promptColor || promptColor,
+                      fontSize: cmd.promptSize,
+                      fontWeight: cmd.promptWeight,
+                      fontFamily: "monospace",
+                    }}
+                    data-element={`${dataElement}.commands.${index}.prompt`}
                   >
-                    {cmd.prompt}
+                    {cmd.promptText}
                   </Text>
-                  {cmd.response && (
+                  {cmd.responseText && (
                     <Text
                       className="terminal__response"
-                      style={{ color: responseColor, fontFamily: "monospace" }}
-                      data-element={`${dataElement}.command-${index}.response`}
+                      style={{
+                        color: cmd.responseColor || responseColor,
+                        fontSize: cmd.responseSize,
+                        fontWeight: cmd.responseWeight,
+                        fontFamily: "monospace",
+                      }}
+                      data-element={`${dataElement}.commands.${index}.response`}
                     >
-                      {cmd.response}
+                      {cmd.responseText}
                     </Text>
                   )}
                 </Flex>
               ))}
-              <Text
-                className="terminal__cursor"
-                style={{ color: promptColor, fontFamily: "monospace" }}
-              >
+              <Text className="terminal__cursor" style={cursorStyle}>
                 $ <span className="terminal__blink">_</span>
               </Text>
             </div>
@@ -100,12 +164,24 @@ Terminal.propTypes = {
   heading: PropTypes.string,
   commands: PropTypes.arrayOf(
     PropTypes.shape({
-      prompt: PropTypes.string.isRequired,
-      response: PropTypes.string.isRequired,
+      promptText: PropTypes.string.isRequired,
+      promptColor: PropTypes.string,
+      promptSize: PropTypes.string,
+      promptWeight: PropTypes.string,
+      responseText: PropTypes.string,
+      responseColor: PropTypes.string,
+      responseSize: PropTypes.string,
+      responseWeight: PropTypes.string,
     }),
   ).isRequired,
   backgroundColor: PropTypes.string,
   promptColor: PropTypes.string,
   responseColor: PropTypes.string,
+  windowBgColor: PropTypes.string,
+  windowPadding: PropTypes.string,
+  windowBorderRadius: PropTypes.string,
+  windowDropShadow: PropTypes.string,
+  windowBorderWidth: PropTypes.string,
+  windowBorderColor: PropTypes.string,
   dataElement: PropTypes.string,
 };

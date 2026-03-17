@@ -1,8 +1,13 @@
-import "./index.scss";
+import './index.scss';
 
-import PropTypes from "prop-types";
+import { useMemo } from 'react';
 
-import { Section, Text } from "@page-builder/ui";
+import PropTypes from 'prop-types';
+
+import {
+  Section,
+  Text,
+} from '@page-builder/ui';
 
 export const Marquee = ({
   text,
@@ -19,6 +24,15 @@ export const Marquee = ({
 }) => {
   const repeatedText = Array(repeat).fill(text).join(" ");
 
+  // Memoize text style
+  const textStyle = useMemo(
+    () => ({
+      color: textColor,
+      animationDuration: speed,
+    }),
+    [textColor, speed],
+  );
+
   return (
     <Section
       className={`marquee ${className}`}
@@ -29,10 +43,7 @@ export const Marquee = ({
       <div className="marquee__track">
         <Text
           className="marquee__content"
-          style={{
-            color: textColor,
-            animationDuration: speed,
-          }}
+          style={textStyle}
           weight={textWeight}
           size={textSize}
           data-element={`${dataElement}.text`}

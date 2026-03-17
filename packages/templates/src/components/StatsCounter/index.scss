@@ -22,6 +22,11 @@
       font-weight: bold;
       margin-bottom: 0.5rem;
       text-shadow: 0 0 20px currentColor;
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+      word-break: break-word;
+      hyphens: auto;
+      min-width: 0;
     }
 
     &__content {
@@ -29,6 +34,11 @@
       text-transform: uppercase;
       letter-spacing: 2px;
       opacity: 0.8;
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+      word-break: break-word;
+      hyphens: auto;
+      min-width: 0;
     }
 
     &__value {
@@ -36,6 +46,11 @@
       font-weight: bold;
       margin-bottom: 0.5rem;
       text-shadow: 0 0 20px currentColor;
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+      word-break: break-word;
+      hyphens: auto;
+      min-width: 0;
     }
 
     &__label {
@@ -43,12 +58,22 @@
       text-transform: uppercase;
       letter-spacing: 2px;
       opacity: 0.8;
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+      word-break: break-word;
+      hyphens: auto;
+      min-width: 0;
     }
 
     &__trend {
       font-size: 0.875rem;
       margin-top: 0.5rem;
       opacity: 0.7;
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+      word-break: break-word;
+      hyphens: auto;
+      min-width: 0;
     }
   }
 }
@@ -83,5 +108,32 @@
   &[data-sub-element-selected="true"]::before {
     border-color: #3b82f6;
     border-style: solid;
+  }
+}
+
+// Mobile responsiveness for stats
+@media (max-width: 768px) {
+  .stats-counter {
+    padding: 2rem 0;
+
+    .stat-item {
+      padding: 1.5rem 0.75rem;
+
+      &__title,
+      &__value {
+        font-size: 2rem;
+        text-shadow: 0 0 15px currentColor;
+      }
+
+      &__content,
+      &__label {
+        font-size: 0.875rem;
+        letter-spacing: 1px;
+      }
+
+      &__trend {
+        font-size: 0.8rem;
+      }
+    }
   }
 }

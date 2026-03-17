@@ -1,0 +1,211 @@
+// UI Package - Design System Variables
+// Central source of truth for all styling tokens used across UI components
+
+// ============================================================================
+// COLORS
+// ============================================================================
+
+// Brand Colors
+$color-primary: #6366f1;
+$color-primary-hover: #4f46e5;
+$color-primary-light: #818cf8;
+$color-primary-dark: #4338ca;
+$color-secondary: #ec4899;
+$color-secondary-hover: #db2777;
+
+// Semantic Colors
+$color-success: #10b981;
+$color-success-hover: #059669;
+$color-warning: #f59e0b;
+$color-warning-hover: #d97706;
+$color-danger: #ef4444;
+$color-danger-hover: #dc2626;
+$color-info: #3b82f6;
+$color-info-hover: #2563eb;
+
+// Neutral Colors
+$color-white: #ffffff;
+$color-black: #000000;
+$color-bg: #fafbfc;
+$color-surface: #ffffff;
+$color-border: #e5e7eb;
+$color-border-light: #f3f4f6;
+$color-border-dark: #d1d5db;
+
+// Text Colors
+$color-text-primary: #1f29 37;
+$color-text-secondary: #6b7280;
+$color-text-muted: #9ca3af;
+$color-text-disabled: #d1d5db;
+$color-text-inverse: #ffffff;
+
+// Interactive States
+$color-hover-bg: #f9fafb;
+$color-active-bg: #f3f4f6;
+$color-focus-ring: rgba(99, 102, 241, 0.1);
+$color-disabled-bg: #f9fafb;
+
+// ============================================================================
+// SPACING
+// ============================================================================
+
+$spacing-xs: 0.25rem; // 4px
+$spacing-sm: 0.5rem; // 8px
+$spacing-md: 0.75rem; // 12px
+$spacing-lg: 1rem; // 16px
+$spacing-xl: 1.5rem; // 24px
+$spacing-2xl: 2rem; // 32px
+$spacing-3xl: 3rem; // 48px
+$spacing-4xl: 4rem; // 64px
+
+// ============================================================================
+// TYPOGRAPHY
+// ============================================================================
+
+// Font Families
+$font-family-base:
+  -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu",
+  "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+$font-family-mono:
+  "SF Mono", "Monaco", "Inconsolata", "Fira Code", "Courier New", monospace;
+
+// Font Sizes
+$font-size-xs: 0.75rem; // 12px
+$font-size-sm: 0.875rem; // 14px
+$font-size-base: 0.9375rem; // 15px
+$font-size-md: 1rem; // 16px
+$font-size-lg: 1.125rem; // 18px
+$font-size-xl: 1.25rem; // 20px
+$font-size-2xl: 1.5rem; // 24px
+$font-size-3xl: 2rem; // 32px
+
+// Font Weights
+$font-weight-normal: 400;
+$font-weight-medium: 500;
+$font-weight-semibold: 600;
+$font-weight-bold: 700;
+
+// Line Heights
+$line-height-tight: 1.2;
+$line-height-normal: 1.5;
+$line-height-relaxed: 1.7;
+
+// Letter Spacing
+$letter-spacing-tight: -0.025em;
+$letter-spacing-normal: 0;
+$letter-spacing-wide: 0.01em;
+$letter-spacing-wider: 0.05em;
+
+// ============================================================================
+// BORDERS & RADII
+// ============================================================================
+
+// Border Widths
+$border-width-thin: 1px;
+$border-width-base: 2px;
+$border-width-thick: 3px;
+
+// Border Radius
+$border-radius-none: 0;
+$border-radius-sm: 4px;
+$border-radius-base: 6px;
+$border-radius-md: 8px;
+$border-radius-lg: 12px;
+$border-radius-xl: 16px;
+$border-radius-full: 9999px;
+
+// ============================================================================
+// SHADOWS
+// ============================================================================
+
+$shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.03);
+$shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+$shadow-base:
+  0 2px 4px rgba(0, 0, 0, 0.05),
+  0 1px 2px rgba(0, 0, 0, 0.03);
+$shadow-md:
+  0 4px 6px rgba(0, 0, 0, 0.07),
+  0 2px 4px rgba(0, 0, 0, 0.05);
+$shadow-lg:
+  0 10px 15px rgba(0, 0, 0, 0.1),
+  0 4px 6px rgba(0, 0, 0, 0.05);
+$shadow-xl:
+  0 20px 25px rgba(0, 0, 0, 0.1),
+  0 10px 10px rgba(0, 0, 0, 0.04);
+$shadow-2xl: 0 25px 50px rgba(0, 0, 0, 0.15);
+
+// Colored Shadows
+$shadow-primary: 0 4px 12px rgba(99, 102, 241, 0.3);
+$shadow-success: 0 4px 12px rgba(16, 185, 129, 0.3);
+$shadow-danger: 0 4px 12px rgba(239, 68, 68, 0.3);
+$shadow-warning: 0 4px 12px rgba(245, 158, 11, 0.3);
+
+// ============================================================================
+// TRANSITIONS & ANIMATIONS
+// ============================================================================
+
+// Timing Functions
+$ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+$ease-out: cubic-bezier(0, 0, 0.2, 1);
+$ease-in: cubic-bezier(0.4, 0, 1, 1);
+
+// Durations
+$duration-fast: 150ms;
+$duration-base: 250ms;
+$duration-slow: 350ms;
+$duration-slower: 500ms;
+
+// Combined Transitions
+$transition-fast: $duration-fast $ease-in-out;
+$transition-base: $duration-base $ease-in-out;
+$transition-slow: $duration-slow $ease-in-out;
+
+// ============================================================================
+// Z-INDEX LAYERS
+// ============================================================================
+
+$z-index-dropdown: 1000;
+$z-index-sticky: 1020;
+$z-index-fixed: 1030;
+$z-index-modal-backdrop: 1040;
+$z-index-modal: 1050;
+$z-index-popover: 1060;
+$z-index-tooltip: 1070;
+$z-index-notification: 9999;
+
+// ============================================================================
+// BREAKPOINTS
+// ============================================================================
+
+$breakpoint-sm: 640px;
+$breakpoint-md: 768px;
+$breakpoint-lg: 1024px;
+$breakpoint-xl: 1280px;
+$breakpoint-2xl: 1536px;
+
+// ============================================================================
+// COMPONENT-SPECIFIC
+// ============================================================================
+
+// Buttons
+$button-padding-sm: 0.5rem 0.875rem;
+$button-padding-md: 0.625rem 1rem;
+$button-padding-lg: 0.75rem 1.5rem;
+$button-min-height-sm: 32px;
+$button-min-height-md: 40px;
+$button-min-height-lg: 48px;
+
+// Inputs
+$input-padding: 10px 14px;
+$input-height: 40px;
+$input-border-width: $border-width-base;
+$input-border-radius: $border-radius-md;
+
+// Cards
+$card-padding: $spacing-lg;
+$card-border-radius: $border-radius-lg;
+$card-border-color: $color-border;
+
+// Panels
+$panel-padding: $spacing-xl;
+$panel-border-radius: $border-radius-lg;

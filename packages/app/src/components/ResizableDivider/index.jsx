@@ -1,11 +1,8 @@
-import './index.scss';
+import "./index.scss";
 
-import {
-  useEffect,
-  useRef,
-} from 'react';
+import { useEffect, useRef } from "react";
 
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 
 export const ResizableDivider = ({ onResize, orientation = "horizontal" }) => {
   const isDraggingRef = useRef(false);
@@ -30,15 +27,18 @@ export const ResizableDivider = ({ onResize, orientation = "horizontal" }) => {
         );
         onResize(constrainedPercentage);
       } else {
-        // Mobile: adjust top panel height
-        const containerHeight = window.innerHeight;
-        const toolbarHeight = 60; // Approximate toolbar height
-        const availableHeight = containerHeight - toolbarHeight;
-        const newHeight = e.clientY - toolbarHeight;
-        const percentage = (newHeight / availableHeight) * 100;
+        // Mobile: adjust preview/panel split from bottom
+        // Get the editor content container
+        const editorContent = document.querySelector(".editor__content");
+        if (!editorContent) return;
 
-        // Constrain between 30% and 70%
-        const constrainedPercentage = Math.max(30, Math.min(70, percentage));
+        const rect = editorContent.getBoundingClientRect();
+        const containerHeight = rect.height;
+        const mouseY = e.clientY - rect.top;
+        const percentage = (mouseY / containerHeight) * 100;
+
+        // Constrain: preview 35-80%, which means panel 20-65%
+        const constrainedPercentage = Math.max(35, Math.min(80, percentage));
         onResize(constrainedPercentage);
       }
     };
@@ -62,12 +62,17 @@ export const ResizableDivider = ({ onResize, orientation = "horizontal" }) => {
         );
         onResize(constrainedPercentage);
       } else {
-        const containerHeight = window.innerHeight;
-        const toolbarHeight = 60;
-        const availableHeight = containerHeight - toolbarHeight;
-        const newHeight = touch.clientY - toolbarHeight;
-        const percentage = (newHeight / availableHeight) * 100;
-        const constrainedPercentage = Math.max(30, Math.min(70, percentage));
+        // Mobile: adjust preview/panel split from bottom
+        const editorContent = document.querySelector(".editor__content");
+        if (!editorContent) return;
+
+        const rect = editorContent.getBoundingClientRect();
+        const containerHeight = rect.height;
+        const touchY = touch.clientY - rect.top;
+        const percentage = (touchY / containerHeight) * 100;
+
+        // Constrain between 35% and 80% (preview min 35%, panel max 65%)
+        const constrainedPercentage = Math.max(35, Math.min(80, percentage));
         onResize(constrainedPercentage);
       }
     };

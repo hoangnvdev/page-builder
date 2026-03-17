@@ -2,14 +2,6 @@ import "./index.scss";
 
 import PropTypes from "prop-types";
 
-/**
- * Toolbar component for top navigation bars with left/right sections
- * @param {Object} props
- * @param {React.ReactNode} props.children - Toolbar content
- * @param {string} props.height - Toolbar height (e.g., '60px', 60)
- * @param {string} props.className - Additional CSS classes
- * @param {Object} props.style - Inline styles
- */
 export const Toolbar = ({
   children,
   height = "60px",
@@ -33,13 +25,6 @@ export const Toolbar = ({
   );
 };
 
-/**
- * Toolbar.Left component for left-aligned toolbar content
- * @param {Object} props
- * @param {React.ReactNode} props.children - Content
- * @param {string} props.className - Additional CSS classes
- * @param {Object} props.style - Inline styles
- */
 Toolbar.Left = function ToolbarLeft({
   children,
   className = "",
@@ -55,13 +40,6 @@ Toolbar.Left = function ToolbarLeft({
   );
 };
 
-/**
- * Toolbar.Right component for right-aligned toolbar content
- * @param {Object} props
- * @param {React.ReactNode} props.children - Content
- * @param {string} props.className - Additional CSS classes
- * @param {Object} props.style - Inline styles
- */
 Toolbar.Right = function ToolbarRight({
   children,
   className = "",
@@ -77,13 +55,6 @@ Toolbar.Right = function ToolbarRight({
   );
 };
 
-/**
- * Toolbar.Center component for center-aligned toolbar content
- * @param {Object} props
- * @param {React.ReactNode} props.children - Content
- * @param {string} props.className - Additional CSS classes
- * @param {Object} props.style - Inline styles
- */
 Toolbar.Center = function ToolbarCenter({
   children,
   className = "",

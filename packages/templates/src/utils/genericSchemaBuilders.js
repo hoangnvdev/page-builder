@@ -20,8 +20,13 @@ import {
   textSizeOptions,
   titleSizeOptions,
   weightOptions,
-} from "../constants/index.js";
-import { color, slider, text, textarea } from "./fieldBuilders.js";
+} from '../constants/index.js';
+import {
+  color,
+  slider,
+  text,
+  textarea,
+} from './fieldBuilders.js';
 
 // ============================================
 // 1. CONTAINER PROPS (Layout & Box Model)
@@ -227,7 +232,7 @@ export const avatarProps = () => ({
  * Complete section schema (container + layout + visual)
  */
 export const sectionSchema = () => ({
-  ...visualProps(),
+  backgroundColor: color("backgroundColor"),
   ...spacingProps("section"),
   ...layoutProps(),
 });
