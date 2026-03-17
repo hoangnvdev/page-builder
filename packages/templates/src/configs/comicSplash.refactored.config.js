@@ -7,7 +7,11 @@
  * - Image props (objectFit, size, shadow)
  */
 
-import { color, text, textarea } from "../utils/fieldBuilders.js";
+import {
+  color,
+  text,
+  textarea,
+} from '../utils/fieldBuilders.js';
 import {
   arrayField,
   avatarProps,
@@ -22,17 +26,17 @@ import {
   textContentSchema,
   titleContentSchema,
   visualProps,
-} from "../utils/genericSchemaBuilders.js";
+} from '../utils/genericSchemaBuilders.js';
 import {
   fontFamilyOptions,
   languageOptions,
   marqueePaddingOptions,
   marqueeSpeedOptions,
-} from "../utils/index.js";
+} from '../utils/index.js';
 
 export const comicSplashRefactoredConfig = {
   id: "comic-splash-refactored",
-  name: "Comic Splash (Refactored)",
+  name: "Comic Splash",
   description: "Playful comic-book style with bold colors and fun vibes",
   icon: "💥",
 

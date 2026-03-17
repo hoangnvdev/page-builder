@@ -1,23 +1,25 @@
-import React from "react";
+import React from 'react';
 
-import { CallToAction } from "../components/CallToAction";
-import { ComicPanels } from "../components/ComicPanels";
-import { ContentSection } from "../components/ContentSection";
-import { DataStream } from "../components/DataStream";
-import { Footer } from "../components/Footer";
-import { Header } from "../components/Header";
-import { Hero } from "../components/Hero";
-import { ImageGrid } from "../components/ImageGrid";
-import { ItemGrid } from "../components/ItemGrid";
-import { Marquee } from "../components/Marquee";
-import { QuoteBlock } from "../components/QuoteBlock";
-import { SpeechBubbleTestimonials } from "../components/SpeechBubbleTestimonials";
-import { SplitScreen } from "../components/SplitScreen";
-import { StatsCounter } from "../components/StatsCounter";
-import { TechSpecs } from "../components/TechSpecs";
-import { Terminal } from "../components/Terminal";
-import { TestimonialCards } from "../components/TestimonialCards";
-import { Timeline } from "../components/Timeline";
+import { CallToAction } from '../components/CallToAction';
+import { ComicPanels } from '../components/ComicPanels';
+import { ContentSection } from '../components/ContentSection';
+import { DataStream } from '../components/DataStream';
+import { Footer } from '../components/Footer';
+import { Header } from '../components/Header';
+import { Hero } from '../components/Hero';
+import { ImageGrid } from '../components/ImageGrid';
+import { ItemGrid } from '../components/ItemGrid';
+import { Marquee } from '../components/Marquee';
+import { QuoteBlock } from '../components/QuoteBlock';
+import {
+  SpeechBubbleTestimonials,
+} from '../components/SpeechBubbleTestimonials';
+import { SplitScreen } from '../components/SplitScreen';
+import { StatsCounter } from '../components/StatsCounter';
+import { TechSpecs } from '../components/TechSpecs';
+import { Terminal } from '../components/Terminal';
+import { TestimonialCards } from '../components/TestimonialCards';
+import { Timeline } from '../components/Timeline';
 import {
   mapAlignToFlex,
   mapButtonProps,
@@ -31,21 +33,32 @@ import {
   unwrapArrayItems,
   unwrapNestedObjects,
   unwrapText,
-} from "../utils/configMappers";
+} from '../utils/configMappers';
 
 export const componentRegistry = {
   header: {
     component: Header,
     propsMapper: (config, templateConfig) => ({
       companyName: config.companyName,
-      logo: config.logo,
+      // Legacy logo support (if logo is a component, use it directly)
+      logo:
+        typeof config.logo === "object" && config.logo?.type
+          ? undefined
+          : config.logo,
+      // New logo system
+      logoType: config.logo?.type,
+      logoText: config.logo?.text,
+      logoUrl: config.logo?.url,
+      logoWidth: config.logo?.width,
+      logoHeight: config.logo?.height,
       backgroundColor: config.backgroundColor,
       logoColor: config.logoColor,
       linkColor: config.linkColor,
-      links: templateConfig?.navLinks || [],
+      // Use links from config if available, otherwise fall back to templateConfig
+      links: config.links || templateConfig?.navLinks || [],
       padding: config.padding,
       shadow: config.shadow,
-      logoLevel: mapLevel(config.logoLevel),
+      logoLevel: mapLevel(config.titleLevel || config.logoLevel),
       linkGap: config.linkGap,
       maxWidth: config.maxWidth,
     }),
@@ -58,6 +71,12 @@ export const componentRegistry = {
       ...mapButtonProps(config),
       ...mapSectionProps(config),
       titleLevel: mapLevel(config.titleLevel),
+      gradientStart: config.gradientStart,
+      gradientEnd: config.gradientEnd,
+      gradientAngle:
+        typeof config.gradientAngle === "number"
+          ? `${135 + config.gradientAngle}deg`
+          : config.gradientAngle,
     }),
   },
   features: {
@@ -74,33 +93,19 @@ export const componentRegistry = {
   },
   projects: {
     component: ItemGrid,
-    propsMapper: (config) => {
-      const unwrappedItems = unwrapArrayItems(config.items, [
+    propsMapper: (config) => ({
+      ...mapHeadingProps(config),
+      ...mapSectionProps(config),
+      ...mapCardProps(config),
+      ...mapCardContentProps(config),
+      items: unwrapArrayItems(config.items, [
         "title",
         "content",
         "description",
-      ]);
-      const normalizedItems = unwrappedItems?.map((item) => ({
-        ...item,
-        description: item.description || item.content,
-      }));
-
-      return {
-        heading: unwrapText(config.heading),
-        items: normalizedItems,
-        backgroundColor: config.backgroundColor,
-        headingColor: config.headingColor,
-        itemTitleColor: config.cardTitleColor,
-        itemTextColor: config.cardTextColor,
-        columns: config.columns || 3,
-        gap: config.gap || "30px",
-        padding: config.padding,
-        headingLevel: mapLevel(config.headingLevel),
-        headingAlign: config.headingAlign,
-        maxWidth: config.maxWidth,
-        renderItem: config.renderItem,
-      };
-    },
+      ]),
+      columns: config.columns,
+      renderItem: config.renderItem,
+    }),
   },
   about: {
     component: ContentSection,
@@ -186,19 +191,34 @@ export const componentRegistry = {
     propsMapper: (config) => {
       // Migrate old 'lines' structure to new 'commands' structure
       const commands =
-        config.commands ||
+        config.commands?.map((cmd) => ({
+          promptText: unwrapText(cmd.prompt),
+          promptColor: cmd.prompt?.color,
+          promptSize: cmd.prompt?.size,
+          promptWeight: cmd.prompt?.weight,
+          responseText: unwrapText(cmd.response),
+          responseColor: cmd.response?.color,
+          responseSize: cmd.response?.size,
+          responseWeight: cmd.response?.weight,
+        })) ||
         config.lines?.map((line) => ({
-          prompt: line.text || line.prompt || "",
-          response: line.response || "",
-        }));
+          promptText: line.text || line.prompt || "",
+          responseText: line.response || "",
+        })) ||
+        [];
 
       return {
-        heading: config.heading,
+        ...mapHeadingProps(config),
         commands,
         backgroundColor: config.backgroundColor,
         promptColor: config.promptColor || config.textColor,
         responseColor: config.responseColor || config.accentColor,
-        windowBgColor: config.windowBgColor,
+        windowBgColor: config.window?.backgroundColor || config.windowBgColor,
+        windowPadding: config.window?.padding,
+        windowBorderRadius: config.window?.borderRadius,
+        windowDropShadow: config.window?.dropShadow,
+        windowBorderWidth: config.window?.borderWidth,
+        windowBorderColor: config.window?.borderColor,
         padding: config.padding,
         headingLevel: mapLevel(config.headingLevel),
         showHeader: config.showHeader,
@@ -208,15 +228,41 @@ export const componentRegistry = {
   },
   stats: {
     component: StatsCounter,
-    propsMapper: (config) => ({
-      ...mapTextContentProps(config, "title"),
-      ...mapSectionProps(config),
-      ...mapCardProps(config),
-      ...mapCardContentProps(config),
-      items: unwrapArrayItems(config.items, ["title", "content"]),
-      columns: config.columns,
-      cardAlign: mapAlignToFlex(config.card?.align),
-    }),
+    propsMapper: (config) => {
+      // Handle both flat structure (futuristicTech) and nested structure (refinedClassic)
+      const titleProps =
+        config.title &&
+        typeof config.title === "object" &&
+        "text" in config.title
+          ? {
+              title: unwrapText(config.title),
+              titleSize: config.title.size,
+              titleWeight: config.title.weight,
+              titleColor: config.title.color,
+            }
+          : {
+              title: unwrapText(config.title) || "",
+              titleSize: config.titleSize,
+              titleWeight: config.titleWeight,
+              titleColor: config.titleColor,
+            };
+
+      return {
+        ...titleProps,
+        ...mapSectionProps(config),
+        ...mapCardProps(config),
+        cardTitleSize: config.cardTitleSize || config.card?.title?.size,
+        cardTitleWeight: config.cardTitleWeight || config.card?.title?.weight,
+        cardTitleColor: config.cardTitleColor || config.card?.title?.color,
+        cardContentSize: config.cardContentSize || config.card?.content?.size,
+        cardContentWeight:
+          config.cardContentWeight || config.card?.content?.weight,
+        cardContentColor:
+          config.cardContentColor || config.card?.content?.color,
+        items: unwrapArrayItems(config.items, ["title", "content"]),
+        columns: config.columns,
+      };
+    },
   },
   dataStream: {
     component: DataStream,
@@ -315,6 +361,32 @@ export const componentRegistry = {
       imageHeight: config.imageHeight,
       maxWidth: config.maxWidth,
       renderImage: config.renderImage,
+    }),
+  },
+  portfolio: {
+    component: ImageGrid,
+    propsMapper: (config) => ({
+      ...mapHeadingProps(config),
+      ...mapSectionProps(config),
+      images: unwrapArrayItems(config.images, ["caption"]),
+      columns: config.columns,
+      imageHeight: config.imageHeight,
+      renderImage: config.renderImage,
+      // Image props from config.image schema
+      cardBackgroundColor: config.image?.backgroundColor,
+      cardPadding: config.image?.padding,
+      cardBorderRadius: config.image?.borderRadius,
+      cardDropShadow: config.image?.dropShadow,
+      imageUrl: config.image?.image?.url,
+      imageAlt: config.image?.image?.alt,
+      imageFit: config.image?.image?.fit,
+      imageAspectRatio: config.image?.image?.aspectRatio,
+      captionText: unwrapText(config.image?.caption),
+      captionSize: config.image?.caption?.size,
+      captionWeight: config.image?.caption?.weight,
+      captionColor: config.image?.caption?.color,
+      captionTextAlign: config.image?.caption?.textAlign,
+      captionBackgroundColor: config.image?.caption?.backgroundColor,
     }),
   },
   // Classic Elegance & Sci-Fi Components

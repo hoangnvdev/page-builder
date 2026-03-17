@@ -1,6 +1,6 @@
-import "./index.scss";
+import './index.scss';
 
-import PropTypes from "prop-types";
+import PropTypes from 'prop-types';
 
 import {
   Card,
@@ -10,7 +10,7 @@ import {
   Section,
   Text,
   Title,
-} from "@page-builder/ui";
+} from '@page-builder/ui';
 
 export const StatsCounter = ({
   // Section-level title

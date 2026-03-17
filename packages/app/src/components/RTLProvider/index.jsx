@@ -17,12 +17,7 @@ export const RTLProvider = ({ children }) => {
 
   useEffect(() => {
     // Apply direction when component mounts
-    const initialDirection = getDirection(i18n.language);
     applyDirection(i18n.language);
-
-    console.log(
-      `🌐 Layout initialized: ${i18n.language.toUpperCase()} (${initialDirection.toUpperCase()})`,
-    );
 
     // Listen for language changes
     const handleLanguageChange = (lng) => {
@@ -35,10 +30,6 @@ export const RTLProvider = ({ children }) => {
       }
 
       applyDirection(lng);
-
-      console.log(
-        `🔄 Language changed: ${lng.toUpperCase()} | Layout: ${newDirection.toUpperCase()}`,
-      );
 
       // Remove transition class after animation completes
       setTimeout(() => {

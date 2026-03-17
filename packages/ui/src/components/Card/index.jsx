@@ -1,9 +1,9 @@
-import "./index.scss";
+import './index.scss';
 
-import PropTypes from "prop-types";
+import PropTypes from 'prop-types';
 
-import { SubTitle } from "../SubTitle";
-import { Title } from "../Title";
+import { SubTitle } from '../SubTitle';
+import { Title } from '../Title';
 
 const defaultImage = new URL(
   "../../assets/images/default-image.png",
@@ -28,7 +28,12 @@ export const Card = ({
     .join(" ");
 
   return (
-    <div className={cardClasses} onClick={onClick} style={style} {...props}>
+    <div
+      className={cardClasses}
+      onClick={onClick}
+      style={{ height: "100%", ...style }}
+      {...props}
+    >
       {children}
     </div>
   );

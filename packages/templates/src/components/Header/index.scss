@@ -3,6 +3,38 @@
     // Additional logo styles can be added here
   }
 
+  &__logo-wrapper {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    transition: opacity 0.2s ease;
+
+    &:hover {
+      opacity: 0.8;
+    }
+  }
+
+  &__logo-image {
+    display: block;
+  }
+
+  &__logo-text {
+    display: flex;
+    align-items: center;
+    font-weight: 600;
+    line-height: 1;
+    cursor: pointer;
+    transition: opacity 0.2s ease;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    word-break: break-word;
+    min-width: 0;
+
+    &:hover {
+      opacity: 0.8;
+    }
+  }
+
   &__nav {
     // Additional nav styles can be added here
   }

@@ -1,8 +1,12 @@
 .grid {
   display: grid;
   box-sizing: border-box;
+  align-items: stretch;
 
   &__item {
     box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
   }
 }
