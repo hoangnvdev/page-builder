@@ -1,26 +1,26 @@
-import "./index.scss";
+import './index.scss';
 
-import PropTypes from "prop-types";
+import { memo } from 'react';
 
-export const Title = ({
-  children,
-  level = 1,
-  className = "",
-  style,
-  ...props
-}) => {
-  const Tag = `h${level}`;
+import PropTypes from 'prop-types';
 
-  const titleClasses = ["title", `title--${level}`, className]
-    .filter(Boolean)
-    .join(" ");
+export const Title = memo(
+  ({ children, level = 1, className = "", style, ...props }) => {
+    const Tag = `h${level}`;
 
-  return (
-    <Tag className={titleClasses} style={style} {...props}>
-      {children}
-    </Tag>
-  );
-};
+    const titleClasses = ["title", `title--${level}`, className]
+      .filter(Boolean)
+      .join(" ");
+
+    return (
+      <Tag className={titleClasses} style={style} {...props}>
+        {children}
+      </Tag>
+    );
+  },
+);
+
+Title.displayName = "Title";
 
 Title.propTypes = {
   children: PropTypes.node.isRequired,

@@ -6,6 +6,7 @@ export { ColorPicker } from './components/ColorPicker';
 export { Container } from './components/Container';
 export { Divider } from './components/Divider';
 export { EmptyState } from './components/EmptyState';
+export { default as ErrorBoundary } from './components/ErrorBoundary';
 export { FieldGroup } from './components/FieldGroup';
 export { Flex } from './components/Flex';
 export { Grid } from './components/Grid';

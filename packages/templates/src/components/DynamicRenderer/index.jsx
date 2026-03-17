@@ -1,11 +1,66 @@
-import PropTypes from "prop-types";
+import { memo } from 'react';
 
-import { Page } from "@page-builder/ui";
+import PropTypes from 'prop-types';
 
-import { getComponentForElement } from "../../registries/componentRegistry";
-import ComponentErrorBoundary from "../ComponentErrorBoundary";
+import {
+  ErrorBoundary,
+  Page,
+} from '@page-builder/ui';
+
+import { getComponentForElement } from '../../registries/componentRegistry';
+
+// Memoized section wrapper - only re-renders when this specific section's config changes
+const MemoizedSection = memo(
+  ({ elementKey, elementConfig, templateConfig, onError }) => {
+    console.log(`🔄 Section "${elementKey}" render`);
+
+    const result = getComponentForElement(
+      elementKey,
+      elementConfig,
+      templateConfig,
+    );
+
+    if (!result) {
+      return null;
+    }
+
+    const { component: Component, props } = result;
+
+    return (
+      <ErrorBoundary
+        mode="component"
+        componentName={elementKey}
+        onError={(error, errorInfo) => onError(error, errorInfo, elementKey)}
+      >
+        <Component {...props} />
+      </ErrorBoundary>
+    );
+  },
+  // Custom comparison function - only re-render if elementConfig actually changed
+  (prevProps, nextProps) => {
+    // Compare elementConfig deeply
+    const configChanged =
+      JSON.stringify(prevProps.elementConfig) !==
+      JSON.stringify(nextProps.elementConfig);
+    const templateChanged =
+      prevProps.templateConfig.id !== nextProps.templateConfig.id;
+
+    // Return true if props are equal (prevent re-render)
+    // Return false if props changed (allow re-render)
+    return !configChanged && !templateChanged;
+  },
+);
+
+MemoizedSection.displayName = "MemoizedSection";
+MemoizedSection.propTypes = {
+  elementKey: PropTypes.string.isRequired,
+  elementConfig: PropTypes.object.isRequired,
+  templateConfig: PropTypes.object.isRequired,
+  onError: PropTypes.func.isRequired,
+};
 
 export const DynamicRenderer = ({ templateConfig, config }) => {
+  console.log("🎨 DynamicRenderer render");
   const { page, elements } = config;
   const layout = templateConfig.layout || [];
 
@@ -34,26 +89,14 @@ export const DynamicRenderer = ({ templateConfig, config }) => {
           return null;
         }
 
-        const result = getComponentForElement(
-          elementKey,
-          elementConfig,
-          templateConfig,
-        );
-
-        if (!result) {
-          return null;
-        }
-
-        const { component: Component, props } = result;
-
         return (
-          <ComponentErrorBoundary
+          <MemoizedSection
             key={`${elementKey}-${index}`}
-            componentName={elementKey}
+            elementKey={elementKey}
+            elementConfig={elementConfig}
+            templateConfig={templateConfig}
             onError={handleComponentError}
-          >
-            <Component {...props} />
-          </ComponentErrorBoundary>
+          />
         );
       })}
     </Page>

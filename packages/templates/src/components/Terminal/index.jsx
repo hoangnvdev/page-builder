@@ -1,5 +1,7 @@
 import './index.scss';
 
+import { useMemo } from 'react';
+
 import PropTypes from 'prop-types';
 
 import {
@@ -34,6 +36,47 @@ export const Terminal = ({
   children,
   ...props
 }) => {
+  // Memoize heading style
+  const headingStyle = useMemo(
+    () => ({
+      color: headingColor || promptColor,
+      fontSize: headingSize,
+      fontWeight: headingWeight,
+    }),
+    [headingColor, promptColor, headingSize, headingWeight],
+  );
+
+  // Memoize window style
+  const windowStyle = useMemo(
+    () => ({
+      backgroundColor: windowBgColor || "#1e1e1e",
+      padding: windowPadding,
+      borderRadius: windowBorderRadius,
+      boxShadow: windowDropShadow,
+      borderWidth: windowBorderWidth,
+      borderColor: windowBorderColor,
+      borderStyle:
+        windowBorderWidth && windowBorderWidth !== "0" ? "solid" : "none",
+    }),
+    [
+      windowBgColor,
+      windowPadding,
+      windowBorderRadius,
+      windowDropShadow,
+      windowBorderWidth,
+      windowBorderColor,
+    ],
+  );
+
+  // Memoize cursor style
+  const cursorStyle = useMemo(
+    () => ({
+      color: promptColor || "#00ff9f",
+      fontFamily: "monospace",
+    }),
+    [promptColor],
+  );
+
   return (
     <Section
       className={`terminal ${className}`}
@@ -47,11 +90,7 @@ export const Terminal = ({
             <Title
               level={headingLevel}
               className="terminal__heading"
-              style={{
-                color: headingColor || promptColor,
-                fontSize: headingSize,
-                fontWeight: headingWeight,
-              }}
+              style={headingStyle}
               data-element={`${dataElement}.heading`}
             >
               {heading}
@@ -59,18 +98,7 @@ export const Terminal = ({
           )}
           <div
             className="terminal__window"
-            style={{
-              backgroundColor: windowBgColor || "#1e1e1e",
-              padding: windowPadding,
-              borderRadius: windowBorderRadius,
-              boxShadow: windowDropShadow,
-              borderWidth: windowBorderWidth,
-              borderColor: windowBorderColor,
-              borderStyle:
-                windowBorderWidth && windowBorderWidth !== "0"
-                  ? "solid"
-                  : "none",
-            }}
+            style={windowStyle}
             data-element={`${dataElement}.window`}
           >
             {showHeader && (
@@ -120,13 +148,7 @@ export const Terminal = ({
                   )}
                 </Flex>
               ))}
-              <Text
-                className="terminal__cursor"
-                style={{
-                  color: promptColor || "#00ff9f",
-                  fontFamily: "monospace",
-                }}
-              >
+              <Text className="terminal__cursor" style={cursorStyle}>
                 $ <span className="terminal__blink">_</span>
               </Text>
             </div>

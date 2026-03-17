@@ -1,8 +1,16 @@
-import "./index.scss";
+import './index.scss';
 
-import PropTypes from "prop-types";
+import { useMemo } from 'react';
 
-import { Container, Flex, Section, Text, Title } from "@page-builder/ui";
+import PropTypes from 'prop-types';
+
+import {
+  Container,
+  Flex,
+  Section,
+  Text,
+  Title,
+} from '@page-builder/ui';
 
 export const DataStream = ({
   heading,
@@ -20,6 +28,15 @@ export const DataStream = ({
   renderLine,
   ...props
 }) => {
+  // Memoize base line style (animation delay varies per line)
+  const baseLineStyle = useMemo(
+    () => ({
+      color: textColor,
+      fontFamily: fontFamily,
+    }),
+    [textColor, fontFamily],
+  );
+
   return (
     <Section
       className={`data-stream ${className}`}
@@ -47,9 +64,8 @@ export const DataStream = ({
                   key={index}
                   className="data-stream__line"
                   style={{
-                    color: textColor,
+                    ...baseLineStyle,
                     animationDelay: `${index * animationDelay}s`,
-                    fontFamily,
                   }}
                   data-element={`${dataElement}.line-${index}`}
                 >

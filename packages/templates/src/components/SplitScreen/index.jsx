@@ -1,8 +1,17 @@
-import "./index.scss";
+import './index.scss';
 
-import PropTypes from "prop-types";
+import { useMemo } from 'react';
 
-import { Container, Flex, Image, Section, Text, Title } from "@page-builder/ui";
+import PropTypes from 'prop-types';
+
+import {
+  Container,
+  Flex,
+  Image,
+  Section,
+  Text,
+  Title,
+} from '@page-builder/ui';
 
 export const SplitScreen = ({
   imagePosition = "left",
@@ -26,6 +35,15 @@ export const SplitScreen = ({
   children,
   ...props
 }) => {
+  // Memoize content style
+  const contentStyle = useMemo(
+    () => ({ color: textColor, padding: contentPadding }),
+    [textColor, contentPadding],
+  );
+
+  // Memoize heading style
+  const headingStyle = useMemo(() => ({ color: headingColor }), [headingColor]);
+
   const imageContent = (
     <Flex flex={1} className="split-screen__image">
       <Image
@@ -47,13 +65,13 @@ export const SplitScreen = ({
       justify="center"
       gap={gap}
       className="split-screen__content"
-      style={{ color: textColor, padding: contentPadding }}
+      style={contentStyle}
     >
       {heading && (
         <Title
           level={headingLevel}
           className="split-screen__heading"
-          style={{ color: headingColor }}
+          style={headingStyle}
           data-element={`${dataElement}.heading`}
         >
           {heading}

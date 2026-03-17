@@ -1,6 +1,8 @@
-import "./index.scss";
+import './index.scss';
 
-import PropTypes from "prop-types";
+import { useMemo } from 'react';
+
+import PropTypes from 'prop-types';
 
 import {
   Button,
@@ -9,7 +11,7 @@ import {
   Section,
   SubTitle,
   Title,
-} from "@page-builder/ui";
+} from '@page-builder/ui';
 
 export const CallToAction = ({
   // Title props
@@ -43,6 +45,40 @@ export const CallToAction = ({
   className = "",
   ...props
 }) => {
+  // Memoize title style
+  const titleStyle = useMemo(
+    () => ({
+      fontSize: titleSize,
+      fontWeight: titleWeight,
+      color: titleColor,
+      margin: 0,
+    }),
+    [titleSize, titleWeight, titleColor],
+  );
+
+  // Memoize subtitle style
+  const subtitleStyle = useMemo(
+    () => ({
+      fontSize: subtitleSize,
+      fontWeight: subtitleWeight,
+      color: subtitleColor,
+      opacity: 0.9,
+    }),
+    [subtitleSize, subtitleWeight, subtitleColor],
+  );
+
+  // Memoize button style
+  const buttonStyle = useMemo(
+    () => ({
+      backgroundColor: buttonColor,
+      color: buttonTextColor,
+      ...(buttonBorderRadius && {
+        borderRadius: buttonBorderRadius,
+      }),
+    }),
+    [buttonColor, buttonTextColor, buttonBorderRadius],
+  );
+
   return (
     <Section
       data-element={dataElement}
@@ -56,12 +92,7 @@ export const CallToAction = ({
             <Title
               level={2}
               className="call-to-action__title"
-              style={{
-                fontSize: titleSize,
-                fontWeight: titleWeight,
-                color: titleColor,
-                margin: 0,
-              }}
+              style={titleStyle}
               data-element={`${dataElement}.title`}
             >
               {title}
@@ -70,12 +101,7 @@ export const CallToAction = ({
           {subtitle && (
             <SubTitle
               className="call-to-action__subtitle"
-              style={{
-                fontSize: subtitleSize,
-                fontWeight: subtitleWeight,
-                color: subtitleColor,
-                opacity: 0.9,
-              }}
+              style={subtitleStyle}
               data-element={`${dataElement}.subtitle`}
             >
               {subtitle}
@@ -104,13 +130,7 @@ export const CallToAction = ({
                 size={buttonSize}
                 variant="primary"
                 className="call-to-action__button"
-                style={{
-                  backgroundColor: buttonColor,
-                  color: buttonTextColor,
-                  ...(buttonBorderRadius && {
-                    borderRadius: buttonBorderRadius,
-                  }),
-                }}
+                style={buttonStyle}
                 data-element={`${dataElement}.button`}
               >
                 {buttonText}

@@ -1,6 +1,9 @@
 import './index.scss';
 
-import { useState } from 'react';
+import {
+  useCallback,
+  useState,
+} from 'react';
 
 import {
   Check,
@@ -23,7 +26,7 @@ export const ExportButton = () => {
   const currentConfig = useSelector((state) => state.builder.currentConfig);
   const [isExporting, setIsExporting] = useState(false);
 
-  const handleExport = () => {
+  const handleExport = useCallback(() => {
     if (!selectedTemplate || !currentConfig) return;
 
     setIsExporting(true);
@@ -52,7 +55,7 @@ export const ExportButton = () => {
       alert(t("export.error.failedMessage"));
       setIsExporting(false);
     }
-  };
+  }, [selectedTemplate, currentConfig, t]);
 
   return (
     <Button variant="export" onClick={handleExport} disabled={isExporting}>

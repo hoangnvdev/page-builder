@@ -1,9 +1,17 @@
-import "./index.scss";
+import './index.scss';
 
-import { useEffect, useRef, useState } from "react";
+import {
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 
-import { ChevronDown, Languages } from "lucide-react";
-import { useTranslation } from "react-i18next";
+import {
+  ChevronDown,
+  Languages,
+} from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 const LANGUAGES = [
   {
@@ -56,10 +64,17 @@ export const LanguageSwitcher = () => {
     loadFlags();
   }, []);
 
-  const handleLanguageChange = (languageCode) => {
-    i18n.changeLanguage(languageCode);
-    setIsOpen(false);
-  };
+  const handleLanguageChange = useCallback(
+    (languageCode) => {
+      i18n.changeLanguage(languageCode);
+      setIsOpen(false);
+    },
+    [i18n],
+  );
+
+  const toggleDropdown = useCallback(() => {
+    setIsOpen((prev) => !prev);
+  }, []);
 
   // Close dropdown when clicking outside
   useEffect(() => {
@@ -77,7 +92,7 @@ export const LanguageSwitcher = () => {
     <div className="language-switcher" ref={dropdownRef}>
       <button
         className="language-switcher__trigger"
-        onClick={() => setIsOpen(!isOpen)}
+        onClick={toggleDropdown}
         aria-label="Select language"
         aria-expanded={isOpen}
       >

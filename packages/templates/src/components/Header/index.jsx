@@ -1,5 +1,7 @@
 import './index.scss';
 
+import { useMemo } from 'react';
+
 import PropTypes from 'prop-types';
 
 import {
@@ -34,6 +36,34 @@ export const Header = ({
 }) => {
   const Component = as;
 
+  // Memoize logo text style
+  const logoTextStyle = useMemo(
+    () => ({
+      fontSize: logoWidth || "40px",
+      color: logoColor,
+    }),
+    [logoWidth, logoColor],
+  );
+
+  // Memoize company name style
+  const companyNameStyle = useMemo(
+    () => ({
+      margin: 0,
+      color: logoColor,
+    }),
+    [logoColor],
+  );
+
+  // Memoize header style
+  const headerStyle = useMemo(
+    () => ({
+      backgroundColor,
+      padding,
+      boxShadow: shadow,
+    }),
+    [backgroundColor, padding, shadow],
+  );
+
   // Render logo based on type
   const renderLogo = () => {
     // If legacy logo prop provided (for backward compatibility)
@@ -65,10 +95,7 @@ export const Header = ({
       return (
         <div
           className="header__logo-text"
-          style={{
-            fontSize: logoWidth || "40px",
-            color: logoColor,
-          }}
+          style={logoTextStyle}
           data-element={`${dataElement}.logo.text`}
         >
           {logoText}
@@ -81,7 +108,7 @@ export const Header = ({
       <Title
         level={logoLevel}
         className="header__logo"
-        style={{ margin: 0, color: logoColor }}
+        style={companyNameStyle}
         data-element={`${dataElement}.companyName`}
       >
         {companyName}
@@ -93,11 +120,7 @@ export const Header = ({
     <Component
       data-element={dataElement}
       className={`header ${className}`}
-      style={{
-        backgroundColor,
-        padding,
-        boxShadow: shadow,
-      }}
+      style={headerStyle}
     >
       <Container maxWidth={maxWidth}>
         <Flex justify="space-between" align="center">

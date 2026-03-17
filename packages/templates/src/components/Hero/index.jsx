@@ -1,6 +1,8 @@
-import "./index.scss";
+import './index.scss';
 
-import PropTypes from "prop-types";
+import { useMemo } from 'react';
+
+import PropTypes from 'prop-types';
 
 import {
   Button,
@@ -9,7 +11,7 @@ import {
   Section,
   SubTitle,
   Title,
-} from "@page-builder/ui";
+} from '@page-builder/ui';
 
 export const Hero = ({
   title,
@@ -40,13 +42,46 @@ export const Hero = ({
   className = "",
   ...props
 }) => {
+  console.log(`🦸 Hero component render (dataElement: ${dataElement})`);
+
+  // Memoize style objects to prevent unnecessary re-renders of child components
+  const titleStyle = useMemo(
+    () => ({
+      color: titleColor,
+      ...(titleSize && { fontSize: titleSize }),
+      ...(titleWeight && { fontWeight: titleWeight }),
+    }),
+    [titleColor, titleSize, titleWeight],
+  );
+
+  const subtitleStyle = useMemo(
+    () => ({
+      color: subtitleColor,
+      ...(subtitleSize && { fontSize: subtitleSize }),
+      ...(subtitleWeight && { fontWeight: subtitleWeight }),
+    }),
+    [subtitleColor, subtitleSize, subtitleWeight],
+  );
+
+  const buttonStyle = useMemo(
+    () => ({
+      backgroundColor: buttonColor,
+      color: buttonTextColor,
+      ...(buttonBorderRadius && { borderRadius: buttonBorderRadius }),
+    }),
+    [buttonColor, buttonTextColor, buttonBorderRadius],
+  );
+
   // Build background style - use gradient if provided, otherwise use solid color
-  const backgroundStyle =
-    gradientStart && gradientEnd
-      ? {
-          background: `linear-gradient(${gradientAngle}, ${gradientStart} 0%, ${gradientEnd} 100%)`,
-        }
-      : {};
+  const backgroundStyle = useMemo(
+    () =>
+      gradientStart && gradientEnd
+        ? {
+            background: `linear-gradient(${gradientAngle}, ${gradientStart} 0%, ${gradientEnd} 100%)`,
+          }
+        : {},
+    [gradientStart, gradientEnd, gradientAngle],
+  );
 
   return (
     <Section
@@ -61,22 +96,14 @@ export const Hero = ({
           <Title
             level={titleLevel}
             className="hero__title"
-            style={{
-              color: titleColor,
-              ...(titleSize && { fontSize: titleSize }),
-              ...(titleWeight && { fontWeight: titleWeight }),
-            }}
+            style={titleStyle}
             data-element={`${dataElement}.title`}
           >
             {title}
           </Title>
           <SubTitle
             className="hero__subtitle"
-            style={{
-              color: subtitleColor,
-              ...(subtitleSize && { fontSize: subtitleSize }),
-              ...(subtitleWeight && { fontWeight: subtitleWeight }),
-            }}
+            style={subtitleStyle}
             data-element={`${dataElement}.subtitle`}
           >
             {subtitle}
@@ -87,11 +114,7 @@ export const Hero = ({
               variant={buttonVariant}
               onClick={onButtonClick}
               className="hero__button"
-              style={{
-                backgroundColor: buttonColor,
-                color: buttonTextColor,
-                ...(buttonBorderRadius && { borderRadius: buttonBorderRadius }),
-              }}
+              style={buttonStyle}
               data-element={`${dataElement}.button`}
             >
               {buttonText}
@@ -102,6 +125,8 @@ export const Hero = ({
     </Section>
   );
 };
+
+Hero.displayName = "Hero";
 
 Hero.propTypes = {
   title: PropTypes.string.isRequired,

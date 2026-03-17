@@ -1,27 +1,39 @@
-import "./index.scss";
+import './index.scss';
 
-import { ArrowLeft } from "lucide-react";
-import { useTranslation } from "react-i18next";
-import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useCallback } from 'react';
 
-import { resetCurrentConfig, resetToGallery } from "@/store/builderSlice";
-import { Button, Divider, Title, Toolbar } from "@page-builder/ui";
+import { ArrowLeft } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
+import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
-import { ExportButton } from "../ExportButton";
-import { LanguageSwitcher } from "../LanguageSwitcher";
+import {
+  resetCurrentConfig,
+  resetToGallery,
+} from '@/store/builderSlice';
+import {
+  Button,
+  Divider,
+  Title,
+  Toolbar,
+} from '@page-builder/ui';
+
+import { ExportButton } from '../ExportButton';
+import { LanguageSwitcher } from '../LanguageSwitcher';
 
 export const EditorToolbar = ({ selectedTemplate }) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const handleResetToGallery = () => {
+  const handleResetToGallery = useCallback(() => {
     dispatch(resetToGallery());
     navigate("/template");
-  };
+  }, [dispatch, navigate]);
 
-  const handleResetCurrentConfig = () => dispatch(resetCurrentConfig());
+  const handleResetCurrentConfig = useCallback(() => {
+    dispatch(resetCurrentConfig());
+  }, [dispatch]);
 
   return (
     <Toolbar className="editor-toolbar">

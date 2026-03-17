@@ -122,7 +122,11 @@
       opacity: 0.9;
     }
   }
+}
 
+// CSS-based selection - using simple class-based selectors (performant!)
+// JS adds 'selected' class only to the specific element via ref query
+[data-element] {
   // Section-level selection and nested element selection - unified style
   &.selected:not(.selected-sub),
   &.selected-sub {
