@@ -1,8 +1,6 @@
-import React from "react";
+import { ErrorBoundary } from '@/components';
 
-import { ErrorBoundary } from "@/components";
-
-import { TemplateGallery } from "../../components/TemplateGallery";
+import { TemplateGallery } from '../../components/TemplateGallery';
 
 export const TemplatePage = () => {
   return (

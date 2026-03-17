@@ -34,7 +34,8 @@
     "emptyState": {
       "selectTemplate": "編集するテンプレートを選択してください",
       "noPropertiesPrefix": "編集可能なプロパティが定義されていません:"
-    }
+    },
+    "templateDefault": "Template Default"
   },
   "templateCard": {
     "button": {

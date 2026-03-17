@@ -34,7 +34,8 @@
     "emptyState": {
       "selectTemplate": "حدد قالبًا لتحرير خصائصه",
       "noPropertiesPrefix": "لا توجد خصائص قابلة للتحرير محددة لـ"
-    }
+    },
+    "templateDefault": "Template Default"
   },
   "templateCard": {
     "button": {

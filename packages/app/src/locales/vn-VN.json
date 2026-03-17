@@ -34,7 +34,8 @@
     "emptyState": {
       "selectTemplate": "Chọn một mẫu để chỉnh sửa thuộc tính của nó",
       "noPropertiesPrefix": "Không có thuộc tính có thể chỉnh sửa được xác định cho"
-    }
+    },
+    "templateDefault": "Template Default"
   },
   "templateCard": {
     "button": {

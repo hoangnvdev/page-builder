@@ -46,6 +46,51 @@ export const PropertyPanel = () => {
     currentConfig || {},
   );
 
+  // Helper: Enhance field options to include template default if not present
+  // This preserves custom template values and allows users to reset individual fields
+  const enhanceFieldOptions = useCallback(
+    (field) => {
+      // Only enhance select fields with options
+      if (
+        field.type !== "select" ||
+        !field.options ||
+        !Array.isArray(field.options)
+      ) {
+        return field;
+      }
+
+      // Get the template default value for this field
+      const templateDefaultValue = getNestedValue(
+        selectedTemplate?.defaultConfig || {},
+        field.path,
+      );
+
+      // If no template default or it's already in options, return as-is
+      if (
+        templateDefaultValue === undefined ||
+        field.options.some((opt) => opt.value === templateDefaultValue)
+      ) {
+        return field;
+      }
+
+      // Add template default to options with a user-friendly label
+      // Don't show technical values to non-technical users
+      const enhancedOptions = [
+        ...field.options,
+        {
+          value: templateDefaultValue,
+          label: t("propertyPanel.templateDefault"),
+        },
+      ];
+
+      return {
+        ...field,
+        options: enhancedOptions,
+      };
+    },
+    [selectedTemplate],
+  );
+
   // Check if a field should be visible based on its dependency
   // Memoized to avoid recalculation on every render
   // IMPORTANT: Must be called before any conditional returns (Rules of Hooks)
@@ -114,20 +159,21 @@ export const PropertyPanel = () => {
         <Panel.Content>
           <Flex direction="column" gap={24}>
             {pageFields.fields.map((field) => {
+              const enhancedField = enhanceFieldOptions(field);
               const fieldValue = getNestedValue(tempConfig, field.path);
               return (
                 <FormField
                   key={field.path}
                   id={field.path}
-                  label={field.label}
-                  type={field.type}
+                  label={enhancedField.label}
+                  type={enhancedField.type}
                   value={fieldValue || ""}
                   onChange={(value) => {
                     const newConfig = JSON.parse(JSON.stringify(tempConfig));
                     setNestedValue(newConfig, field.path, value);
                     dispatch(updateConfig(newConfig));
                   }}
-                  options={field.options}
+                  options={enhancedField.options}
                   min={field.min}
                   max={field.max}
                   step={field.step}
@@ -284,10 +330,14 @@ export const PropertyPanel = () => {
               // Check if field should be visible
               if (!shouldShowField(field)) return null;
 
+              const enhancedField = enhanceFieldOptions(field);
               let fieldValue = getNestedValue(tempConfig, field.path);
 
               // Convert numbers to strings for Select component if needed
-              if (field.type === "select" && typeof fieldValue === "number") {
+              if (
+                enhancedField.type === "select" &&
+                typeof fieldValue === "number"
+              ) {
                 fieldValue = String(fieldValue);
               }
 
@@ -295,11 +345,11 @@ export const PropertyPanel = () => {
                 <FormField
                   key={field.path}
                   id={field.path}
-                  label={field.label}
-                  type={field.type}
+                  label={enhancedField.label}
+                  type={enhancedField.type}
                   value={fieldValue ?? ""}
                   onChange={(value) => handleFieldChange(field.path, value)}
-                  options={field.options}
+                  options={enhancedField.options}
                   min={field.min}
                   max={field.max}
                   step={field.step}
@@ -321,11 +371,12 @@ export const PropertyPanel = () => {
                   // Check if field should be visible
                   if (!shouldShowField(field)) return null;
 
+                  const enhancedField = enhanceFieldOptions(field);
                   let fieldValue = getNestedValue(tempConfig, field.path);
 
                   // Convert numbers to strings for Select component if needed
                   if (
-                    field.type === "select" &&
+                    enhancedField.type === "select" &&
                     typeof fieldValue === "number"
                   ) {
                     fieldValue = String(fieldValue);
@@ -335,11 +386,11 @@ export const PropertyPanel = () => {
                     <FormField
                       key={field.path}
                       id={field.path}
-                      label={field.label}
-                      type={field.type}
+                      label={enhancedField.label}
+                      type={enhancedField.type}
                       value={fieldValue ?? ""}
                       onChange={(value) => handleFieldChange(field.path, value)}
-                      options={field.options}
+                      options={enhancedField.options}
                       min={field.min}
                       max={field.max}
                       step={field.step}

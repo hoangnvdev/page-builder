@@ -89,7 +89,7 @@ export const businessProRefactoredConfig = {
             label: "padding",
             options: [
               { value: "16px 24px", label: "compact" },
-              { value: "20px 24px", label: "comfortable" },
+              { value: "20px 24px", label: "comfort" },
               { value: "24px 32px", label: "spacious" },
             ],
           },
@@ -99,7 +99,7 @@ export const businessProRefactoredConfig = {
             options: [
               { value: "1200px", label: "standard" },
               { value: "1400px", label: "wide" },
-              { value: "100%", label: "fullWidth" },
+              { value: "100%", label: "wider" },
             ],
           },
           align: {
@@ -108,7 +108,7 @@ export const businessProRefactoredConfig = {
             options: [
               { value: "flex-start", label: "left" },
               { value: "center", label: "center" },
-              { value: "space-between", label: "spaceBetween" },
+              { value: "flex-end", label: "right" },
             ],
           },
         },
@@ -174,7 +174,7 @@ export const businessProRefactoredConfig = {
             label: "gap",
             options: [
               { value: "16px", label: "compact" },
-              { value: "24px", label: "comfortable" },
+              { value: "24px", label: "comfort" },
               { value: "32px", label: "spacious" },
             ],
           },
@@ -373,7 +373,7 @@ export const businessProRefactoredConfig = {
         padding: "20px 24px",
         gap: "24px",
         maxWidth: "1200px",
-        align: "space-between",
+        align: "center",
         titleLevel: "1",
       },
       hero: {

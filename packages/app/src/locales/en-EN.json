@@ -34,7 +34,8 @@
     "emptyState": {
       "selectTemplate": "Select a template to edit its properties",
       "noPropertiesPrefix": "No editable properties defined for"
-    }
+    },
+    "templateDefault": "Template Default"
   },
   "templateCard": {
     "button": {

@@ -1,9 +1,9 @@
-import "./index.scss";
+import './index.scss';
 
-import { useMemo } from "react";
+import { useMemo } from 'react';
 
-import PropTypes from "prop-types";
-import { useTranslation } from "react-i18next";
+import PropTypes from 'prop-types';
+import { useTranslation } from 'react-i18next';
 
 import {
   ColorPicker,
@@ -14,7 +14,7 @@ import {
   Slider,
   Textarea,
   Toggle,
-} from "@page-builder/ui";
+} from '@page-builder/ui';
 
 export const FormField = ({
   id,
@@ -50,7 +50,7 @@ export const FormField = ({
   const getTranslatedOptions = (opts) =>
     opts.map((option) => ({
       ...option,
-      label: t(`options.${option.value}`, option.label),
+      label: t(`options.${option.label}`, option.label),
     }));
 
   // Render select field (Radio.Group for <4 options, Select for >=4)
