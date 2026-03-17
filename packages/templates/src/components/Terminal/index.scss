@@ -106,3 +106,39 @@
     opacity: 0;
   }
 }
+
+// Mobile responsiveness
+@media (max-width: 768px) {
+  .terminal {
+    padding: 2rem 0;
+
+    &__header {
+      padding: 0.5rem 0.75rem;
+    }
+
+    &__dot {
+      width: 10px;
+      height: 10px;
+    }
+
+    &__body {
+      padding: 1rem;
+      min-height: 200px;
+      font-size: 0.875rem;
+    }
+
+    &__line {
+      margin-bottom: 0.75rem;
+    }
+
+    &__prompt,
+    &__response {
+      font-size: 0.875rem;
+      line-height: 1.4;
+    }
+
+    &__cursor {
+      margin-top: 0.75rem;
+    }
+  }
+}

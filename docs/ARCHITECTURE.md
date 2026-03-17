@@ -233,6 +233,22 @@ export default withTheme(Hero);
 ```
 app/src/
 ├── components/          # App-specific components
+│   ├── AppButton/       # Styled gradient button (NEW)
+│   ├── Editor/          # Main editor container
+│   ├── EditorToggleButton/  # Mobile panel toggle (NEW - isolated)
+│   ├── EditorToolbar/   # Top toolbar (export, language)
+│   ├── ExportButton/    # Export functionality
+│   ├── FormField/       # Form wrapper with labels
+│   ├── HelperText/      # Welcome tooltip (NEW - isolated)
+│   ├── LanguageSwitcher/ # i18n language selector
+│   ├── LoadingIndicator/ # Loading states
+│   ├── PreviewRenderer/ # Template preview area
+│   ├── PropertyPanel/   # Right panel for editing
+│   ├── ResizableDivider/ # Draggable split panel
+│   ├── TemplateCard/    # Template gallery card
+│   ├── TemplateGallery/ # Template selection grid
+│   ├── TemplateRenderer/ # Template wrapper with ErrorBoundary (NEW)
+│   └── index.js         # Component exports
 ├── hooks/              # Custom React hooks
 ├── pages/              # Route pages
 │   ├── Design/         # Builder interface
@@ -248,6 +264,31 @@ app/src/
 ├── App.jsx
 └── main.jsx
 ```
+
+**Component Hierarchy** (Design Page):
+
+```
+Editor (no selection subscription - stable)
+├── EditorToolbar
+│   ├── AppButton (back to gallery)
+│   ├── ExportButton
+│   └── LanguageSwitcher
+├── PreviewRenderer (subscribes to selection - rerenders on element click)
+│   └── TemplateRenderer (memoized)
+│       └── Template Component
+├── ResizableDivider
+├── PropertyPanel (subscribes to selection - rerenders with preview)
+│   └── FormField components
+├── EditorToggleButton (mobile only - isolated from selection)
+└── HelperText (isolated from selection - hosted at Editor level)
+```
+
+**Performance Architecture**:
+
+- **Isolated Components**: `HelperText`, `EditorToggleButton`, `TemplateRenderer` extracted to separate files
+- **Module Boundaries**: Each component in own folder with styles
+- **Rerender Prevention**: Components hosted in `Editor` (doesn't subscribe to selection) avoid unnecessary updates
+- **Memoization**: `React.memo` on performance-critical components
 
 **State Management**:
 

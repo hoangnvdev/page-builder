@@ -1,9 +1,24 @@
 .content-section {
   &__heading {
     // Additional heading styles can be added here
+
+    @media (max-width: 768px) {
+      font-size: 1.75rem !important;
+      margin-bottom: 1rem;
+    }
   }
 
   &__content {
     // Additional content styles can be added here
+
+    @media (max-width: 768px) {
+      font-size: 0.95rem !important;
+      line-height: 1.7;
+    }
+  }
+
+  // Mobile section padding
+  @media (max-width: 768px) {
+    padding: 2rem 0 !important;
   }
 }

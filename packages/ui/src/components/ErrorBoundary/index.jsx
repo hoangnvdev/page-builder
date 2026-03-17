@@ -1,34 +1,9 @@
-import './index.scss';
+import "./index.scss";
 
-import React from 'react';
+import React from "react";
 
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 
-/**
- * ErrorBoundary Component
- *
- * A reusable error boundary component that catches React errors in its child components.
- * Supports multiple display modes (page, component, inline) and optional i18n.
- *
- * Features:
- * - Dimension tracking to prevent layout shift
- * - Smooth animations and elegant UI
- * - Collapsible technical details in development
- * - Optional i18n support with fallback to English
- * - Different visual themes based on mode
- *
- * @example
- * // Page-level error boundary with i18n
- * <ErrorBoundary mode="page" t={t} resetPath="/">
- *   <App />
- * </ErrorBoundary>
- *
- * @example
- * // Component-level error boundary without i18n
- * <ErrorBoundary mode="component" componentName="UserProfile">
- *   <UserProfile />
- * </ErrorBoundary>
- */
 class ErrorBoundary extends React.Component {
   constructor(props) {
     super(props);

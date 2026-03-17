@@ -2,17 +2,6 @@ import "./index.scss";
 
 import PropTypes from "prop-types";
 
-/**
- * Divider component for horizontal or vertical separators
- * @param {Object} props
- * @param {string} props.orientation - 'horizontal' | 'vertical' (default: 'horizontal')
- * @param {string} props.variant - 'solid' | 'dashed' | 'dotted' (default: 'solid')
- * @param {string} props.thickness - Divider thickness (e.g., '1px', 1)
- * @param {string} props.color - Divider color
- * @param {string|number} props.spacing - Spacing around divider (e.g., '16px', 16)
- * @param {string} props.className - Additional CSS classes
- * @param {Object} props.style - Inline styles
- */
 export const Divider = ({
   orientation = "horizontal",
   variant = "solid",

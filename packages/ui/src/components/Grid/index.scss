@@ -9,4 +9,26 @@
     flex-direction: column;
     min-width: 0;
   }
+
+  // Mobile responsive: Stack columns on small screens
+  @media (max-width: 768px) {
+    // Force single column on mobile for grids with 2+ columns
+    &[style*="repeat(2"],
+    &[style*="repeat(3"],
+    &[style*="repeat(4"],
+    &[style*="repeat(5"],
+    &[style*="repeat(6"] {
+      grid-template-columns: 1fr !important;
+    }
+  }
+
+  // Tablet: 2 columns max for large grids
+  @media (min-width: 769px) and (max-width: 1024px) {
+    &[style*="repeat(3"],
+    &[style*="repeat(4"],
+    &[style*="repeat(5"],
+    &[style*="repeat(6"] {
+      grid-template-columns: repeat(2, 1fr) !important;
+    }
+  }
 }

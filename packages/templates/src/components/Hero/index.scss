@@ -10,4 +10,27 @@
   &__button {
     // Additional button styles can be added here
   }
+
+  // Mobile responsiveness
+  @media (max-width: 768px) {
+    padding: 3rem 1rem !important;
+
+    &__title {
+      font-size: 2rem !important;
+      line-height: 1.2 !important;
+      margin-bottom: 1rem !important;
+    }
+
+    &__subtitle {
+      font-size: 1rem !important;
+      line-height: 1.6 !important;
+      margin-bottom: 1.5rem !important;
+    }
+
+    &__button {
+      width: 100%;
+      max-width: 300px;
+      font-size: 1rem !important;
+    }
+  }
 }

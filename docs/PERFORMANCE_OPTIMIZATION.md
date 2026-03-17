@@ -190,6 +190,147 @@ build: {
 
 ## React Optimizations
 
+### React Hooks Rules
+
+**Critical**: All hooks must be called in the same order on every render.
+
+❌ **Bad** - Hooks after conditional returns:
+
+```jsx
+function Component() {
+  if (condition) {
+    return <div>Early return</div>;
+  }
+
+  // ❌ ERROR: Hooks called conditionally
+  const callback = useCallback(() => {}, []);
+  const value = useMemo(() => {}, []);
+}
+```
+
+✅ **Good** - All hooks before conditional returns:
+
+```jsx
+function Component() {
+  // ✅ All hooks first
+  const callback = useCallback(() => {}, []);
+  const value = useMemo(() => {}, []);
+
+  // Then conditional returns
+  if (condition) {
+    return <div>Early return</div>;
+  }
+
+  return <div>Normal flow</div>;
+}
+```
+
+**Implementation Example**: Editor Component
+
+```jsx
+export const Editor = () => {
+  // 1. All useState hooks
+  const [state1, setState1] = useState();
+  const [state2, setState2] = useState();
+
+  // 2. All useEffect hooks
+  useEffect(() => {}, []);
+
+  // 3. All useCallback/useMemo hooks
+  // IMPORTANT: All hooks must be defined BEFORE any conditional returns
+  const callback = useCallback(() => {}, []);
+  const value = useMemo(() => {}, []);
+
+  // 4. Conditional returns AFTER all hooks
+  if (!data) return <Loading />;
+
+  // 5. Normal JSX
+  return <div>...</div>;
+};
+```
+
+### Component Isolation Strategy
+
+**Problem**: Parent component rerenders → All children rerender (even memoized ones)
+
+**Solution**: Extract components to separate files with module boundaries
+
+#### Before - Inline Components (Rerender on Parent Update)
+
+```jsx
+// PreviewRenderer.jsx
+export const PreviewRenderer = () => {
+  const { selectedElement } = useSelection(); // Triggers on every selection change
+  const [showHelper, setShowHelper] = useState(false);
+
+  // ❌ Inline component - rerenders when PreviewRenderer rerenders
+  const HelperText = memo(({ message, onDismiss }) => <div>{message}</div>);
+
+  return (
+    <>
+      <div>{/* template */}</div>
+      <HelperText message="tip" onDismiss={dismiss} />
+    </>
+  );
+};
+```
+
+**Issue**: `HelperText` rerenders on every selection change because it's a child of `PreviewRenderer`
+
+#### After - Separate Component Files (No Unnecessary Rerenders)
+
+```jsx
+// HelperText/index.jsx - Separate file
+export const HelperText = memo(({ show, onDismiss }) => {
+  const { t } = useTranslation(); // Self-contained
+  if (!show) return null;
+  return <div>{t("message")}</div>;
+});
+
+// Editor.jsx - Parent doesn't subscribe to selection
+export const Editor = () => {
+  // Editor doesn't use useSelection(), so it won't rerender on selection changes
+  const [showHelper, setShowHelper] = useState(true);
+
+  return (
+    <div>
+      <PreviewRenderer /> {/* This rerenders on selection */}
+      <HelperText show={showHelper} onDismiss={() => setShowHelper(false)} />
+    </div>
+  );
+};
+
+// PreviewRenderer.jsx - Simplified
+export const PreviewRenderer = () => {
+  const { selectedElement } = useSelection(); // Triggers rerenders
+
+  // No helper text here - hosted by parent
+  return <div>{/* template */}</div>;
+};
+```
+
+**Result**:
+
+- `HelperText` doesn't rerender when elements are selected
+- Complete module boundary with own translations
+- Editor doesn't subscribe to selection context
+
+#### Implementation: Editor Components
+
+✅ **Extracted Components**:
+
+- `HelperText/` - Welcome tooltip (isolated from selection changes)
+- `EditorToggleButton/` - Mobile panel toggle (isolated from selection changes)
+- `TemplateRenderer/` - Template wrapper with ErrorBoundary
+
+✅ **Parent Location**: All hosted in `Editor` component (doesn't use `useSelection`)
+
+✅ **Rerender Prevention**:
+
+- Editor only rerenders on: template change, config change, panel toggle
+- Editor does NOT rerender on: element selection, property edits
+- Child components remain stable during selection interactions
+
 ### Component Memoization
 
 ```jsx

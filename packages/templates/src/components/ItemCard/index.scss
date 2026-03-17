@@ -50,4 +50,21 @@
   &__description {
     // Additional description styles can be added here
   }
+
+  // Mobile responsiveness
+  @media (max-width: 768px) {
+    &__icon {
+      font-size: 2.5rem;
+      margin-bottom: 0.75rem;
+    }
+
+    &__title {
+      font-size: 1.25rem !important;
+      margin-bottom: 0.75rem;
+    }
+
+    &__description {
+      font-size: 0.95rem !important;
+    }
+  }
 }

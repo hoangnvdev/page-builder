@@ -1,18 +1,132 @@
 # Styling Guide
 
 **Package**: @page-builder/ui
-**Last Updated**: March 15, 2026
+**Last Updated**: March 18, 2026
 
 ## Overview
 
-The UI component library uses SCSS modules for component styling, following the BEM (Block Element Modifier) methodology combined with modern CSS features.
+The UI component library uses SCSS modules for component styling, following the BEM (Block Element Modifier) methodology combined with modern CSS features and a centralized design token system.
 
 ## Styling Stack
 
 - **SCSS**: CSS preprocessor with variables, nesting, mixins
+- **Design Tokens**: Centralized variables in `_variables.scss`
+- **Modern Sass**: `@use` syntax with modern-compiler API
 - **CSS Modules**: Scoped styling (optional, currently using global classes)
 - **BEM Methodology**: .block\_\_element--modifier naming
 - **Modern CSS**: Flexbox, Grid, Custom Properties
+
+## Design Token System
+
+### Centralized Variables
+
+All design tokens are defined in `packages/ui/src/_variables.scss`:
+
+```scss
+// packages/ui/src/_variables.scss
+
+// ============================================
+// Colors
+// ============================================
+$color-primary: #6366f1;
+$color-secondary: #ec4899;
+$color-accent: #8b5cf6;
+$color-success: #10b981;
+$color-warning: #f59e0b;
+$color-danger: #ef4444;
+
+// Neutral colors
+$color-white: #ffffff;
+$color-black: #000000;
+$color-gray-50: #f9fafb;
+$color-gray-900: #111827;
+
+// ============================================
+// Spacing
+// ============================================
+$spacing-xs: 4px;
+$spacing-sm: 8px;
+$spacing-md: 16px;
+$spacing-lg: 24px;
+$spacing-xl: 32px;
+$spacing-2xl: 48px;
+$spacing-3xl: 64px;
+$spacing-4xl: 96px;
+
+// ============================================
+// Typography
+// ============================================
+$font-family-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto;
+$font-family-mono: "SF Mono", Monaco, "Courier New", monospace;
+
+$font-size-xs: 0.75rem; // 12px
+$font-size-sm: 0.875rem; // 14px
+$font-size-base: 1rem; // 16px
+$font-size-lg: 1.125rem; // 18px
+$font-size-xl: 1.25rem; // 20px
+
+// ============================================
+// Shadows
+// ============================================
+$shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+$shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+$shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+
+// ============================================
+// Transitions
+// ============================================
+$transition-fast: 150ms ease-in-out;
+$transition-base: 200ms ease-in-out;
+$transition-slow: 300ms ease-in-out;
+```
+
+### Using Variables in Components
+
+#### Modern Syntax with `@use`
+
+```scss
+// Button/index.scss
+@use "../../variables" as *;
+
+.button {
+  // Use design tokens instead of hardcoded values
+  padding: $spacing-md $spacing-lg;
+  font-size: $font-size-base;
+  font-weight: $font-weight-medium;
+  border-radius: $radius-md;
+  background: $color-primary;
+  color: $color-white;
+  box-shadow: $shadow-sm;
+  transition: all $transition-base;
+
+  &:hover {
+    background: $color-primary-dark;
+    box-shadow: $shadow-md;
+  }
+}
+```
+
+#### Benefits of Design Tokens
+
+✅ **Consistency**: All components use same values
+✅ **Maintainability**: Change once, update everywhere
+✅ **Theme Support**: Easy to create theme variants
+✅ **Design-Dev Alignment**: Matches design system
+✅ **Type Safety**: Centralized definitions prevent typos
+
+### Template-Specific Variables
+
+Templates extend the base variables:
+
+```scss
+// packages/templates/src/_variables.scss
+@use "../../ui/src/variables" as *;
+
+// Template-specific overrides
+$template-hero-height: 600px;
+$template-section-padding: $spacing-3xl;
+$template-grid-gap: $spacing-xl;
+```
 
 ## File Structure
 
@@ -75,6 +189,77 @@ A variation of the block or element:
 ```
 
 ## Component Styling Pattern
+
+### Before - Hardcoded Values
+
+❌ **Bad** - Magic numbers and hardcoded colors:
+
+```scss
+// Button/index.scss (OLD)
+
+.button {
+  padding: 12px 24px;
+  font-size: 16px;
+  font-weight: 500;
+  border-radius: 6px;
+  background: #3b82f6;
+  color: #ffffff;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  transition: all 200ms ease-in-out;
+
+  &:hover {
+    background: #2563eb;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  }
+}
+```
+
+### After - Design Tokens
+
+✅ **Good** - Semantic variables from design system:
+
+```scss
+// Button/index.scss (NEW)
+@use "../../variables" as *;
+
+.button {
+  // Spacing tokens
+  padding: $spacing-md $spacing-lg;
+
+  // Typography tokens
+  font-size: $font-size-base;
+  font-weight: $font-weight-medium;
+
+  // Border tokens
+  border-radius: $radius-md;
+
+  // Color tokens
+  background: $color-primary;
+  color: $color-white;
+
+  // Shadow tokens
+  box-shadow: $shadow-sm;
+
+  // Transition tokens
+  transition: all $transition-base;
+
+  &:hover {
+    background: $color-primary-dark;
+    box-shadow: $shadow-md;
+  }
+}
+```
+
+**Benefits**:
+
+- Self-documenting (names explain purpose)
+- Easy to update globally
+- Consistent with design system
+- Prevents color/spacing drift
+
+## BEM Methodology
+
+### Example Implementation
 
 ```scss
 // Button/index.scss

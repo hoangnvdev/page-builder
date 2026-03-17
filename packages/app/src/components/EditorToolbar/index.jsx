@@ -1,25 +1,18 @@
-import './index.scss';
+import "./index.scss";
 
-import { useCallback } from 'react';
+import { useCallback } from "react";
 
-import { ArrowLeft } from 'lucide-react';
-import { useTranslation } from 'react-i18next';
-import { useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { ArrowLeft, RotateCcw } from "lucide-react";
+import { useTranslation } from "react-i18next";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
-import {
-  resetCurrentConfig,
-  resetToGallery,
-} from '@/store/builderSlice';
-import {
-  Button,
-  Divider,
-  Title,
-  Toolbar,
-} from '@page-builder/ui';
+import { resetCurrentConfig, resetToGallery } from "@/store/builderSlice";
+import { Divider, Title, Toolbar } from "@page-builder/ui";
 
-import { ExportButton } from '../ExportButton';
-import { LanguageSwitcher } from '../LanguageSwitcher';
+import { AppButton } from "../AppButton";
+import { ExportButton } from "../ExportButton";
+import { LanguageSwitcher } from "../LanguageSwitcher";
 
 export const EditorToolbar = ({ selectedTemplate }) => {
   const { t } = useTranslation();
@@ -38,26 +31,30 @@ export const EditorToolbar = ({ selectedTemplate }) => {
   return (
     <Toolbar className="editor-toolbar">
       <Toolbar.Left>
-        <Button
+        <AppButton
           variant="ghost"
           onClick={handleResetToGallery}
           className="editor-toolbar__back-button"
         >
           <ArrowLeft size={16} />
-          {t("editor.toolbar.backButton")}
-        </Button>
+          <span className="editor-toolbar__back-button-text">
+            {t("editor.toolbar.backButton")}
+          </span>
+        </AppButton>
         <Divider orientation="vertical" spacing={0} />
         <Title level={2} className="editor-toolbar__title">
           {selectedTemplate.name}
         </Title>
+        <LanguageSwitcher compact />
       </Toolbar.Left>
 
       <Toolbar.Right>
         <LanguageSwitcher />
         <Divider orientation="vertical" spacing={0} />
-        <Button variant="secondary" onClick={handleResetCurrentConfig}>
+        <AppButton variant="secondary" onClick={handleResetCurrentConfig}>
+          <RotateCcw size={16} />
           {t("editor.toolbar.resetButton")}
-        </Button>
+        </AppButton>
         <ExportButton />
       </Toolbar.Right>
     </Toolbar>

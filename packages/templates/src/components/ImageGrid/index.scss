@@ -51,4 +51,18 @@
     font-size: 0.9rem;
     font-style: italic;
   }
+
+  // Mobile responsiveness
+  @media (max-width: 768px) {
+    padding: 2rem 0;
+
+    &__item {
+      aspect-ratio: 1 / 1; // Square on mobile
+    }
+
+    &__caption {
+      font-size: 0.85rem;
+      margin-top: 0.75rem;
+    }
+  }
 }

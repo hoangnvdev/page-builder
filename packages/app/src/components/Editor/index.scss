@@ -10,7 +10,11 @@
     display: flex;
   }
 
-  &__preview-container,
+  &__preview-container {
+    overflow: hidden;
+    position: relative;
+  }
+
   &__panel-container {
     overflow: hidden;
     position: relative;
@@ -21,23 +25,28 @@
   }
 }
 
-@media (max-width: 768px) {
-  .editor {
-    min-height: 100vh;
-    height: auto;
-  }
-}
-
 @media (max-width: 1024px) {
   .editor {
     &__content {
-      flex-direction: column;
+      flex-direction: column !important;
+      min-height: 0; // Allow flex children to shrink
+      position: relative; // For absolutely positioned panel
+      overflow: visible !important; // Allow absolutely positioned children to overflow
     }
 
-    &__preview-container,
-    &__panel-container {
+    &__preview-container {
       overflow: auto;
-      width: 100% !important; // Ensure full width on mobile
+      width: 100% !important;
+      flex: 1 !important; // Take all available space
+      display: flex;
+      flex-direction: column;
+      position: relative !important; // Create stacking context to contain children
+      z-index: 1; // Keep preview and all its children below the editor panel (z-index: 100)
+    }
+
+    &__divider-mobile {
+      // Wrapper for divider in mobile mode
+      pointer-events: auto;
     }
 
     &__toggle-panel {
@@ -45,56 +54,112 @@
       align-items: center;
       justify-content: center;
       position: fixed;
-      bottom: 24px;
-      right: 24px;
+      bottom: 16px;
+      right: 16px;
+      left: auto;
       width: 56px;
       height: 56px;
       border-radius: 50%;
-      background-color: #3b82f6;
+      background: linear-gradient(
+        135deg,
+        var(--color-primary) 0%,
+        var(--color-secondary) 100%
+      );
       color: white;
-      border: none;
+      border: 1px solid rgba(255, 255, 255, 0.2);
       box-shadow:
-        0 4px 12px rgba(59, 130, 246, 0.4),
-        0 2px 4px rgba(0, 0, 0, 0.1);
+        0 8px 24px rgba(99, 102, 241, 0.3),
+        0 4px 12px rgba(0, 0, 0, 0.2);
       cursor: pointer;
       z-index: 1000;
-      transition: all 0.3s ease;
+      transition: all var(--transition-fast);
+      overflow: visible;
+
+      // Ensure button stays on physical right side in RTL mode
+      [dir="rtl"] & {
+        right: 16px;
+        left: auto;
+      }
+
+      &::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        border-radius: 50%;
+        background: linear-gradient(
+          135deg,
+          rgba(255, 255, 255, 0.15) 0%,
+          rgba(255, 255, 255, 0.05) 100%
+        );
+        opacity: 0;
+        transition: opacity var(--transition-fast);
+      }
 
       &:hover {
-        background-color: #2563eb;
-        transform: scale(1.05);
+        transform: translateY(-2px) scale(1.05);
         box-shadow:
-          0 6px 16px rgba(59, 130, 246, 0.5),
-          0 3px 6px rgba(0, 0, 0, 0.15);
+          0 12px 32px rgba(99, 102, 241, 0.4),
+          0 6px 16px rgba(0, 0, 0, 0.25);
+
+        &::before {
+          opacity: 1;
+        }
+
+        .editor__toggle-tooltip {
+          opacity: 1;
+          transform: translateX(-8px);
+        }
       }
 
       &:active {
-        transform: scale(0.95);
+        transform: translateY(0) scale(0.98);
+        box-shadow:
+          0 4px 16px rgba(99, 102, 241, 0.3),
+          0 2px 8px rgba(0, 0, 0, 0.2);
       }
 
       svg {
         width: 24px;
         height: 24px;
-      }
-
-      &:hover .editor__toggle-tooltip {
-        opacity: 1;
+        filter: drop-shadow(0 1px 3px rgba(0, 0, 0, 0.15));
+        position: relative;
+        z-index: 1;
       }
     }
 
     &__toggle-tooltip {
       position: absolute;
       right: 100%;
+      left: auto;
       margin-right: 12px;
-      background-color: rgba(0, 0, 0, 0.85);
+      background: linear-gradient(
+        135deg,
+        rgba(99, 102, 241, 0.95) 0%,
+        rgba(139, 92, 246, 0.95) 100%
+      );
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
       color: white;
-      padding: 8px 12px;
-      border-radius: 6px;
-      font-size: 14px;
+      padding: 10px 16px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 600;
       white-space: nowrap;
       opacity: 0;
       pointer-events: none;
-      transition: opacity 0.2s ease;
+      transition: all var(--transition-fast);
+      box-shadow:
+        0 8px 24px rgba(99, 102, 241, 0.3),
+        0 4px 12px rgba(0, 0, 0, 0.2);
+      z-index: 1;
+
+      // Keep tooltip on left side of button in RTL mode too
+      [dir="rtl"] & {
+        right: 100%;
+        left: auto;
+        margin-right: 12px;
+        margin-left: 0;
+      }
 
       &::after {
         content: "";
@@ -104,7 +169,7 @@
         transform: translateY(-50%);
         width: 0;
         height: 0;
-        border-left: 6px solid rgba(0, 0, 0, 0.85);
+        border-left: 6px solid rgba(99, 102, 241, 0.95);
         border-top: 6px solid transparent;
         border-bottom: 6px solid transparent;
       }
