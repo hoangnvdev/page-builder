@@ -110,3 +110,30 @@
     border-style: solid;
   }
 }
+
+// Mobile responsiveness for stats
+@media (max-width: 768px) {
+  .stats-counter {
+    padding: 2rem 0;
+
+    .stat-item {
+      padding: 1.5rem 0.75rem;
+
+      &__title,
+      &__value {
+        font-size: 2rem;
+        text-shadow: 0 0 15px currentColor;
+      }
+
+      &__content,
+      &__label {
+        font-size: 0.875rem;
+        letter-spacing: 1px;
+      }
+
+      &__trend {
+        font-size: 0.8rem;
+      }
+    }
+  }
+}

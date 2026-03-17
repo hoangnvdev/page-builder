@@ -1,26 +1,47 @@
 .resizable-divider {
-  background-color: #e0e0e0;
+  background: linear-gradient(
+    135deg,
+    rgba(99, 102, 241, 0.2),
+    rgba(236, 72, 153, 0.2)
+  );
   position: relative;
   flex-shrink: 0;
   z-index: 10;
-  transition: background-color 0.2s ease;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 
   &:hover {
-    background-color: #3b82f6;
+    background: linear-gradient(
+      135deg,
+      rgba(99, 102, 241, 0.4),
+      rgba(236, 72, 153, 0.4)
+    );
+
+    .resizable-divider__handle::before {
+      background: linear-gradient(135deg, #6366f1, #ec4899);
+      box-shadow:
+        0 0 12px rgba(99, 102, 241, 0.5),
+        0 0 24px rgba(236, 72, 153, 0.3),
+        0 4px 12px rgba(0, 0, 0, 0.2);
+      transform: scale(1.1);
+    }
   }
 
   &:active {
-    background-color: #2563eb;
+    background: linear-gradient(
+      135deg,
+      rgba(99, 102, 241, 0.6),
+      rgba(236, 72, 153, 0.6)
+    );
   }
 
   &--horizontal {
-    width: 6px; // Use final hover width as base
+    width: 6px;
     cursor: ew-resize;
-    transform: scaleX(0.667); // Scale down to 4px (4/6 = 0.667)
-    transition: transform 0.2s ease;
+    transform: scaleX(0.667);
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 
     &:hover {
-      transform: scaleX(1); // Scale to full 6px
+      transform: scaleX(1);
     }
 
     .resizable-divider__handle {
@@ -28,30 +49,38 @@
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
-      width: 24px;
-      height: 48px;
+      width: 32px;
+      height: 64px;
       display: flex;
       align-items: center;
       justify-content: center;
 
       &::before {
         content: "";
-        width: 4px;
-        height: 24px;
-        background-color: rgba(255, 255, 255, 0.8);
-        border-radius: 2px;
+        width: 6px;
+        height: 32px;
+        background: linear-gradient(
+          135deg,
+          rgba(99, 102, 241, 0.8),
+          rgba(236, 72, 153, 0.8)
+        );
+        border-radius: 3px;
+        box-shadow:
+          0 2px 8px rgba(99, 102, 241, 0.3),
+          0 4px 16px rgba(236, 72, 153, 0.2);
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
       }
     }
   }
 
   &--vertical {
-    height: 6px; // Use final hover height as base
+    height: 6px;
     cursor: ns-resize;
-    transform: scaleY(0.667); // Scale down to 4px (4/6 = 0.667)
-    transition: transform 0.2s ease;
+    transform: scaleY(0.667);
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 
     &:hover {
-      transform: scaleY(1); // Scale to full 6px
+      transform: scaleY(1);
     }
 
     .resizable-divider__handle {
@@ -59,18 +88,26 @@
       left: 50%;
       top: 50%;
       transform: translate(-50%, -50%);
-      width: 48px;
-      height: 24px;
+      width: 64px;
+      height: 32px;
       display: flex;
       align-items: center;
       justify-content: center;
 
       &::before {
         content: "";
-        width: 24px;
-        height: 4px;
-        background-color: rgba(255, 255, 255, 0.8);
-        border-radius: 2px;
+        width: 32px;
+        height: 6px;
+        background: linear-gradient(
+          135deg,
+          rgba(99, 102, 241, 0.8),
+          rgba(236, 72, 153, 0.8)
+        );
+        border-radius: 3px;
+        box-shadow:
+          0 2px 8px rgba(99, 102, 241, 0.3),
+          0 4px 16px rgba(236, 72, 153, 0.2);
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
       }
     }
   }
@@ -87,8 +124,12 @@
       }
 
       .resizable-divider__handle {
+        width: 72px;
+        height: 36px;
+
         &::before {
-          height: 6px; // Thicker handle for mobile
+          width: 40px;
+          height: 8px;
         }
       }
     }

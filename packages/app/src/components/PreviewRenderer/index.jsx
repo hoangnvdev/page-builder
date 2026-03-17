@@ -1,61 +1,14 @@
-import './index.scss';
+import "./index.scss";
 
-import {
-  memo,
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from 'react';
+import { useCallback, useEffect, useMemo, useRef } from "react";
 
-import PropTypes from 'prop-types';
-import { useTranslation } from 'react-i18next';
-import { useSelector } from 'react-redux';
+import { useTranslation } from "react-i18next";
+import { useSelector } from "react-redux";
 
-import { ErrorBoundary } from '@/components';
-import { useSelection } from '@/contexts/SelectionContext';
-import { deepMerge } from '@helpers';
-import { EmptyState } from '@page-builder/ui';
-
-// Memoized template wrapper to prevent re-renders when only selection changes
-const MemoizedTemplate = memo(({ Component, config, t }) => {
-  console.log("🔄 MemoizedTemplate render");
-
-  return (
-    <ErrorBoundary mode="component" t={t}>
-      <Component config={config} />
-    </ErrorBoundary>
-  );
-});
-
-MemoizedTemplate.displayName = "MemoizedTemplate";
-MemoizedTemplate.propTypes = {
-  Component: PropTypes.elementType.isRequired,
-  config: PropTypes.object.isRequired,
-  t: PropTypes.func.isRequired,
-};
-
-// Memoized helper text component
-const HelperText = memo(({ message, closeLabel, onDismiss }) => (
-  <div className="preview-renderer__helper-text">
-    <span className="preview-renderer__helper-text-content">{message}</span>
-    <button
-      className="preview-renderer__helper-text-close"
-      onClick={onDismiss}
-      aria-label={closeLabel}
-    >
-      ✕
-    </button>
-  </div>
-));
-
-HelperText.displayName = "HelperText";
-HelperText.propTypes = {
-  message: PropTypes.string.isRequired,
-  closeLabel: PropTypes.string.isRequired,
-  onDismiss: PropTypes.func.isRequired,
-};
+import { TemplateRenderer } from "@/components";
+import { useSelection } from "@/contexts/SelectionContext";
+import { deepMerge } from "@helpers";
+import { EmptyState } from "@page-builder/ui";
 
 export const PreviewRenderer = () => {
   console.log("🎨 PreviewRenderer render");
@@ -71,9 +24,6 @@ export const PreviewRenderer = () => {
     (state) => state.builder.selectedTemplate,
   );
   const currentConfig = useSelector((state) => state.builder.currentConfig);
-  const [hasClicked, setHasClicked] = useState(false);
-  const [showHelperText, setShowHelperText] = useState(false);
-  const [isHelperDismissed, setIsHelperDismissed] = useState(false);
 
   // Ref to the frame element for CSS-based selection (no DOM queries!)
   const frameRef = useRef(null);
@@ -101,20 +51,9 @@ export const PreviewRenderer = () => {
       e.stopPropagation();
       const elementId = target.getAttribute("data-element");
       selectElement(elementId);
-
-      // Show helper text on first click in this session
-      if (!hasClicked && !isHelperDismissed) {
-        setHasClicked(true);
-        setShowHelperText(true);
-      }
     },
-    [selectElement, hasClicked, isHelperDismissed],
+    [selectElement],
   );
-
-  const handleDismissHelper = useCallback(() => {
-    setShowHelperText(false);
-    setIsHelperDismissed(true);
-  }, []);
 
   const handleBackgroundClick = useCallback(
     (e) => {
@@ -167,28 +106,18 @@ export const PreviewRenderer = () => {
   }
 
   return (
-    <>
-      <div className="preview-renderer" onClick={handleBackgroundClick}>
-        <div
-          ref={frameRef}
-          className="preview-renderer__frame"
-          onClick={handleElementClick}
-        >
-          <MemoizedTemplate
-            Component={TemplateComponent}
-            config={tempConfig}
-            t={t}
-          />
-        </div>
-      </div>
-
-      {showHelperText && (
-        <HelperText
-          message={t("preview.helperTip.message")}
-          closeLabel={t("preview.accessibility.closeTip")}
-          onDismiss={handleDismissHelper}
+    <div className="preview-renderer" onClick={handleBackgroundClick}>
+      <div
+        ref={frameRef}
+        className="preview-renderer__frame"
+        onClick={handleElementClick}
+      >
+        <TemplateRenderer
+          Component={TemplateComponent}
+          config={tempConfig}
+          t={t}
         />
-      )}
-    </>
+      </div>
+    </div>
   );
 };

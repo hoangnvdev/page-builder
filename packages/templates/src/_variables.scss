@@ -1,0 +1,143 @@
+// Templates Package - Design System Variables
+// Extends UI package variables with template-specific tokens
+
+// Import base variables from UI package (relative path for monorepo)
+@use "../../ui/src/variables" as *;
+
+// ============================================================================
+// TEMPLATE-SPECIFIC VARIABLES
+// ============================================================================
+
+// Template Spacing (using base spacing as foundation)
+$template-spacing-section: $spacing-4xl;
+$template-spacing-component: $spacing-2xl;
+$template-spacing-element: $spacing-lg;
+
+// Template Typography
+$template-heading-size-hero: 3.5rem; // 56px
+$template-heading-size-h1: 2.5rem; // 40px
+$template-heading-size-h2: 2rem; // 32px
+$template-heading-size-h3: 1.5rem; // 24px
+$template-heading-size-h4: 1.25rem; // 20px
+
+// Template Containers
+$template-max-width: 1200px;
+$template-max-width-narrow: 800px;
+$template-max-width-wide: 1400px;
+
+// Template Grid
+$template-grid-columns: 12;
+$template-grid-gap: $spacing-xl;
+$template-grid-gap-sm: $spacing-lg;
+
+// Template Cards & Items
+$template-card-min-height: 200px;
+$template-card-hover-transform: translateY(-4px);
+$template-card-transition: all $transition-base;
+
+// Template Images
+$template-image-aspect-ratio-square: 1 / 1;
+$template-image-aspect-ratio-landscape: 16 / 9;
+$template-image-aspect-ratio-portrait: 3 / 4;
+
+// Template Borders
+$template-border-style: solid;
+$template-divider-height: 1px;
+$template-divider-color: $color-border;
+
+// Template Backgrounds
+$template-bg-gradient-primary: linear-gradient(
+  135deg,
+  $color-primary 0%,
+  $color-secondary 100%
+);
+$template-bg-gradient-subtle: linear-gradient(135deg, #fafbfc 0%, #f0f4f8 100%);
+$template-bg-overlay: rgba(0, 0, 0, 0.5);
+
+// Template Effects
+$template-backdrop-blur: blur(10px);
+$template-image-overlay-opacity: 0.3;
+
+// Template Animations
+$template-fade-in: fadeIn $duration-base $ease-out;
+$template-slide-up: slideUp $duration-base $ease-out;
+$template-scale-up: scaleUp $duration-fast $ease-out;
+
+// Template Z-Index (extends base z-index)
+$template-z-header: 100;
+$template-z-hero: 1;
+$template-z-content: 10;
+$template-z-overlay: 50;
+
+// ============================================================================
+// COMPONENT-SPECIFIC OVERRIDES
+// ============================================================================
+
+// Hero Section
+$hero-min-height: 500px;
+$hero-min-height-lg: 600px;
+$hero-padding-y: $spacing-4xl;
+
+// Header/Navigation
+$header-height: 70px;
+$header-height-sm: 60px;
+$header-shadow: $shadow-sm;
+
+// Footer
+$footer-padding-y: $spacing-3xl;
+$footer-bg: $color-text-primary;
+$footer-text: $color-surface;
+
+// CTA (Call to Action)
+$cta-padding: $spacing-3xl;
+$cta-bg: $color-primary;
+$cta-text: $color-white;
+
+// Testimonials
+$testimonial-max-width: 600px;
+$testimonial-avatar-size: 64px;
+$testimonial-avatar-size-sm: 48px;
+
+// Stats/Counter
+$stat-number-size: $font-size-3xl;
+$stat-label-size: $font-size-base;
+$stat-spacing: $spacing-lg;
+
+// Timeline
+$timeline-line-width: 2px;
+$timeline-dot-size: 12px;
+$timeline-spacing: $spacing-2xl;
+
+// Image Grid
+$image-grid-gap: $spacing-md;
+$image-grid-gap-lg: $spacing-lg;
+$image-grid-columns-mob: 1;
+$image-grid-columns-tab: 2;
+$image-grid-columns-desk: 3;
+
+// Comic Panels
+$comic-panel-border: 3px solid $color-black;
+$comic-panel-bg: $color-white;
+$comic-panel-padding: $spacing-lg;
+
+// Quote Block
+$quote-text-size: $font-size-xl;
+$quote-padding: $spacing-xl;
+$quote-border-width: 4px;
+$quote-border-color: $color-primary;
+
+// Terminal/Code
+$terminal-bg: #1e1e1e;
+$terminal-text: #d4d4d4;
+$terminal-border-radius: $border-radius-md;
+$terminal-padding: $spacing-lg;
+$terminal-font-family: $font-family-mono;
+
+// Marquee
+$marquee-speed: 30s;
+$marquee-gap: $spacing-2xl;
+
+// Tech Specs
+$spec-label-width: 150px;
+$spec-border-color: $color-border;
+$spec-padding: $spacing-md;

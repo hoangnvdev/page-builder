@@ -1,8 +1,4 @@
 .header {
-  &__logo {
-    // Additional logo styles can be added here
-  }
-
   &__logo-wrapper {
     display: flex;
     align-items: center;
@@ -35,7 +31,30 @@
     }
   }
 
-  &__nav {
-    // Additional nav styles can be added here
+  // Mobile responsiveness
+  @media (max-width: 768px) {
+    &__logo-wrapper {
+      flex-shrink: 0;
+    }
+
+    &__logo-text {
+      font-size: 1.25rem !important;
+    }
+
+    &__logo-image {
+      max-width: 120px;
+      height: auto;
+    }
+
+    &__nav {
+      // Navigation links should wrap or stack on mobile
+      flex-wrap: wrap;
+      gap: 0.75rem !important;
+      justify-content: center;
+
+      a {
+        font-size: 0.9rem !important;
+      }
+    }
   }
 }

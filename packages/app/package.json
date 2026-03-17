@@ -12,7 +12,6 @@
     "@page-builder/templates": "workspace:*",
     "@page-builder/ui": "workspace:*",
     "@reduxjs/toolkit": "^2.11.2",
-    "formik": "^2.4.9",
     "i18next": "^25.8.18",
     "i18next-browser-languagedetector": "^8.2.1",
     "lucide-react": "^0.344.0",

@@ -1,17 +1,9 @@
-import './index.scss';
+import "./index.scss";
 
-import {
-  useCallback,
-  useEffect,
-  useRef,
-  useState,
-} from 'react';
+import { useCallback, useEffect, useRef, useState } from "react";
 
-import {
-  ChevronDown,
-  Languages,
-} from 'lucide-react';
-import { useTranslation } from 'react-i18next';
+import { ChevronDown, Languages } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 const LANGUAGES = [
   {
@@ -41,7 +33,7 @@ const LANGUAGES = [
   },
 ];
 
-export const LanguageSwitcher = () => {
+export const LanguageSwitcher = ({ compact = false }) => {
   const { i18n } = useTranslation();
   const [isOpen, setIsOpen] = useState(false);
   const [flagImages, setFlagImages] = useState({});
@@ -89,7 +81,10 @@ export const LanguageSwitcher = () => {
   }, []);
 
   return (
-    <div className="language-switcher" ref={dropdownRef}>
+    <div
+      className={`language-switcher ${compact ? "language-switcher--compact" : ""}`}
+      ref={dropdownRef}
+    >
       <button
         className="language-switcher__trigger"
         onClick={toggleDropdown}

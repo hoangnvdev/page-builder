@@ -1,8 +1,8 @@
-import './index.scss';
+import "./index.scss";
 
-import { useState } from 'react';
+import { useState } from "react";
 
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 
 export const FieldGroup = ({
   title,
@@ -44,7 +44,7 @@ export const FieldGroup = ({
         }}
       >
         {collapsible && (
-          <span className="field-group__icon">{isExpanded ? "▼" : "▶"}</span>
+          <span className="field-group__icon">{isExpanded ? "▲" : "▼"}</span>
         )}
         <h4 className="field-group__title">{title}</h4>
       </div>

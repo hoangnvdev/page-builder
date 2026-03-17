@@ -15,6 +15,20 @@
     margin: 1rem 0;
     animation: stream 3s ease-in-out infinite;
   }
+
+  // Mobile responsiveness
+  @media (max-width: 768px) {
+    padding: 2rem 0;
+
+    &__container {
+      max-height: 300px;
+    }
+
+    &__line {
+      font-size: 0.9rem;
+      margin: 0.75rem 0;
+    }
+  }
 }
 
 @keyframes stream {

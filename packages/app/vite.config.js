@@ -1,7 +1,7 @@
-import path from 'path';
-import { defineConfig } from 'vite';
+import path from "path";
+import { defineConfig } from "vite";
 
-import react from '@vitejs/plugin-react';
+import react from "@vitejs/plugin-react";
 
 export default defineConfig({
   plugins: [
@@ -90,13 +90,21 @@ export default defineConfig({
     open: true,
   },
 
+  css: {
+    preprocessorOptions: {
+      scss: {
+        api: "modern-compiler",
+        silenceDeprecations: ["legacy-js-api"],
+      },
+    },
+  },
+
   optimizeDeps: {
     include: [
       "react",
       "react-dom",
       "react-redux",
       "@reduxjs/toolkit",
-      "formik",
       "lucide-react",
       "react-router-dom",
     ],
