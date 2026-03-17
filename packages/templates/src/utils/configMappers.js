@@ -151,3 +151,51 @@ export const unwrapArrayItems = (items, propsToUnwrap = []) => {
     return unwrapped;
   });
 };
+
+/**
+ * Map logo nested object properties
+ */
+export const mapLogoProps = (config) => {
+  const logo = config.logo;
+  if (!logo) return {};
+
+  return {
+    logoType: logo.type,
+    logoText: logo.text,
+    logoUrl: logo.url,
+    logoWidth: logo.width,
+    logoHeight: logo.height,
+  };
+};
+
+/**
+ * Map links array with individual styling per link
+ */
+export const mapLinksArrayProps = (links, fallbackColor) => {
+  if (!Array.isArray(links)) return [];
+
+  return links.map((link) => ({
+    text: unwrapText(link.text || link),
+    href: link.href,
+    color: link.color || fallbackColor,
+    fontSize: link.size,
+    fontWeight: link.weight,
+  }));
+};
+
+/**
+ * Map window container properties (for terminal, code blocks)
+ */
+export const mapWindowProps = (config) => {
+  const window = config.window;
+  if (!window) return {};
+
+  return {
+    windowBackgroundColor: window.backgroundColor,
+    windowPadding: window.padding,
+    windowBorderRadius: window.borderRadius,
+    windowDropShadow: window.dropShadow,
+    windowBorderWidth: window.borderWidth,
+    windowBorderColor: window.borderColor,
+  };
+};

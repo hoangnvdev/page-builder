@@ -1,14 +1,33 @@
-import "./index.scss";
+import './index.scss';
 
-import { useTranslation } from "react-i18next";
-import { useDispatch, useSelector } from "react-redux";
+import { useCallback } from 'react';
 
-import { updateConfig } from "@/store/builderSlice";
-import { getFieldsForElement } from "@/utils/schemaProcessor";
-import { deepMerge, getNestedValue, setNestedValue } from "@helpers";
-import { EmptyState, Flex, Panel, SubTitle, Title } from "@page-builder/ui";
+import { useTranslation } from 'react-i18next';
+import {
+  useDispatch,
+  useSelector,
+} from 'react-redux';
 
-import { FormField } from "../FormField";
+import { updateConfig } from '@/store/builderSlice';
+import {
+  getFieldsForElement,
+  getSingularTemplateName,
+} from '@/utils/schemaProcessor';
+import {
+  deepMerge,
+  getNestedValue,
+  setNestedValue,
+} from '@helpers';
+import {
+  EmptyState,
+  FieldGroup,
+  Flex,
+  Panel,
+  SubTitle,
+  Title,
+} from '@page-builder/ui';
+
+import { FormField } from '../FormField';
 
 export const PropertyPanel = () => {
   const { t, i18n } = useTranslation();
@@ -25,6 +44,41 @@ export const PropertyPanel = () => {
   const tempConfig = deepMerge(
     selectedTemplate?.defaultConfig || {},
     currentConfig || {},
+  );
+
+  // Check if a field should be visible based on its dependency
+  // Memoized to avoid recalculation on every render
+  // IMPORTANT: Must be called before any conditional returns (Rules of Hooks)
+  const shouldShowField = useCallback(
+    (field) => {
+      if (!field.dependency) return true;
+
+      const { dependsOn, showWhen, operator = "equals" } = field.dependency;
+
+      // Get the value of the field this field depends on
+      const dependencyValue = getNestedValue(tempConfig, dependsOn);
+
+      // Check the operator
+      switch (operator) {
+        case "equals":
+          return dependencyValue === showWhen;
+        case "notEquals":
+          return dependencyValue !== showWhen;
+        case "includes":
+          return (
+            Array.isArray(dependencyValue) && dependencyValue.includes(showWhen)
+          );
+        case "exists":
+          return (
+            dependencyValue !== undefined &&
+            dependencyValue !== null &&
+            dependencyValue !== ""
+          );
+        default:
+          return true;
+      }
+    },
+    [tempConfig],
   );
 
   if (!selectedTemplate) {
@@ -90,7 +144,10 @@ export const PropertyPanel = () => {
   // Get fields for the selected element from the schema
   const elementFields = getFieldsForElement(selectedTemplate, activeElementId);
 
-  if (!elementFields.fields || elementFields.fields.length === 0) {
+  if (
+    !elementFields.fields ||
+    (elementFields.fields.length === 0 && elementFields.groups?.length === 0)
+  ) {
     return (
       <Panel position="right" width="100%" className="property-panel">
         <Panel.Header>
@@ -137,7 +194,9 @@ export const PropertyPanel = () => {
       // Get the array name if there's a sub-path before the index
       if (arrayIndexPos > 1) {
         const arrayName = parts[arrayIndexPos - 1];
-        const formattedArrayName = arrayName
+        // Convert to singular and capitalize
+        const singularName = getSingularTemplateName(arrayName);
+        const formattedArrayName = singularName
           .replace(/([A-Z])/g, " $1")
           .trim()
           .split(" ")
@@ -146,6 +205,9 @@ export const PropertyPanel = () => {
               word.charAt(0).toUpperCase() + word.slice(1).toLowerCase(),
           )
           .join(" ");
+
+        // Convert to 1-based index
+        const displayIndex = arrayIndex + 1;
 
         // If there are more parts after the index, it's a nested property
         if (arrayIndexPos + 1 < parts.length) {
@@ -159,14 +221,16 @@ export const PropertyPanel = () => {
                 word.charAt(0).toUpperCase() + word.slice(1).toLowerCase(),
             )
             .join(" ");
-          return `${formattedSection} ${formattedArrayName} ${arrayIndex} ${formattedProperty}`;
+          return `${formattedSection} ${formattedArrayName} ${displayIndex} ${formattedProperty}`;
         }
 
-        return `${formattedSection} ${formattedArrayName} ${arrayIndex}`;
+        return `${formattedSection} ${formattedArrayName} ${displayIndex}`;
       }
 
       // Just section and index (e.g., "hero.0")
-      return `${formattedSection} Item ${arrayIndex}`;
+      // Convert to 1-based index
+      const displayIndex = arrayIndex + 1;
+      return `${formattedSection} Item ${displayIndex}`;
     }
 
     // No array index - check if label looks malformed (contains spaces followed by numbers)
@@ -213,30 +277,79 @@ export const PropertyPanel = () => {
       </Panel.Header>
       <Panel.Content>
         <Flex direction="column" gap={24}>
-          {elementFields.fields.map((field) => {
-            let fieldValue = getNestedValue(tempConfig, field.path);
+          {/* Render ungrouped fields (section properties) first */}
+          {elementFields.fields
+            .filter((field) => !field.groupKey) // Only fields not in a group
+            .map((field) => {
+              // Check if field should be visible
+              if (!shouldShowField(field)) return null;
 
-            // Convert numbers to strings for Select component if needed
-            if (field.type === "select" && typeof fieldValue === "number") {
-              fieldValue = String(fieldValue);
-            }
+              let fieldValue = getNestedValue(tempConfig, field.path);
 
-            return (
-              <FormField
-                key={field.path}
-                id={field.path}
-                label={field.label}
-                type={field.type}
-                value={fieldValue ?? ""}
-                onChange={(value) => handleFieldChange(field.path, value)}
-                options={field.options}
-                min={field.min}
-                max={field.max}
-                step={field.step}
-                labels={field.labels}
-              />
-            );
-          })}
+              // Convert numbers to strings for Select component if needed
+              if (field.type === "select" && typeof fieldValue === "number") {
+                fieldValue = String(fieldValue);
+              }
+
+              return (
+                <FormField
+                  key={field.path}
+                  id={field.path}
+                  label={field.label}
+                  type={field.type}
+                  value={fieldValue ?? ""}
+                  onChange={(value) => handleFieldChange(field.path, value)}
+                  options={field.options}
+                  min={field.min}
+                  max={field.max}
+                  step={field.step}
+                  labels={field.labels}
+                />
+              );
+            })}
+
+          {/* Render field groups (child sections) after */}
+          {elementFields.groups?.map((group) => (
+            <FieldGroup
+              key={group.id}
+              title={group.label}
+              collapsible={group.collapsible}
+              defaultExpanded={group.defaultExpanded}
+            >
+              <Flex direction="column" gap={16}>
+                {group.fields.map((field) => {
+                  // Check if field should be visible
+                  if (!shouldShowField(field)) return null;
+
+                  let fieldValue = getNestedValue(tempConfig, field.path);
+
+                  // Convert numbers to strings for Select component if needed
+                  if (
+                    field.type === "select" &&
+                    typeof fieldValue === "number"
+                  ) {
+                    fieldValue = String(fieldValue);
+                  }
+
+                  return (
+                    <FormField
+                      key={field.path}
+                      id={field.path}
+                      label={field.label}
+                      type={field.type}
+                      value={fieldValue ?? ""}
+                      onChange={(value) => handleFieldChange(field.path, value)}
+                      options={field.options}
+                      min={field.min}
+                      max={field.max}
+                      step={field.step}
+                      labels={field.labels}
+                    />
+                  );
+                })}
+              </Flex>
+            </FieldGroup>
+          ))}
         </Flex>
       </Panel.Content>
     </Panel>
