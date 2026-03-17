@@ -1,8 +1,17 @@
-import "./index.scss";
+import './index.scss';
 
-import PropTypes from "prop-types";
+import { useMemo } from 'react';
 
-import { Badge, Container, Flex, Section, Text, Title } from "@page-builder/ui";
+import PropTypes from 'prop-types';
+
+import {
+  Badge,
+  Container,
+  Flex,
+  Section,
+  Text,
+  Title,
+} from '@page-builder/ui';
 
 export const Timeline = ({
   heading,
@@ -24,6 +33,16 @@ export const Timeline = ({
   ...props
 }) => {
   const items = milestones || phases || [];
+
+  // Memoize track style
+  const trackStyle = useMemo(
+    () => ({
+      borderLeft: `${lineWidth} solid ${lineColor}`,
+      paddingLeft: "40px",
+      position: "relative",
+    }),
+    [lineWidth, lineColor],
+  );
 
   return (
     <Section
@@ -47,74 +66,75 @@ export const Timeline = ({
             direction="column"
             gap={itemGap}
             className="timeline__track"
-            style={{
-              borderLeft: `${lineWidth} solid ${lineColor}`,
-              paddingLeft: "40px",
-              position: "relative",
-            }}
+            style={trackStyle}
           >
-            {items.map((item, index) => (
-              <Flex
-                key={index}
-                gap={20}
-                className="timeline__item"
-                style={{ position: "relative" }}
-              >
-                <div
-                  className="timeline__dot"
-                  style={{
-                    position: "absolute",
-                    left: "-51px",
-                    width: dotSize,
-                    height: dotSize,
-                    borderRadius: "50%",
-                    backgroundColor: item.dotColor || dotColor,
-                  }}
-                  data-element={`${dataElement}.item-${index}.dot`}
-                />
-                {renderItem ? (
-                  renderItem(item, index)
-                ) : (
-                  <Flex
-                    direction="column"
-                    gap={8}
-                    className="timeline__content"
-                  >
-                    <Text
-                      className="timeline__year"
-                      weight="bold"
-                      size="small"
-                      color="#666"
-                      data-element={`${dataElement}.item-${index}.date`}
+            {items.map((item, index) => {
+              // Memoize dot style per item
+              const dotStyle = {
+                position: "absolute",
+                left: "-51px",
+                width: dotSize,
+                height: dotSize,
+                borderRadius: "50%",
+                backgroundColor: item.dotColor || dotColor,
+              };
+
+              return (
+                <Flex
+                  key={index}
+                  gap={20}
+                  className="timeline__item"
+                  style={{ position: "relative" }}
+                >
+                  <div
+                    className="timeline__dot"
+                    style={dotStyle}
+                    data-element={`${dataElement}.item-${index}.dot`}
+                  />
+                  {renderItem ? (
+                    renderItem(item, index)
+                  ) : (
+                    <Flex
+                      direction="column"
+                      gap={8}
+                      className="timeline__content"
                     >
-                      {item.year || item.quarter || item.date}
-                    </Text>
-                    <Title
-                      level={titleLevel}
-                      className="timeline__title"
-                      data-element={`${dataElement}.item-${index}.title`}
-                    >
-                      {item.title}
-                    </Title>
-                    <Text
-                      className="timeline__description"
-                      data-element={`${dataElement}.item-${index}.description`}
-                    >
-                      {item.description}
-                    </Text>
-                    {item.status && (
-                      <Badge
-                        className={`timeline__status timeline__status--${item.status}`}
-                        variant="primary"
-                        data-element={`${dataElement}.item-${index}.status`}
+                      <Text
+                        className="timeline__year"
+                        weight="bold"
+                        size="small"
+                        color="#666"
+                        data-element={`${dataElement}.item-${index}.date`}
                       >
-                        {item.status}
-                      </Badge>
-                    )}
-                  </Flex>
-                )}
-              </Flex>
-            ))}
+                        {item.year || item.quarter || item.date}
+                      </Text>
+                      <Title
+                        level={titleLevel}
+                        className="timeline__title"
+                        data-element={`${dataElement}.item-${index}.title`}
+                      >
+                        {item.title}
+                      </Title>
+                      <Text
+                        className="timeline__description"
+                        data-element={`${dataElement}.item-${index}.description`}
+                      >
+                        {item.description}
+                      </Text>
+                      {item.status && (
+                        <Badge
+                          className={`timeline__status timeline__status--${item.status}`}
+                          variant="primary"
+                          data-element={`${dataElement}.item-${index}.status`}
+                        >
+                          {item.status}
+                        </Badge>
+                      )}
+                    </Flex>
+                  )}
+                </Flex>
+              );
+            })}
           </Flex>
         </Flex>
       </Container>

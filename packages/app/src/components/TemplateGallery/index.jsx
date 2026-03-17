@@ -1,22 +1,33 @@
-import "./index.scss";
+import './index.scss';
 
-import { useEffect, useState } from "react";
+import {
+  useEffect,
+  useState,
+} from 'react';
 
-import { useTranslation } from "react-i18next";
-import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useTranslation } from 'react-i18next';
+import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
 import {
   ErrorBoundary,
   LanguageSwitcher,
   LoadingIndicator,
-} from "@/components";
-import { fetchTemplateByIdFromAPI, fetchTemplatesFromAPI } from "@/services";
-import { selectTemplate } from "@/store/builderSlice";
-import { processTemplateConfig } from "@/utils";
-import { Button, EmptyState, SubTitle, Title } from "@page-builder/ui";
+} from '@/components';
+import {
+  fetchTemplateByIdFromAPI,
+  fetchTemplatesFromAPI,
+} from '@/services';
+import { selectTemplate } from '@/store/builderSlice';
+import { processTemplateConfig } from '@/utils';
+import {
+  Button,
+  EmptyState,
+  SubTitle,
+  Title,
+} from '@page-builder/ui';
 
-import { TemplateCard } from "../TemplateCard";
+import { TemplateCard } from '../TemplateCard';
 
 export const TemplateGallery = () => {
   const { t } = useTranslation();
@@ -121,7 +132,7 @@ export const TemplateGallery = () => {
       <div className="template-gallery__grid">
         {templates.map((template) => (
           <div key={template.id} className="template-gallery__grid-item">
-            <ErrorBoundary fallbackType="inline">
+            <ErrorBoundary mode="inline" t={t}>
               <TemplateCard
                 template={template}
                 onSelect={handleSelectTemplate}

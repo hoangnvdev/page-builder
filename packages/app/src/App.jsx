@@ -1,18 +1,26 @@
+import React from 'react';
+
+import { useTranslation } from 'react-i18next';
 import { BrowserRouter } from 'react-router-dom';
 
 import {
   ErrorBoundary,
   RTLProvider,
 } from '@/components';
+import { SelectionProvider } from '@/contexts/SelectionContext';
 import { AppRoutes } from '@/routes';
 
 function App() {
+  const { t } = useTranslation();
+
   return (
-    <ErrorBoundary fallbackType="page" resetPath="/template">
+    <ErrorBoundary mode="page" resetPath="/template" t={t}>
       <RTLProvider>
-        <BrowserRouter>
-          <AppRoutes />
-        </BrowserRouter>
+        <SelectionProvider>
+          <BrowserRouter>
+            <AppRoutes />
+          </BrowserRouter>
+        </SelectionProvider>
       </RTLProvider>
     </ErrorBoundary>
   );

@@ -1,25 +1,39 @@
-import "./index.scss";
+import './index.scss';
 
-import { useEffect, useState } from "react";
+import {
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+} from 'react';
 
-import { FilePenLine } from "lucide-react";
-import { useTranslation } from "react-i18next";
-import { useDispatch, useSelector } from "react-redux";
-import { Navigate, useNavigate } from "react-router-dom";
+import { FilePenLine } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
+import {
+  useDispatch,
+  useSelector,
+} from 'react-redux';
+import {
+  Navigate,
+  useNavigate,
+} from 'react-router-dom';
 
-import { ErrorBoundary, LoadingIndicator } from "@/components";
-import { fetchTemplateByIdFromAPI } from "@/services";
+import {
+  ErrorBoundary,
+  LoadingIndicator,
+} from '@/components';
+import { fetchTemplateByIdFromAPI } from '@/services';
 import {
   rehydrateTemplateComponent,
   resetToGallery,
-} from "@/store/builderSlice";
-import { processTemplateConfig } from "@/utils";
-import { Flex } from "@page-builder/ui";
+} from '@/store/builderSlice';
+import { processTemplateConfig } from '@/utils';
+import { Flex } from '@page-builder/ui';
 
-import { EditorToolbar } from "../EditorToolbar";
-import { PreviewRenderer } from "../PreviewRenderer";
-import { PropertyPanel } from "../PropertyPanel";
-import { ResizableDivider } from "../ResizableDivider";
+import { EditorToolbar } from '../EditorToolbar';
+import { PreviewRenderer } from '../PreviewRenderer';
+import { PropertyPanel } from '../PropertyPanel';
+import { ResizableDivider } from '../ResizableDivider';
 
 export const Editor = () => {
   const { t } = useTranslation();
@@ -94,30 +108,41 @@ export const Editor = () => {
     );
   }
 
-  const handleResize = (percentage) => {
+  const handleResize = useCallback((percentage) => {
     setSplitPercentage(percentage);
-  };
+  }, []);
 
-  const togglePanel = () => {
+  const togglePanel = useCallback(() => {
     setIsPanelVisible(!isPanelVisible);
-  };
+  }, [isPanelVisible]);
 
   const orientation = isMobile ? "vertical" : "horizontal";
   const showPanel = !isMobile || isPanelVisible;
+
+  // Memoize preview container style
+  const previewStyle = useMemo(
+    () => ({
+      [isMobile ? "height" : "width"]:
+        isMobile && !showPanel ? "100%" : `${splitPercentage}%`,
+    }),
+    [isMobile, showPanel, splitPercentage],
+  );
+
+  // Memoize panel container style
+  const panelStyle = useMemo(
+    () => ({
+      [isMobile ? "height" : "width"]: `${100 - splitPercentage}%`,
+    }),
+    [isMobile, splitPercentage],
+  );
 
   return (
     <Flex direction="column" className="editor">
       <EditorToolbar selectedTemplate={selectedTemplate} />
 
       <Flex className="editor__content">
-        <div
-          className="editor__preview-container"
-          style={{
-            [isMobile ? "height" : "width"]:
-              isMobile && !showPanel ? "100%" : `${splitPercentage}%`,
-          }}
-        >
-          <ErrorBoundary fallbackType="component">
+        <div className="editor__preview-container" style={previewStyle}>
+          <ErrorBoundary mode="component" t={t}>
             <PreviewRenderer />
           </ErrorBoundary>
         </div>
@@ -129,13 +154,8 @@ export const Editor = () => {
               orientation={orientation}
             />
 
-            <div
-              className="editor__panel-container"
-              style={{
-                [isMobile ? "height" : "width"]: `${100 - splitPercentage}%`,
-              }}
-            >
-              <ErrorBoundary fallbackType="component">
+            <div className="editor__panel-container" style={panelStyle}>
+              <ErrorBoundary mode="component" t={t}>
                 <PropertyPanel />
               </ErrorBoundary>
             </div>

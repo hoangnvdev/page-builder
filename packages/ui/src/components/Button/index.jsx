@@ -1,71 +1,77 @@
-import "./index.scss";
+import './index.scss';
 
-import PropTypes from "prop-types";
+import { memo } from 'react';
 
-export const Button = ({
-  children,
-  variant = "primary",
-  size = "medium",
-  icon,
-  iconPosition = "left",
-  disabled = false,
-  fullWidth = false,
-  onClick,
-  type = "button",
-  className = "",
-  style,
-  ...props
-}) => {
-  // Build className string
-  const buttonClasses = [
-    "button",
-    `button--${variant}`,
-    `button--${size}`,
-    fullWidth && "button--full-width",
-    className,
-  ]
-    .filter(Boolean)
-    .join(" ");
+import PropTypes from 'prop-types';
 
-  const renderContent = () => {
-    if (variant === "icon") {
-      return icon || children;
-    }
+export const Button = memo(
+  ({
+    children,
+    variant = "primary",
+    size = "medium",
+    icon,
+    iconPosition = "left",
+    disabled = false,
+    fullWidth = false,
+    onClick,
+    type = "button",
+    className = "",
+    style,
+    ...props
+  }) => {
+    // Build className string
+    const buttonClasses = [
+      "button",
+      `button--${variant}`,
+      `button--${size}`,
+      fullWidth && "button--full-width",
+      className,
+    ]
+      .filter(Boolean)
+      .join(" ");
 
-    if (icon && iconPosition === "left") {
-      return (
-        <>
-          <span>{icon}</span>
-          <span>{children}</span>
-        </>
-      );
-    }
+    const renderContent = () => {
+      if (variant === "icon") {
+        return icon || children;
+      }
 
-    if (icon && iconPosition === "right") {
-      return (
-        <>
-          <span>{children}</span>
-          <span>{icon}</span>
-        </>
-      );
-    }
+      if (icon && iconPosition === "left") {
+        return (
+          <>
+            <span>{icon}</span>
+            <span>{children}</span>
+          </>
+        );
+      }
 
-    return children;
-  };
+      if (icon && iconPosition === "right") {
+        return (
+          <>
+            <span>{children}</span>
+            <span>{icon}</span>
+          </>
+        );
+      }
 
-  return (
-    <button
-      type={type}
-      disabled={disabled}
-      onClick={disabled ? undefined : onClick}
-      className={buttonClasses}
-      style={style}
-      {...props}
-    >
-      {renderContent()}
-    </button>
-  );
-};
+      return children;
+    };
+
+    return (
+      <button
+        type={type}
+        disabled={disabled}
+        onClick={disabled ? undefined : onClick}
+        className={buttonClasses}
+        style={style}
+        {...props}
+      >
+        {renderContent()}
+      </button>
+    );
+  },
+);
+
+Button.displayName = "Button";
 
 Button.propTypes = {
   children: PropTypes.node,

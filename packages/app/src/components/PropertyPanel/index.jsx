@@ -1,6 +1,10 @@
 import './index.scss';
 
-import { useCallback } from 'react';
+import {
+  useCallback,
+  useMemo,
+  useRef,
+} from 'react';
 
 import { useTranslation } from 'react-i18next';
 import {
@@ -8,6 +12,7 @@ import {
   useSelector,
 } from 'react-redux';
 
+import { useSelection } from '@/contexts/SelectionContext';
 import { updateConfig } from '@/store/builderSlice';
 import {
   getFieldsForElement,
@@ -30,32 +35,51 @@ import {
 import { FormField } from '../FormField';
 
 export const PropertyPanel = () => {
+  console.log("⚙️ PropertyPanel render");
+
   const { t, i18n } = useTranslation();
   const dispatch = useDispatch();
+  const { selectedElement, selectedSubElement } = useSelection();
   const selectedTemplate = useSelector(
     (state) => state.builder.selectedTemplate,
   );
   const currentConfig = useSelector((state) => state.builder.currentConfig);
-  const selectedElement = useSelector((state) => state.builder.selectedElement);
-  const selectedSubElement = useSelector(
-    (state) => state.builder.selectedSubElement,
-  );
 
-  const tempConfig = deepMerge(
-    selectedTemplate?.defaultConfig || {},
-    currentConfig || {},
+  // Store stable onChange handlers for each field path
+  const onChangeHandlers = useRef(new Map());
+
+  // Cache for enhanced field options (cleared when template changes)
+  const enhancedFieldsCache = useRef(new Map());
+  const lastTemplateId = useRef(selectedTemplate?.id);
+
+  // Clear cache when template changes
+  if (lastTemplateId.current !== selectedTemplate?.id) {
+    enhancedFieldsCache.current.clear();
+    lastTemplateId.current = selectedTemplate?.id;
+  }
+
+  // Memoize tempConfig to avoid recreating it on every render
+  const tempConfig = useMemo(
+    () => deepMerge(selectedTemplate?.defaultConfig || {}, currentConfig || {}),
+    [selectedTemplate?.defaultConfig, currentConfig],
   );
 
   // Helper: Enhance field options to include template default if not present
   // This preserves custom template values and allows users to reset individual fields
   const enhanceFieldOptions = useCallback(
     (field) => {
+      // Check cache first
+      if (enhancedFieldsCache.current.has(field.path)) {
+        return enhancedFieldsCache.current.get(field.path);
+      }
+
       // Only enhance select fields with options
       if (
         field.type !== "select" ||
         !field.options ||
         !Array.isArray(field.options)
       ) {
+        enhancedFieldsCache.current.set(field.path, field);
         return field;
       }
 
@@ -70,11 +94,11 @@ export const PropertyPanel = () => {
         templateDefaultValue === undefined ||
         field.options.some((opt) => opt.value === templateDefaultValue)
       ) {
+        enhancedFieldsCache.current.set(field.path, field);
         return field;
       }
 
       // Add template default to options with a user-friendly label
-      // Don't show technical values to non-technical users
       const enhancedOptions = [
         ...field.options,
         {
@@ -83,12 +107,15 @@ export const PropertyPanel = () => {
         },
       ];
 
-      return {
+      const enhancedField = {
         ...field,
         options: enhancedOptions,
       };
+
+      enhancedFieldsCache.current.set(field.path, enhancedField);
+      return enhancedField;
     },
-    [selectedTemplate],
+    [selectedTemplate, t],
   );
 
   // Check if a field should be visible based on its dependency
@@ -125,6 +152,52 @@ export const PropertyPanel = () => {
     },
     [tempConfig],
   );
+
+  // Handle field changes - MUST be defined before any conditional returns (Rules of Hooks)
+  const handleFieldChange = useCallback(
+    (fieldPath, value) => {
+      // Extract section name from field path
+      const pathParts = fieldPath.split(".");
+      const sectionName =
+        pathParts[0] === "elements" ? pathParts[1] : pathParts[0];
+      console.log(
+        `✏️ Field changed: "${fieldPath}" in section: "${sectionName}"`,
+      );
+
+      // Read fresh config from Redux and update
+      dispatch((dispatch, getState) => {
+        const state = getState();
+        const currentConfig = state.builder.currentConfig;
+        const selectedTemplate = state.builder.selectedTemplate;
+
+        const tempConfig = deepMerge(
+          selectedTemplate?.defaultConfig || {},
+          currentConfig || {},
+        );
+        const newConfig = JSON.parse(JSON.stringify(tempConfig));
+        setNestedValue(newConfig, fieldPath, value);
+        dispatch(updateConfig(newConfig));
+      });
+    },
+    [dispatch],
+  );
+
+  // Get or create a stable onChange handler for a specific field path
+  const getOnChangeHandler = useCallback(
+    (fieldPath) => {
+      if (!onChangeHandlers.current.has(fieldPath)) {
+        onChangeHandlers.current.set(fieldPath, (value) =>
+          handleFieldChange(fieldPath, value),
+        );
+      }
+      return onChangeHandlers.current.get(fieldPath);
+    },
+    [handleFieldChange],
+  );
+
+  //============================================
+  // EARLY RETURNS (all hooks must be above)
+  //============================================
 
   if (!selectedTemplate) {
     return (
@@ -208,13 +281,6 @@ export const PropertyPanel = () => {
     );
   }
 
-  // Handle field changes
-  const handleFieldChange = (fieldPath, value) => {
-    const newConfig = JSON.parse(JSON.stringify(tempConfig));
-    setNestedValue(newConfig, fieldPath, value);
-    dispatch(updateConfig(newConfig));
-  };
-
   // Format element label for display
   const formatElementLabel = (label, elementId) => {
     const parts = elementId.split(".");
@@ -288,7 +354,7 @@ export const PropertyPanel = () => {
     return label;
   };
 
-  // Get panel title and subtitle
+  // Calculate panel title and subtitle (inline - not expensive)
   const formattedLabel = formatElementLabel(
     elementFields.label,
     activeElementId,
@@ -348,7 +414,7 @@ export const PropertyPanel = () => {
                   label={enhancedField.label}
                   type={enhancedField.type}
                   value={fieldValue ?? ""}
-                  onChange={(value) => handleFieldChange(field.path, value)}
+                  onChange={getOnChangeHandler(field.path)}
                   options={enhancedField.options}
                   min={field.min}
                   max={field.max}
@@ -389,7 +455,7 @@ export const PropertyPanel = () => {
                       label={enhancedField.label}
                       type={enhancedField.type}
                       value={fieldValue ?? ""}
-                      onChange={(value) => handleFieldChange(field.path, value)}
+                      onChange={getOnChangeHandler(field.path)}
                       options={enhancedField.options}
                       min={field.min}
                       max={field.max}

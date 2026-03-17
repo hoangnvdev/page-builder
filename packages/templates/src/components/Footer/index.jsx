@@ -1,8 +1,15 @@
-import "./index.scss";
+import './index.scss';
 
-import PropTypes from "prop-types";
+import { useMemo } from 'react';
 
-import { Container, Flex, Section, Text } from "@page-builder/ui";
+import PropTypes from 'prop-types';
+
+import {
+  Container,
+  Flex,
+  Section,
+  Text,
+} from '@page-builder/ui';
 
 export const Footer = ({
   // Text props
@@ -30,6 +37,21 @@ export const Footer = ({
   const actualDecoration = isItalic ? "none" : textDecoration;
   const fontStyle = isItalic ? "italic" : "normal";
 
+  // Memoize text style
+  const textStyle = useMemo(
+    () => ({
+      fontSize: textSize,
+      fontWeight: textWeight,
+      textDecoration: actualDecoration,
+      fontStyle: fontStyle,
+      color: textColor,
+    }),
+    [textSize, textWeight, actualDecoration, fontStyle, textColor],
+  );
+
+  // Memoize link style
+  const linkStyle = useMemo(() => ({ color: textColor }), [textColor]);
+
   return (
     <Section
       data-element={dataElement}
@@ -44,13 +66,7 @@ export const Footer = ({
             <Text
               className="footer__text"
               align={textAlign}
-              style={{
-                fontSize: textSize,
-                fontWeight: textWeight,
-                textDecoration: actualDecoration,
-                fontStyle: fontStyle,
-                color: textColor,
-              }}
+              style={textStyle}
               data-element={`${dataElement}.text`}
             >
               {text}
@@ -63,7 +79,7 @@ export const Footer = ({
                   key={index}
                   href={link.href}
                   className="footer__link"
-                  style={{ color: textColor }}
+                  style={linkStyle}
                   data-element={`${dataElement}.link-${index}`}
                 >
                   {link.text}

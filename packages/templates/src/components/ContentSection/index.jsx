@@ -1,8 +1,16 @@
-import "./index.scss";
+import './index.scss';
 
-import PropTypes from "prop-types";
+import { useMemo } from 'react';
 
-import { Container, Flex, Section, Text, Title } from "@page-builder/ui";
+import PropTypes from 'prop-types';
+
+import {
+  Container,
+  Flex,
+  Section,
+  Text,
+  Title,
+} from '@page-builder/ui';
 
 export const ContentSection = ({
   heading,
@@ -26,6 +34,34 @@ export const ContentSection = ({
   children,
   ...props
 }) => {
+  // Memoize heading style
+  const headingStyle = useMemo(
+    () => ({
+      color: headingColor,
+      fontSize: headingSize,
+      fontWeight: headingWeight,
+    }),
+    [headingColor, headingSize, headingWeight],
+  );
+
+  // Memoize content style
+  const contentStyle = useMemo(
+    () => ({
+      color: textColor,
+      lineHeight: "1.8",
+      maxWidth: contentMaxWidth,
+      textAlign:
+        contentAlign === "flex-start"
+          ? "left"
+          : contentAlign === "flex-end"
+            ? "right"
+            : contentAlign,
+      ...(contentSize && { fontSize: contentSize }),
+      ...(contentWeight && { fontWeight: contentWeight }),
+    }),
+    [textColor, contentMaxWidth, contentAlign, contentSize, contentWeight],
+  );
+
   return (
     <Section
       dataElement={dataElement}
@@ -39,11 +75,7 @@ export const ContentSection = ({
             <Title
               level={headingLevel}
               className="content-section__heading"
-              style={{
-                color: headingColor,
-                fontSize: headingSize,
-                fontWeight: headingWeight,
-              }}
+              style={headingStyle}
               data-element={`${dataElement}.heading`}
             >
               {heading}
@@ -52,19 +84,7 @@ export const ContentSection = ({
           {content && (
             <Text
               className="content-section__content"
-              style={{
-                color: textColor,
-                lineHeight: "1.8",
-                maxWidth: contentMaxWidth,
-                textAlign:
-                  contentAlign === "flex-start"
-                    ? "left"
-                    : contentAlign === "flex-end"
-                      ? "right"
-                      : contentAlign,
-                ...(contentSize && { fontSize: contentSize }),
-                ...(contentWeight && { fontWeight: contentWeight }),
-              }}
+              style={contentStyle}
               data-element={`${dataElement}.content`}
             >
               {content}
