@@ -59,3 +59,28 @@
     border-style: solid;
   }
 }
+
+// Mobile responsiveness
+@media (max-width: 768px) {
+  .speech-bubble-testimonials {
+    padding: 2rem 0;
+
+    .speech-bubble {
+      margin-bottom: 1.5rem;
+
+      &__avatar {
+        font-size: 3rem;
+        margin-bottom: 0.75rem;
+      }
+
+      &__title {
+        font-size: 1rem;
+      }
+
+      &__content {
+        font-size: 0.95rem;
+        margin-top: 0.75rem;
+      }
+    }
+  }
+}

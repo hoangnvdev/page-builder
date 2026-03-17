@@ -1,39 +1,29 @@
-import './index.scss';
+import "./index.scss";
+
+import { useCallback, useEffect, useMemo, useState } from "react";
+
+import { useTranslation } from "react-i18next";
+import { useDispatch, useSelector } from "react-redux";
+import { Navigate, useNavigate } from "react-router-dom";
 
 import {
-  useCallback,
-  useEffect,
-  useMemo,
-  useState,
-} from 'react';
-
-import { FilePenLine } from 'lucide-react';
-import { useTranslation } from 'react-i18next';
-import {
-  useDispatch,
-  useSelector,
-} from 'react-redux';
-import {
-  Navigate,
-  useNavigate,
-} from 'react-router-dom';
-
-import {
+  EditorToggleButton,
   ErrorBoundary,
+  HelperText,
   LoadingIndicator,
-} from '@/components';
-import { fetchTemplateByIdFromAPI } from '@/services';
+} from "@/components";
+import { fetchTemplateByIdFromAPI } from "@/services";
 import {
   rehydrateTemplateComponent,
   resetToGallery,
-} from '@/store/builderSlice';
-import { processTemplateConfig } from '@/utils';
-import { Flex } from '@page-builder/ui';
+} from "@/store/builderSlice";
+import { processTemplateConfig } from "@/utils";
+import { Flex } from "@page-builder/ui";
 
-import { EditorToolbar } from '../EditorToolbar';
-import { PreviewRenderer } from '../PreviewRenderer';
-import { PropertyPanel } from '../PropertyPanel';
-import { ResizableDivider } from '../ResizableDivider';
+import { EditorToolbar } from "../EditorToolbar";
+import { PreviewRenderer } from "../PreviewRenderer";
+import { PropertyPanel } from "../PropertyPanel";
+import { ResizableDivider } from "../ResizableDivider";
 
 export const Editor = () => {
   const { t } = useTranslation();
@@ -45,6 +35,7 @@ export const Editor = () => {
   const [isRehydrating, setIsRehydrating] = useState(false);
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 1024);
   const [isPanelVisible, setIsPanelVisible] = useState(true);
+  const [showHelperText, setShowHelperText] = useState(true);
 
   const getDefaultSplit = () => {
     const width = window.innerWidth;
@@ -95,19 +86,7 @@ export const Editor = () => {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  if (!selectedTemplate) {
-    return <Navigate to="/template" replace />;
-  }
-
-  if (isRehydrating) {
-    return (
-      <LoadingIndicator
-        title={t("editor.loading.title")}
-        description={t("editor.loading.description")}
-      />
-    );
-  }
-
+  // IMPORTANT: All hooks must be defined BEFORE any conditional returns
   const handleResize = useCallback((percentage) => {
     setSplitPercentage(percentage);
   }, []);
@@ -115,6 +94,10 @@ export const Editor = () => {
   const togglePanel = useCallback(() => {
     setIsPanelVisible(!isPanelVisible);
   }, [isPanelVisible]);
+
+  const handleDismissHelper = useCallback(() => {
+    setShowHelperText(false);
+  }, []);
 
   const orientation = isMobile ? "vertical" : "horizontal";
   const showPanel = !isMobile || isPanelVisible;
@@ -135,6 +118,19 @@ export const Editor = () => {
     }),
     [isMobile, splitPercentage],
   );
+
+  if (!selectedTemplate) {
+    return <Navigate to="/template" replace />;
+  }
+
+  if (isRehydrating) {
+    return (
+      <LoadingIndicator
+        title={t("editor.loading.title")}
+        description={t("editor.loading.description")}
+      />
+    );
+  }
 
   return (
     <Flex direction="column" className="editor">
@@ -164,23 +160,13 @@ export const Editor = () => {
       </Flex>
 
       {isMobile && (
-        <button
-          className="editor__toggle-panel"
+        <EditorToggleButton
+          isPanelVisible={isPanelVisible}
           onClick={togglePanel}
-          aria-label={
-            isPanelVisible
-              ? t("editor.accessibility.closePanel")
-              : t("editor.accessibility.openPanel")
-          }
-        >
-          <span className="editor__toggle-tooltip">
-            {isPanelVisible
-              ? t("editor.accessibility.closePanel")
-              : t("editor.accessibility.openPanel")}
-          </span>
-          <FilePenLine size={24} />
-        </button>
+        />
       )}
+
+      <HelperText show={showHelperText} onDismiss={handleDismissHelper} />
     </Flex>
   );
 };

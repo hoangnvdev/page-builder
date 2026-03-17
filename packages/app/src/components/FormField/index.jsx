@@ -1,12 +1,9 @@
-import './index.scss';
+import "./index.scss";
 
-import {
-  memo,
-  useMemo,
-} from 'react';
+import { memo, useMemo } from "react";
 
-import PropTypes from 'prop-types';
-import { useTranslation } from 'react-i18next';
+import PropTypes from "prop-types";
+import { useTranslation } from "react-i18next";
 
 import {
   ColorPicker,
@@ -17,11 +14,10 @@ import {
   Slider,
   Textarea,
   Toggle,
-} from '@page-builder/ui';
+} from "@page-builder/ui";
 
 export const FormField = memo(
   ({ id, label, type, value, onChange, options, min, max, step, labels }) => {
-    console.log(`🔧 FormField render: ${id}`);
     const { t } = useTranslation();
     // Generate a stable unique ID for the field
     const fieldId = useMemo(() => `field-${id.replace(/\./g, "-")}`, [id]);

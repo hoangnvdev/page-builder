@@ -1,28 +1,17 @@
-import './index.scss';
+import "./index.scss";
 
-import {
-  useCallback,
-  useMemo,
-  useRef,
-} from 'react';
+import { memo, useCallback, useMemo, useRef } from "react";
 
-import { useTranslation } from 'react-i18next';
-import {
-  useDispatch,
-  useSelector,
-} from 'react-redux';
+import { useTranslation } from "react-i18next";
+import { useDispatch, useSelector } from "react-redux";
 
-import { useSelection } from '@/contexts/SelectionContext';
-import { updateConfig } from '@/store/builderSlice';
+import { useSelection } from "@/contexts/SelectionContext";
+import { updateConfig } from "@/store/builderSlice";
 import {
   getFieldsForElement,
   getSingularTemplateName,
-} from '@/utils/schemaProcessor';
-import {
-  deepMerge,
-  getNestedValue,
-  setNestedValue,
-} from '@helpers';
+} from "@/utils/schemaProcessor";
+import { deepMerge, getNestedValue, setNestedValue } from "@helpers";
 import {
   EmptyState,
   FieldGroup,
@@ -30,13 +19,11 @@ import {
   Panel,
   SubTitle,
   Title,
-} from '@page-builder/ui';
+} from "@page-builder/ui";
 
-import { FormField } from '../FormField';
+import { FormField } from "../FormField";
 
 export const PropertyPanel = () => {
-  console.log("⚙️ PropertyPanel render");
-
   const { t, i18n } = useTranslation();
   const dispatch = useDispatch();
   const { selectedElement, selectedSubElement } = useSelection();
@@ -160,9 +147,6 @@ export const PropertyPanel = () => {
       const pathParts = fieldPath.split(".");
       const sectionName =
         pathParts[0] === "elements" ? pathParts[1] : pathParts[0];
-      console.log(
-        `✏️ Field changed: "${fieldPath}" in section: "${sectionName}"`,
-      );
 
       // Read fresh config from Redux and update
       dispatch((dispatch, getState) => {
@@ -472,3 +456,7 @@ export const PropertyPanel = () => {
     </Panel>
   );
 };
+
+// Memoize to prevent rerenders during resize drag operations
+export const MemoizedPropertyPanel = memo(PropertyPanel);
+MemoizedPropertyPanel.displayName = "MemoizedPropertyPanel";
