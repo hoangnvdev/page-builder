@@ -9,9 +9,9 @@ Phase 2 focused on enhancing the FormField component and PropertyPanel to suppor
 
 ## What Was Implemented
 
-### 1. ✅ FieldGroup Component (New UI Component)
+### 1. ✅ FieldGroup Component (New App Component)
 
-**Location:** `packages/ui/src/components/FieldGroup/`
+**Location:** `packages/app/src/components/form/FieldGroup/`
 
 **Features:**
 
@@ -282,8 +282,8 @@ condition: { field: "customField", operator: "exists" }
 
 ### Created
 
-- ✅ `packages/ui/src/components/FieldGroup/index.jsx` (66 lines)
-- ✅ `packages/ui/src/components/FieldGroup/index.scss` (65 lines)
+- ✅ `packages/app/src/components/form/FieldGroup/index.jsx` (66 lines)
+- ✅ `packages/app/src/components/form/FieldGroup/index.scss` (65 lines)
 - ✅ `PHASE_2_SUMMARY.md` (this file)
 
 ### Modified

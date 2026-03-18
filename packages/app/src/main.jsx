@@ -1,5 +1,6 @@
 import '@page-builder/ui/styles';
 import '@page-builder/templates/styles';
+import './styles';
 import './global.scss';
 
 import { StrictMode } from 'react';

@@ -1,4 +1,4 @@
-import { Editor } from '../../components/Editor';
+import { Editor } from '../../components/editor/Editor';
 
 export const DesignPage = () => {
   return <Editor />;

@@ -1,6 +1,6 @@
 import { ErrorBoundary } from '@/components';
 
-import { TemplateGallery } from '../../components/TemplateGallery';
+import { TemplateGallery } from '../../components/templates/TemplateGallery';
 
 export const TemplatePage = () => {
   return (

@@ -127,9 +127,10 @@ All components are exported from the main package entry:
 
 ```jsx
 // ✅ Recommended - named imports
-import { Button, Card, Input } from "@page-builder/ui";
+import { Button, Card, Text } from "@page-builder/ui";
 
-// All imports resolve to: @page-builder/ui/src/components/ComponentName
+// Primitives resolve to: @page-builder/ui/src/primitives/ComponentName
+// Utilities resolve to: @page-builder/ui/src/components/ComponentName
 ```
 
 ## Styling

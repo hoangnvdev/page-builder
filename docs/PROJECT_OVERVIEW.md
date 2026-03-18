@@ -67,13 +67,15 @@ page-builder/
 
 **Role**: Foundation component library
 
-- 20+ reusable UI components
-- Layout primitives (Grid, Flex, Container)
-- Form controls (Input, Select, ColorPicker)
-- Display components (Button, Card, Badge)
+- 15 template primitives (Grid, Flex, Container, Button, Card, Badge, etc.)
+- 2 shared utilities (ErrorBoundary, ErrorDisplay)
+- Layout building blocks for templates
+- Display components for template sections
 - Consistent styling with SCSS modules
 
 **Dependencies**: None (leaf package)
+
+**Note**: Form controls and editor-specific components moved to app package
 
 ### Dependency Graph
 
@@ -114,8 +116,9 @@ page-builder/
 
 ### 3. Component Library
 
-- **18+ Template Sections**: Hero, Footer, Testimonials, etc.
-- **20+ UI Primitives**: Buttons, cards, inputs, etc.
+- **13 Template Sections**: Hero, Footer, Testimonials, CallToAction, etc.
+- **15 UI Primitives**: Button, Card, Grid, Container, etc.
+- **34 App Components**: Editor UI, forms, layout organized in 7 categories
 - **Composable**: Components work together seamlessly
 - **Styled**: Consistent design system
 
