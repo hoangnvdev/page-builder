@@ -13,6 +13,7 @@ import {
   CornerUpLeft,
   CornerUpRight,
   History,
+  RotateCcw,
 } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import {
@@ -20,15 +21,21 @@ import {
   useSelector,
 } from 'react-redux';
 
+import { useConfirmDialog } from '@/hooks';
 import {
   redo,
+  resetCurrentConfig,
   undo,
 } from '@/store/builderSlice';
+
+import { ConfirmDialog } from '../ConfirmDialog';
 
 export const HistoryControls = memo(() => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const [showHistory, setShowHistory] = useState(false);
+  const { isOpen, config, showConfirm, handleConfirm, handleCancel } =
+    useConfirmDialog();
   const currentStateRef = useRef(null);
 
   // Only select the lengths to minimize re-renders
@@ -42,14 +49,12 @@ export const HistoryControls = memo(() => {
   const canUndo = historyPastLength > 0;
   const canRedo = historyFutureLength > 0;
 
-  // Only fetch full history when showing the popup (memoized to prevent re-renders)
   const history = useSelector((state) =>
     showHistory
       ? state.builder.history || { past: [], future: [] }
       : { past: [], future: [] },
   );
 
-  // Scroll current state into view when history changes
   useEffect(() => {
     if (showHistory && currentStateRef.current) {
       currentStateRef.current.scrollIntoView({
@@ -67,23 +72,48 @@ export const HistoryControls = memo(() => {
     dispatch(redo());
   }, [dispatch]);
 
+  const handleResetClick = useCallback(() => {
+    if (historyPastLength > 0 || historyFutureLength > 0) {
+      showConfirm({
+        title: t("confirmDialog.resetTitle"),
+        message: t("confirmDialog.resetMessage"),
+        confirmText: t("confirmDialog.resetConfirm"),
+        variant: "danger",
+        onConfirm: () => {
+          dispatch(resetCurrentConfig());
+          setShowHistory(false);
+        },
+      });
+    }
+  }, [historyPastLength, historyFutureLength, showConfirm, t, dispatch]);
+
   const toggleHistory = useCallback(() => {
     setShowHistory((prev) => !prev);
   }, []);
 
-  // Get a preview of the change for history list
-  const getChangePreview = (config, index, type) => {
-    if (!config) return t("historyControls.unknownChange");
+  const getChangePreview = useCallback(
+    (config, index, type) => {
+      if (!config) return t("historyControls.unknownChange");
 
-    // Try to detect what changed by comparing with next/previous
-    // Simple approach: show timestamp or change number
-    const changeNumber =
-      type === "past" ? history.past.length - index : index + 1;
-    return `${t("historyControls.change")} #${changeNumber}`;
-  };
+      const changeNumber = index + 1;
+
+      return `${t("historyControls.change")} #${changeNumber}`;
+    },
+    [t],
+  );
 
   return (
     <div className="history-controls">
+      <ConfirmDialog
+        isOpen={isOpen}
+        title={config.title}
+        message={config.message}
+        onConfirm={handleConfirm}
+        onCancel={handleCancel}
+        confirmText={config.confirmText}
+        cancelText={config.cancelText}
+        variant={config.variant}
+      />
       {showHistory &&
         (history.past.length > 0 || history.future.length > 0) && (
           <div className="history-controls__list">
@@ -102,12 +132,8 @@ export const HistoryControls = memo(() => {
               {t("historyControls.helperText")}
             </div>
             <div className="history-controls__list-content">
-              {/* Future changes (redo) */}
               {history.future.length > 0 && (
                 <div className="history-controls__section">
-                  <div className="history-controls__section-title">
-                    {t("historyControls.future")} ({history.future.length})
-                  </div>
                   {[...history.future].reverse().map((config, index) => (
                     <div
                       key={`future-${index}`}
@@ -120,7 +146,6 @@ export const HistoryControls = memo(() => {
                 </div>
               )}
 
-              {/* Current state indicator */}
               <div className="history-controls__current" ref={currentStateRef}>
                 <div className="history-controls__current-marker"></div>
                 <span>{t("historyControls.currentState")}</span>
@@ -129,12 +154,8 @@ export const HistoryControls = memo(() => {
                 </span>
               </div>
 
-              {/* Past changes (undo) */}
               {history.past.length > 0 && (
                 <div className="history-controls__section">
-                  <div className="history-controls__section-title">
-                    {t("historyControls.past")} ({history.past.length})
-                  </div>
                   {[...history.past]
                     .reverse()
                     .slice(0, 10)
@@ -162,6 +183,19 @@ export const HistoryControls = memo(() => {
                 </div>
               )}
             </div>
+
+            {(history.past.length > 0 || history.future.length > 0) && (
+              <div className="history-controls__reset-section">
+                <button
+                  className="history-controls__reset-button"
+                  onClick={handleResetClick}
+                  title={t("historyControls.resetButton")}
+                >
+                  <RotateCcw size={16} />
+                  <span>{t("historyControls.resetButton")}</span>
+                </button>
+              </div>
+            )}
           </div>
         )}
 

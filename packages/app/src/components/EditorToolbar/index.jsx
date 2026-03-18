@@ -2,18 +2,16 @@ import './index.scss';
 
 import { useCallback } from 'react';
 
-import {
-  ArrowLeft,
-  RotateCcw,
-} from 'lucide-react';
+import { ArrowLeft } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
-import { useDispatch } from 'react-redux';
+import {
+  useDispatch,
+  useSelector,
+} from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
-import {
-  resetCurrentConfig,
-  resetToGallery,
-} from '@/store/builderSlice';
+import { useConfirmDialog } from '@/hooks';
+import { resetToGallery } from '@/store/builderSlice';
 import {
   Divider,
   Title,
@@ -21,6 +19,7 @@ import {
 } from '@page-builder/ui';
 
 import { AppButton } from '../AppButton';
+import { ConfirmDialog } from '../ConfirmDialog';
 import { ExportButton } from '../ExportButton';
 import { LanguageSwitcher } from '../LanguageSwitcher';
 
@@ -28,22 +27,49 @@ export const EditorToolbar = ({ selectedTemplate }) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { isOpen, config, showConfirm, handleConfirm, handleCancel } =
+    useConfirmDialog();
 
-  const handleResetToGallery = useCallback(() => {
-    dispatch(resetToGallery());
-    navigate("/template");
-  }, [dispatch, navigate]);
+  const hasHistory = useSelector(
+    (state) =>
+      (state.builder.history?.past?.length || 0) > 0 ||
+      (state.builder.history?.future?.length || 0) > 0,
+  );
 
-  const handleResetCurrentConfig = useCallback(() => {
-    dispatch(resetCurrentConfig());
-  }, [dispatch]);
+  const handleBackClick = useCallback(() => {
+    if (hasHistory) {
+      showConfirm({
+        title: t("confirmDialog.backTitle"),
+        message: t("confirmDialog.backMessage"),
+        confirmText: t("confirmDialog.backConfirm"),
+        variant: "warning",
+        onConfirm: () => {
+          dispatch(resetToGallery());
+          navigate("/template");
+        },
+      });
+    } else {
+      dispatch(resetToGallery());
+      navigate("/template");
+    }
+  }, [hasHistory, dispatch, navigate, showConfirm, t]);
 
   return (
     <Toolbar className="editor-toolbar">
+      <ConfirmDialog
+        isOpen={isOpen}
+        title={config.title}
+        message={config.message}
+        onConfirm={handleConfirm}
+        onCancel={handleCancel}
+        confirmText={config.confirmText}
+        cancelText={config.cancelText}
+        variant={config.variant}
+      />
       <Toolbar.Left>
         <AppButton
           variant="ghost"
-          onClick={handleResetToGallery}
+          onClick={handleBackClick}
           className="editor-toolbar__back-button"
         >
           <ArrowLeft size={16} />
@@ -61,10 +87,6 @@ export const EditorToolbar = ({ selectedTemplate }) => {
       <Toolbar.Right>
         <LanguageSwitcher />
         <Divider orientation="vertical" spacing={0} />
-        <AppButton variant="secondary" onClick={handleResetCurrentConfig}>
-          <RotateCcw size={16} />
-          {t("editor.toolbar.resetButton")}
-        </AppButton>
         <ExportButton />
       </Toolbar.Right>
     </Toolbar>

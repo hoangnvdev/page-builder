@@ -11,6 +11,16 @@
     display: none;
   }
 
+  // Desktop/Laptop mode - align right side items to the end
+  .toolbar__right {
+    justify-content: flex-end;
+    gap: 24px;
+
+    .divider {
+      display: none;
+    }
+  }
+
   &__back-button {
     font-size: 1rem;
     font-weight: 500;

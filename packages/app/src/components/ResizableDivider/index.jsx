@@ -1,8 +1,11 @@
-import "./index.scss";
+import './index.scss';
 
-import { useEffect, useRef } from "react";
+import {
+  useEffect,
+  useRef,
+} from 'react';
 
-import PropTypes from "prop-types";
+import PropTypes from 'prop-types';
 
 export const ResizableDivider = ({ onResize, orientation = "horizontal" }) => {
   const isDraggingRef = useRef(false);
@@ -10,6 +13,9 @@ export const ResizableDivider = ({ onResize, orientation = "horizontal" }) => {
   useEffect(() => {
     const handleMouseMove = (e) => {
       if (!isDraggingRef.current) return;
+
+      e.preventDefault();
+      e.stopPropagation();
 
       if (orientation === "horizontal") {
         // Desktop: adjust panel width (RTL-aware)
@@ -46,6 +52,9 @@ export const ResizableDivider = ({ onResize, orientation = "horizontal" }) => {
     const handleTouchMove = (e) => {
       if (!isDraggingRef.current) return;
 
+      e.preventDefault();
+      e.stopPropagation();
+
       const touch = e.touches[0];
       if (orientation === "horizontal") {
         const containerWidth = window.innerWidth;
@@ -77,7 +86,11 @@ export const ResizableDivider = ({ onResize, orientation = "horizontal" }) => {
       }
     };
 
-    const handleMouseUp = () => {
+    const handleMouseUp = (e) => {
+      if (isDraggingRef.current) {
+        e.preventDefault();
+        e.stopPropagation();
+      }
       isDraggingRef.current = false;
       document.body.style.cursor = "";
       document.body.style.userSelect = "";
@@ -96,14 +109,18 @@ export const ResizableDivider = ({ onResize, orientation = "horizontal" }) => {
     };
   }, [onResize, orientation]);
 
-  const handleMouseDown = () => {
+  const handleMouseDown = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
     isDraggingRef.current = true;
     document.body.style.cursor =
       orientation === "horizontal" ? "ew-resize" : "ns-resize";
     document.body.style.userSelect = "none";
   };
 
-  const handleTouchStart = () => {
+  const handleTouchStart = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
     isDraggingRef.current = true;
     document.body.style.userSelect = "none";
   };

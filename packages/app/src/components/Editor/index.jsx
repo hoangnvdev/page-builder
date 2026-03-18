@@ -48,7 +48,17 @@ export const Editor = () => {
   const [isRehydrating, setIsRehydrating] = useState(false);
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 1024);
   const [isPanelVisible, setIsPanelVisible] = useState(true);
-  const [showHelperText, setShowHelperText] = useState(true);
+
+  // Check if user has seen the welcome helper before
+  const [showHelperText, setShowHelperText] = useState(() => {
+    try {
+      const hasSeenWelcome = localStorage.getItem("hasSeenWelcomeHelper");
+      return hasSeenWelcome !== "true";
+    } catch (err) {
+      console.error("Failed to check welcome helper status:", err);
+      return true;
+    }
+  });
 
   const getDefaultSplit = () => {
     const width = window.innerWidth;
@@ -151,6 +161,11 @@ export const Editor = () => {
 
   const handleDismissHelper = useCallback(() => {
     setShowHelperText(false);
+    try {
+      localStorage.setItem("hasSeenWelcomeHelper", "true");
+    } catch (err) {
+      console.error("Failed to save welcome helper status:", err);
+    }
   }, []);
 
   const orientation = isMobile ? "vertical" : "horizontal";

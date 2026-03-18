@@ -3,8 +3,7 @@
     "toolbar": {
       "backButton": "العودة إلى القوالب",
       "undoButton": "تراجع",
-      "redoButton": "إعادة",
-      "resetButton": "إعادة تعيين إلى الافتراضي"
+      "redoButton": "إعادة"
     },
     "loading": {
       "title": "جارٍ استعادة القالب...",
@@ -36,7 +35,18 @@
     "future": "التالي",
     "change": "تغيير",
     "moreChanges": "المزيد",
-    "unknownChange": "تغيير غير معروف"
+    "unknownChange": "تغيير غير معروف",
+    "resetButton": "إعادة تعيين إلى الافتراضي"
+  },
+  "confirmDialog": {
+    "cancel": "إلغاء",
+    "confirm": "تأكيد",
+    "resetTitle": "البدء من جديد؟",
+    "resetMessage": "ستفقد جميع التغييرات وسيعود القالب إلى الإعدادات الافتراضية. لا يمكن التراجع عن هذا الإجراء.",
+    "resetConfirm": "نعم، إعادة تعيين",
+    "backTitle": "مغادرة هذا القالب؟",
+    "backMessage": "لديك تغييرات غير محفوظة. إذا غادرت الآن، ستفقد جميع أعمالك.",
+    "backConfirm": "نعم، غادر"
   },
   "propertyPanel": {
     "title": {
@@ -79,6 +89,11 @@
       "title": "لا توجد قوالب متاحة",
       "description": "لم يتم العثور على قوالب."
     }
+  },
+  "notFound": {
+    "title": "الصفحة غير موجودة",
+    "description": "عذراً، الصفحة التي تبحث عنها غير موجودة. ربما تم نقلها أو حذفها.",
+    "goHome": "العودة إلى القوالب"
   },
   "formField": {
     "button": {

@@ -1,9 +1,16 @@
-import React from "react";
+import React from 'react';
 
-import { useTranslation } from "react-i18next";
-import { Navigate, Route, Routes } from "react-router-dom";
+import { useTranslation } from 'react-i18next';
+import {
+  Navigate,
+  Route,
+  Routes,
+} from 'react-router-dom';
 
-import { ErrorBoundary, LoadingIndicator } from "@/components";
+import {
+  ErrorBoundary,
+  LoadingIndicator,
+} from '@/components';
 
 const LazyDesignPage = React.lazy(() =>
   import("@/pages/Design").then((module) => ({ default: module.DesignPage })),
@@ -11,6 +18,11 @@ const LazyDesignPage = React.lazy(() =>
 const LazyTemplatePage = React.lazy(() =>
   import("@/pages/Template").then((module) => ({
     default: module.TemplatePage,
+  })),
+);
+const LazyNotFoundPage = React.lazy(() =>
+  import("@/pages/NotFound").then((module) => ({
+    default: module.NotFoundPage,
   })),
 );
 
@@ -52,6 +64,14 @@ export const AppRoutes = () => {
               <LazyDesignPage />
             </React.Suspense>
           </ErrorBoundary>
+        }
+      />
+      <Route
+        path="*"
+        element={
+          <React.Suspense fallback={<div />}>
+            <LazyNotFoundPage />
+          </React.Suspense>
         }
       />
     </Routes>

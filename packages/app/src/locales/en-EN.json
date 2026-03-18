@@ -3,8 +3,7 @@
     "toolbar": {
       "backButton": "All Templates",
       "undoButton": "Undo",
-      "redoButton": "Redo",
-      "resetButton": "Start Over"
+      "redoButton": "Redo"
     },
     "loading": {
       "title": "Getting Your Design Ready...",
@@ -18,7 +17,7 @@
   },
   "export": {
     "button": {
-      "exported": "✓ Downloaded!",
+      "exported": "Downloaded!",
       "exportHtml": "Download HTML"
     },
     "error": {
@@ -36,7 +35,18 @@
     "future": "Next",
     "change": "Change",
     "moreChanges": "more",
-    "unknownChange": "Unknown change"
+    "unknownChange": "Unknown change",
+    "resetButton": "Start Over"
+  },
+  "confirmDialog": {
+    "cancel": "Cancel",
+    "confirm": "Confirm",
+    "resetTitle": "Start Over?",
+    "resetMessage": "All your changes will be lost and the template will reset to default. This action cannot be undone.",
+    "resetConfirm": "Yes, Start Over",
+    "backTitle": "Leave This Template?",
+    "backMessage": "You have unsaved changes. If you leave now, all your work will be lost.",
+    "backConfirm": "Yes, Leave"
   },
   "propertyPanel": {
     "title": {
@@ -79,6 +89,11 @@
       "title": "No Templates Yet",
       "description": "Looks like we don't have any templates available right now."
     }
+  },
+  "notFound": {
+    "title": "Page Not Found",
+    "description": "Sorry, the page you're looking for doesn't exist. It might have been moved or deleted.",
+    "goHome": "Back to Templates"
   },
   "formField": {
     "button": {
