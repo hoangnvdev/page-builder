@@ -1,9 +1,12 @@
-import "./index.scss";
+import './index.scss';
 
-import { memo, useMemo } from "react";
+import {
+  memo,
+  useMemo,
+} from 'react';
 
-import PropTypes from "prop-types";
-import { useTranslation } from "react-i18next";
+import PropTypes from 'prop-types';
+import { useTranslation } from 'react-i18next';
 
 import {
   ColorPicker,
@@ -14,11 +17,24 @@ import {
   Slider,
   Textarea,
   Toggle,
-} from "@page-builder/ui";
+} from '@page-builder/ui';
 
 export const FormField = memo(
-  ({ id, label, type, value, onChange, options, min, max, step, labels }) => {
+  ({
+    id,
+    label,
+    type,
+    value,
+    onChange,
+    onBlur,
+    options,
+    min,
+    max,
+    step,
+    labels,
+  }) => {
     const { t } = useTranslation();
+
     // Generate a stable unique ID for the field
     const fieldId = useMemo(() => `field-${id.replace(/\./g, "-")}`, [id]);
 
@@ -91,6 +107,7 @@ export const FormField = memo(
               label={translatedLabel}
               value={value}
               onChange={onChange}
+              onBlur={onBlur}
               placeholder={
                 label === "icon" ? t("ui.icon.placeholder") : undefined
               }
@@ -104,6 +121,7 @@ export const FormField = memo(
               label={translatedLabel}
               value={value}
               onChange={onChange}
+              onBlur={onBlur}
               rows={4}
             />
           );
@@ -243,6 +261,7 @@ FormField.propTypes = {
   ]).isRequired,
   value: PropTypes.any,
   onChange: PropTypes.func.isRequired,
+  onBlur: PropTypes.func,
   options: PropTypes.oneOfType([
     PropTypes.arrayOf(
       PropTypes.shape({

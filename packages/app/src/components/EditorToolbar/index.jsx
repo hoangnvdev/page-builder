@@ -1,18 +1,28 @@
-import "./index.scss";
+import './index.scss';
 
-import { useCallback } from "react";
+import { useCallback } from 'react';
 
-import { ArrowLeft, RotateCcw } from "lucide-react";
-import { useTranslation } from "react-i18next";
-import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import {
+  ArrowLeft,
+  RotateCcw,
+} from 'lucide-react';
+import { useTranslation } from 'react-i18next';
+import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
-import { resetCurrentConfig, resetToGallery } from "@/store/builderSlice";
-import { Divider, Title, Toolbar } from "@page-builder/ui";
+import {
+  resetCurrentConfig,
+  resetToGallery,
+} from '@/store/builderSlice';
+import {
+  Divider,
+  Title,
+  Toolbar,
+} from '@page-builder/ui';
 
-import { AppButton } from "../AppButton";
-import { ExportButton } from "../ExportButton";
-import { LanguageSwitcher } from "../LanguageSwitcher";
+import { AppButton } from '../AppButton';
+import { ExportButton } from '../ExportButton';
+import { LanguageSwitcher } from '../LanguageSwitcher';
 
 export const EditorToolbar = ({ selectedTemplate }) => {
   const { t } = useTranslation();

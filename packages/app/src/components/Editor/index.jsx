@@ -1,29 +1,42 @@
-import "./index.scss";
+import './index.scss';
 
-import { useCallback, useEffect, useMemo, useState } from "react";
+import {
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+} from 'react';
 
-import { useTranslation } from "react-i18next";
-import { useDispatch, useSelector } from "react-redux";
-import { Navigate, useNavigate } from "react-router-dom";
+import { useTranslation } from 'react-i18next';
+import {
+  useDispatch,
+  useSelector,
+} from 'react-redux';
+import {
+  Navigate,
+  useNavigate,
+} from 'react-router-dom';
 
 import {
   EditorToggleButton,
   ErrorBoundary,
   HelperText,
   LoadingIndicator,
-} from "@/components";
-import { fetchTemplateByIdFromAPI } from "@/services";
+} from '@/components';
+import { fetchTemplateByIdFromAPI } from '@/services';
 import {
+  redo,
   rehydrateTemplateComponent,
   resetToGallery,
-} from "@/store/builderSlice";
-import { processTemplateConfig } from "@/utils";
-import { Flex } from "@page-builder/ui";
+  undo,
+} from '@/store/builderSlice';
+import { processTemplateConfig } from '@/utils';
+import { Flex } from '@page-builder/ui';
 
-import { EditorToolbar } from "../EditorToolbar";
-import { PreviewRenderer } from "../PreviewRenderer";
-import { PropertyPanel } from "../PropertyPanel";
-import { ResizableDivider } from "../ResizableDivider";
+import { EditorToolbar } from '../EditorToolbar';
+import { PreviewRenderer } from '../PreviewRenderer';
+import { PropertyPanel } from '../PropertyPanel';
+import { ResizableDivider } from '../ResizableDivider';
 
 export const Editor = () => {
   const { t } = useTranslation();
@@ -73,18 +86,59 @@ export const Editor = () => {
 
   // Handle window resize to adjust orientation
   useEffect(() => {
+    let prevIsMobile = isMobile;
+
     const handleResize = () => {
       const mobile = window.innerWidth <= 1024;
+      const modeChanged = prevIsMobile !== mobile;
+
       setIsMobile(mobile);
-      // Reset split when switching between mobile and desktop
-      const width = window.innerWidth;
-      const defaultSplit = width <= 1024 ? 60 : 100 - (350 / width) * 100;
-      setSplitPercentage(defaultSplit);
+
+      // Only reset split when switching between mobile and desktop modes
+      if (modeChanged) {
+        const width = window.innerWidth;
+        const defaultSplit = width <= 1024 ? 60 : 100 - (350 / width) * 100;
+        setSplitPercentage(defaultSplit);
+        prevIsMobile = mobile;
+      }
     };
 
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
-  }, []);
+  }, [isMobile]);
+
+  // Handle keyboard shortcuts for undo/redo
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      // Check if user is typing in an input/textarea
+      const isInputField =
+        e.target.tagName === "INPUT" ||
+        e.target.tagName === "TEXTAREA" ||
+        e.target.contentEditable === "true";
+
+      // Don't trigger shortcuts when typing in input fields
+      if (isInputField) return;
+
+      // Ctrl+Z or Cmd+Z for undo
+      if ((e.ctrlKey || e.metaKey) && e.key === "z" && !e.shiftKey) {
+        e.preventDefault();
+        dispatch(undo());
+      }
+
+      // Ctrl+Y or Cmd+Y for redo (Windows/Linux)
+      // Ctrl+Shift+Z or Cmd+Shift+Z for redo (Mac)
+      if (
+        ((e.ctrlKey || e.metaKey) && e.key === "y") ||
+        ((e.ctrlKey || e.metaKey) && e.shiftKey && e.key === "z")
+      ) {
+        e.preventDefault();
+        dispatch(redo());
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [dispatch]);
 
   // IMPORTANT: All hooks must be defined BEFORE any conditional returns
   const handleResize = useCallback((percentage) => {
