@@ -1,8 +1,8 @@
-import './index.scss';
+import "./index.scss";
 
-import React from 'react';
+import React from "react";
 
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 
 export const Slider = ({
   value = 0,
@@ -10,6 +10,7 @@ export const Slider = ({
   max = 100,
   step = 1,
   onChange,
+  onBlur,
   label,
   labels = [],
   disabled = false,
@@ -22,8 +23,12 @@ export const Slider = ({
     onChange?.(newValue);
   };
 
-  // Calculate the number of steps
-  const numSteps = Math.round((max - min) / step);
+  const handleBlur = (e) => {
+    if (onBlur) {
+      const newValue = parseFloat(e.target.value);
+      onBlur(newValue);
+    }
+  };
 
   // Get the label for current value if labels array is provided
   const getCurrentLabel = () => {
@@ -45,6 +50,7 @@ export const Slider = ({
           step={step}
           value={value}
           onChange={handleChange}
+          onBlur={handleBlur}
           disabled={disabled}
           className="slider__input"
           {...props}
@@ -79,6 +85,7 @@ Slider.propTypes = {
   max: PropTypes.number,
   step: PropTypes.number,
   onChange: PropTypes.func,
+  onBlur: PropTypes.func,
   label: PropTypes.string,
   labels: PropTypes.arrayOf(PropTypes.string),
   disabled: PropTypes.bool,

@@ -1,53 +1,70 @@
-import './index.scss';
+import "./index.scss";
 
 import {
   useCallback,
+  useContext,
   useEffect,
   useMemo,
+  useRef,
   useState,
-} from 'react';
+} from "react";
 
-import { useTranslation } from 'react-i18next';
-import {
-  useDispatch,
-  useSelector,
-} from 'react-redux';
+import { useTranslation } from "react-i18next";
+import { useDispatch, useSelector } from "react-redux";
 import {
   Navigate,
+  UNSAFE_NavigationContext,
+  useLocation,
   useNavigate,
-} from 'react-router-dom';
+} from "react-router-dom";
 
 import {
   EditorToggleButton,
   ErrorBoundary,
   HelperText,
   LoadingIndicator,
-} from '@/components';
-import { fetchTemplateByIdFromAPI } from '@/services';
+} from "@/components";
+import { useConfirmDialog } from "@/hooks";
+import { fetchTemplateByIdFromAPI } from "@/services";
 import {
   redo,
   rehydrateTemplateComponent,
   resetToGallery,
   undo,
-} from '@/store/builderSlice';
-import { processTemplateConfig } from '@/utils';
-import { Flex } from '@page-builder/ui';
+} from "@/store/builderSlice";
+import { processTemplateConfig } from "@/utils";
+import { Flex } from "@page-builder/ui";
 
-import { EditorToolbar } from '../EditorToolbar';
-import { PreviewRenderer } from '../PreviewRenderer';
-import { PropertyPanel } from '../PropertyPanel';
-import { ResizableDivider } from '../ResizableDivider';
+import { ConfirmDialog } from "../ConfirmDialog";
+import { EditorToolbar } from "../EditorToolbar";
+import { PreviewRenderer } from "../PreviewRenderer";
+import { PropertyPanel } from "../PropertyPanel";
+import { ResizableDivider } from "../ResizableDivider";
 
 export const Editor = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const location = useLocation();
+  const navigationContext = useContext(UNSAFE_NavigationContext);
+
   const selectedTemplate = useSelector(
     (state) => state.builder.selectedTemplate,
   );
+  const { isOpen, config, showConfirm, handleConfirm, handleCancel } =
+    useConfirmDialog();
+
+  const hasHistory = useSelector(
+    (state) =>
+      (state.builder.history?.past?.length || 0) > 0 ||
+      (state.builder.history?.future?.length || 0) > 0,
+  );
+
   const [isRehydrating, setIsRehydrating] = useState(false);
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 1024);
   const [isPanelVisible, setIsPanelVisible] = useState(true);
+  const pendingNavigationRef = useRef(null);
+  const isHandlingPopStateRef = useRef(false);
 
   // Check if user has seen the welcome helper before
   const [showHelperText, setShowHelperText] = useState(() => {
@@ -93,6 +110,162 @@ export const Editor = () => {
 
     rehydrateTemplate();
   }, [selectedTemplate, dispatch, navigate]);
+
+  // Intercept navigation when there are unsaved changes
+  useEffect(() => {
+    if (!navigationContext || !hasHistory) return;
+
+    const originalPush = navigationContext.navigator.push;
+    const originalReplace = navigationContext.navigator.replace;
+    const originalGo = navigationContext.navigator.go;
+
+    navigationContext.navigator.push = function (to, state) {
+      if (
+        hasHistory &&
+        location.pathname !== (typeof to === "string" ? to : to.pathname)
+      ) {
+        pendingNavigationRef.current = { method: "push", to, state };
+        showConfirm({
+          title: t("confirmDialog.backTitle"),
+          message: t("confirmDialog.backMessage"),
+          confirmText: t("confirmDialog.backConfirm"),
+          cancelText: t("confirmDialog.cancel"),
+          variant: "warning",
+          onConfirm: () => {
+            dispatch(resetToGallery());
+            originalPush.call(navigationContext.navigator, to, state);
+            pendingNavigationRef.current = null;
+          },
+        });
+      } else {
+        originalPush.call(navigationContext.navigator, to, state);
+      }
+    };
+
+    navigationContext.navigator.replace = function (to, state) {
+      if (
+        hasHistory &&
+        location.pathname !== (typeof to === "string" ? to : to.pathname)
+      ) {
+        pendingNavigationRef.current = { method: "replace", to, state };
+        showConfirm({
+          title: t("confirmDialog.backTitle"),
+          message: t("confirmDialog.backMessage"),
+          confirmText: t("confirmDialog.backConfirm"),
+          cancelText: t("confirmDialog.cancel"),
+          variant: "warning",
+          onConfirm: () => {
+            dispatch(resetToGallery());
+            originalReplace.call(navigationContext.navigator, to, state);
+            pendingNavigationRef.current = null;
+          },
+        });
+      } else {
+        originalReplace.call(navigationContext.navigator, to, state);
+      }
+    };
+
+    navigationContext.navigator.go = function (delta) {
+      if (hasHistory) {
+        pendingNavigationRef.current = { method: "go", delta };
+        showConfirm({
+          title: t("confirmDialog.backTitle"),
+          message: t("confirmDialog.backMessage"),
+          confirmText: t("confirmDialog.backConfirm"),
+          cancelText: t("confirmDialog.cancel"),
+          variant: "warning",
+          onConfirm: () => {
+            dispatch(resetToGallery());
+            originalGo.call(navigationContext.navigator, delta);
+            pendingNavigationRef.current = null;
+          },
+        });
+      } else {
+        originalGo.call(navigationContext.navigator, delta);
+      }
+    };
+
+    return () => {
+      navigationContext.navigator.push = originalPush;
+      navigationContext.navigator.replace = originalReplace;
+      navigationContext.navigator.go = originalGo;
+    };
+  }, [
+    navigationContext,
+    hasHistory,
+    location.pathname,
+    showConfirm,
+    t,
+    dispatch,
+  ]);
+
+  // Handle browser back/forward buttons (including mouse buttons)
+  useEffect(() => {
+    const handlePopState = (event) => {
+      if (isHandlingPopStateRef.current) return;
+
+      if (hasHistory) {
+        // Prevent the navigation by pushing back to current location
+        isHandlingPopStateRef.current = true;
+        window.history.pushState(null, "", location.pathname + location.search);
+
+        showConfirm({
+          title: t("confirmDialog.backTitle"),
+          message: t("confirmDialog.backMessage"),
+          confirmText: t("confirmDialog.backConfirm"),
+          cancelText: t("confirmDialog.cancel"),
+          variant: "warning",
+          onConfirm: () => {
+            dispatch(resetToGallery());
+            isHandlingPopStateRef.current = false;
+            window.history.back();
+          },
+          onCancel: () => {
+            isHandlingPopStateRef.current = false;
+          },
+        });
+      }
+    };
+
+    window.addEventListener("popstate", handlePopState);
+
+    // Push initial state to enable back button interception
+    if (hasHistory) {
+      window.history.pushState(null, "", location.pathname + location.search);
+    }
+
+    return () => {
+      window.removeEventListener("popstate", handlePopState);
+    };
+  }, [
+    hasHistory,
+    location.pathname,
+    location.search,
+    showConfirm,
+    t,
+    dispatch,
+  ]);
+
+  // Handle cancel from confirmation dialog
+  useEffect(() => {
+    if (!isOpen && pendingNavigationRef.current) {
+      pendingNavigationRef.current = null;
+    }
+  }, [isOpen]);
+
+  // Prevent browser close/refresh when there are unsaved changes
+  useEffect(() => {
+    const handleBeforeUnload = (e) => {
+      if (hasHistory) {
+        e.preventDefault();
+        e.returnValue = "";
+        return "";
+      }
+    };
+
+    window.addEventListener("beforeunload", handleBeforeUnload);
+    return () => window.removeEventListener("beforeunload", handleBeforeUnload);
+  }, [hasHistory]);
 
   // Handle window resize to adjust orientation
   useEffect(() => {
@@ -203,6 +376,16 @@ export const Editor = () => {
 
   return (
     <Flex direction="column" className="editor">
+      <ConfirmDialog
+        isOpen={isOpen}
+        title={config.title}
+        message={config.message}
+        onConfirm={handleConfirm}
+        onCancel={handleCancel}
+        confirmText={config.confirmText}
+        cancelText={config.cancelText}
+        variant={config.variant}
+      />
       <EditorToolbar selectedTemplate={selectedTemplate} />
 
       <Flex className="editor__content">

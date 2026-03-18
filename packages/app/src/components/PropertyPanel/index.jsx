@@ -1,32 +1,17 @@
-import './index.scss';
+import "./index.scss";
 
-import {
-  memo,
-  useCallback,
-  useMemo,
-  useRef,
-} from 'react';
+import { memo, useCallback, useMemo, useRef } from "react";
 
-import { useTranslation } from 'react-i18next';
-import {
-  useDispatch,
-  useSelector,
-} from 'react-redux';
+import { useTranslation } from "react-i18next";
+import { useSelector } from "react-redux";
 
-import { useSelection } from '@/contexts/SelectionContext';
-import {
-  updateConfig,
-  updateConfigLive,
-} from '@/store/builderSlice';
+import { useSelection } from "@/contexts/SelectionContext";
+import { useFieldHandlers } from "@/hooks";
 import {
   getFieldsForElement,
   getSingularTemplateName,
-} from '@/utils/schemaProcessor';
-import {
-  deepMerge,
-  getNestedValue,
-  setNestedValue,
-} from '@helpers';
+} from "@/utils/schemaProcessor";
+import { deepMerge, getNestedValue } from "@helpers";
 import {
   EmptyState,
   FieldGroup,
@@ -34,22 +19,20 @@ import {
   Panel,
   SubTitle,
   Title,
-} from '@page-builder/ui';
+} from "@page-builder/ui";
 
-import { FormField } from '../FormField';
-import { HistoryControls } from '../HistoryControls';
+import { FormField } from "../FormField";
+import { HistoryControls } from "../HistoryControls";
 
 export const PropertyPanel = () => {
   const { t, i18n } = useTranslation();
-  const dispatch = useDispatch();
   const { selectedElement, selectedSubElement } = useSelection();
+  const { getOnChangeHandler, getOnBlurHandler, shouldUseBlur } =
+    useFieldHandlers();
   const selectedTemplate = useSelector(
     (state) => state.builder.selectedTemplate,
   );
   const currentConfig = useSelector((state) => state.builder.currentConfig);
-
-  // Store stable onChange handlers for each field path
-  const onChangeHandlers = useRef(new Map());
 
   // Cache for enhanced field options (cleared when template changes)
   const enhancedFieldsCache = useRef(new Map());
@@ -156,64 +139,6 @@ export const PropertyPanel = () => {
     [tempConfig],
   );
 
-  // Handle field changes - MUST be defined before any conditional returns (Rules of Hooks)
-  const handleFieldChange = useCallback(
-    (fieldPath, value, isLiveUpdate = false) => {
-      // Read fresh config from Redux and update
-      dispatch((dispatch, getState) => {
-        const state = getState();
-        const currentConfig = state.builder.currentConfig;
-        const selectedTemplate = state.builder.selectedTemplate;
-
-        const tempConfig = deepMerge(
-          selectedTemplate?.defaultConfig || {},
-          currentConfig || {},
-        );
-        const newConfig = JSON.parse(JSON.stringify(tempConfig));
-        setNestedValue(newConfig, fieldPath, value);
-
-        // Use live update action for text inputs (no history), regular update for others
-        if (isLiveUpdate) {
-          dispatch(updateConfigLive(newConfig));
-        } else {
-          dispatch(updateConfig(newConfig));
-        }
-      });
-    },
-    [dispatch],
-  );
-
-  // Get or create a stable onChange handler for a specific field path
-  const getOnChangeHandler = useCallback(
-    (fieldPath, fieldType) => {
-      const handlerKey = `${fieldPath}-${fieldType}`;
-      if (!onChangeHandlers.current.has(handlerKey)) {
-        // For text/textarea, use live updates
-        const isTextInput = fieldType === "text" || fieldType === "textarea";
-        onChangeHandlers.current.set(handlerKey, (value) =>
-          handleFieldChange(fieldPath, value, isTextInput),
-        );
-      }
-      return onChangeHandlers.current.get(handlerKey);
-    },
-    [handleFieldChange],
-  );
-
-  // Get onBlur handler for text inputs to commit to history
-  const getOnBlurHandler = useCallback(
-    (fieldPath) => {
-      const blurKey = `${fieldPath}-blur`;
-      if (!onChangeHandlers.current.has(blurKey)) {
-        onChangeHandlers.current.set(
-          blurKey,
-          (value) => handleFieldChange(fieldPath, value, false), // Commit to history on blur
-        );
-      }
-      return onChangeHandlers.current.get(blurKey);
-    },
-    [handleFieldChange],
-  );
-
   //============================================
   // EARLY RETURNS (all hooks must be above)
   //============================================
@@ -253,9 +178,7 @@ export const PropertyPanel = () => {
             {pageFields.fields.map((field) => {
               const enhancedField = enhanceFieldOptions(field);
               const fieldValue = getNestedValue(tempConfig, field.path);
-              const isTextInput =
-                enhancedField.type === "text" ||
-                enhancedField.type === "textarea";
+              const usesBlur = shouldUseBlur(enhancedField.type);
 
               return (
                 <FormField
@@ -265,9 +188,7 @@ export const PropertyPanel = () => {
                   type={enhancedField.type}
                   value={fieldValue || ""}
                   onChange={getOnChangeHandler(field.path, enhancedField.type)}
-                  onBlur={
-                    isTextInput ? getOnBlurHandler(field.path) : undefined
-                  }
+                  onBlur={usesBlur ? getOnBlurHandler(field.path) : undefined}
                   options={enhancedField.options}
                   min={field.min}
                   max={field.max}
@@ -431,9 +352,7 @@ export const PropertyPanel = () => {
                 fieldValue = String(fieldValue);
               }
 
-              const isTextInput =
-                enhancedField.type === "text" ||
-                enhancedField.type === "textarea";
+              const usesBlur = shouldUseBlur(enhancedField.type);
 
               return (
                 <FormField
@@ -443,9 +362,7 @@ export const PropertyPanel = () => {
                   type={enhancedField.type}
                   value={fieldValue ?? ""}
                   onChange={getOnChangeHandler(field.path, enhancedField.type)}
-                  onBlur={
-                    isTextInput ? getOnBlurHandler(field.path) : undefined
-                  }
+                  onBlur={usesBlur ? getOnBlurHandler(field.path) : undefined}
                   options={enhancedField.options}
                   min={field.min}
                   max={field.max}
@@ -479,9 +396,7 @@ export const PropertyPanel = () => {
                     fieldValue = String(fieldValue);
                   }
 
-                  const isTextInput =
-                    enhancedField.type === "text" ||
-                    enhancedField.type === "textarea";
+                  const usesBlur = shouldUseBlur(enhancedField.type);
 
                   return (
                     <FormField
@@ -495,7 +410,7 @@ export const PropertyPanel = () => {
                         enhancedField.type,
                       )}
                       onBlur={
-                        isTextInput ? getOnBlurHandler(field.path) : undefined
+                        usesBlur ? getOnBlurHandler(field.path) : undefined
                       }
                       options={enhancedField.options}
                       min={field.min}
