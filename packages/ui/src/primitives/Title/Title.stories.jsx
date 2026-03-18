@@ -1,7 +1,7 @@
-import { Title } from "./index.jsx";
+import { Title } from './index.jsx';
 
 export default {
-  title: "Components/Title",
+  title: "Primitives/Title",
   component: Title,
   tags: ["autodocs"],
   argTypes: {

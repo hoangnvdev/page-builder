@@ -8,8 +8,8 @@ All image components in the page builder now use a consistent default image (`de
 
 The default image is stored in **two locations**:
 
-1. **Source**: `packages/app/assets/images/default-image.png` (original)
-2. **Used by UI**: `packages/ui/assets/images/default-image.png` (copy)
+1. **App Package**: `packages/app/src/assets/images/default-image.png`
+2. **UI Package**: `packages/ui/assets/images/default-image.png`
 
 The image is duplicated in the UI package because the primitive UI components (`Image`, `Avatar`, `Card`) need direct access to it without depending on the app package.
 
@@ -163,7 +163,7 @@ To use a different default image:
 1. **Replace the file** in both locations:
 
    ```
-   packages/app/assets/images/default-image.png
+   packages/app/src/assets/images/default-image.png
    packages/ui/assets/images/default-image.png
    ```
 

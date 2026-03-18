@@ -1,8 +1,8 @@
-import { Title } from "../Title/index.jsx";
-import { SubTitle } from "./index.jsx";
+import { Title } from '../Title/index.jsx';
+import { SubTitle } from './index.jsx';
 
 export default {
-  title: "Components/SubTitle",
+  title: "Primitives/SubTitle",
   component: SubTitle,
   tags: ["autodocs"],
 };

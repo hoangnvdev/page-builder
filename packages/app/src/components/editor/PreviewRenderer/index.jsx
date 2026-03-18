@@ -11,7 +11,7 @@ import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 
 import { useSelection } from '@/contexts/SelectionContext';
-import { deepMerge } from '@helpers';
+import { deepMerge } from '@/utils';
 
 import { EmptyState } from '../../common/EmptyState';
 import { TemplateRenderer } from '../../templates/TemplateRenderer';

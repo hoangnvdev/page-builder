@@ -13,13 +13,13 @@ import { useSelector } from 'react-redux';
 import { useSelection } from '@/contexts/SelectionContext';
 import { useFieldHandlers } from '@/hooks';
 import {
+  deepMerge,
+  getNestedValue,
+} from '@/utils';
+import {
   getFieldsForElement,
   getSingularTemplateName,
 } from '@/utils/schemaProcessor';
-import {
-  deepMerge,
-  getNestedValue,
-} from '@helpers';
 
 import { EmptyState } from '../../common/EmptyState';
 import { FieldGroup } from '../../form/FieldGroup';
