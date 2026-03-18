@@ -1,7 +1,4 @@
-import {
-  useCallback,
-  useState,
-} from 'react';
+import { useCallback, useState } from "react";
 
 export const useConfirmDialog = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -12,6 +9,7 @@ export const useConfirmDialog = () => {
     cancelText: "",
     variant: "warning",
     onConfirm: () => {},
+    onCancel: () => {},
   });
 
   const showConfirm = useCallback(
@@ -22,6 +20,7 @@ export const useConfirmDialog = () => {
       cancelText,
       variant = "warning",
       onConfirm,
+      onCancel,
     }) => {
       setConfig({
         title,
@@ -30,6 +29,7 @@ export const useConfirmDialog = () => {
         cancelText,
         variant,
         onConfirm,
+        onCancel,
       });
       setIsOpen(true);
     },
@@ -42,8 +42,11 @@ export const useConfirmDialog = () => {
   }, [config]);
 
   const handleCancel = useCallback(() => {
+    if (config.onCancel) {
+      config.onCancel();
+    }
     setIsOpen(false);
-  }, []);
+  }, [config]);
 
   return {
     isOpen,

@@ -1,12 +1,9 @@
-import './index.scss';
+import "./index.scss";
 
-import {
-  memo,
-  useMemo,
-} from 'react';
+import { memo, useMemo } from "react";
 
-import PropTypes from 'prop-types';
-import { useTranslation } from 'react-i18next';
+import PropTypes from "prop-types";
+import { useTranslation } from "react-i18next";
 
 import {
   ColorPicker,
@@ -17,7 +14,7 @@ import {
   Slider,
   Textarea,
   Toggle,
-} from '@page-builder/ui';
+} from "@page-builder/ui";
 
 export const FormField = memo(
   ({
@@ -133,6 +130,7 @@ export const FormField = memo(
               label={translatedLabel}
               value={value}
               onChange={onChange}
+              onBlur={onBlur}
             />
           );
 
@@ -147,6 +145,7 @@ export const FormField = memo(
               type="number"
               value={value}
               onChange={onChange}
+              onBlur={onBlur}
               min={options?.min}
               max={options?.max}
               step={options?.step || 1}
@@ -170,6 +169,7 @@ export const FormField = memo(
               max={max || 100}
               step={step || 1}
               onChange={onChange}
+              onBlur={onBlur}
               label={translatedLabel}
               labels={labels}
               showValue={!labels}

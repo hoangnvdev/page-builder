@@ -8,6 +8,7 @@ export const ColorPicker = ({
   label,
   value,
   onChange,
+  onBlur,
   disabled = false,
   error,
   helperText,
@@ -30,6 +31,16 @@ export const ColorPicker = ({
     }
   };
 
+  const handleBlur = (e) => {
+    if (onBlur) {
+      onBlur(
+        e.target.value === "transparent"
+          ? "transparent"
+          : e.target.value || "#000000",
+      );
+    }
+  };
+
   return (
     <div className={`color-picker ${className}`} style={style}>
       {label && (
@@ -45,6 +56,7 @@ export const ColorPicker = ({
           type="color"
           value={value === "transparent" ? "#000000" : value || "#000000"}
           onChange={(e) => handleColorChange(e.target.value)}
+          onBlur={handleBlur}
           disabled={disabled}
           className="color-picker__color-input"
           {...props}
@@ -55,6 +67,7 @@ export const ColorPicker = ({
           type="text"
           value={value || ""}
           onChange={(e) => handleColorChange(e.target.value)}
+          onBlur={handleBlur}
           disabled={disabled}
           placeholder={placeholder || t("ui.colorPicker.placeholder")}
           className={`color-picker__text-input ${error ? "color-picker__text-input--error" : ""}`}
@@ -73,6 +86,7 @@ ColorPicker.propTypes = {
   label: PropTypes.string,
   value: PropTypes.string,
   onChange: PropTypes.func.isRequired,
+  onBlur: PropTypes.func,
   disabled: PropTypes.bool,
   error: PropTypes.string,
   helperText: PropTypes.string,
