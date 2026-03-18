@@ -10,7 +10,6 @@ packages/ui/src/
 │   └── images/
 │       └── default-image.png  # Default fallback image
 ├── components/          # All primitive UI components
-│   ├── Avatar/
 │   ├── Badge/
 │   ├── Button/
 │   ├── Card/
@@ -18,14 +17,16 @@ packages/ui/src/
 │   ├── Container/
 │   ├── Divider/
 │   ├── EmptyState/
+│   ├── ErrorBoundary/
+│   ├── ErrorDisplay/
+│   ├── FieldGroup/
 │   ├── Flex/
 │   ├── Grid/
 │   ├── Image/
 │   ├── Input/
-│   ├── Label/
 │   ├── Link/
-│   ├── Page/
 │   ├── Panel/
+│   ├── Radio/
 │   ├── Section/
 │   ├── Select/
 │   ├── Slider/
@@ -52,7 +53,6 @@ packages/ui/src/
 - **Flex** - Flexbox layout container with alignment props
 - **Grid** - CSS Grid layout container with responsive columns
 - **Section** - Page section wrapper with spacing utilities
-- **Page** - Full page wrapper component
 - **Panel** - Slide-out side panel with animations
 
 ### Form Components
@@ -60,24 +60,33 @@ packages/ui/src/
 - **Input** - Text input with label and validation states
 - **Textarea** - Multi-line text input
 - **Select** - Dropdown select with custom styling
-- **ColorPicker** - Advanced color selection input with presets
+- **Radio** - Radio button groups with horizontal/vertical layouts
+- **Toggle** - Switch/toggle component with sizes
+- **Slider** - Range slider with customizable min/max/step
+- **ColorPicker** - Advanced color selection input with hex/transparent support
 
 ### Display Components
 
-- **Button** - Versatile button with multiple variants (primary, secondary, outline, ghost)
+- **Button** - Versatile button with multiple variants (primary, secondary, export, danger, ghost)
 - **Card** - Flexible card container with Image, Content, Title, Description, Actions
-- **Avatar** - User avatar with image or initials
 - **Badge** - Status badge with color variants
 - **EmptyState** - Empty state placeholder with icon and message
 - **Divider** - Horizontal/vertical dividers
 - **Image** - Optimized image component with lazy loading
+- **Toolbar** - Top toolbar with sections and actions
 
 ### Typography
 
-- **Title** - Page/section title component
+- **Title** - Page/section title component with heading levels
 - **SubTitle** - Secondary heading component
-- **Text** - Body text with size variants
-- **Label** - Form label component
+- **Text** - Body text with size and weight variants
+- **Link** - Styled anchor link component with external link support
+
+### Error Handling
+
+- **ErrorBoundary** - React error boundary for graceful error handling
+- **ErrorDisplay** - Error message display component
+- **FieldGroup** - Form field grouping component
 - **Link** - Styled anchor link component
 
 ### Navigation

@@ -1,0 +1,68 @@
+import { Meta } from "@storybook/blocks";
+
+<Meta title="Introduction" />
+
+# UI Component Library
+
+Welcome to the **@page-builder/ui** component library Storybook!
+
+This library provides a collection of reusable, accessible UI components for the Page Builder application.
+
+## Getting Started
+
+### Available Components
+
+- **Input** - Text input fields with validation states
+- **Textarea** - Multi-line text input
+- **Select** - Dropdown select components
+- **Radio** - Radio button groups with horizontal/vertical layouts
+- **Toggle** - Switch/toggle components
+- **Slider** - Range slider input
+- **ColorPicker** - Color selection component
+- **Card** - Container component for content
+- **Title** - Heading levels 1-6
+- **SubTitle** - Subtitle component for page sections
+- **Layout Components** - Avatar, Button, Badge, Flex, Grid, Container, Section, Text, Link, Image, Divider, Panel, Toolbar
+
+## Features
+
+- 🎨 **Consistent Design** - All components follow the same design system
+- ♿ **Accessible** - Built with accessibility in mind
+- 🌍 **i18n Support** - Internationalization ready
+- 📱 **Responsive** - Mobile-first design
+- 🎭 **Theme Support** - Customizable with CSS variables
+- ⚡ **Lightweight** - Optimized bundle size
+
+## Usage
+
+```jsx
+import { Button, Input } from "@page-builder/ui";
+import "@page-builder/ui/styles";
+
+function MyComponent() {
+  return (
+    <div>
+      <Input label="Name" onChange={(value) => console.log(value)} />
+      <Button variant="primary">Submit</Button>
+    </div>
+  );
+}
+```
+
+## Development
+
+Run Storybook locally:
+
+```bash
+pnpm storybook
+```
+
+Build Storybook:
+
+```bash
+pnpm build-storybook
+```
+
+## Browse Components
+
+Use the sidebar to explore all available components, view their documentation, and interact with live examples.
