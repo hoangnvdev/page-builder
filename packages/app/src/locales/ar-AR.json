@@ -2,6 +2,8 @@
   "editor": {
     "toolbar": {
       "backButton": "العودة إلى القوالب",
+      "undoButton": "تراجع",
+      "redoButton": "إعادة",
       "resetButton": "إعادة تعيين إلى الافتراضي"
     },
     "loading": {
@@ -22,6 +24,19 @@
     "error": {
       "failedMessage": "فشل التصدير. يرجى المحاولة مرة أخرى."
     }
+  },
+  "historyControls": {
+    "historyTitle": "التاريخ",
+    "showHistory": "عرض التاريخ",
+    "close": "إغلاق",
+    "helperText": "↑ الأحدث في الأعلى · الأقدم في الأسفل ↓",
+    "currentState": "الحالي",
+    "youAreHere": "أنت هنا",
+    "past": "السابق",
+    "future": "التالي",
+    "change": "تغيير",
+    "moreChanges": "المزيد",
+    "unknownChange": "تغيير غير معروف"
   },
   "propertyPanel": {
     "title": {

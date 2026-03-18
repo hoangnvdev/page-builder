@@ -2,6 +2,8 @@
   "editor": {
     "toolbar": {
       "backButton": "テンプレートに戻る",
+      "undoButton": "元に戻す",
+      "redoButton": "やり直す",
       "resetButton": "デフォルトにリセット"
     },
     "loading": {
@@ -22,6 +24,19 @@
     "error": {
       "failedMessage": "エクスポートに失敗しました。もう一度お試しください。"
     }
+  },
+  "historyControls": {
+    "historyTitle": "履歴",
+    "showHistory": "履歴を表示",
+    "close": "閉じる",
+    "helperText": "↑ 最新が上 · 最古が下 ↓",
+    "currentState": "現在",
+    "youAreHere": "現在地",
+    "past": "過去",
+    "future": "次",
+    "change": "変更",
+    "moreChanges": "その他",
+    "unknownChange": "不明な変更"
   },
   "propertyPanel": {
     "title": {

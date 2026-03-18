@@ -1,13 +1,14 @@
-import "./index.scss";
+import './index.scss';
 
-import PropTypes from "prop-types";
-import { useTranslation } from "react-i18next";
+import PropTypes from 'prop-types';
+import { useTranslation } from 'react-i18next';
 
 export const Input = ({
   id,
   label,
   value,
   onChange,
+  onBlur,
   type = "text",
   placeholder,
   disabled = false,
@@ -43,6 +44,7 @@ export const Input = ({
         type={type}
         value={value}
         onChange={(e) => onChange(e.target.value)}
+        onBlur={onBlur ? (e) => onBlur(e.target.value) : undefined}
         placeholder={placeholder || t("ui.input.placeholder")}
         disabled={disabled}
         className={inputClasses}
@@ -61,6 +63,7 @@ Input.propTypes = {
   label: PropTypes.string,
   value: PropTypes.string,
   onChange: PropTypes.func.isRequired,
+  onBlur: PropTypes.func,
   type: PropTypes.string,
   placeholder: PropTypes.string,
   disabled: PropTypes.bool,

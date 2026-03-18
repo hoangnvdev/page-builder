@@ -1,13 +1,14 @@
-import "./index.scss";
+import './index.scss';
 
-import PropTypes from "prop-types";
-import { useTranslation } from "react-i18next";
+import PropTypes from 'prop-types';
+import { useTranslation } from 'react-i18next';
 
 export const Textarea = ({
   id,
   label,
   value,
   onChange,
+  onBlur,
   placeholder,
   disabled = false,
   error,
@@ -42,6 +43,7 @@ export const Textarea = ({
         name={id}
         value={value}
         onChange={(e) => onChange(e.target.value)}
+        onBlur={onBlur ? (e) => onBlur(e.target.value) : undefined}
         placeholder={placeholder || t("ui.textarea.placeholder")}
         disabled={disabled}
         rows={rows}
@@ -61,6 +63,7 @@ Textarea.propTypes = {
   label: PropTypes.string,
   value: PropTypes.string,
   onChange: PropTypes.func.isRequired,
+  onBlur: PropTypes.func,
   placeholder: PropTypes.string,
   disabled: PropTypes.bool,
   error: PropTypes.string,

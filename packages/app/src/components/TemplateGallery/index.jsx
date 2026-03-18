@@ -1,22 +1,33 @@
-import "./index.scss";
+import './index.scss';
 
-import { useEffect, useState } from "react";
+import {
+  useEffect,
+  useState,
+} from 'react';
 
-import { useTranslation } from "react-i18next";
-import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useTranslation } from 'react-i18next';
+import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
 import {
   ErrorBoundary,
+  ErrorDisplay,
   LanguageSwitcher,
   LoadingIndicator,
-} from "@/components";
-import { fetchTemplateByIdFromAPI, fetchTemplatesFromAPI } from "@/services";
-import { selectTemplate } from "@/store/builderSlice";
-import { processTemplateConfig } from "@/utils";
-import { Button, EmptyState, SubTitle, Title } from "@page-builder/ui";
+} from '@/components';
+import {
+  fetchTemplateByIdFromAPI,
+  fetchTemplatesFromAPI,
+} from '@/services';
+import { selectTemplate } from '@/store/builderSlice';
+import { processTemplateConfig } from '@/utils';
+import {
+  EmptyState,
+  SubTitle,
+  Title,
+} from '@page-builder/ui';
 
-import { TemplateCard } from "../TemplateCard";
+import { TemplateCard } from '../TemplateCard';
 
 export const TemplateGallery = () => {
   const { t } = useTranslation();
@@ -95,16 +106,35 @@ export const TemplateGallery = () => {
 
     if (error) {
       return (
-        <div className="template-gallery__error">
-          <EmptyState
-            icon="❌"
-            title={t("templateGallery.error.title")}
-            description={error}
-          />
-          <Button onClick={loadTemplates} style={{ marginTop: "1rem" }}>
-            {t("templateGallery.button.retry")}
-          </Button>
-        </div>
+        <ErrorDisplay
+          title={t("templateGallery.error.title")}
+          message={error}
+          showDetails={true}
+          details={error}
+          t={t}
+          actions={
+            <button
+              className="template-gallery__error-button"
+              onClick={loadTemplates}
+            >
+              <svg
+                width="18"
+                height="18"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <polyline points="23 4 23 10 17 10" />
+                <polyline points="1 20 1 14 7 14" />
+                <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15" />
+              </svg>
+              {t("templateGallery.button.retry")}
+            </button>
+          }
+        />
       );
     }
 

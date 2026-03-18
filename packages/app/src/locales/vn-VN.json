@@ -2,6 +2,8 @@
   "editor": {
     "toolbar": {
       "backButton": "Tất cả Mẫu",
+      "undoButton": "Hoàn Tác",
+      "redoButton": "Làm Lại",
       "resetButton": "Làm Lại"
     },
     "loading": {
@@ -22,6 +24,19 @@
     "error": {
       "failedMessage": "Ối! Tải xuống thất bại. Hãy thử lại nhé."
     }
+  },
+  "historyControls": {
+    "historyTitle": "Lịch Sử",
+    "showHistory": "Xem lịch sử",
+    "close": "Đóng",
+    "helperText": "↑ Mới nhất ở trên · Cũ nhất ở dưới ↓",
+    "currentState": "Hiện Tại",
+    "youAreHere": "Bạn đang ở đây",
+    "past": "Trước Đây",
+    "future": "Tiếp Theo",
+    "change": "Thay Đổi",
+    "moreChanges": "thêm",
+    "unknownChange": "Thay đổi không xác định"
   },
   "propertyPanel": {
     "title": {
