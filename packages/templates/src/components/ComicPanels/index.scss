@@ -1,3 +1,5 @@
+@use "../../../../ui/src/_mixins.scss" as *;
+
 .comic-panels {
   padding: 4rem 0;
 
@@ -9,7 +11,7 @@
     box-shadow: 8px 8px 0 rgba(0, 0, 0, 0.3);
     transform: rotate(-1deg);
     transition: transform 0.3s ease;
-    overflow: visible; // Allow selection border to show
+    overflow: visible;
 
     &:nth-child(even) {
       transform: rotate(1deg);
@@ -19,28 +21,8 @@
       transform: rotate(0deg) scale(1.05);
     }
 
-    // Ensure card content can show selection properly
     .card__content {
-      border-radius: inherit;
-
-      // Enhanced selection states for card content
-      &[data-element]:hover:not(.selected):not(.selected-sub) {
-        &::before {
-          border-radius: inherit;
-        }
-      }
-
-      &[data-element].selected:not(.selected-sub) {
-        &::before {
-          border-radius: inherit;
-        }
-      }
-
-      &[data-element].selected-sub {
-        &::before {
-          border-radius: inherit;
-        }
-      }
+      @include selectable-element-rounded;
     }
 
     &__number {
@@ -81,7 +63,6 @@
       border-width: 3px;
       box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.3);
 
-      // Reset rotation on mobile for easier reading
       transform: rotate(0deg) !important;
 
       &:hover {

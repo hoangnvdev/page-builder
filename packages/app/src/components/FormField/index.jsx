@@ -24,6 +24,7 @@ export const FormField = memo(
     value,
     onChange,
     onBlur,
+    onChangeEnd,
     options,
     min,
     max,
@@ -169,7 +170,7 @@ export const FormField = memo(
               max={max || 100}
               step={step || 1}
               onChange={onChange}
-              onBlur={onBlur}
+              onChangeEnd={onChangeEnd}
               label={translatedLabel}
               labels={labels}
               showValue={!labels}
@@ -200,6 +201,7 @@ export const FormField = memo(
       prevProps.type !== nextProps.type ||
       prevProps.value !== nextProps.value ||
       prevProps.onChange !== nextProps.onChange ||
+      prevProps.onChangeEnd !== nextProps.onChangeEnd ||
       prevProps.min !== nextProps.min ||
       prevProps.max !== nextProps.max ||
       prevProps.step !== nextProps.step
@@ -262,6 +264,7 @@ FormField.propTypes = {
   value: PropTypes.any,
   onChange: PropTypes.func.isRequired,
   onBlur: PropTypes.func,
+  onChangeEnd: PropTypes.func,
   options: PropTypes.oneOfType([
     PropTypes.arrayOf(
       PropTypes.shape({

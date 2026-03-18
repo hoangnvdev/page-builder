@@ -14,9 +14,12 @@ export const useFieldHandlers = () => {
       fieldType === "text" ||
       fieldType === "textarea" ||
       fieldType === "color" ||
-      fieldType === "number" ||
-      fieldType === "slider"
+      fieldType === "number"
     );
+  }, []);
+
+  const shouldUseChangeEnd = useCallback((fieldType) => {
+    return fieldType === "slider";
   }, []);
 
   const handleFieldChange = useCallback(
@@ -45,15 +48,17 @@ export const useFieldHandlers = () => {
     (fieldPath, fieldType) => {
       const handlerKey = `${fieldPath}-${fieldType}`;
       if (!onChangeHandlers.current.has(handlerKey)) {
-        // For text/textarea/color/number/slider, use live updates
-        const useLiveUpdate = shouldUseBlur(fieldType);
+        // For text/textarea/color/number, use live updates (commit on blur)
+        // For slider, use live updates (commit on changeEnd)
+        const useLiveUpdate =
+          shouldUseBlur(fieldType) || shouldUseChangeEnd(fieldType);
         onChangeHandlers.current.set(handlerKey, (value) =>
           handleFieldChange(fieldPath, value, useLiveUpdate),
         );
       }
       return onChangeHandlers.current.get(handlerKey);
     },
-    [handleFieldChange, shouldUseBlur],
+    [handleFieldChange, shouldUseBlur, shouldUseChangeEnd],
   );
 
   const getOnBlurHandler = useCallback(
@@ -70,9 +75,25 @@ export const useFieldHandlers = () => {
     [handleFieldChange],
   );
 
+  const getOnChangeEndHandler = useCallback(
+    (fieldPath) => {
+      const changeEndKey = `${fieldPath}-changeEnd`;
+      if (!onChangeHandlers.current.has(changeEndKey)) {
+        onChangeHandlers.current.set(
+          changeEndKey,
+          (value) => handleFieldChange(fieldPath, value, false), // Commit to history on change end
+        );
+      }
+      return onChangeHandlers.current.get(changeEndKey);
+    },
+    [handleFieldChange],
+  );
+
   return {
     getOnChangeHandler,
     getOnBlurHandler,
+    getOnChangeEndHandler,
     shouldUseBlur,
+    shouldUseChangeEnd,
   };
 };
