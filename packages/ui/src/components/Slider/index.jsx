@@ -1,6 +1,6 @@
 import "./index.scss";
 
-import React from "react";
+import React, { useRef } from "react";
 
 import PropTypes from "prop-types";
 
@@ -10,7 +10,7 @@ export const Slider = ({
   max = 100,
   step = 1,
   onChange,
-  onBlur,
+  onChangeEnd,
   label,
   labels = [],
   disabled = false,
@@ -18,15 +18,34 @@ export const Slider = ({
   showValue = false,
   ...props
 }) => {
+  const isInteractingRef = useRef(false);
+
+  const handleMouseDown = () => {
+    isInteractingRef.current = true;
+  };
+
+  const handleTouchStart = () => {
+    isInteractingRef.current = true;
+  };
+
   const handleChange = (e) => {
     const newValue = parseFloat(e.target.value);
     onChange?.(newValue);
   };
 
-  const handleBlur = (e) => {
-    if (onBlur) {
+  const handleMouseUp = (e) => {
+    if (isInteractingRef.current && onChangeEnd) {
       const newValue = parseFloat(e.target.value);
-      onBlur(newValue);
+      onChangeEnd(newValue);
+      isInteractingRef.current = false;
+    }
+  };
+
+  const handleTouchEnd = (e) => {
+    if (isInteractingRef.current && onChangeEnd) {
+      const newValue = parseFloat(e.target.value);
+      onChangeEnd(newValue);
+      isInteractingRef.current = false;
     }
   };
 
@@ -49,8 +68,11 @@ export const Slider = ({
           max={max}
           step={step}
           value={value}
+          onMouseDown={handleMouseDown}
+          onTouchStart={handleTouchStart}
           onChange={handleChange}
-          onBlur={handleBlur}
+          onMouseUp={handleMouseUp}
+          onTouchEnd={handleTouchEnd}
           disabled={disabled}
           className="slider__input"
           {...props}
@@ -85,7 +107,7 @@ Slider.propTypes = {
   max: PropTypes.number,
   step: PropTypes.number,
   onChange: PropTypes.func,
-  onBlur: PropTypes.func,
+  onChangeEnd: PropTypes.func,
   label: PropTypes.string,
   labels: PropTypes.arrayOf(PropTypes.string),
   disabled: PropTypes.bool,

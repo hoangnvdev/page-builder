@@ -27,8 +27,13 @@ import { HistoryControls } from "../HistoryControls";
 export const PropertyPanel = () => {
   const { t, i18n } = useTranslation();
   const { selectedElement, selectedSubElement } = useSelection();
-  const { getOnChangeHandler, getOnBlurHandler, shouldUseBlur } =
-    useFieldHandlers();
+  const {
+    getOnChangeHandler,
+    getOnBlurHandler,
+    getOnChangeEndHandler,
+    shouldUseBlur,
+    shouldUseChangeEnd,
+  } = useFieldHandlers();
   const selectedTemplate = useSelector(
     (state) => state.builder.selectedTemplate,
   );
@@ -179,6 +184,7 @@ export const PropertyPanel = () => {
               const enhancedField = enhanceFieldOptions(field);
               const fieldValue = getNestedValue(tempConfig, field.path);
               const usesBlur = shouldUseBlur(enhancedField.type);
+              const usesChangeEnd = shouldUseChangeEnd(enhancedField.type);
 
               return (
                 <FormField
@@ -189,6 +195,11 @@ export const PropertyPanel = () => {
                   value={fieldValue || ""}
                   onChange={getOnChangeHandler(field.path, enhancedField.type)}
                   onBlur={usesBlur ? getOnBlurHandler(field.path) : undefined}
+                  onChangeEnd={
+                    usesChangeEnd
+                      ? getOnChangeEndHandler(field.path)
+                      : undefined
+                  }
                   options={enhancedField.options}
                   min={field.min}
                   max={field.max}
@@ -353,6 +364,7 @@ export const PropertyPanel = () => {
               }
 
               const usesBlur = shouldUseBlur(enhancedField.type);
+              const usesChangeEnd = shouldUseChangeEnd(enhancedField.type);
 
               return (
                 <FormField
@@ -363,6 +375,11 @@ export const PropertyPanel = () => {
                   value={fieldValue ?? ""}
                   onChange={getOnChangeHandler(field.path, enhancedField.type)}
                   onBlur={usesBlur ? getOnBlurHandler(field.path) : undefined}
+                  onChangeEnd={
+                    usesChangeEnd
+                      ? getOnChangeEndHandler(field.path)
+                      : undefined
+                  }
                   options={enhancedField.options}
                   min={field.min}
                   max={field.max}
@@ -397,6 +414,7 @@ export const PropertyPanel = () => {
                   }
 
                   const usesBlur = shouldUseBlur(enhancedField.type);
+                  const usesChangeEnd = shouldUseChangeEnd(enhancedField.type);
 
                   return (
                     <FormField
@@ -411,6 +429,11 @@ export const PropertyPanel = () => {
                       )}
                       onBlur={
                         usesBlur ? getOnBlurHandler(field.path) : undefined
+                      }
+                      onChangeEnd={
+                        usesChangeEnd
+                          ? getOnChangeEndHandler(field.path)
+                          : undefined
                       }
                       options={enhancedField.options}
                       min={field.min}

@@ -1,3 +1,5 @@
+@use "../../../../ui/src/_mixins.scss" as *;
+
 .terminal {
   padding: 4rem 0;
   font-family: "Courier New", monospace;
@@ -10,29 +12,8 @@
     position: relative;
     transition: all 0.2s ease;
 
-    &:hover {
-      &::before {
-        content: "";
-        position: absolute;
-        inset: -2px;
-        border: 2px solid rgba(0, 122, 204, 0.5);
-        border-radius: inherit;
-        pointer-events: none;
-        z-index: 10;
-      }
-    }
-
-    &.selected,
-    &[data-selected="true"] {
-      &::before {
-        content: "";
-        position: absolute;
-        inset: -2px;
-        border: 3px solid #0098ff;
-        border-radius: inherit;
-        pointer-events: none;
-        z-index: 10;
-      }
+    &[data-element] {
+      @include selectable-element-rounded;
     }
   }
 

@@ -1,0 +1,210 @@
+@use "./_variables.scss" as *;
+
+$selection-offset: 8px;
+$selection-border-width-hover: 2px;
+$selection-border-width-selected: 3px;
+$selection-border-color: #3b82f6;
+$selection-bg-hover: rgba(59, 130, 246, 0.02);
+$selection-bg-selected: rgba(59, 130, 246, 0.05);
+$selection-shadow: 0 0 0 1px rgba(59, 130, 246, 0.3);
+$selection-label-bg: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+$selection-label-size: 10px;
+$selection-label-padding: 3px 10px;
+$selection-z-hover: 100;
+$selection-z-selected: 150;
+
+@mixin selection-border-base {
+  &::before {
+    content: "";
+    position: absolute;
+    top: -$selection-offset;
+    left: -$selection-offset;
+    right: -$selection-offset;
+    bottom: -$selection-offset;
+    pointer-events: none;
+    border-radius: $border-radius-sm;
+  }
+}
+
+@mixin selection-label {
+  &::after {
+    content: attr(data-element);
+    position: absolute;
+    top: calc(-#{$selection-offset} - 20px);
+    left: calc(
+      -#{$selection-offset} +
+        (#{$selection-border-width-selected} - #{$selection-border-width-hover})
+    );
+    background: $selection-label-bg;
+    color: white;
+    padding: $selection-label-padding;
+    border-radius: $border-radius-sm;
+    font-size: $selection-label-size;
+    font-weight: $font-weight-semibold;
+    font-family: $font-family-base;
+    white-space: nowrap;
+    z-index: $selection-z-hover + 1;
+    pointer-events: none;
+    letter-spacing: $letter-spacing-wide;
+    text-transform: uppercase;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+    opacity: 0.9;
+  }
+}
+
+@mixin selection-hover {
+  &[data-element]:hover:not(.selected):not(.selected-sub) {
+    z-index: $selection-z-hover;
+
+    &::before {
+      border: $selection-border-width-hover dashed $selection-border-color;
+      background-color: $selection-bg-hover;
+    }
+
+    @include selection-label;
+  }
+}
+
+@mixin selection-selected {
+  &[data-element].selected:not(.selected-sub),
+  &[data-element].selected-sub {
+    z-index: $selection-z-selected;
+    background-color: $selection-bg-selected;
+
+    &::before {
+      border: $selection-border-width-selected solid $selection-border-color;
+      box-shadow: $selection-shadow;
+      border-radius: $border-radius-sm;
+    }
+
+    // Maintain selected style on hover
+    &:hover::before {
+      border: $selection-border-width-selected solid $selection-border-color;
+      box-shadow: $selection-shadow;
+      border-radius: $border-radius-sm;
+    }
+
+    &::after {
+      content: attr(data-element);
+      position: absolute;
+      top: calc(-#{$selection-offset} - 20px);
+      left: -#{$selection-border-width-selected};
+      background: $selection-label-bg;
+      color: white;
+      padding: $selection-label-padding;
+      border-radius: $border-radius-sm;
+      font-size: $selection-label-size;
+      font-weight: $font-weight-semibold;
+      font-family: $font-family-base;
+      white-space: nowrap;
+      z-index: $selection-z-selected + 1;
+      pointer-events: none;
+      letter-spacing: $letter-spacing-wide;
+      text-transform: uppercase;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+    }
+  }
+}
+
+@mixin selectable-element {
+  position: relative;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  z-index: 1;
+
+  @include selection-border-base;
+  @include selection-hover;
+  @include selection-selected;
+}
+
+@mixin selectable-element-rounded {
+  @include selectable-element;
+
+  &::before {
+    border-radius: inherit;
+  }
+}
+
+@mixin respond-to($breakpoint) {
+  @if $breakpoint == "sm" {
+    @media (min-width: $breakpoint-sm) {
+      @content;
+    }
+  } @else if $breakpoint == "md" {
+    @media (min-width: $breakpoint-md) {
+      @content;
+    }
+  } @else if $breakpoint == "lg" {
+    @media (min-width: $breakpoint-lg) {
+      @content;
+    }
+  } @else if $breakpoint == "xl" {
+    @media (min-width: $breakpoint-xl) {
+      @content;
+    }
+  } @else if $breakpoint == "2xl" {
+    @media (min-width: $breakpoint-2xl) {
+      @content;
+    }
+  }
+}
+
+@mixin flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@mixin flex-between {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+@mixin truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+@mixin line-clamp($lines) {
+  display: -webkit-box;
+  -webkit-line-clamp: $lines;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+@mixin visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+@mixin hover {
+  @media (hover: hover) and (pointer: fine) {
+    &:hover {
+      @content;
+    }
+  }
+}
+
+@mixin focus-ring {
+  outline: 2px solid $color-primary;
+  outline-offset: 2px;
+}
+
+@mixin focus-visible {
+  &:focus {
+    outline: none;
+  }
+
+  &:focus-visible {
+    @include focus-ring;
+  }
+}
