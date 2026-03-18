@@ -1,18 +1,21 @@
-import "./index.scss";
+import './index.scss';
 
-import { useCallback, useEffect, useMemo, useRef } from "react";
+import {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+} from 'react';
 
-import { useTranslation } from "react-i18next";
-import { useSelector } from "react-redux";
+import { useTranslation } from 'react-i18next';
+import { useSelector } from 'react-redux';
 
-import { TemplateRenderer } from "@/components";
-import { useSelection } from "@/contexts/SelectionContext";
-import { deepMerge } from "@helpers";
-import { EmptyState } from "@page-builder/ui";
+import { TemplateRenderer } from '@/components';
+import { useSelection } from '@/contexts/SelectionContext';
+import { deepMerge } from '@helpers';
+import { EmptyState } from '@page-builder/ui';
 
 export const PreviewRenderer = () => {
-  console.log("🎨 PreviewRenderer render");
-
   const { t } = useTranslation();
   const {
     selectedElement,

@@ -60,6 +60,17 @@
   }
 }
 
+@media (max-width: 768px) {
+  .helper-text {
+    max-width: calc(100vw - 1rem);
+    width: calc(100vw - 1rem);
+    padding: 1rem 1.25rem;
+    bottom: 6rem;
+    left: 0.5rem;
+    transform: none;
+  }
+}
+
 @keyframes slideUp {
   from {
     opacity: 0;

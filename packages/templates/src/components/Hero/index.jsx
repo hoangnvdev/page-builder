@@ -42,8 +42,6 @@ export const Hero = ({
   className = "",
   ...props
 }) => {
-  console.log(`🦸 Hero component render (dataElement: ${dataElement})`);
-
   // Memoize style objects to prevent unnecessary re-renders of child components
   const titleStyle = useMemo(
     () => ({

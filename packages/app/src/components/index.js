@@ -1,5 +1,6 @@
 export { ErrorBoundary, ErrorDisplay } from '@page-builder/ui';
 export { AppButton } from './AppButton';
+export { ConfirmDialog } from './ConfirmDialog';
 export { EditorToggleButton } from './EditorToggleButton';
 export { HelperText } from './HelperText';
 export { HistoryControls } from './HistoryControls';
