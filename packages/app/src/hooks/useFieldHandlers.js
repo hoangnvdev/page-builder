@@ -1,9 +1,15 @@
-import { useCallback, useRef } from "react";
+import {
+  useCallback,
+  useRef,
+} from 'react';
 
-import { useDispatch } from "react-redux";
+import { useDispatch } from 'react-redux';
 
-import { updateConfig, updateConfigLive } from "@/store/builderSlice";
-import { setNestedValue } from "@helpers";
+import {
+  updateConfig,
+  updateConfigLive,
+} from '@/store/builderSlice';
+import { setNestedValue } from '@/utils';
 
 export const useFieldHandlers = () => {
   const dispatch = useDispatch();

@@ -1,7 +1,7 @@
-import { Card } from "./index";
+import { Card } from './index';
 
 export default {
-  title: "Components/Card",
+  title: "Primitives/Card",
   component: Card,
   tags: ["autodocs"],
   argTypes: {

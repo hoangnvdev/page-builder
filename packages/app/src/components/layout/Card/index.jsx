@@ -2,13 +2,10 @@ import './index.scss';
 
 import PropTypes from 'prop-types';
 
+import defaultImageSrc from '@/assets/images/default-image.png';
+
 import { SubTitle } from '../../typography/SubTitle';
 import { Title } from '../../typography/Title';
-
-const defaultImage = new URL(
-  "../../assets/images/default-image.png",
-  import.meta.url,
-).href;
 
 export const Card = ({
   children,
@@ -43,7 +40,7 @@ export const Card = ({
 Card.Image = ({ src, alt, height = 280, children, style, ...props }) => (
   <div className="card__image" style={{ height, ...style }} {...props}>
     {children || (
-      <img src={src || defaultImage} alt={alt} width="320" height="280" />
+      <img src={src || defaultImageSrc} alt={alt} width="320" height="280" />
     )}
   </div>
 );
