@@ -1,0 +1,68 @@
+@use "../../../../../ui/src/_mixins.scss" as *;
+
+.preview-renderer {
+  flex: 1;
+  display: flex;
+  background-color: #f5f5f5;
+  overflow: auto;
+  padding: 2rem;
+  position: relative;
+  min-width: 0;
+  height: 100%;
+
+  &__frame {
+    max-width: 1200px;
+    margin: 0 auto;
+    background-color: white;
+    box-shadow:
+      0 4px 6px rgba(0, 0, 0, 0.07),
+      0 2px 4px rgba(0, 0, 0, 0.05);
+    min-height: 600px;
+    cursor: default;
+    position: relative;
+    width: 100%;
+    z-index: 1;
+  }
+}
+
+[data-element] {
+  @include selectable-element;
+}
+
+@media (max-width: 768px) {
+  .preview-renderer {
+    padding: 0.5rem;
+    width: 100%;
+    max-width: 100%;
+
+    &__frame {
+      min-height: 400px;
+      width: 100%;
+    }
+
+    &__helper-text {
+      font-size: 0.8125rem;
+      padding: 0.875rem 1rem;
+      bottom: 0.75rem;
+      max-width: calc(100% - 1rem);
+      border-radius: 10px;
+      gap: 0.75rem;
+
+      &-close {
+        width: 24px;
+        height: 24px;
+        font-size: 1rem;
+      }
+    }
+  }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+  .preview-renderer {
+    padding: 1.5rem;
+
+    &__frame {
+      min-height: 500px;
+    }
+  }
+}

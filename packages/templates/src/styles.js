@@ -1,32 +1,28 @@
-// Import UI component styles that are used in templates
-import "../../ui/src/components/Badge/index.scss";
-import "../../ui/src/components/Button/index.scss";
-import "../../ui/src/components/Card/index.scss";
-import "../../ui/src/components/Container/index.scss";
-import "../../ui/src/components/Flex/index.scss";
-import "../../ui/src/components/Grid/index.scss";
-import "../../ui/src/components/Image/index.scss";
-import "../../ui/src/components/Link/index.scss";
-import "../../ui/src/components/Section/index.scss";
-import "../../ui/src/components/Text/index.scss";
-import "../../ui/src/components/Title/index.scss";
-// Import template component styles
-import "./components/CallToAction/index.scss";
-import "./components/ComicPanels/index.scss";
-import "./components/ContentSection/index.scss";
-import "./components/DataStream/index.scss";
-import "./components/Footer/index.scss";
-import "./components/Header/index.scss";
-import "./components/Hero/index.scss";
-import "./components/ImageGrid/index.scss";
-import "./components/ItemCard/index.scss";
-import "./components/ItemGrid/index.scss";
-import "./components/Marquee/index.scss";
-import "./components/QuoteBlock/index.scss";
-import "./components/SpeechBubbleTestimonials/index.scss";
-import "./components/SplitScreen/index.scss";
-import "./components/StatsCounter/index.scss";
-import "./components/TechSpecs/index.scss";
-import "./components/Terminal/index.scss";
-import "./components/TestimonialCards/index.scss";
-import "./components/Timeline/index.scss";
+// Import UI primitive styles that are used in templates
+import '../../ui/src/primitives/Badge/index.scss';
+import '../../ui/src/primitives/Button/index.scss';
+import '../../ui/src/primitives/Card/index.scss';
+import '../../ui/src/primitives/Container/index.scss';
+import '../../ui/src/primitives/Flex/index.scss';
+import '../../ui/src/primitives/Grid/index.scss';
+import '../../ui/src/primitives/Image/index.scss';
+import '../../ui/src/primitives/Link/index.scss';
+import '../../ui/src/primitives/Section/index.scss';
+import '../../ui/src/primitives/Text/index.scss';
+import '../../ui/src/primitives/Title/index.scss';
+// Import component styles (utilities)
+import './components/ItemCard/index.scss';
+// Import section styles (template building blocks)
+import './sections/CallToAction/index.scss';
+import './sections/ComicPanels/index.scss';
+import './sections/ContentSection/index.scss';
+import './sections/Footer/index.scss';
+import './sections/Header/index.scss';
+import './sections/Hero/index.scss';
+import './sections/ImageGrid/index.scss';
+import './sections/ItemGrid/index.scss';
+import './sections/Marquee/index.scss';
+import './sections/SpeechBubbleTestimonials/index.scss';
+import './sections/StatsCounter/index.scss';
+import './sections/Terminal/index.scss';
+import './sections/TestimonialCards/index.scss';
