@@ -2,7 +2,8 @@
   "editor": {
     "toolbar": {
       "backButton": "العودة إلى القوالب",
-      "resetButton": "إعادة تعيين إلى الافتراضي"
+      "undoButton": "تراجع",
+      "redoButton": "إعادة"
     },
     "loading": {
       "title": "جارٍ استعادة القالب...",
@@ -22,6 +23,30 @@
     "error": {
       "failedMessage": "فشل التصدير. يرجى المحاولة مرة أخرى."
     }
+  },
+  "historyControls": {
+    "historyTitle": "التاريخ",
+    "showHistory": "عرض التاريخ",
+    "close": "إغلاق",
+    "helperText": "↑ الأحدث في الأعلى · الأقدم في الأسفل ↓",
+    "currentState": "الحالي",
+    "youAreHere": "أنت هنا",
+    "past": "السابق",
+    "future": "التالي",
+    "change": "تغيير",
+    "moreChanges": "المزيد",
+    "unknownChange": "تغيير غير معروف",
+    "resetButton": "إعادة تعيين إلى الافتراضي"
+  },
+  "confirmDialog": {
+    "cancel": "إلغاء",
+    "confirm": "تأكيد",
+    "resetTitle": "البدء من جديد؟",
+    "resetMessage": "ستفقد جميع التغييرات وسيعود القالب إلى الإعدادات الافتراضية. لا يمكن التراجع عن هذا الإجراء.",
+    "resetConfirm": "نعم، إعادة تعيين",
+    "backTitle": "مغادرة هذا القالب؟",
+    "backMessage": "لديك تغييرات غير محفوظة. إذا غادرت الآن، ستفقد جميع أعمالك.",
+    "backConfirm": "نعم، غادر"
   },
   "propertyPanel": {
     "title": {
@@ -64,6 +89,11 @@
       "title": "لا توجد قوالب متاحة",
       "description": "لم يتم العثور على قوالب."
     }
+  },
+  "notFound": {
+    "title": "الصفحة غير موجودة",
+    "description": "عذراً، الصفحة التي تبحث عنها غير موجودة. ربما تم نقلها أو حذفها.",
+    "goHome": "العودة إلى القوالب"
   },
   "formField": {
     "button": {

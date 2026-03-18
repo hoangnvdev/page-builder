@@ -1,39 +1,17 @@
+@use "../../../../ui/src/_mixins.scss" as *;
+
 .item-card {
   text-align: center;
   position: relative;
 
-  // Override card overflow to allow selection border to show
   &.card {
     overflow: visible;
   }
 
-  // Ensure Card.Content can show selection properly
   .card__content {
-    border-radius: inherit; // Inherit border radius from parent card
-
-    // Enhanced hover state for card content
-    &[data-element]:hover:not(.selected):not(.selected-sub) {
-      &::before {
-        border-radius: inherit;
-      }
-    }
-
-    // Enhanced selection state for card content
-    &[data-element].selected:not(.selected-sub) {
-      &::before {
-        border-radius: inherit;
-      }
-    }
-
-    // Enhanced nested element selection for card content
-    &[data-element].selected-sub {
-      &::before {
-        border-radius: inherit;
-      }
-    }
+    @include selectable-element-rounded;
   }
 
-  // Ensure proper stacking for selection
   [data-element] {
     position: relative;
   }
@@ -43,15 +21,6 @@
     margin-bottom: 15px;
   }
 
-  &__title {
-    // Additional title styles can be added here
-  }
-
-  &__description {
-    // Additional description styles can be added here
-  }
-
-  // Mobile responsiveness
   @media (max-width: 768px) {
     &__icon {
       font-size: 2.5rem;

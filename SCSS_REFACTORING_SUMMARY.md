@@ -32,7 +32,7 @@ Extends UI variables with template-specific tokens:
 
 ### 2. Example Refactoring Completed
 
-**Button Component** (`packages/ui/src/components/Button/index.scss`)
+**Button Component** (`packages/ui/src/primitives/Button/index.scss`)
 
 - ✅ Refactored to use centralized variables
 - ✅ All hardcoded values replaced with tokens
@@ -41,36 +41,31 @@ Extends UI variables with template-specific tokens:
 
 ## 📋 Remaining Work
 
-### **UI Package Components** (27 files to refactor)
+### **UI Package Components** (2 files to refactor)
 
 ```
 packages/ui/src/components/
+├── ErrorBoundary/index.scss
+└── ErrorDisplay/index.scss
+
+packages/ui/src/primitives/
+├── Avatar/index.scss
 ├── Badge/index.scss
+├── Button/index.scss (✅ completed)
 ├── Card/index.scss
-├── ColorPicker/index.scss
 ├── Container/index.scss
 ├── Divider/index.scss
-├── EmptyState/index.scss
-├── ErrorBoundary/index.scss
-├── FieldGroup/index.scss
 ├── Flex/index.scss
 ├── Grid/index.scss
 ├── Image/index.scss
-├── Input/index.scss
-├── Label/index.scss
 ├── Link/index.scss
 ├── Page/index.scss
-├── Panel/index.scss
-├── Radio/index.scss
 ├── Section/index.scss
-├── Select/index.scss
-├── Slider/index.scss
 ├── SubTitle/index.scss
-├── Textarea/index.scss
-├── Title/index.scss
-├── Toggle/index.scss
-├── Toolbar/index.scss
-└── Avatar/index.scss
+├── Text/index.scss
+└── Title/index.scss
+
+Note: Form components (ColorPicker, EmptyState, FieldGroup, Input, Panel, Radio, Select, Slider, Textarea, Toggle, Toolbar) moved to app package.
 ```
 
 ### **App Package Components** (12 files to refactor)

@@ -1,25 +1,18 @@
 import React from 'react';
 
-import { CallToAction } from '../components/CallToAction';
-import { ComicPanels } from '../components/ComicPanels';
-import { ContentSection } from '../components/ContentSection';
-import { DataStream } from '../components/DataStream';
-import { Footer } from '../components/Footer';
-import { Header } from '../components/Header';
-import { Hero } from '../components/Hero';
-import { ImageGrid } from '../components/ImageGrid';
-import { ItemGrid } from '../components/ItemGrid';
-import { Marquee } from '../components/Marquee';
-import { QuoteBlock } from '../components/QuoteBlock';
-import {
-  SpeechBubbleTestimonials,
-} from '../components/SpeechBubbleTestimonials';
-import { SplitScreen } from '../components/SplitScreen';
-import { StatsCounter } from '../components/StatsCounter';
-import { TechSpecs } from '../components/TechSpecs';
-import { Terminal } from '../components/Terminal';
-import { TestimonialCards } from '../components/TestimonialCards';
-import { Timeline } from '../components/Timeline';
+import { CallToAction } from '../sections/CallToAction';
+import { ComicPanels } from '../sections/ComicPanels';
+import { ContentSection } from '../sections/ContentSection';
+import { Footer } from '../sections/Footer';
+import { Header } from '../sections/Header';
+import { Hero } from '../sections/Hero';
+import { ImageGrid } from '../sections/ImageGrid';
+import { ItemGrid } from '../sections/ItemGrid';
+import { Marquee } from '../sections/Marquee';
+import { SpeechBubbleTestimonials } from '../sections/SpeechBubbleTestimonials';
+import { StatsCounter } from '../sections/StatsCounter';
+import { Terminal } from '../sections/Terminal';
+import { TestimonialCards } from '../sections/TestimonialCards';
 import {
   mapAlignToFlex,
   mapButtonProps,
@@ -264,61 +257,7 @@ export const componentRegistry = {
       };
     },
   },
-  dataStream: {
-    component: DataStream,
-    propsMapper: (config) => ({
-      heading: config.heading,
-      lines: config.lines,
-      backgroundColor: config.backgroundColor,
-      textColor: config.textColor,
-      padding: config.padding,
-      headingLevel: mapLevel(config.headingLevel),
-      gap: config.gap,
-      animationDelay: config.animationDelay,
-      fontFamily: config.fontFamily,
-      maxWidth: config.maxWidth,
-      renderLine: config.renderLine,
-    }),
-  },
   // Swiss Brutalist Components
-  splitScreen: {
-    component: SplitScreen,
-    propsMapper: (config) => ({
-      imagePosition: config.imagePosition,
-      imageSrc: config.imageSrc,
-      imagePlaceholder: config.imagePlaceholder,
-      imageAlt: config.imageAlt,
-      heading: config.heading,
-      content: config.content,
-      backgroundColor: config.backgroundColor,
-      textColor: config.textColor,
-      headingColor: config.headingColor,
-      padding: config.padding,
-      headingLevel: mapLevel(config.headingLevel),
-      contentSize: config.contentSize,
-      imageFit: config.imageFit,
-      ratio: config.ratio,
-      gap: config.gap,
-      contentPadding: config.contentPadding,
-      maxWidth: config.maxWidth,
-    }),
-  },
-  quoteBlock: {
-    component: QuoteBlock,
-    propsMapper: (config) => ({
-      quote: config.quote,
-      author: config.author,
-      backgroundColor: config.backgroundColor,
-      quoteColor: config.quoteColor,
-      dividerColor: config.dividerColor,
-      quoteSize: config.quoteSize,
-      maxWidth: config.maxWidth,
-      padding: config.padding,
-      gap: config.gap,
-      dividerWidth: config.dividerWidth,
-      showDivider: config.showDivider,
-    }),
-  },
   imageGrid: {
     component: ImageGrid,
     propsMapper: (config) => ({
@@ -389,43 +328,6 @@ export const componentRegistry = {
       captionBackgroundColor: config.image?.caption?.backgroundColor,
     }),
   },
-  // Classic Elegance & Sci-Fi Components
-  timeline: {
-    component: Timeline,
-    propsMapper: (config) => ({
-      heading: config.heading,
-      milestones: config.milestones,
-      backgroundColor: config.backgroundColor,
-      lineColor: config.lineColor,
-      dotColor: config.dotColor,
-      lineWidth: config.lineWidth,
-      dotSize: config.dotSize,
-      itemGap: config.itemGap,
-      padding: config.padding,
-      headingLevel: mapLevel(config.headingLevel),
-      titleLevel: mapLevel(config.titleLevel),
-      maxWidth: config.maxWidth,
-      renderItem: config.renderItem,
-    }),
-  },
-  roadmap: {
-    component: Timeline,
-    propsMapper: (config) => ({
-      heading: config.heading,
-      phases: config.phases,
-      backgroundColor: config.backgroundColor,
-      lineColor: config.lineColor,
-      dotColor: config.dotColor,
-      lineWidth: config.lineWidth,
-      dotSize: config.dotSize,
-      itemGap: config.itemGap,
-      padding: config.padding,
-      headingLevel: mapLevel(config.headingLevel),
-      titleLevel: mapLevel(config.titleLevel),
-      maxWidth: config.maxWidth,
-      renderItem: config.renderItem,
-    }),
-  },
   // Sci-Fi Tech Components
   metrics: {
     component: StatsCounter,
@@ -441,21 +343,6 @@ export const componentRegistry = {
       align: mapAlignToFlex(config.align),
       maxWidth: config.maxWidth,
       renderStat: config.renderStat,
-    }),
-  },
-  techSpecs: {
-    component: TechSpecs,
-    propsMapper: (config) => ({
-      heading: config.heading,
-      specs: config.specs,
-      backgroundColor: config.backgroundColor,
-      padding: config.padding,
-      headingLevel: mapLevel(config.headingLevel),
-      maxWidth: config.maxWidth,
-      rowPadding: config.rowPadding,
-      showDividers: config.showDividers,
-      dividerColor: config.dividerColor,
-      renderSpec: config.renderSpec,
     }),
   },
 };

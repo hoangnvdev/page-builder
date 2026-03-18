@@ -31,7 +31,9 @@ This is the user-facing application that brings together the UI component librar
 ```
 packages/app/
 ├── src/
-│   ├── components/          # App-specific UI components
+│   ├── assets/             # Static assets (images, fonts)
+│   │   └── images/         # Application images
+│   ├── components/         # App-specific UI components
 │   │   ├── Editor/
 │   │   ├── EditorToolbar/
 │   │   ├── ExportButton/
@@ -42,8 +44,14 @@ packages/app/
 │   │   ├── TemplateCard/
 │   │   ├── TemplateGallery/
 │   │   └── index.js
+│   ├── constants/          # Application constants
+│   │   └── componentProperties.js  # Component property definitions
+│   ├── contexts/           # React contexts
+│   │   └── SelectionContext.jsx
+│   ├── hooks/              # Custom React hooks
+│   │   └── useFieldHandlers.js
 │   ├── locales/            # i18n translation files
-│   │   └── en-EN.js
+│   │   └── en-EN.json
 │   ├── pages/              # Route pages
 │   │   ├── Design/         # Main builder interface
 │   │   ├── Template/       # Template selection
@@ -57,15 +65,14 @@ packages/app/
 │   │   ├── builderSlice.js # Main builder state
 │   │   └── store.js        # Store configuration
 │   ├── utils/              # Utility functions
-│   │   ├── exportHTML.jsx  # HTML export logic
+│   │   ├── componentRegistry.js  # Component utilities
+│   │   ├── exportHTML.jsx        # HTML export logic
+│   │   ├── object.js             # Object manipulation helpers
 │   │   ├── processTemplateConfig.js
 │   │   └── index.js
 │   ├── App.jsx             # Root app component
 │   ├── i18n.js             # i18n configuration
 │   └── main.jsx            # App entry point with I18nextProvider
-├── helpers/                # Helper utilities
-│   ├── object.js
-│   └── index.js
 ├── public/                 # Static assets
 │   └── _redirects          # Netlify redirects
 ├── index.html              # HTML template

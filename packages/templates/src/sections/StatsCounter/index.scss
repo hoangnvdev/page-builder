@@ -1,0 +1,111 @@
+@use "../../../../ui/src/_mixins.scss" as *;
+
+.stats-counter {
+  padding: 4rem 0;
+
+  .stat-item {
+    overflow: visible;
+    text-align: center;
+    padding: 2rem 1rem;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    transition:
+      transform 0.3s ease,
+      box-shadow 0.3s ease;
+
+    &:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    }
+
+    &__title {
+      font-size: 3rem;
+      font-weight: bold;
+      margin-bottom: 0.5rem;
+      text-shadow: 0 0 20px currentColor;
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+      word-break: break-word;
+      hyphens: auto;
+      min-width: 0;
+    }
+
+    &__content {
+      font-size: 1rem;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      opacity: 0.8;
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+      word-break: break-word;
+      hyphens: auto;
+      min-width: 0;
+    }
+
+    &__value {
+      font-size: 3rem;
+      font-weight: bold;
+      margin-bottom: 0.5rem;
+      text-shadow: 0 0 20px currentColor;
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+      word-break: break-word;
+      hyphens: auto;
+      min-width: 0;
+    }
+
+    &__label {
+      font-size: 1rem;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      opacity: 0.8;
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+      word-break: break-word;
+      hyphens: auto;
+      min-width: 0;
+    }
+
+    &__trend {
+      font-size: 0.875rem;
+      margin-top: 0.5rem;
+      opacity: 0.7;
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+      word-break: break-word;
+      hyphens: auto;
+      min-width: 0;
+    }
+  }
+}
+
+.card__content[data-element] {
+  @include selectable-element-rounded;
+}
+
+@media (max-width: 768px) {
+  .stats-counter {
+    padding: 2rem 0;
+
+    .stat-item {
+      padding: 1.5rem 0.75rem;
+
+      &__title,
+      &__value {
+        font-size: 2rem;
+        text-shadow: 0 0 15px currentColor;
+      }
+
+      &__content,
+      &__label {
+        font-size: 0.875rem;
+        letter-spacing: 1px;
+      }
+
+      &__trend {
+        font-size: 0.8rem;
+      }
+    }
+  }
+}

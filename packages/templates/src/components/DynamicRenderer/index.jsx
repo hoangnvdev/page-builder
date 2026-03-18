@@ -12,8 +12,6 @@ import { getComponentForElement } from '../../registries/componentRegistry';
 // Memoized section wrapper - only re-renders when this specific section's config changes
 const MemoizedSection = memo(
   ({ elementKey, elementConfig, templateConfig, onError }) => {
-    console.log(`🔄 Section "${elementKey}" render`);
-
     const result = getComponentForElement(
       elementKey,
       elementConfig,
@@ -60,7 +58,6 @@ MemoizedSection.propTypes = {
 };
 
 export const DynamicRenderer = ({ templateConfig, config }) => {
-  console.log("🎨 DynamicRenderer render");
   const { page, elements } = config;
   const layout = templateConfig.layout || [];
 

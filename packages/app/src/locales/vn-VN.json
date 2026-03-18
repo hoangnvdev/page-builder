@@ -2,7 +2,8 @@
   "editor": {
     "toolbar": {
       "backButton": "Tất cả Mẫu",
-      "resetButton": "Làm Lại"
+      "undoButton": "Hoàn Tác",
+      "redoButton": "Làm Lại"
     },
     "loading": {
       "title": "Đang Chuẩn Bị...",
@@ -16,12 +17,36 @@
   },
   "export": {
     "button": {
-      "exported": "✓ Đã Tải!",
+      "exported": "Đã Tải!",
       "exportHtml": "Tải HTML"
     },
     "error": {
       "failedMessage": "Ối! Tải xuống thất bại. Hãy thử lại nhé."
     }
+  },
+  "historyControls": {
+    "historyTitle": "Lịch Sử",
+    "showHistory": "Xem lịch sử",
+    "close": "Đóng",
+    "helperText": "↑ Mới nhất ở trên · Cũ nhất ở dưới ↓",
+    "currentState": "Hiện Tại",
+    "youAreHere": "Bạn đang ở đây",
+    "past": "Trước Đây",
+    "future": "Tiếp Theo",
+    "change": "Thay Đổi",
+    "moreChanges": "thêm",
+    "unknownChange": "Thay đổi không xác định",
+    "resetButton": "Làm Lại"
+  },
+  "confirmDialog": {
+    "cancel": "Hủy",
+    "confirm": "Xác Nhận",
+    "resetTitle": "Làm Lại Từ Đầu?",
+    "resetMessage": "Tất cả thay đổi của bạn sẽ bị mất và mẫu sẽ trở về mặc định. Hành động này không thể hoàn tác.",
+    "resetConfirm": "Có, Làm Lại",
+    "backTitle": "Rời Khỏi Mẫu Này?",
+    "backMessage": "Bạn có thay đổi chưa lưu. Nếu rời đi bây giờ, tất cả công việc sẽ bị mất.",
+    "backConfirm": "Có, Rời Đi"
   },
   "propertyPanel": {
     "title": {
@@ -64,6 +89,11 @@
       "title": "Chưa Có Mẫu Nào",
       "description": "Hiện tại chúng tôi chưa có mẫu nào khả dụng."
     }
+  },
+  "notFound": {
+    "title": "Không Tìm Thấy Trang",
+    "description": "Xin lỗi, trang bạn đang tìm kiếm không tồn tại. Nó có thể đã bị di chuyển hoặc xóa.",
+    "goHome": "Quay Về Trang Mẫu"
   },
   "formField": {
     "button": {

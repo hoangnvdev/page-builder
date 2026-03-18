@@ -2,7 +2,8 @@
   "editor": {
     "toolbar": {
       "backButton": "テンプレートに戻る",
-      "resetButton": "デフォルトにリセット"
+      "undoButton": "元に戻す",
+      "redoButton": "やり直す"
     },
     "loading": {
       "title": "テンプレートを復元中...",
@@ -22,6 +23,30 @@
     "error": {
       "failedMessage": "エクスポートに失敗しました。もう一度お試しください。"
     }
+  },
+  "historyControls": {
+    "historyTitle": "履歴",
+    "showHistory": "履歴を表示",
+    "close": "閉じる",
+    "helperText": "↑ 最新が上 · 最古が下 ↓",
+    "currentState": "現在",
+    "youAreHere": "現在地",
+    "past": "過去",
+    "future": "次",
+    "change": "変更",
+    "moreChanges": "その他",
+    "unknownChange": "不明な変更",
+    "resetButton": "デフォルトにリセット"
+  },
+  "confirmDialog": {
+    "cancel": "キャンセル",
+    "confirm": "確認",
+    "resetTitle": "最初からやり直しますか？",
+    "resetMessage": "すべての変更が失われ、テンプレートがデフォルトに戻ります。この操作は元に戻せません。",
+    "resetConfirm": "はい、リセット",
+    "backTitle": "このテンプレートを離れますか？",
+    "backMessage": "保存されていない変更があります。今離れると、すべての作業が失われます。",
+    "backConfirm": "はい、離れる"
   },
   "propertyPanel": {
     "title": {
@@ -64,6 +89,11 @@
       "title": "利用可能なテンプレートがありません",
       "description": "テンプレートが見つかりませんでした。"
     }
+  },
+  "notFound": {
+    "title": "ページが見つかりません",
+    "description": "申し訳ございません。お探しのページは存在しません。移動または削除された可能性があります。",
+    "goHome": "テンプレートに戻る"
   },
   "formField": {
     "button": {

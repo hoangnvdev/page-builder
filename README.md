@@ -10,7 +10,7 @@ A modern, high-performance browser-based page builder for creating and exporting
 - 📦 **HTML Export** - Download production-ready static HTML
 - 🎯 **No Code Required** - Perfect for designers and non-technical users
 - ⚡ **Optimized Performance** - Lazy loading, code splitting, and modern build optimizations
-- 🧩 **Component System** - Extensive template component library with 18+ reusable sections
+- 🧩 **Component System** - Extensive library with 13 template sections, 15 UI primitives, and 34 editor components
 - 🎭 **Config-Driven** - Templates defined by data, not hardcoded layouts
 - 🌐 **Internationalization** - Multi-language support (English, Vietnamese, Japanese, Arabic) with RTL layout
 

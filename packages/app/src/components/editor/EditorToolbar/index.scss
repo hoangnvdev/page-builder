@@ -1,0 +1,338 @@
+.editor-toolbar {
+  background: var(--color-surface);
+  border-bottom: 1px solid var(--color-border);
+  box-shadow: var(--shadow-sm);
+  backdrop-filter: blur(10px);
+  position: relative;
+  z-index: 100;
+
+  // Hide compact language switcher on desktop (it's in toolbar__left for mobile)
+  .toolbar__left .language-switcher {
+    display: none;
+  }
+
+  // Desktop/Laptop mode - align right side items to the end
+  .toolbar__right {
+    justify-content: flex-end;
+    gap: 24px;
+
+    .divider {
+      display: none;
+    }
+  }
+
+  &__back-button {
+    font-size: 1rem;
+    font-weight: 500;
+    transition: all var(--transition-fast);
+
+    svg {
+      transition: transform var(--transition-fast);
+    }
+
+    &:hover {
+      color: var(--color-primary);
+
+      svg {
+        transform: translateX(-4px);
+      }
+    }
+
+    [dir="rtl"] & svg {
+      transform: scaleX(-1);
+    }
+
+    [dir="rtl"] &:hover svg {
+      transform: scaleX(-1) translateX(-4px);
+    }
+  }
+
+  &__title {
+    margin: 0;
+    font-size: 1.1rem;
+    font-weight: 600;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    background: linear-gradient(
+      135deg,
+      var(--color-primary) 0%,
+      var(--color-secondary) 100%
+    );
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+}
+
+// Tablet mode (768px to 1024px)
+@media (min-width: 769px) and (max-width: 1024px) {
+  .editor-toolbar {
+    padding: 1rem !important;
+    flex-direction: column;
+    gap: 0.75rem;
+    min-height: auto !important;
+    height: auto !important;
+    overflow: visible !important;
+    background: linear-gradient(135deg, var(--color-surface) 0%, #fafbfc 100%);
+    box-shadow: var(--shadow-md);
+
+    // Show full language switcher on tablet (hidden on desktop)
+    .toolbar__left .language-switcher {
+      display: inline-block;
+    }
+
+    // Hide desktop language switcher on tablet/mobile
+    .toolbar__right .language-switcher {
+      display: none;
+    }
+
+    &__back-button {
+      font-size: 0.875rem;
+      padding: 0.5rem 0.875rem;
+      min-width: auto;
+      border-radius: 6px;
+      background: linear-gradient(
+        135deg,
+        rgba(99, 102, 241, 0.08) 0%,
+        rgba(99, 102, 241, 0.04) 100%
+      );
+      border: 1px solid rgba(99, 102, 241, 0.15);
+      flex-shrink: 0;
+
+      &:hover {
+        background: linear-gradient(
+          135deg,
+          rgba(99, 102, 241, 0.12) 0%,
+          rgba(99, 102, 241, 0.06) 100%
+        );
+        border-color: rgba(99, 102, 241, 0.25);
+        transform: translateX(-2px);
+      }
+    }
+
+    &__title {
+      font-size: 0.9375rem;
+      text-align: center;
+      max-width: none;
+      font-weight: 700;
+      background: linear-gradient(
+        135deg,
+        var(--color-primary) 0%,
+        var(--color-secondary) 100%
+      );
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      flex: 1;
+      min-width: 0;
+      line-height: 1.4;
+    }
+
+    // Hide vertical dividers
+    .divider {
+      display: none;
+    }
+
+    // Row 1: Back button (icon + text) + Title (centered) + Language Switcher (full)
+    .toolbar__left {
+      order: 1;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem;
+      position: relative;
+
+      // Make back button and language switcher take equal space
+      > .editor-toolbar__back-button,
+      > .language-switcher {
+        flex: 0 0 auto;
+      }
+
+      // Truly center the title using absolute positioning
+      > .editor-toolbar__title {
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        max-width: calc(100% - 200px); // Account for side buttons
+      }
+    }
+
+    // Row 2: Action Buttons with equal width
+    .toolbar__right {
+      order: 2;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem;
+
+      > button {
+        flex: 1;
+        min-width: 0;
+        justify-content: center;
+        padding: 0.625rem 1rem;
+        font-weight: 600;
+        border-radius: 6px;
+        box-shadow: var(--shadow-sm);
+
+        &:hover {
+          transform: translateY(-1px);
+          box-shadow: var(--shadow-md);
+        }
+
+        &:active {
+          transform: translateY(0);
+        }
+      }
+    }
+
+    // Styling adjustments
+    button {
+      font-size: 0.875rem;
+      transition: all var(--transition-fast);
+    }
+  }
+}
+
+// Mobile mode (up to 768px)
+@media (max-width: 768px) {
+  .editor-toolbar {
+    padding: 1rem !important;
+    flex-direction: column;
+    gap: 0.75rem;
+    min-height: auto !important;
+    height: auto !important;
+    overflow: visible !important;
+    background: linear-gradient(135deg, var(--color-surface) 0%, #fafbfc 100%);
+    box-shadow: var(--shadow-md);
+
+    // Show compact language switcher on mobile (hidden on desktop)
+    .toolbar__left .language-switcher {
+      display: inline-block;
+    }
+
+    // Hide desktop language switcher on mobile
+    .toolbar__right .language-switcher {
+      display: none;
+    }
+
+    &__back-button {
+      font-size: 0.875rem;
+      padding: 0.5rem;
+      min-width: auto;
+      border-radius: 6px;
+      background: linear-gradient(
+        135deg,
+        rgba(99, 102, 241, 0.08) 0%,
+        rgba(99, 102, 241, 0.04) 100%
+      );
+      border: 1px solid rgba(99, 102, 241, 0.15);
+      flex-shrink: 0;
+
+      &-text {
+        display: none;
+      }
+
+      svg {
+        margin: 0;
+      }
+
+      &:hover {
+        background: linear-gradient(
+          135deg,
+          rgba(99, 102, 241, 0.12) 0%,
+          rgba(99, 102, 241, 0.06) 100%
+        );
+        border-color: rgba(99, 102, 241, 0.25);
+        transform: translateX(-2px);
+      }
+    }
+
+    &__title {
+      font-size: 0.9375rem;
+      text-align: center;
+      max-width: none;
+      font-weight: 700;
+      background: linear-gradient(
+        135deg,
+        var(--color-primary) 0%,
+        var(--color-secondary) 100%
+      );
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      flex: 1;
+      min-width: 0;
+      line-height: 1.4;
+    }
+
+    // Hide vertical dividers
+    .divider {
+      display: none;
+    }
+
+    // Row 1: Back button (icon only) + Title (centered) + Language Switcher (compact)
+    .toolbar__left {
+      order: 1;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem;
+      position: relative;
+
+      // Make back button and language switcher take equal space
+      > .editor-toolbar__back-button,
+      > .language-switcher {
+        flex: 0 0 auto;
+      }
+
+      // Truly center the title using absolute positioning
+      > .editor-toolbar__title {
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        max-width: calc(
+          100% - 140px
+        ); // Account for side buttons (smaller on mobile)
+      }
+    }
+
+    // Row 2: Action Buttons with equal width
+    .toolbar__right {
+      order: 2;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem;
+
+      > button {
+        flex: 1;
+        min-width: 0;
+        justify-content: center;
+        padding: 0.625rem 1rem;
+        font-weight: 600;
+        border-radius: 6px;
+        box-shadow: var(--shadow-sm);
+
+        &:hover {
+          transform: translateY(-1px);
+          box-shadow: var(--shadow-md);
+        }
+
+        &:active {
+          transform: translateY(0);
+        }
+      }
+    }
+
+    // Styling adjustments
+    button {
+      font-size: 0.875rem;
+      transition: all var(--transition-fast);
+    }
+  }
+}
