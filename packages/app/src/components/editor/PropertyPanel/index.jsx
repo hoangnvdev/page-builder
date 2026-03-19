@@ -1,34 +1,25 @@
-import './index.scss';
+import "./index.scss";
 
-import {
-  memo,
-  useCallback,
-  useMemo,
-  useRef,
-} from 'react';
+import { memo, useCallback, useMemo, useRef } from "react";
 
-import { useTranslation } from 'react-i18next';
-import { useSelector } from 'react-redux';
+import { useTranslation } from "react-i18next";
+import { useSelector } from "react-redux";
 
-import { useSelection } from '@/contexts/SelectionContext';
-import { useFieldHandlers } from '@/hooks';
-import {
-  deepMerge,
-  getNestedValue,
-} from '@/utils';
+import { useSelection } from "@/contexts/SelectionContext";
+import { useFieldHandlers, useScrollToTopOnSelection } from "@/hooks";
+import { deepMerge, getNestedValue } from "@/utils";
 import {
   getFieldsForElement,
   getSingularTemplateName,
-} from '@/utils/schemaProcessor';
+} from "@/utils/schemaProcessor";
 
-import { EmptyState } from '../../common/EmptyState';
-import { FieldGroup } from '../../form/FieldGroup';
-import { FormField } from '../../form/FormField';
-import { Flex } from '../../layout/Flex';
-import { Panel } from '../../layout/Panel';
-import { SubTitle } from '../../typography/SubTitle';
-import { Title } from '../../typography/Title';
-import { HistoryControls } from '../HistoryControls';
+import { EmptyState } from "../../common/EmptyState";
+import { FormField } from "../../form/FormField";
+import { Flex } from "../../layout/Flex";
+import { Panel } from "../../layout/Panel";
+import { SubTitle } from "../../typography/SubTitle";
+import { Title } from "../../typography/Title";
+import { HistoryControls } from "../HistoryControls";
 
 export const PropertyPanel = () => {
   const { t, i18n } = useTranslation();
@@ -60,6 +51,9 @@ export const PropertyPanel = () => {
     () => deepMerge(selectedTemplate?.defaultConfig || {}, currentConfig || {}),
     [selectedTemplate?.defaultConfig, currentConfig],
   );
+
+  // Scroll PropertyPanel to top when selection changes
+  useScrollToTopOnSelection(selectedSubElement || selectedElement);
 
   // Helper: Enhance field options to include template default if not present
   // This preserves custom template values and allows users to reset individual fields
@@ -174,7 +168,11 @@ export const PropertyPanel = () => {
 
   if (!activeElementId) {
     // Show page-level settings when nothing is selected
-    const pageFields = getFieldsForElement(selectedTemplate, "page");
+    const pageFields = getFieldsForElement(
+      selectedTemplate,
+      "page",
+      tempConfig,
+    );
 
     return (
       <Panel position="right" width="100%" className="property-panel">
@@ -222,12 +220,13 @@ export const PropertyPanel = () => {
   }
 
   // Get fields for the selected element from the schema
-  const elementFields = getFieldsForElement(selectedTemplate, activeElementId);
+  const elementFields = getFieldsForElement(
+    selectedTemplate,
+    activeElementId,
+    tempConfig,
+  );
 
-  if (
-    !elementFields.fields ||
-    (elementFields.fields.length === 0 && elementFields.groups?.length === 0)
-  ) {
+  if (!elementFields.fields || elementFields.fields.length === 0) {
     return (
       <Panel position="right" width="100%" className="property-panel">
         <Panel.Header>
@@ -351,107 +350,45 @@ export const PropertyPanel = () => {
       </Panel.Header>
       <Panel.Content>
         <Flex direction="column" gap={24}>
-          {/* Render ungrouped fields (section properties) first */}
-          {elementFields.fields
-            .filter((field) => !field.groupKey) // Only fields not in a group
-            .map((field) => {
-              // Check if field should be visible
-              if (!shouldShowField(field)) return null;
+          {/* Render all fields */}
+          {elementFields.fields.map((field) => {
+            // Check if field should be visible
+            if (!shouldShowField(field)) return null;
 
-              const enhancedField = enhanceFieldOptions(field);
-              let fieldValue = getNestedValue(tempConfig, field.path);
+            const enhancedField = enhanceFieldOptions(field);
+            let fieldValue = getNestedValue(tempConfig, field.path);
 
-              // Convert numbers to strings for Select component if needed
-              if (
-                enhancedField.type === "select" &&
-                typeof fieldValue === "number"
-              ) {
-                fieldValue = String(fieldValue);
-              }
+            // Convert numbers to strings for Select component if needed
+            if (
+              enhancedField.type === "select" &&
+              typeof fieldValue === "number"
+            ) {
+              fieldValue = String(fieldValue);
+            }
 
-              const usesBlur = shouldUseBlur(enhancedField.type);
-              const usesChangeEnd = shouldUseChangeEnd(enhancedField.type);
+            const usesBlur = shouldUseBlur(enhancedField.type);
+            const usesChangeEnd = shouldUseChangeEnd(enhancedField.type);
 
-              return (
-                <FormField
-                  key={field.path}
-                  id={field.path}
-                  label={enhancedField.label}
-                  type={enhancedField.type}
-                  value={fieldValue ?? ""}
-                  onChange={getOnChangeHandler(field.path, enhancedField.type)}
-                  onBlur={usesBlur ? getOnBlurHandler(field.path) : undefined}
-                  onChangeEnd={
-                    usesChangeEnd
-                      ? getOnChangeEndHandler(field.path)
-                      : undefined
-                  }
-                  options={enhancedField.options}
-                  min={field.min}
-                  max={field.max}
-                  step={field.step}
-                  labels={field.labels}
-                />
-              );
-            })}
-
-          {/* Render field groups (child sections) after */}
-          {elementFields.groups?.map((group) => (
-            <FieldGroup
-              key={group.id}
-              title={group.label}
-              collapsible={group.collapsible}
-              defaultExpanded={group.defaultExpanded}
-            >
-              <Flex direction="column" gap={16}>
-                {group.fields.map((field) => {
-                  // Check if field should be visible
-                  if (!shouldShowField(field)) return null;
-
-                  const enhancedField = enhanceFieldOptions(field);
-                  let fieldValue = getNestedValue(tempConfig, field.path);
-
-                  // Convert numbers to strings for Select component if needed
-                  if (
-                    enhancedField.type === "select" &&
-                    typeof fieldValue === "number"
-                  ) {
-                    fieldValue = String(fieldValue);
-                  }
-
-                  const usesBlur = shouldUseBlur(enhancedField.type);
-                  const usesChangeEnd = shouldUseChangeEnd(enhancedField.type);
-
-                  return (
-                    <FormField
-                      key={field.path}
-                      id={field.path}
-                      label={enhancedField.label}
-                      type={enhancedField.type}
-                      value={fieldValue ?? ""}
-                      onChange={getOnChangeHandler(
-                        field.path,
-                        enhancedField.type,
-                      )}
-                      onBlur={
-                        usesBlur ? getOnBlurHandler(field.path) : undefined
-                      }
-                      onChangeEnd={
-                        usesChangeEnd
-                          ? getOnChangeEndHandler(field.path)
-                          : undefined
-                      }
-                      options={enhancedField.options}
-                      min={field.min}
-                      max={field.max}
-                      step={field.step}
-                      labels={field.labels}
-                    />
-                  );
-                })}
-              </Flex>
-            </FieldGroup>
-          ))}
+            return (
+              <FormField
+                key={field.path}
+                id={field.path}
+                label={enhancedField.label}
+                type={enhancedField.type}
+                value={fieldValue ?? ""}
+                onChange={getOnChangeHandler(field.path, enhancedField.type)}
+                onBlur={usesBlur ? getOnBlurHandler(field.path) : undefined}
+                onChangeEnd={
+                  usesChangeEnd ? getOnChangeEndHandler(field.path) : undefined
+                }
+                options={enhancedField.options}
+                min={field.min}
+                max={field.max}
+                step={field.step}
+                labels={field.labels}
+              />
+            );
+          })}
         </Flex>
       </Panel.Content>
       <HistoryControls />

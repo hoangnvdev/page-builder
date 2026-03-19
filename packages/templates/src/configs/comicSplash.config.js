@@ -7,32 +7,24 @@
  * - Image props (objectFit, size, shadow)
  */
 
-import {
-  color,
-  text,
-  textarea,
-} from '../utils/fieldBuilders.js';
+import { slider, text, textarea } from "../utils/fieldBuilders.js";
 import {
   arrayField,
   avatarProps,
   buttonSchema,
   cardSchema,
-  gridLayoutProps,
   headingContentSchema,
-  imageProps,
+  imagePropsComplete,
+  marqueePropsComplete,
   mergeSchemas,
   sectionSchema,
   spacingProps,
+  textContentPropsEnhanced,
   textContentSchema,
   titleContentSchema,
   visualProps,
-} from '../utils/genericSchemaBuilders.js';
-import {
-  fontFamilyOptions,
-  languageOptions,
-  marqueePaddingOptions,
-  marqueeSpeedOptions,
-} from '../utils/index.js';
+} from "../utils/genericSchemaBuilders.js";
+import { fontFamilyOptions, languageOptions } from "../utils/index.js";
 
 export const comicSplashRefactoredConfig = {
   id: "comic-splash-refactored",
@@ -89,80 +81,151 @@ export const comicSplashRefactoredConfig = {
       // --------------------------
       // MARQUEE SECTION (Special component)
       // --------------------------
-      marquee: {
-        text: text("text"),
-        backgroundColor: color("backgroundColor"),
-        textColor: color("textColor"),
-        padding: {
-          type: "select",
-          label: "padding",
-          options: marqueePaddingOptions,
-        },
-        speed: {
-          type: "select",
-          label: "animationDuration",
-          options: marqueeSpeedOptions,
-        },
-      },
+      marquee: marqueePropsComplete(),
 
       // --------------------------
       // COMIC PANELS (Grid of cards)
       // --------------------------
-      comicPanels: mergeSchemas(sectionSchema(), gridLayoutProps(6), {
-        heading: headingContentSchema(),
-        card: mergeSchemas(cardSchema(), {
-          title: titleContentSchema(),
-          content: textContentSchema("text", true),
-        }),
-        panels: arrayField("items"),
-      }),
+      comicPanels: mergeSchemas(
+        sectionSchema(),
+        {
+          columns: slider("columns", 1, {
+            dynamic: "elements.comicPanels.panels.length",
+          }),
+          gap: {
+            type: "select",
+            label: "gap",
+            options: [
+              { value: "16px", label: "compact" },
+              { value: "24px", label: "comfort" },
+              { value: "32px", label: "spacious" },
+            ],
+          },
+        },
+        {
+          heading: headingContentSchema(),
+          card: mergeSchemas(cardSchema(), {
+            title: titleContentSchema(),
+            content: textContentSchema("text", true),
+          }),
+          panels: arrayField("items"),
+        },
+      ),
 
       // --------------------------
       // FEATURES SECTION
       // --------------------------
-      features: mergeSchemas(sectionSchema(), gridLayoutProps(6), {
-        heading: headingContentSchema(),
-        card: mergeSchemas(cardSchema(), {
-          icon: text("icon"), // emoji or icon identifier
-          title: titleContentSchema(),
-          content: textContentSchema("text", true),
-        }),
-        items: arrayField("items"),
-      }),
+      features: mergeSchemas(
+        sectionSchema(),
+        {
+          columns: slider("columns", 1, {
+            dynamic: "elements.features.items.length",
+          }),
+          gap: {
+            type: "select",
+            label: "gap",
+            options: [
+              { value: "16px", label: "compact" },
+              { value: "24px", label: "comfort" },
+              { value: "32px", label: "spacious" },
+            ],
+          },
+        },
+        {
+          heading: headingContentSchema(),
+          card: mergeSchemas(cardSchema(), {
+            icon: text("icon"), // emoji or icon identifier
+            title: titleContentSchema(),
+            content: textContentSchema("text", true),
+          }),
+          items: arrayField("items"),
+        },
+      ),
 
       // --------------------------
       // STATS SECTION
       // --------------------------
-      stats: mergeSchemas(sectionSchema(), gridLayoutProps(6), {
-        title: headingContentSchema(),
-        card: mergeSchemas(cardSchema(), {
-          title: headingContentSchema(), // large number
-          content: textContentSchema("text"), // description
-        }),
-        items: arrayField("items"),
-      }),
+      stats: mergeSchemas(
+        sectionSchema(),
+        {
+          columns: slider("columns", 1, {
+            dynamic: "elements.stats.items.length",
+          }),
+          gap: {
+            type: "select",
+            label: "gap",
+            options: [
+              { value: "16px", label: "compact" },
+              { value: "24px", label: "comfort" },
+              { value: "32px", label: "spacious" },
+            ],
+          },
+        },
+        {
+          title: headingContentSchema(),
+          card: mergeSchemas(cardSchema(), {
+            title: headingContentSchema(), // large number
+            content: textContentSchema("text"), // description
+          }),
+          items: arrayField("items"),
+        },
+      ),
 
       // --------------------------
       // TESTIMONIALS SECTION
       // --------------------------
-      testimonials: mergeSchemas(sectionSchema(), gridLayoutProps(4), {
-        title: headingContentSchema(),
-        card: mergeSchemas(cardSchema(), {
-          avatar: avatarProps(),
-          title: textContentSchema("text", true),
-          content: textContentSchema("text"),
-        }),
-        quotes: arrayField("items"),
-      }),
+      testimonials: mergeSchemas(
+        sectionSchema(),
+        {
+          columns: slider("columns", 1, {
+            dynamic: "elements.testimonials.quotes.length",
+          }),
+          gap: {
+            type: "select",
+            label: "gap",
+            options: [
+              { value: "16px", label: "compact" },
+              { value: "24px", label: "comfort" },
+              { value: "32px", label: "spacious" },
+            ],
+          },
+        },
+        {
+          title: headingContentSchema(),
+          card: mergeSchemas(cardSchema(), {
+            avatar: avatarProps(),
+            title: textContentSchema("text", true),
+            content: textContentSchema("text"),
+          }),
+          quotes: arrayField("items"),
+        },
+      ),
 
       // --------------------------
       // IMAGE GRID SECTION
       // --------------------------
-      imageGrid: mergeSchemas(sectionSchema(), gridLayoutProps(6), {
-        heading: headingContentSchema(),
-        image: imageProps(),
-        items: arrayField("items"), // array of images
-      }),
+      imageGrid: mergeSchemas(
+        sectionSchema(),
+        {
+          columns: slider("columns", 1, {
+            dynamic: "elements.imageGrid.items.length",
+          }),
+          gap: {
+            type: "select",
+            label: "gap",
+            options: [
+              { value: "16px", label: "compact" },
+              { value: "24px", label: "comfort" },
+              { value: "32px", label: "spacious" },
+            ],
+          },
+        },
+        {
+          heading: headingContentSchema(),
+          image: imagePropsComplete(),
+          items: arrayField("items"), // array of images
+        },
+      ),
 
       // --------------------------
       // CTA SECTION
@@ -177,7 +240,7 @@ export const comicSplashRefactoredConfig = {
       // FOOTER SECTION
       // --------------------------
       footer: mergeSchemas(visualProps(), spacingProps("section"), {
-        text: textContentSchema("text"),
+        text: textContentPropsEnhanced("text"),
         links: arrayField("items"),
       }),
     },

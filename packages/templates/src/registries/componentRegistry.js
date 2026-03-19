@@ -1,18 +1,18 @@
-import React from 'react';
+import React from "react";
 
-import { CallToAction } from '../sections/CallToAction';
-import { ComicPanels } from '../sections/ComicPanels';
-import { ContentSection } from '../sections/ContentSection';
-import { Footer } from '../sections/Footer';
-import { Header } from '../sections/Header';
-import { Hero } from '../sections/Hero';
-import { ImageGrid } from '../sections/ImageGrid';
-import { ItemGrid } from '../sections/ItemGrid';
-import { Marquee } from '../sections/Marquee';
-import { SpeechBubbleTestimonials } from '../sections/SpeechBubbleTestimonials';
-import { StatsCounter } from '../sections/StatsCounter';
-import { Terminal } from '../sections/Terminal';
-import { TestimonialCards } from '../sections/TestimonialCards';
+import { CallToAction } from "../sections/CallToAction";
+import { ComicPanels } from "../sections/ComicPanels";
+import { ContentSection } from "../sections/ContentSection";
+import { Footer } from "../sections/Footer";
+import { Header } from "../sections/Header";
+import { Hero } from "../sections/Hero";
+import { ImageGrid } from "../sections/ImageGrid";
+import { ItemGrid } from "../sections/ItemGrid";
+import { Marquee } from "../sections/Marquee";
+import { SpeechBubbleTestimonials } from "../sections/SpeechBubbleTestimonials";
+import { StatsCounter } from "../sections/StatsCounter";
+import { Terminal } from "../sections/Terminal";
+import { TestimonialCards } from "../sections/TestimonialCards";
 import {
   mapAlignToFlex,
   mapButtonProps,
@@ -26,7 +26,7 @@ import {
   unwrapArrayItems,
   unwrapNestedObjects,
   unwrapText,
-} from '../utils/configMappers';
+} from "../utils/configMappers";
 
 export const componentRegistry = {
   header: {
@@ -41,7 +41,11 @@ export const componentRegistry = {
       // New logo system
       logoType: config.logo?.type,
       logoText: config.logo?.text,
+      logoTextSize: config.logo?.textSize,
+      logoTextWeight: config.logo?.textWeight,
+      logoTextColor: config.logo?.textColor,
       logoUrl: config.logo?.url,
+      logoFile: config.logo?.file, // Base64 uploaded image
       logoWidth: config.logo?.width,
       logoHeight: config.logo?.height,
       backgroundColor: config.backgroundColor,
@@ -146,7 +150,7 @@ export const componentRegistry = {
       padding: config.padding,
       textSize: config.textSize,
       textWeight: config.textWeight,
-      speed: mapSpeedToDuration(config.speed),
+      speed: config.animationDuration || mapSpeedToDuration(config.speed), // Support both new and legacy
       repeat: config.repeat || 3,
     }),
   },
