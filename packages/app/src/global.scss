@@ -31,6 +31,15 @@
   --template-card-min-height-desktop: 500px;
   --template-card-min-height-tablet: 420px;
   --template-card-min-height-mobile: 360px;
+  --template-card-max-height-desktop: 800px;
+  --template-card-max-height-tablet: 700px;
+  --template-card-max-height-mobile: 600px;
+  --template-gallery-gap-ultrawide: 2rem; // 4 cols, 800px max-height
+  --template-gallery-gap-desktop: 2.25rem; // 3 cols, 800px max-height
+  --template-gallery-gap-laptop: 1.75rem; // 2 cols, 700px max-height
+  --template-gallery-gap-tablet: 2rem; // 2 cols, 700px max-height
+  --template-gallery-gap-mobile: 1.5rem; // 1 col, 600px max-height
+  --template-gallery-gap-small-mobile: 1.25rem; // 1 col, 600px max-height
   --template-preview-blur: 20px;
   --template-preview-blur-opacity: 0.6;
   --template-preview-width-desktop: 300px;

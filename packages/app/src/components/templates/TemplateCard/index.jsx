@@ -7,15 +7,17 @@ import { AppButton } from "../../common/AppButton";
 import { Card } from "../../layout/Card";
 import { TemplatePreview } from "../TemplatePreview";
 
-export const TemplateCard = ({ template, onSelect }) => {
+export const TemplateCard = ({ template, onSelect, isSelecting = false }) => {
   const { t } = useTranslation();
 
   const handleCardClick = () => {
+    if (isSelecting) return;
     onSelect(template);
   };
 
   const handleButtonClick = (e) => {
     e.stopPropagation();
+    if (isSelecting) return;
     onSelect(template);
   };
 
@@ -25,11 +27,18 @@ export const TemplateCard = ({ template, onSelect }) => {
         <div className="template-card__preview">
           <TemplatePreview template={template} />
           <div className="template-card__preview-overlay">
-            <span className="template-card__icon">{template.icon}</span>
             <span className="template-card__preview-text">
               {t("templateCard.hover.useTemplate")}
             </span>
           </div>
+          {isSelecting && (
+            <div className="template-card__loading-overlay">
+              <div className="template-card__loading-spinner"></div>
+              <span className="template-card__loading-text">
+                {t("templateCard.loading.preparing")}
+              </span>
+            </div>
+          )}
         </div>
       </div>
       <Card.Content className="template-card__content">
@@ -61,4 +70,5 @@ TemplateCard.propTypes = {
     icon: PropTypes.string.isRequired,
   }).isRequired,
   onSelect: PropTypes.func.isRequired,
+  isSelecting: PropTypes.bool,
 };

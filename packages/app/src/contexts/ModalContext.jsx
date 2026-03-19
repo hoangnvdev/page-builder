@@ -9,6 +9,7 @@ import {
 import PropTypes from "prop-types";
 
 import { ConfirmDialog } from "@/components";
+import { generateModalId } from "@/utils";
 
 const ModalContext = createContext(undefined);
 
@@ -53,16 +54,22 @@ export const ModalProvider = ({ children }) => {
     setConfirmDialog((prev) => ({ ...prev, isOpen: false }));
   }, []);
 
-  const openModal = useCallback((id, content, options = {}) => {
+  const openModal = useCallback((content, options = {}) => {
+    // Auto-generate ID if not provided
+    const modalId = options.id || generateModalId();
+
     setCustomModals((prev) => [
       ...prev,
       {
-        id,
+        id: modalId,
         content,
         isOpen: true,
         ...options,
       },
     ]);
+
+    // Return ID for external reference
+    return modalId;
   }, []);
 
   const closeModal = useCallback((id) => {

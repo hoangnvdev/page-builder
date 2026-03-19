@@ -1,4 +1,5 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { generateHistoryId } from "@/utils";
+import { createSlice } from "@reduxjs/toolkit";
 
 const MAX_HISTORY_SIZE = 50;
 
@@ -33,9 +34,15 @@ const builderSlice = createSlice({
         if (!state.history) {
           state.history = { past: [], future: [] };
         }
-        state.history.past.push(
-          JSON.parse(JSON.stringify(state.currentConfig)),
-        );
+
+        // Add current config to history with UUID and metadata
+        state.history.past.push({
+          id: generateHistoryId(),
+          config: JSON.parse(JSON.stringify(state.currentConfig)),
+          timestamp: Date.now(),
+          action: "updatePageConfig",
+          label: "Page configuration updated",
+        });
 
         if (state.history.past.length > MAX_HISTORY_SIZE) {
           state.history.past.shift();
@@ -55,9 +62,15 @@ const builderSlice = createSlice({
         if (!state.history) {
           state.history = { past: [], future: [] };
         }
-        state.history.past.push(
-          JSON.parse(JSON.stringify(state.currentConfig)),
-        );
+
+        // Add current config to history with UUID and metadata
+        state.history.past.push({
+          id: generateHistoryId(),
+          config: JSON.parse(JSON.stringify(state.currentConfig)),
+          timestamp: Date.now(),
+          action: "updateConfig",
+          label: "Configuration updated",
+        });
 
         if (state.history.past.length > MAX_HISTORY_SIZE) {
           state.history.past.shift();
@@ -84,9 +97,16 @@ const builderSlice = createSlice({
         if (!state.history) {
           state.history = { past: [], future: [] };
         }
-        state.history.past.push(
-          JSON.parse(JSON.stringify(state.currentConfig)),
-        );
+
+        // Add current config to history with UUID and metadata
+        state.history.past.push({
+          id: generateHistoryId(),
+          config: JSON.parse(JSON.stringify(state.currentConfig)),
+          timestamp: Date.now(),
+          action: "updateElementConfig",
+          label: `Updated element: ${elementId}`,
+          elementId, // Store which element was updated
+        });
 
         if (state.history.past.length > MAX_HISTORY_SIZE) {
           state.history.past.shift();
@@ -107,15 +127,22 @@ const builderSlice = createSlice({
         return;
       }
       if (state.history.past.length > 0) {
-        state.history.future.push(
-          JSON.parse(JSON.stringify(state.currentConfig)),
-        );
+        // Add current config to future with UUID and metadata
+        state.history.future.push({
+          id: generateHistoryId(),
+          config: JSON.parse(JSON.stringify(state.currentConfig)),
+          timestamp: Date.now(),
+          action: "undo",
+          label: "Undo action",
+        });
 
         if (state.history.future.length > MAX_HISTORY_SIZE) {
           state.history.future.shift();
         }
 
-        state.currentConfig = state.history.past.pop();
+        const previousEntry = state.history.past.pop();
+        // Extract config from entry (supports both old and new format)
+        state.currentConfig = previousEntry.config || previousEntry;
       }
     },
 
@@ -125,15 +152,22 @@ const builderSlice = createSlice({
         return;
       }
       if (state.history.future.length > 0) {
-        state.history.past.push(
-          JSON.parse(JSON.stringify(state.currentConfig)),
-        );
+        // Add current config to past with UUID and metadata
+        state.history.past.push({
+          id: generateHistoryId(),
+          config: JSON.parse(JSON.stringify(state.currentConfig)),
+          timestamp: Date.now(),
+          action: "redo",
+          label: "Redo action",
+        });
 
         if (state.history.past.length > MAX_HISTORY_SIZE) {
           state.history.past.shift();
         }
 
-        state.currentConfig = state.history.future.pop();
+        const nextEntry = state.history.future.pop();
+        // Extract config from entry (supports both old and new format)
+        state.currentConfig = nextEntry.config || nextEntry;
       }
     },
 

@@ -123,16 +123,6 @@ export const TemplateGallery = () => {
       );
     }
 
-    if (selectingTemplateId) {
-      return (
-        <LoadingIndicator
-          icon="🎨"
-          title={t("templateGallery.preparing.title")}
-          description={t("templateGallery.preparing.description")}
-        />
-      );
-    }
-
     if (error) {
       return (
         <ErrorDisplay
@@ -185,6 +175,7 @@ export const TemplateGallery = () => {
               <TemplateCard
                 template={template}
                 onSelect={handleSelectTemplate}
+                isSelecting={selectingTemplateId === template.id}
               />
             </ErrorBoundary>
           </div>

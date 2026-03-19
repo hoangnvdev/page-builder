@@ -1,7 +1,3 @@
-import { createElement } from "react";
-
-import { renderToStaticMarkup } from "react-dom/server";
-
 import { templateRegistry } from "@page-builder/templates";
 
 export const fetchTemplatesFromAPI = async () => {
@@ -47,11 +43,11 @@ export const fetchTemplateByIdFromAPI = async (templateId) => {
 };
 
 export const fetchTemplatePreviewHTML = async (templateId) => {
-  await new Promise((resolve) => setTimeout(resolve, 400));
+  await new Promise((resolve) => setTimeout(resolve, 300));
 
-  // In real scenario, this would be:
+  // In production, this would fetch preview data from API:
   // const response = await fetch(`/api/templates/${templateId}/preview`);
-  // return await response.text();
+  // return await response.json();
 
   const template = templateRegistry.find((t) => t.id === templateId);
 
@@ -59,48 +55,12 @@ export const fetchTemplatePreviewHTML = async (templateId) => {
     throw new Error(`Template with id "${templateId}" not found`);
   }
 
-  try {
-    // Simulate server-side rendering
-    const TemplateComponent = template.component;
-    const htmlContent = renderToStaticMarkup(
-      createElement(TemplateComponent, { config: template.defaultConfig }),
-    );
-
-    // Return complete HTML document
-    return `
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>${template.name} Preview</title>
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-    body {
-      overflow: hidden;
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-      background: white;
-    }
-    .preview-container {
-      width: 100%;
-      height: 100%;
-      pointer-events: none;
-    }
-  </style>
-</head>
-<body>
-  <div class="preview-container">
-    ${htmlContent}
-  </div>
-</body>
-</html>
-    `.trim();
-  } catch (error) {
-    console.error(`Error rendering template ${templateId}:`, error);
-    throw new Error(`Failed to render template preview: ${error.message}`);
-  }
+  // Return preview metadata (can be extended later with actual preview URLs)
+  return {
+    id: template.id,
+    name: template.name,
+    icon: template.icon,
+    // Future: Add preview image URL here
+    // previewUrl: `/previews/${templateId}.png`,
+  };
 };

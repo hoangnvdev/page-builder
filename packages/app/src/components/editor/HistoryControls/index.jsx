@@ -70,8 +70,13 @@ export const HistoryControls = memo(() => {
   }, []);
 
   const getChangePreview = useCallback(
-    (config, index, type) => {
-      if (!config) return t("historyControls.unknownChange");
+    (entry, index, type) => {
+      // Support both old format (plain config) and new format (with metadata)
+      if (entry && entry.label) {
+        return entry.label; // New format with metadata
+      }
+
+      if (!entry) return t("historyControls.unknownChange");
 
       const changeNumber = index + 1;
 
@@ -102,15 +107,19 @@ export const HistoryControls = memo(() => {
             <div className="history-controls__list-content">
               {historyData.future.length > 0 && (
                 <div className="history-controls__section">
-                  {[...historyData.future].reverse().map((config, index) => (
-                    <div
-                      key={`future-${index}`}
-                      className="history-controls__item history-controls__item--future"
-                    >
-                      <CornerUpRight size={12} />
-                      <span>{getChangePreview(config, index, "future")}</span>
-                    </div>
-                  ))}
+                  {[...historyData.future].reverse().map((entry, index) => {
+                    // Support both old and new format with UUID keys
+                    const key = entry.id || `future-${index}`;
+                    return (
+                      <div
+                        key={key}
+                        className="history-controls__item history-controls__item--future"
+                      >
+                        <CornerUpRight size={12} />
+                        <span>{getChangePreview(entry, index, "future")}</span>
+                      </div>
+                    );
+                  })}
                 </div>
               )}
 
@@ -127,21 +136,27 @@ export const HistoryControls = memo(() => {
                   {[...historyData.past]
                     .reverse()
                     .slice(0, 10)
-                    .map((config, index) => (
-                      <div
-                        key={`past-${index}`}
-                        className="history-controls__item history-controls__item--past"
-                      >
-                        <CornerUpLeft size={12} />
-                        <span>
-                          {getChangePreview(
-                            config,
-                            historyData.past.length - 1 - index,
-                            "past",
-                          )}
-                        </span>
-                      </div>
-                    ))}
+                    .map((entry, index) => {
+                      // Support both old and new format with UUID keys
+                      const key =
+                        entry.id ||
+                        `past-${historyData.past.length - 1 - index}`;
+                      return (
+                        <div
+                          key={key}
+                          className="history-controls__item history-controls__item--past"
+                        >
+                          <CornerUpLeft size={12} />
+                          <span>
+                            {getChangePreview(
+                              entry,
+                              historyData.past.length - 1 - index,
+                              "past",
+                            )}
+                          </span>
+                        </div>
+                      );
+                    })}
                   {historyData.past.length > 10 && (
                     <div className="history-controls__item history-controls__item--more">
                       ... {historyData.past.length - 10}{" "}
