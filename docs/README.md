@@ -17,6 +17,26 @@
   - Migration guide
   - API changes
 
+### Config System & Templates
+
+- **[Config Schema Guide](../CONFIG_SCHEMA_GUIDE.md)** - Complete reference for template configuration
+  - Field builders and generic schema builders
+  - Advanced patterns (dynamic sliders, conditional fields)
+  - Best practices and examples
+  - Troubleshooting guide
+
+- **[Migration Guide](../MIGRATION_GUIDE.md)** - Upgrading to the new config-driven system
+  - New features overview
+  - Step-by-step migration instructions
+  - Backward compatibility information
+  - Testing after migration
+
+- **[Property Panel Simplification](../PROPERTY_PANEL_SIMPLIFICATION.md)** - UX improvement for editing workflow
+  - Why FieldGroups were removed
+  - New click-to-edit workflow
+  - Technical implementation details
+  - No breaking changes
+
 ### Coming Soon
 
 - **Component Architecture** - How components are structured across packages

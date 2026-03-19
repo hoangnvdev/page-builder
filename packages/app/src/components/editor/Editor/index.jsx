@@ -65,6 +65,7 @@ export const Editor = () => {
   const [isPanelVisible, setIsPanelVisible] = useState(true);
   const pendingNavigationRef = useRef(null);
   const isHandlingPopStateRef = useRef(false);
+  const hasSetupHistoryEntryRef = useRef(false);
 
   const [showHelperText, setShowHelperText] = useLocalStorage(
     "hasSeenWelcomeHelper",
@@ -216,7 +217,9 @@ export const Editor = () => {
           onConfirm: () => {
             dispatch(resetToGallery());
             isHandlingPopStateRef.current = false;
-            window.history.back();
+            hasSetupHistoryEntryRef.current = false;
+            // Use React Router navigate instead of window.history.back()
+            navigate("/template", { replace: true });
           },
           onCancel: () => {
             isHandlingPopStateRef.current = false;
@@ -228,8 +231,13 @@ export const Editor = () => {
     window.addEventListener("popstate", handlePopState);
 
     // Push initial state to enable back button interception
-    if (hasHistory) {
+    // Only push once when hasHistory becomes true
+    if (hasHistory && !hasSetupHistoryEntryRef.current) {
       window.history.pushState(null, "", location.pathname + location.search);
+      hasSetupHistoryEntryRef.current = true;
+    } else if (!hasHistory) {
+      // Reset when history is cleared
+      hasSetupHistoryEntryRef.current = false;
     }
 
     return () => {
@@ -242,6 +250,7 @@ export const Editor = () => {
     showConfirm,
     t,
     dispatch,
+    navigate,
   ]);
 
   // Handle cancel from confirmation dialog
@@ -251,19 +260,8 @@ export const Editor = () => {
     }
   }, [isOpen]);
 
-  // Prevent browser close/refresh when there are unsaved changes
-  useEffect(() => {
-    const handleBeforeUnload = (e) => {
-      if (hasHistory) {
-        e.preventDefault();
-        e.returnValue = "";
-        return "";
-      }
-    };
-
-    window.addEventListener("beforeunload", handleBeforeUnload);
-    return () => window.removeEventListener("beforeunload", handleBeforeUnload);
-  }, [hasHistory]);
+  // Note: beforeunload handler removed - Redux Persist automatically saves state,
+  // so F5/refresh is safe and won't lose user's work
 
   // Handle window resize to adjust orientation
   useWindowResize(() => {

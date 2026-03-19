@@ -7,22 +7,18 @@
  * - Composite schemas for reusable patterns
  */
 
-import {
-  color,
-  text,
-  textarea,
-} from '../utils/fieldBuilders.js';
+import { color, slider, text, textarea } from "../utils/fieldBuilders.js";
 import {
   arrayField,
   buttonSchema,
   cardSchema,
-  gridLayoutProps,
   headingContentSchema,
   mergeSchemas,
   sectionSchema,
+  textContentPropsEnhanced,
   textContentSchema,
   titleContentSchema,
-} from '../utils/genericSchemaBuilders.js';
+} from "../utils/genericSchemaBuilders.js";
 import {
   borderRadiusOptions,
   borderWidthOptions,
@@ -30,8 +26,7 @@ import {
   footerPaddingOptions,
   footerTextSizeOptions,
   languageOptions,
-  textDecorationOptions,
-} from '../utils/index.js';
+} from "../utils/index.js";
 
 export const futuristicTechRefactoredConfig = {
   id: "futuristic-tech-refactored",
@@ -96,19 +91,36 @@ export const futuristicTechRefactoredConfig = {
       // --------------------------
       // FEATURES SECTION (Grid of cards)
       // --------------------------
-      features: mergeSchemas(sectionSchema(), gridLayoutProps(4), {
-        heading: headingContentSchema(),
-        card: mergeSchemas(cardSchema(), {
-          icon: text("icon"),
-          title: mergeSchemas(titleContentSchema(), {
-            text: text("title"),
+      features: mergeSchemas(
+        sectionSchema(),
+        {
+          columns: slider("columns", 1, {
+            dynamic: "elements.features.items.length",
           }),
-          content: mergeSchemas(textContentSchema("text", true), {
-            text: textarea("description"),
+          gap: {
+            type: "select",
+            label: "gap",
+            options: [
+              { value: "16px", label: "compact" },
+              { value: "24px", label: "comfort" },
+              { value: "32px", label: "spacious" },
+            ],
+          },
+        },
+        {
+          heading: headingContentSchema(),
+          card: mergeSchemas(cardSchema(), {
+            icon: text("icon"),
+            title: mergeSchemas(titleContentSchema(), {
+              text: text("title"),
+            }),
+            content: mergeSchemas(textContentSchema("text", true), {
+              text: textarea("description"),
+            }),
           }),
-        }),
-        items: arrayField("items"),
-      }),
+          items: arrayField("items"),
+        },
+      ),
 
       // --------------------------
       // TERMINAL SECTION (Code/Terminal Demo)
@@ -172,14 +184,31 @@ export const futuristicTechRefactoredConfig = {
       // --------------------------
       // STATS SECTION
       // --------------------------
-      stats: mergeSchemas(sectionSchema(), gridLayoutProps(5), {
-        title: headingContentSchema(),
-        card: mergeSchemas(cardSchema(), {
+      stats: mergeSchemas(
+        sectionSchema(),
+        {
+          columns: slider("columns", 1, {
+            dynamic: "elements.stats.items.length",
+          }),
+          gap: {
+            type: "select",
+            label: "gap",
+            options: [
+              { value: "16px", label: "compact" },
+              { value: "24px", label: "comfort" },
+              { value: "32px", label: "spacious" },
+            ],
+          },
+        },
+        {
           title: headingContentSchema(),
-          content: textContentSchema("text"),
-        }),
-        items: arrayField("items"),
-      }),
+          card: mergeSchemas(cardSchema(), {
+            title: headingContentSchema(),
+            content: textContentSchema("text"),
+          }),
+          items: arrayField("items"),
+        },
+      ),
 
       // --------------------------
       // CTA SECTION
@@ -212,16 +241,11 @@ export const futuristicTechRefactoredConfig = {
           },
         },
         {
-          text: mergeSchemas(textContentSchema("text"), {
+          text: mergeSchemas(textContentPropsEnhanced("text"), {
             size: {
               type: "select",
               label: "fontSize",
               options: footerTextSizeOptions,
-            },
-            decoration: {
-              type: "select",
-              label: "textAlign",
-              options: textDecorationOptions,
             },
           }),
         },

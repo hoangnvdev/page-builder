@@ -249,6 +249,48 @@
     "statsItems": "Stats Items",
     "terminalCommands": "Terminal Commands",
     "gradientStart": "Gradient Start Color",
-    "gradientEnd": "Gradient End Color"
+    "gradientEnd": "Gradient End Color",
+    "cover": "Cover",
+    "contain": "Contain",
+    "fill": "Fill",
+    "scaleDown": "Scale Down",
+    "underline": "Underline",
+    "overline": "Overline",
+    "lineThrough": "Line Through",
+    "fast": "Fast",
+    "mediumFast": "Medium Fast",
+    "normal": "Normal",
+    "slow": "Slow",
+    "verySlow": "Very Slow",
+    "uploadImage": "Upload from Computer",
+    "textOrEmoji": "Text or Emoji",
+    "imageUrl": "Image URL"
+  },
+  "fields": {
+    "logoType": "Logo Type",
+    "uploadImage": "Upload Image",
+    "textOrEmoji": "Text or Emoji",
+    "imageUrl": "Image URL",
+    "logoText": "Logo Text",
+    "textDecoration": "Text Decoration",
+    "objectFit": "Object Fit",
+    "buttonUrl": "Button URL",
+    "linkUrl": "Link URL",
+    "animationDuration": "Animation Duration"
+  },
+  "imageUpload": {
+    "clickToUpload": "Click to upload an image",
+    "acceptedFormats": "Accepted formats: {{formats}}",
+    "maxSize": "Maximum size: {{size}}",
+    "previewAlt": "Uploaded image preview",
+    "change": "Change",
+    "remove": "Remove",
+    "loading": "Loading...",
+    "error": {
+      "invalidType": "Invalid file type. Accepted: {{types}}",
+      "tooLarge": "File too large. Maximum: {{maxSize}}",
+      "readFailed": "Failed to read file",
+      "unknown": "An error occurred"
+    }
   }
 }

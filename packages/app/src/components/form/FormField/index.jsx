@@ -1,21 +1,20 @@
-import './index.scss';
+import "./index.scss";
 
-import {
-  memo,
-  useMemo,
-} from 'react';
+import { memo, useMemo } from "react";
 
-import PropTypes from 'prop-types';
-import { useTranslation } from 'react-i18next';
+import PropTypes from "prop-types";
+import { useTranslation } from "react-i18next";
 
-import { EmptyState } from '../../common/EmptyState';
-import { ColorPicker } from '../ColorPicker';
-import { Input } from '../Input';
-import { Radio } from '../Radio';
-import { Select } from '../Select';
-import { Slider } from '../Slider';
-import { Textarea } from '../Textarea';
-import { Toggle } from '../Toggle';
+import { EmptyState } from "../../common/EmptyState";
+import { ColorPicker } from "../ColorPicker";
+import { ImageUpload } from "../ImageUpload";
+import { Input } from "../Input";
+import { Radio } from "../Radio";
+import { RadioGroup } from "../RadioGroup";
+import { Select } from "../Select";
+import { Slider } from "../Slider";
+import { Textarea } from "../Textarea";
+import { Toggle } from "../Toggle";
 
 export const FormField = memo(
   ({
@@ -178,6 +177,30 @@ export const FormField = memo(
             />
           );
 
+        case "imageUpload":
+          return (
+            <ImageUpload
+              id={fieldId}
+              label={translatedLabel}
+              value={value || ""}
+              onChange={onChange}
+              acceptedFormats={options?.acceptedFormats}
+              maxSize={options?.maxSize}
+            />
+          );
+
+        case "radio":
+          return (
+            <RadioGroup
+              id={fieldId}
+              label={translatedLabel}
+              value={value}
+              onChange={onChange}
+              options={getTranslatedOptions(options || [])}
+              orientation={options?.orientation || "vertical"}
+            />
+          );
+
         default:
           return (
             <EmptyState
@@ -261,6 +284,8 @@ FormField.propTypes = {
     "number",
     "toggle",
     "slider",
+    "radio",
+    "imageUpload",
   ]).isRequired,
   value: PropTypes.any,
   onChange: PropTypes.func.isRequired,
