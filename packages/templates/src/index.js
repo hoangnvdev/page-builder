@@ -35,3 +35,9 @@ export { default as localesEnEN } from "./locales/en-EN.json";
 export { default as localesVnVN } from "./locales/vn-VN.json";
 export { default as localesJaJP } from "./locales/ja-JP.json";
 export { default as localesArAR } from "./locales/ar-AR.json";
+
+// Utilities export
+export {
+  formatElementIdForDisplay,
+  formatElementLabel,
+} from "./utils/elementHelpers";

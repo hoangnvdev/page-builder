@@ -1,21 +1,19 @@
-import './index.scss';
+import "./index.scss";
 
-import { useMemo } from 'react';
+import { useMemo } from "react";
 
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 
-import {
-  Container,
-  Flex,
-  Section,
-  Text,
-} from '@page-builder/ui';
+import { Container, Flex, Section, Text } from "@page-builder/ui";
+
+import { formatElementIdForDisplay } from "../../utils/elementHelpers";
 
 export const Footer = ({
   // Text props
   text,
   textSize,
   textWeight,
+  textStyle: textStyleProp,
   textDecoration,
   textColor,
 
@@ -32,10 +30,11 @@ export const Footer = ({
   links,
   ...props
 }) => {
-  // Handle italic as fontStyle instead of textDecoration
-  const isItalic = textDecoration === "italic";
-  const actualDecoration = isItalic ? "none" : textDecoration;
-  const fontStyle = isItalic ? "italic" : "normal";
+  // Handle both separate textStyle prop and legacy italic in textDecoration
+  const fontStyle =
+    textStyleProp || (textDecoration === "italic" ? "italic" : "normal");
+  const actualDecoration =
+    textDecoration === "italic" ? "none" : textDecoration;
 
   // Memoize text style
   const textStyle = useMemo(
@@ -81,6 +80,9 @@ export const Footer = ({
                   className="footer__link"
                   style={linkStyle}
                   data-element={`${dataElement}.link-${index}`}
+                  data-element-label={formatElementIdForDisplay(
+                    `${dataElement}.link-${index}`,
+                  )}
                 >
                   {link.text}
                 </a>
@@ -98,6 +100,7 @@ Footer.propTypes = {
   text: PropTypes.string,
   textSize: PropTypes.string,
   textWeight: PropTypes.string,
+  textStyle: PropTypes.string,
   textDecoration: PropTypes.string,
   textColor: PropTypes.string,
   backgroundColor: PropTypes.string,

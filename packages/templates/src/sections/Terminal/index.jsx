@@ -1,16 +1,12 @@
-import './index.scss';
+import "./index.scss";
 
-import { useMemo } from 'react';
+import { useMemo } from "react";
 
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 
-import {
-  Container,
-  Flex,
-  Section,
-  Text,
-  Title,
-} from '@page-builder/ui';
+import { Container, Flex, Section, Text, Title } from "@page-builder/ui";
+
+import { formatElementIdForDisplay } from "../../utils/elementHelpers";
 
 export const Terminal = ({
   heading,
@@ -129,6 +125,9 @@ export const Terminal = ({
                       fontFamily: "monospace",
                     }}
                     data-element={`${dataElement}.commands.${index}.prompt`}
+                    data-element-label={formatElementIdForDisplay(
+                      `${dataElement}.commands.${index}.prompt`,
+                    )}
                   >
                     {cmd.promptText}
                   </Text>
@@ -142,6 +141,9 @@ export const Terminal = ({
                         fontFamily: "monospace",
                       }}
                       data-element={`${dataElement}.commands.${index}.response`}
+                      data-element-label={formatElementIdForDisplay(
+                        `${dataElement}.commands.${index}.response`,
+                      )}
                     >
                       {cmd.responseText}
                     </Text>

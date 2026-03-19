@@ -14,12 +14,10 @@
 
   &__options {
     display: flex;
-    gap: $spacing-md;
   }
 
   &--vertical &__options {
     flex-direction: column;
-    gap: $spacing-sm;
   }
 
   &--horizontal &__options {

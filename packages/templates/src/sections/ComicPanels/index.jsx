@@ -12,6 +12,8 @@ import {
   Title,
 } from "@page-builder/ui";
 
+import { formatElementIdForDisplay } from "../../utils/elementHelpers";
+
 export const ComicPanels = ({
   heading,
   headingSize,
@@ -84,6 +86,9 @@ export const ComicPanels = ({
                       textAlign: panel.align || cardAlign,
                     }}
                     data-element={`${dataElement}.panels.${index}`}
+                    data-element-label={formatElementIdForDisplay(
+                      `${dataElement}.panels.${index}`,
+                    )}
                   >
                     <Card.Content>
                       {panel.number && (
@@ -92,6 +97,9 @@ export const ComicPanels = ({
                           size="large"
                           className="comic-panel__number"
                           data-element={`${dataElement}.panels.${index}.number`}
+                          data-element-label={formatElementIdForDisplay(
+                            `${dataElement}.panels.${index}.number`,
+                          )}
                         >
                           {panel.number}
                         </Text>
@@ -104,6 +112,9 @@ export const ComicPanels = ({
                           color: panel.titleColor || cardTitleColor,
                         }}
                         data-element={`${dataElement}.panels.${index}.title`}
+                        data-element-label={formatElementIdForDisplay(
+                          `${dataElement}.panels.${index}.title`,
+                        )}
                       >
                         {panel.title}
                       </Card.Title>
@@ -115,6 +126,9 @@ export const ComicPanels = ({
                           color: panel.contentColor || cardContentColor,
                         }}
                         data-element={`${dataElement}.panels.${index}.content`}
+                        data-element-label={formatElementIdForDisplay(
+                          `${dataElement}.panels.${index}.content`,
+                        )}
                       >
                         {panel.content}
                       </Card.Description>

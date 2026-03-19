@@ -13,8 +13,9 @@ import {
   avatarProps,
   buttonSchema,
   cardSchema,
+  cardSchemaForImageGrid,
   headingContentSchema,
-  imagePropsComplete,
+  imagePropsForGrid,
   mergeSchemas,
   sectionSchema,
   textContentPropsEnhanced,
@@ -25,7 +26,6 @@ import {
   fontFamilyOptions,
   footerPaddingOptions,
   footerTextSizeOptions,
-  languageOptions,
 } from "../utils/index.js";
 
 export const refinedClassicRefactoredConfig = {
@@ -57,14 +57,6 @@ export const refinedClassicRefactoredConfig = {
         options: fontFamilyOptions,
       },
       title: text("pageTitle"),
-      description: textarea("metaDescription"),
-      keywords: text("metaKeywords"),
-      author: text("author"),
-      language: {
-        type: "select",
-        label: "language",
-        options: languageOptions,
-      },
     },
 
     // ============================================
@@ -140,7 +132,7 @@ export const refinedClassicRefactoredConfig = {
         sectionSchema(),
         {
           columns: slider("columns", 1, {
-            dynamic: "elements.portfolio.items.length",
+            dynamic: "elements.portfolio.images.length",
           }),
           gap: {
             type: "select",
@@ -154,7 +146,9 @@ export const refinedClassicRefactoredConfig = {
         },
         {
           heading: headingContentSchema(),
-          image: imagePropsComplete(),
+          card: mergeSchemas(cardSchemaForImageGrid(), {
+            image: imagePropsForGrid(),
+          }),
           images: arrayField("items"),
         },
       ),
@@ -268,12 +262,6 @@ export const refinedClassicRefactoredConfig = {
     page: {
       fontFamily: 'Garamond, "Times New Roman", serif',
       title: "Artisan Furniture Atelier - Handcrafted Legacy",
-      description:
-        "Bespoke furniture crafted by hand using traditional techniques. Each piece designed to become tomorrow's heirloom, built with solid hardwoods and timeless joinery.",
-      keywords:
-        "furniture, handcrafted, bespoke, artisan, woodworking, heirloom, custom",
-      author: "",
-      language: "en",
     },
     elements: {
       hero: {
@@ -358,7 +346,7 @@ export const refinedClassicRefactoredConfig = {
         },
         items: [
           {
-            icon: "◆",
+            icon: "🪛",
             title: {
               text: "No Power Tools",
             },
@@ -367,7 +355,7 @@ export const refinedClassicRefactoredConfig = {
             },
           },
           {
-            icon: "▭",
+            icon: "🪵",
             title: {
               text: "Live Edge Philosophy",
             },
@@ -376,7 +364,7 @@ export const refinedClassicRefactoredConfig = {
             },
           },
           {
-            icon: "◆",
+            icon: "🪑",
             title: {
               text: "Lifetime Promise",
             },
@@ -399,59 +387,57 @@ export const refinedClassicRefactoredConfig = {
           size: "2.5rem",
           weight: "600",
         },
-        image: {
+        card: {
           backgroundColor: "#8B7355",
           padding: "12px",
           borderRadius: "0px",
+          borderWidth: "0",
+          borderColor: "transparent",
           dropShadow: "0 4px 8px rgba(0,0,0,0.3)",
+          image: {
+            url: "",
+            alt: "",
+            objectFit: "cover",
+          },
         },
         images: [
           {
+            backgroundColor: "#8B7355",
+            padding: "12px",
+            borderRadius: "0px",
+            borderWidth: "0",
+            borderColor: "transparent",
+            dropShadow: "0 4px 8px rgba(0,0,0,0.3)",
             image: {
-              url: "",
+              url: "https://cannonhillwood.com/wp-content/uploads/2023/08/GQ7A1585-scaled.jpg",
               alt: "Handcrafted Walnut Dining Table",
-              fit: "cover",
-              aspectRatio: "landscape",
-            },
-            caption: {
-              text: "Live-Edge Dining Table",
-              size: "0.875rem",
-              weight: "400",
-              color: "#FAF8F3",
-              textAlign: "center",
-              backgroundColor: "transparent",
+              objectFit: "cover",
             },
           },
           {
+            backgroundColor: "#8B7355",
+            padding: "12px",
+            borderRadius: "0px",
+            borderWidth: "0",
+            borderColor: "transparent",
+            dropShadow: "0 4px 8px rgba(0,0,0,0.3)",
             image: {
-              url: "",
+              url: "https://oroa.com/cdn/shop/files/wallshelving.jpg?v=1771250170&width=1214",
               alt: "Oak Bookshelf with Brass Details",
-              fit: "cover",
-              aspectRatio: "landscape",
-            },
-            caption: {
-              text: "Custom Bookshelf",
-              size: "0.875rem",
-              weight: "400",
-              color: "#FAF8F3",
-              textAlign: "center",
-              backgroundColor: "transparent",
+              objectFit: "cover",
             },
           },
           {
+            backgroundColor: "#8B7355",
+            padding: "12px",
+            borderRadius: "0px",
+            borderWidth: "0",
+            borderColor: "transparent",
+            dropShadow: "0 4px 8px rgba(0,0,0,0.3)",
             image: {
-              url: "",
+              url: "https://leighcountry.com/cdn/shop/files/cherry-amber-log-porch-rocker-110.png?v=1754676113",
               alt: "Cherry Wood Rocking Chair",
-              fit: "cover",
-              aspectRatio: "landscape",
-            },
-            caption: {
-              text: "Heirloom Rocking Chair",
-              size: "0.875rem",
-              weight: "400",
-              color: "#FAF8F3",
-              textAlign: "center",
-              backgroundColor: "transparent",
+              objectFit: "cover",
             },
           },
         ],

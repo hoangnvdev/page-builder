@@ -28,12 +28,12 @@
   --transition-slow: 350ms cubic-bezier(0.4, 0, 0.2, 1);
 
   // Template Gallery
-  --template-card-min-height-desktop: 500px;
-  --template-card-min-height-tablet: 420px;
+  --template-card-min-height-desktop: 320px;
+  --template-card-min-height-tablet: 350px;
   --template-card-min-height-mobile: 360px;
-  --template-card-max-height-desktop: 800px;
-  --template-card-max-height-tablet: 700px;
-  --template-card-max-height-mobile: 600px;
+  --template-card-max-height-desktop: 480px;
+  --template-card-max-height-tablet: 500px;
+  --template-card-max-height-mobile: 480px;
   --template-gallery-gap-ultrawide: 2rem; // 4 cols, 800px max-height
   --template-gallery-gap-desktop: 2.25rem; // 3 cols, 800px max-height
   --template-gallery-gap-laptop: 1.75rem; // 2 cols, 700px max-height

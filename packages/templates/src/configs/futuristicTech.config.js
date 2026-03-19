@@ -25,7 +25,6 @@ import {
   dropShadowOptions,
   footerPaddingOptions,
   footerTextSizeOptions,
-  languageOptions,
 } from "../utils/index.js";
 
 export const futuristicTechRefactoredConfig = {
@@ -56,14 +55,6 @@ export const futuristicTechRefactoredConfig = {
         ],
       },
       title: text("pageTitle"),
-      description: textarea("metaDescription"),
-      keywords: text("metaKeywords"),
-      author: text("author"),
-      language: {
-        type: "select",
-        label: "language",
-        options: languageOptions,
-      },
     },
 
     // ============================================
@@ -260,11 +251,6 @@ export const futuristicTechRefactoredConfig = {
     page: {
       fontFamily: '"Orbitron", sans-serif',
       title: "Futuristic Tech - Next Generation",
-      description:
-        "Break through the boundaries of reality with next-generation innovation powered by quantum computing and neural interfaces. The future is here.",
-      keywords: "futuristic, technology, innovation, quantum, AI, tech, future",
-      author: "",
-      language: "en",
     },
     elements: {
       hero: {
@@ -488,7 +474,7 @@ export const futuristicTechRefactoredConfig = {
           {
             title: {
               text: "99.99%",
-              size: "3.5rem",
+              size: "3rem",
               weight: "900",
               color: "#ff0080",
             },
@@ -502,7 +488,7 @@ export const futuristicTechRefactoredConfig = {
           {
             title: {
               text: "< 1ms",
-              size: "3.5rem",
+              size: "3rem",
               weight: "900",
               color: "#ff0080",
             },
@@ -516,7 +502,7 @@ export const futuristicTechRefactoredConfig = {
           {
             title: {
               text: "10M+",
-              size: "3.5rem",
+              size: "3rem",
               weight: "900",
               color: "#ff0080",
             },
@@ -530,7 +516,7 @@ export const futuristicTechRefactoredConfig = {
           {
             title: {
               text: "∞",
-              size: "3.5rem",
+              size: "3rem",
               weight: "900",
               color: "#ff0080",
             },

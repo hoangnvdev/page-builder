@@ -21,11 +21,7 @@ import {
   textContentSchema,
   titleContentSchema,
 } from "../utils/genericSchemaBuilders.js";
-import {
-  footerPaddingOptions,
-  footerTextSizeOptions,
-  languageOptions,
-} from "../utils/index.js";
+import { footerPaddingOptions, footerTextSizeOptions } from "../utils/index.js";
 
 export const businessProRefactoredConfig = {
   id: "business-pro-refactored",
@@ -61,14 +57,6 @@ export const businessProRefactoredConfig = {
         ],
       },
       title: text("pageTitle"),
-      description: textarea("metaDescription"),
-      keywords: text("metaKeywords"),
-      author: text("author"),
-      language: {
-        type: "select",
-        label: "language",
-        options: languageOptions,
-      },
     },
 
     // ============================================
@@ -285,12 +273,6 @@ export const businessProRefactoredConfig = {
     page: {
       fontFamily: '"Inter", sans-serif',
       title: "BusinessPro - Transform Your Digital Presence",
-      description:
-        "Award-winning digital solutions for modern businesses. We combine strategy, design, and technology to create exceptional experiences that drive growth.",
-      keywords:
-        "business, digital transformation, consulting, web design, strategy, innovation",
-      author: "",
-      language: "en",
     },
     elements: {
       header: {
