@@ -1,5 +1,16 @@
-import { Editor } from '../../components/editor/Editor';
+import { EditorProvider } from "@/contexts";
+import { withErrorBoundary } from "@/hocs";
 
-export const DesignPage = () => {
-  return <Editor />;
+import { Editor } from "../../components/editor/Editor";
+
+const DesignPageComponent = () => {
+  return (
+    <EditorProvider>
+      <Editor />
+    </EditorProvider>
+  );
 };
+
+export const DesignPage = withErrorBoundary(DesignPageComponent, {
+  fallbackType: "page",
+});

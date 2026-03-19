@@ -26,6 +26,31 @@
   --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
   --transition-base: 250ms cubic-bezier(0.4, 0, 0.2, 1);
   --transition-slow: 350ms cubic-bezier(0.4, 0, 0.2, 1);
+
+  // Template Gallery
+  --template-card-min-height-desktop: 500px;
+  --template-card-min-height-tablet: 420px;
+  --template-card-min-height-mobile: 360px;
+  --template-preview-blur: 20px;
+  --template-preview-blur-opacity: 0.6;
+  --template-preview-width-desktop: 300px;
+  --template-preview-width-tablet: 250px;
+  --template-preview-width-mobile: 200px;
+  --template-card-preview-flex: 8;
+  --template-card-content-flex: 2;
+  --template-gradient-bg: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+  --template-gradient-overlay: linear-gradient(
+    135deg,
+    rgba(99, 102, 241, 0.95) 0%,
+    rgba(139, 92, 246, 0.95) 100%
+  );
+
+  // Breakpoints
+  --breakpoint-mobile: 480px;
+  --breakpoint-tablet: 768px;
+  --breakpoint-laptop: 1024px;
+  --breakpoint-large-laptop: 1440px;
+  --breakpoint-ultrawide: 1920px;
 }
 
 * {

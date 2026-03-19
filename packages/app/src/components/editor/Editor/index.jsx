@@ -1,4 +1,4 @@
-import './index.scss';
+import "./index.scss";
 
 import {
   useCallback,
@@ -7,42 +7,39 @@ import {
   useMemo,
   useRef,
   useState,
-} from 'react';
+} from "react";
 
-import { useTranslation } from 'react-i18next';
-import {
-  useDispatch,
-  useSelector,
-} from 'react-redux';
+import { useTranslation } from "react-i18next";
+import { useDispatch, useSelector } from "react-redux";
 import {
   Navigate,
   UNSAFE_NavigationContext,
   useLocation,
   useNavigate,
-} from 'react-router-dom';
+} from "react-router-dom";
 
 import {
   EditorToggleButton,
   ErrorBoundary,
   HelperText,
   LoadingIndicator,
-} from '@/components';
-import { useConfirmDialog } from '@/hooks';
-import { fetchTemplateByIdFromAPI } from '@/services';
+} from "@/components";
+import { useConfirmDialog, useLocalStorage, useWindowResize } from "@/hooks";
+import { fetchTemplateByIdFromAPI } from "@/services";
 import {
   redo,
   rehydrateTemplateComponent,
   resetToGallery,
   undo,
-} from '@/store/builderSlice';
-import { processTemplateConfig } from '@/utils';
+} from "@/store/builderSlice";
+import { processTemplateConfig } from "@/utils";
 
-import { ConfirmDialog } from '../../common/ConfirmDialog';
-import { Flex } from '../../layout/Flex';
-import { ResizableDivider } from '../../layout/ResizableDivider';
-import { EditorToolbar } from '../EditorToolbar';
-import { PreviewRenderer } from '../PreviewRenderer';
-import { PropertyPanel } from '../PropertyPanel';
+import { ConfirmDialog } from "../../common/ConfirmDialog";
+import { Flex } from "../../layout/Flex";
+import { ResizableDivider } from "../../layout/ResizableDivider";
+import { EditorToolbar } from "../EditorToolbar";
+import { PreviewRenderer } from "../PreviewRenderer";
+import { PropertyPanel } from "../PropertyPanel";
 
 export const Editor = () => {
   const { t } = useTranslation();
@@ -69,16 +66,14 @@ export const Editor = () => {
   const pendingNavigationRef = useRef(null);
   const isHandlingPopStateRef = useRef(false);
 
-  // Check if user has seen the welcome helper before
-  const [showHelperText, setShowHelperText] = useState(() => {
-    try {
-      const hasSeenWelcome = localStorage.getItem("hasSeenWelcomeHelper");
-      return hasSeenWelcome !== "true";
-    } catch (err) {
-      console.error("Failed to check welcome helper status:", err);
-      return true;
-    }
-  });
+  const [showHelperText, setShowHelperText] = useLocalStorage(
+    "hasSeenWelcomeHelper",
+    false,
+    {
+      serializer: (value) => (!value).toString(),
+      deserializer: (value) => value !== "true",
+    },
+  );
 
   const getDefaultSplit = () => {
     const width = window.innerWidth;
@@ -271,26 +266,17 @@ export const Editor = () => {
   }, [hasHistory]);
 
   // Handle window resize to adjust orientation
-  useEffect(() => {
-    let prevIsMobile = isMobile;
+  useWindowResize(() => {
+    const mobile = window.innerWidth <= 1024;
+    const modeChanged = isMobile !== mobile;
 
-    const handleResize = () => {
-      const mobile = window.innerWidth <= 1024;
-      const modeChanged = prevIsMobile !== mobile;
+    setIsMobile(mobile);
 
-      setIsMobile(mobile);
-
-      // Only reset split when switching between mobile and desktop modes
-      if (modeChanged) {
-        const width = window.innerWidth;
-        const defaultSplit = width <= 1024 ? 60 : 100 - (350 / width) * 100;
-        setSplitPercentage(defaultSplit);
-        prevIsMobile = mobile;
-      }
-    };
-
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
+    if (modeChanged) {
+      const width = window.innerWidth;
+      const defaultSplit = width <= 1024 ? 60 : 100 - (350 / width) * 100;
+      setSplitPercentage(defaultSplit);
+    }
   }, [isMobile]);
 
   // Handle keyboard shortcuts for undo/redo
@@ -337,12 +323,7 @@ export const Editor = () => {
 
   const handleDismissHelper = useCallback(() => {
     setShowHelperText(false);
-    try {
-      localStorage.setItem("hasSeenWelcomeHelper", "true");
-    } catch (err) {
-      console.error("Failed to save welcome helper status:", err);
-    }
-  }, []);
+  }, [setShowHelperText]);
 
   const orientation = isMobile ? "vertical" : "horizontal";
   const showPanel = !isMobile || isPanelVisible;
