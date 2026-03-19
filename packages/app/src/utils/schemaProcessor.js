@@ -5,175 +5,48 @@
  * Handles nested structures, field grouping, and conditional visibility.
  */
 
+import { getNestedValue } from "./object.js";
+
 /**
- * Check if an object is a field group (nested object with fields)
- * @param {Object} obj - The object to check
- * @returns {boolean} True if it's a field group
+ * Resolve dynamic max value for sliders
+ * Supports syntax like: { dynamic: "elements.features.items.length" }
+ * @param {*} dynamicDef - The max value definition (can be number or dynamic object)
+ * @param {Object} config - The current config to resolve against
+ * @returns {number} The resolved max value
  */
-const isFieldGroup = (obj) => {
-  if (!obj || typeof obj !== "object" || Array.isArray(obj)) {
-    return false;
+export const resolveDynamicValue = (dynamicDef, config) => {
+  // If it's a plain number, return it
+  if (typeof dynamicDef === "number") {
+    return dynamicDef;
   }
 
-  // If it has a type property that's a string (like "array"), it's a single field, not a group
-  if (obj.type && typeof obj.type === "string") {
-    return false;
+  // If it's not a dynamic definition, return default
+  if (!dynamicDef || typeof dynamicDef !== "object" || !dynamicDef.dynamic) {
+    return typeof dynamicDef === "number" ? dynamicDef : 1;
   }
 
-  // Check if it contains field definitions
-  return Object.values(obj).some(
-    (value) =>
-      value &&
-      typeof value === "object" &&
-      ((value.type && typeof value.type === "string") ||
-        (value.type && typeof value.type === "object" && value.type.type)),
-  );
+  const path = dynamicDef.dynamic;
+
+  // If path ends with .length, get array length
+  if (path.endsWith(".length")) {
+    const arrayPath = path.slice(0, -7); // remove '.length'
+    const array = getNestedValue(config, arrayPath);
+    return Array.isArray(array) ? Math.max(array.length, 1) : 1;
+  }
+
+  // Otherwise get the value directly
+  const value = getNestedValue(config, path);
+  return typeof value === "number" ? value : 1;
 };
 
 /**
- * Extract field dependencies from schema
- * @param {Object} schema - The field schema
- * @param {string} fieldPath - The field path
- * @returns {Object|null} Dependency information {dependsOn, showWhen}
- */
-const extractDependencies = (schema) => {
-  if (!schema) return null;
-
-  // Check for conditional visibility metadata
-  if (schema.condition) {
-    return {
-      dependsOn: schema.condition.field,
-      showWhen: schema.condition.value,
-      operator: schema.condition.operator || "equals",
-    };
-  }
-
-  return null;
-};
-
-/**
- * Flatten a nested schema object into field groups and field definitions
+ * Flatten a nested schema object into an array of field definitions with paths
  * @param {Object} schema - The schema object (or sub-object) to flatten
  * @param {string} basePath - The base path for nested fields (e.g., "elements.hero")
  * @param {Array} excludeTypes - Field types to exclude (e.g., "array")
  * @param {number} maxDepth - Maximum depth to recurse (1 = only direct fields, undefined = unlimited)
  * @param {string} parentKey - The parent key name for context
- * @returns {Object} { fields: Array, groups: Array } Field groups and individual fields
- */
-export const flattenSchemaWithGroups = (
-  schema,
-  basePath = "",
-  excludeTypes = [],
-  maxDepth = undefined,
-  parentKey = "",
-) => {
-  const fields = [];
-  const groups = [];
-
-  // Known nested object groups that should be presented as collapsible groups
-  const knownNestedGroups = [
-    "logo",
-    "window",
-    "link",
-    "button",
-    "heading",
-    "title",
-    "subtitle",
-    "content",
-    "card",
-  ];
-
-  const processObject = (
-    obj,
-    currentPath,
-    currentDepth = 0,
-    currentParentKey = "",
-  ) => {
-    Object.entries(obj).forEach(([key, value]) => {
-      const fieldPath = currentPath ? `${currentPath}.${key}` : key;
-
-      // Skip if no value or if it's excluded type
-      if (!value || excludeTypes.includes(value.type)) {
-        return;
-      }
-
-      // If it's a field definition (has a type property that's a string)
-      if (value.type && typeof value.type === "string") {
-        // Skip array type - we'll handle these separately
-        if (value.type === "array") {
-          return;
-        }
-
-        const dependency = extractDependencies(value);
-
-        fields.push({
-          id: key,
-          label: value.label || formatLabel(key),
-          type: value.type,
-          options: value.options,
-          min: value.min,
-          max: value.max,
-          step: value.step,
-          labels: value.labels,
-          path: fieldPath,
-          dependency,
-          groupKey: currentParentKey || null,
-        });
-      }
-      // If value.type is an object (like logo.type which has {type: "select", options: [...]})
-      else if (
-        value.type &&
-        typeof value.type === "object" &&
-        value.type.type
-      ) {
-        // This is a nested field definition, recurse into it
-        if (maxDepth === undefined || currentDepth < maxDepth) {
-          processObject(value, fieldPath, currentDepth, key);
-        }
-      }
-      // If it's a nested object without type, check if it's a field group
-      else if (typeof value === "object" && !Array.isArray(value)) {
-        // Check if we should recurse based on maxDepth
-        if (maxDepth === undefined || currentDepth < maxDepth) {
-          // Check if this is a known nested group
-          if (knownNestedGroups.includes(key) && isFieldGroup(value)) {
-            // Create a field group
-            const groupFields = flattenSchema(
-              value,
-              fieldPath,
-              excludeTypes,
-              undefined,
-              key,
-            );
-
-            groups.push({
-              id: key,
-              label: formatLabel(key),
-              path: fieldPath,
-              fields: groupFields,
-              collapsible: true,
-              defaultExpanded: false, // Keep all groups collapsed by default
-            });
-          } else {
-            // Regular nested object, recurse normally
-            processObject(value, fieldPath, currentDepth + 1, key);
-          }
-        }
-      }
-    });
-  };
-
-  processObject(schema, basePath, 0, ""); // Don't pass parentKey for top-level
-  return { fields, groups };
-};
-
-/**
- * Flatten a nested schema object into an array of field definitions with paths (legacy)
- * @param {Object} schema - The schema object (or sub-object) to flatten
- * @param {string} basePath - The base path for nested fields (e.g., "elements.hero")
- * @param {Array} excludeTypes - Field types to exclude (e.g., "array")
- * @param {number} maxDepth - Maximum depth to recurse (1 = only direct fields, undefined = unlimited)
- * @param {string} parentKey - The parent key name for context
+ * @param {Object} config - The current config for resolving dynamic values
  * @returns {Array} Array of field objects with { id, label, type, options, path }
  */
 export const flattenSchema = (
@@ -182,6 +55,7 @@ export const flattenSchema = (
   excludeTypes = [],
   maxDepth = undefined,
   parentKey = "",
+  config = undefined,
 ) => {
   const fields = [];
 
@@ -206,7 +80,11 @@ export const flattenSchema = (
           return;
         }
 
-        const dependency = extractDependencies(value);
+        // Resolve dynamic max value for sliders
+        let max = value.max;
+        if (value.type === "slider" && max && config) {
+          max = resolveDynamicValue(max, config);
+        }
 
         fields.push({
           id: key,
@@ -214,11 +92,10 @@ export const flattenSchema = (
           type: value.type,
           options: value.options,
           min: value.min,
-          max: value.max,
+          max, // resolved dynamic value
           step: value.step,
           labels: value.labels,
           path: fieldPath,
-          dependency,
         });
       }
       // If value.type is an object (like logo.type which has {type: "select", options: [...]})
@@ -242,7 +119,7 @@ export const flattenSchema = (
     });
   };
 
-  processObject(schema, basePath, 0, parentKey);
+  processObject(schema, basePath, 0, "");
   return fields;
 };
 
@@ -250,9 +127,14 @@ export const flattenSchema = (
  * Get fields for a specific element from the schema
  * @param {Object} templateConfig - The template configuration
  * @param {string} elementId - The element ID (e.g., "hero", "hero.title")
+ * @param {Object} currentConfig - The current config for resolving dynamic values
  * @returns {Object} { fields: Array, groups: Array, label: string, basePath: string }
  */
-export const getFieldsForElement = (templateConfig, elementId) => {
+export const getFieldsForElement = (
+  templateConfig,
+  elementId,
+  currentConfig = {},
+) => {
   if (!templateConfig?.configSchema) {
     return { fields: [], groups: [], label: "Unknown", basePath: "" };
   }
@@ -261,7 +143,14 @@ export const getFieldsForElement = (templateConfig, elementId) => {
 
   // Handle page-level settings
   if (elementId === "page") {
-    const fields = flattenSchema(configSchema.page, "page");
+    const fields = flattenSchema(
+      configSchema.page,
+      "page",
+      [],
+      undefined,
+      "",
+      currentConfig,
+    );
     return {
       fields,
       groups: [],
@@ -280,17 +169,19 @@ export const getFieldsForElement = (templateConfig, elementId) => {
     return { fields: [], groups: [], label: "Unknown", basePath: "" };
   }
 
-  // If no sub-path, return section-level fields and groups
+  // If no sub-path, return section-level fields (no groups)
   if (!subPath) {
-    const result = flattenSchemaWithGroups(
+    const fields = flattenSchema(
       sectionSchema,
       `elements.${sectionId}`,
       ["array"],
-      1, // Allow one level of recursion to detect field groups
+      1, // Allow one level of recursion to flatten nested fields
       sectionId, // Pass section name as parent key
+      currentConfig, // Pass config for dynamic resolution
     );
     return {
-      ...result,
+      fields,
+      groups: [],
       label: formatLabel(sectionId),
       basePath: `elements.${sectionId}`,
     };
@@ -337,7 +228,12 @@ export const getFieldsForElement = (templateConfig, elementId) => {
     currentSchema = currentSchema[part];
     currentPath += `.${part}`;
     if (!currentSchema) {
-      return { fields: [], label: "Unknown", basePath: currentPath };
+      return {
+        fields: [],
+        groups: [],
+        label: "Unknown",
+        basePath: currentPath,
+      };
     }
   }
 
@@ -355,9 +251,11 @@ export const getFieldsForElement = (templateConfig, elementId) => {
       [],
       maxDepth,
       parentKey,
+      currentConfig,
     );
     return {
       fields,
+      groups: [],
       label: formatLabel(schemaPathParts.join(" ")),
       basePath: dataPath,
     };
@@ -379,12 +277,13 @@ export const getFieldsForElement = (templateConfig, elementId) => {
           path: dataPath,
         },
       ],
+      groups: [],
       label: formatLabel(schemaPathParts.join(" ")),
       basePath: dataPath,
     };
   }
 
-  return { fields: [], label: "Unknown", basePath: currentPath };
+  return { fields: [], groups: [], label: "Unknown", basePath: currentPath };
 };
 
 /**
@@ -420,11 +319,6 @@ export const getArrayItems = (config, sectionId, templateConfig) => {
  * Convert array name to singular template name
  * @param {string} arrayName - The array name (e.g., "panels", "items")
  * @returns {string} Singular template name (e.g., "card", "item")
- */
-/**
- * Convert plural array names to singular form
- * @param {string} arrayName - The plural array name
- * @returns {string} Singular form
  */
 export const getSingularTemplateName = (arrayName) => {
   // Special cases for irregular plurals and template-specific mappings

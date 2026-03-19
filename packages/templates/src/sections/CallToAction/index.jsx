@@ -1,8 +1,8 @@
-import './index.scss';
+import "./index.scss";
 
-import { useMemo } from 'react';
+import { useMemo } from "react";
 
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 
 import {
   Button,
@@ -11,7 +11,7 @@ import {
   Section,
   SubTitle,
   Title,
-} from '@page-builder/ui';
+} from "@page-builder/ui";
 
 export const CallToAction = ({
   // Title props
@@ -45,6 +45,11 @@ export const CallToAction = ({
   className = "",
   ...props
 }) => {
+  // Determine if URL is external
+  const isExternalUrl =
+    buttonUrl &&
+    (buttonUrl.startsWith("http://") || buttonUrl.startsWith("https://"));
+
   // Memoize title style
   const titleStyle = useMemo(
     () => ({
@@ -110,20 +115,8 @@ export const CallToAction = ({
           {buttonText && (
             <a
               href={buttonUrl || "#"}
-              target={
-                buttonUrl &&
-                (buttonUrl.startsWith("http://") ||
-                  buttonUrl.startsWith("https://"))
-                  ? "_blank"
-                  : undefined
-              }
-              rel={
-                buttonUrl &&
-                (buttonUrl.startsWith("http://") ||
-                  buttonUrl.startsWith("https://"))
-                  ? "noopener noreferrer"
-                  : undefined
-              }
+              target={isExternalUrl ? "_blank" : undefined}
+              rel={isExternalUrl ? "noopener noreferrer" : undefined}
               style={{ textDecoration: "none" }}
             >
               <Button

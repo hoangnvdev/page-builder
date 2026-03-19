@@ -1,12 +1,6 @@
-import './index.scss';
+import "./index.scss";
 
-import {
-  memo,
-  useCallback,
-  useEffect,
-  useRef,
-  useState,
-} from 'react';
+import { memo, useCallback, useEffect, useRef, useState } from "react";
 
 import {
   ChevronDown,
@@ -14,46 +8,29 @@ import {
   CornerUpRight,
   History,
   RotateCcw,
-} from 'lucide-react';
-import { useTranslation } from 'react-i18next';
-import {
-  useDispatch,
-  useSelector,
-} from 'react-redux';
+} from "lucide-react";
+import { useTranslation } from "react-i18next";
+import { useDispatch } from "react-redux";
 
-import { useConfirmDialog } from '@/hooks';
-import {
-  redo,
-  resetCurrentConfig,
-  undo,
-} from '@/store/builderSlice';
-
-import { ConfirmDialog } from '../../common/ConfirmDialog';
+import { useEditor, useModal } from "@/contexts";
+import { resetCurrentConfig } from "@/store/builderSlice";
 
 export const HistoryControls = memo(() => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const [showHistory, setShowHistory] = useState(false);
-  const { isOpen, config, showConfirm, handleConfirm, handleCancel } =
-    useConfirmDialog();
   const currentStateRef = useRef(null);
 
-  // Only select the lengths to minimize re-renders
-  const historyPastLength = useSelector(
-    (state) => state.builder.history?.past?.length || 0,
-  );
-  const historyFutureLength = useSelector(
-    (state) => state.builder.history?.future?.length || 0,
-  );
+  // Use new contexts
+  const { openConfirmDialog } = useModal();
+  const { history, canUndo, canRedo, undo, redo } = useEditor();
 
-  const canUndo = historyPastLength > 0;
-  const canRedo = historyFutureLength > 0;
+  const historyPastLength = history?.past?.length || 0;
+  const historyFutureLength = history?.future?.length || 0;
 
-  const history = useSelector((state) =>
-    showHistory
-      ? state.builder.history || { past: [], future: [] }
-      : { past: [], future: [] },
-  );
+  const historyData = showHistory
+    ? history || { past: [], future: [] }
+    : { past: [], future: [] };
 
   useEffect(() => {
     if (showHistory && currentStateRef.current) {
@@ -65,35 +42,41 @@ export const HistoryControls = memo(() => {
   }, [showHistory, historyPastLength, historyFutureLength]);
 
   const handleUndo = useCallback(() => {
-    dispatch(undo());
-  }, [dispatch]);
+    undo();
+  }, [undo]);
 
   const handleRedo = useCallback(() => {
-    dispatch(redo());
-  }, [dispatch]);
+    redo();
+  }, [redo]);
 
-  const handleResetClick = useCallback(() => {
+  const handleResetClick = useCallback(async () => {
     if (historyPastLength > 0 || historyFutureLength > 0) {
-      showConfirm({
+      const confirmed = await openConfirmDialog({
         title: t("confirmDialog.resetTitle"),
         message: t("confirmDialog.resetMessage"),
         confirmText: t("confirmDialog.resetConfirm"),
         variant: "danger",
-        onConfirm: () => {
-          dispatch(resetCurrentConfig());
-          setShowHistory(false);
-        },
       });
+
+      if (confirmed) {
+        dispatch(resetCurrentConfig());
+        setShowHistory(false);
+      }
     }
-  }, [historyPastLength, historyFutureLength, showConfirm, t, dispatch]);
+  }, [historyPastLength, historyFutureLength, openConfirmDialog, t, dispatch]);
 
   const toggleHistory = useCallback(() => {
     setShowHistory((prev) => !prev);
   }, []);
 
   const getChangePreview = useCallback(
-    (config, index, type) => {
-      if (!config) return t("historyControls.unknownChange");
+    (entry, index, type) => {
+      // Support both old format (plain config) and new format (with metadata)
+      if (entry && entry.label) {
+        return entry.label; // New format with metadata
+      }
+
+      if (!entry) return t("historyControls.unknownChange");
 
       const changeNumber = index + 1;
 
@@ -104,18 +87,8 @@ export const HistoryControls = memo(() => {
 
   return (
     <div className="history-controls">
-      <ConfirmDialog
-        isOpen={isOpen}
-        title={config.title}
-        message={config.message}
-        onConfirm={handleConfirm}
-        onCancel={handleCancel}
-        confirmText={config.confirmText}
-        cancelText={config.cancelText}
-        variant={config.variant}
-      />
       {showHistory &&
-        (history.past.length > 0 || history.future.length > 0) && (
+        (historyData.past.length > 0 || historyData.future.length > 0) && (
           <div className="history-controls__list">
             <div className="history-controls__list-header">
               <History size={14} />
@@ -132,17 +105,21 @@ export const HistoryControls = memo(() => {
               {t("historyControls.helperText")}
             </div>
             <div className="history-controls__list-content">
-              {history.future.length > 0 && (
+              {historyData.future.length > 0 && (
                 <div className="history-controls__section">
-                  {[...history.future].reverse().map((config, index) => (
-                    <div
-                      key={`future-${index}`}
-                      className="history-controls__item history-controls__item--future"
-                    >
-                      <CornerUpRight size={12} />
-                      <span>{getChangePreview(config, index, "future")}</span>
-                    </div>
-                  ))}
+                  {[...historyData.future].reverse().map((entry, index) => {
+                    // Support both old and new format with UUID keys
+                    const key = entry.id || `future-${index}`;
+                    return (
+                      <div
+                        key={key}
+                        className="history-controls__item history-controls__item--future"
+                      >
+                        <CornerUpRight size={12} />
+                        <span>{getChangePreview(entry, index, "future")}</span>
+                      </div>
+                    );
+                  })}
                 </div>
               )}
 
@@ -154,29 +131,35 @@ export const HistoryControls = memo(() => {
                 </span>
               </div>
 
-              {history.past.length > 0 && (
+              {historyData.past.length > 0 && (
                 <div className="history-controls__section">
-                  {[...history.past]
+                  {[...historyData.past]
                     .reverse()
                     .slice(0, 10)
-                    .map((config, index) => (
-                      <div
-                        key={`past-${index}`}
-                        className="history-controls__item history-controls__item--past"
-                      >
-                        <CornerUpLeft size={12} />
-                        <span>
-                          {getChangePreview(
-                            config,
-                            history.past.length - 1 - index,
-                            "past",
-                          )}
-                        </span>
-                      </div>
-                    ))}
-                  {history.past.length > 10 && (
+                    .map((entry, index) => {
+                      // Support both old and new format with UUID keys
+                      const key =
+                        entry.id ||
+                        `past-${historyData.past.length - 1 - index}`;
+                      return (
+                        <div
+                          key={key}
+                          className="history-controls__item history-controls__item--past"
+                        >
+                          <CornerUpLeft size={12} />
+                          <span>
+                            {getChangePreview(
+                              entry,
+                              historyData.past.length - 1 - index,
+                              "past",
+                            )}
+                          </span>
+                        </div>
+                      );
+                    })}
+                  {historyData.past.length > 10 && (
                     <div className="history-controls__item history-controls__item--more">
-                      ... {history.past.length - 10}{" "}
+                      ... {historyData.past.length - 10}{" "}
                       {t("historyControls.moreChanges")}
                     </div>
                   )}
@@ -184,7 +167,7 @@ export const HistoryControls = memo(() => {
               )}
             </div>
 
-            {(history.past.length > 0 || history.future.length > 0) && (
+            {(historyData.past.length > 0 || historyData.future.length > 0) && (
               <div className="history-controls__reset-section">
                 <button
                   className="history-controls__reset-button"

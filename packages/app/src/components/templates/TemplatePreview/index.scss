@@ -1,0 +1,140 @@
+.template-preview {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background: var(--template-gradient-bg);
+  overflow: hidden;
+
+  &__content {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    z-index: 2;
+  }
+
+  &__icon {
+    font-size: 96px;
+    line-height: 1;
+    opacity: 0.9;
+    animation: fadeIn 0.3s ease-out;
+  }
+
+  &__name {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--color-text-primary);
+    text-align: center;
+    opacity: 0.7;
+    animation: fadeIn 0.3s ease-out 0.1s backwards;
+  }
+
+  &__loader {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+    z-index: 10;
+  }
+
+  &__spinner {
+    width: 40px;
+    height: 40px;
+    border: 3px solid rgba(99, 102, 241, 0.2);
+    border-top-color: var(--color-primary);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+  }
+
+  &__placeholder {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--template-gradient-bg);
+  }
+
+  &__placeholder-icon {
+    font-size: 64px;
+    opacity: 0.5;
+    filter: grayscale(100%);
+  }
+
+  &--loading {
+    .template-preview__content {
+      opacity: 0;
+    }
+  }
+
+  &--error {
+    .template-preview__content {
+      opacity: 0;
+    }
+
+    // ErrorDisplay container styling specific to template preview
+    .error-display {
+      min-height: auto;
+      padding: 1rem;
+      background: transparent;
+    }
+  }
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 768px) {
+  .template-preview {
+    &__icon {
+      font-size: 72px;
+    }
+
+    &__name {
+      font-size: 1.125rem;
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .template-preview {
+    &__icon {
+      font-size: 64px;
+    }
+
+    &__name {
+      font-size: 1rem;
+    }
+  }
+}

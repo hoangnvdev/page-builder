@@ -1,77 +1,73 @@
 import "./index.scss";
 
-import { memo } from "react";
-
 import PropTypes from "prop-types";
 
-export const AppButton = memo(
-  ({
-    children,
-    variant = "primary",
-    size = "medium",
-    icon,
-    iconPosition = "left",
-    disabled = false,
-    fullWidth = false,
-    onClick,
-    type = "button",
-    className = "",
-    ...props
-  }) => {
-    // Build className string
-    const buttonClasses = [
-      "app-button",
-      `app-button--${variant}`,
-      `app-button--${size}`,
-      fullWidth && "app-button--full-width",
-      className,
-    ]
-      .filter(Boolean)
-      .join(" ");
+import { withMemo } from "@/hocs";
 
-    const renderContent = () => {
-      if (variant === "icon") {
-        return icon || children;
-      }
+const AppButtonComponent = ({
+  children,
+  variant = "primary",
+  size = "medium",
+  icon,
+  iconPosition = "left",
+  disabled = false,
+  fullWidth = false,
+  onClick,
+  type = "button",
+  className = "",
+  ...props
+}) => {
+  // Build className string
+  const buttonClasses = [
+    "app-button",
+    `app-button--${variant}`,
+    `app-button--${size}`,
+    fullWidth && "app-button--full-width",
+    className,
+  ]
+    .filter(Boolean)
+    .join(" ");
 
-      if (icon && iconPosition === "left") {
-        return (
-          <>
-            <span>{icon}</span>
-            <span>{children}</span>
-          </>
-        );
-      }
+  const renderContent = () => {
+    if (variant === "icon") {
+      return icon || children;
+    }
 
-      if (icon && iconPosition === "right") {
-        return (
-          <>
-            <span>{children}</span>
-            <span>{icon}</span>
-          </>
-        );
-      }
+    if (icon && iconPosition === "left") {
+      return (
+        <>
+          <span>{icon}</span>
+          <span>{children}</span>
+        </>
+      );
+    }
 
-      return children;
-    };
+    if (icon && iconPosition === "right") {
+      return (
+        <>
+          <span>{children}</span>
+          <span>{icon}</span>
+        </>
+      );
+    }
 
-    return (
-      <button
-        type={type}
-        className={buttonClasses}
-        onClick={onClick}
-        disabled={disabled}
-        {...props}
-      >
-        {renderContent()}
-      </button>
-    );
-  },
-);
+    return children;
+  };
 
-AppButton.displayName = "AppButton";
+  return (
+    <button
+      type={type}
+      className={buttonClasses}
+      onClick={onClick}
+      disabled={disabled}
+      {...props}
+    >
+      {renderContent()}
+    </button>
+  );
+};
 
-AppButton.propTypes = {
+AppButtonComponent.propTypes = {
   children: PropTypes.node,
   variant: PropTypes.oneOf([
     "primary",
@@ -90,3 +86,5 @@ AppButton.propTypes = {
   type: PropTypes.oneOf(["button", "submit", "reset"]),
   className: PropTypes.string,
 };
+
+export const AppButton = withMemo(AppButtonComponent);

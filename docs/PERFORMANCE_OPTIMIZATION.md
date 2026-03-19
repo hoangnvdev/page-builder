@@ -49,27 +49,17 @@ build: {
 
 #### Performance Comparison
 
-| Minifier | Time | Size  | Best For                      |
-| -------- | ---- | ----- | ----------------------------- |
-| esbuild  | 2s   | 245KB | Development builds            |
-| Terser   | 45s  | 238KB | Production (if size critical) |
+| Minifier | Time | Size  | Best For                    |
+| -------- | ---- | ----- | --------------------------- |
+| esbuild  | 2s   | 245KB | Production (10-100x faster) |
 
-To switch to Terser for maximum compression:
+We use esbuild for minification - it's significantly faster than alternatives with minimal size difference:
 
 ```javascript
 build: {
-  minify: 'terser',
-  terserOptions: {
-    compress: {
-      drop_console: true,
-      drop_debugger: true,
-      pure_funcs: ['console.log', 'console.info'],
-      passes: 2,  // Multiple passes for extra compression
-    },
-    mangle: {
-      safari10: true,  // Safari 10 bug workaround
-    },
-  },
+  minify: 'esbuild',
+  // Fast, modern, and efficient
+  // No additional configuration needed
 }
 ```
 
