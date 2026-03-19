@@ -88,17 +88,6 @@ export const fontFamilyOptions = [
   { value: '"Inter", sans-serif', label: "Inter" },
 ];
 
-export const languageOptions = [
-  { value: "en", label: "English" },
-  { value: "es", label: "Español" },
-  { value: "fr", label: "Français" },
-  { value: "de", label: "Deutsch" },
-  { value: "it", label: "Italiano" },
-  { value: "pt", label: "Português" },
-  { value: "ja", label: "日本語" },
-  { value: "zh", label: "中文" },
-];
-
 export const contentMaxWidthOptions = [
   { value: "600px", label: "small" },
   { value: "800px", label: "medium" },
