@@ -1,0 +1,126 @@
+@use "@page-builder/ui/variables" as *;
+
+.image-upload {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-sm;
+
+  &__label {
+    font-size: $font-size-sm;
+    font-weight: $font-weight-medium;
+    color: $color-text-primary;
+  }
+
+  &__container {
+    position: relative;
+  }
+
+  &__empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: $spacing-xs;
+    padding: $spacing-xl;
+    border: 2px dashed $color-border;
+    border-radius: $border-radius-md;
+    background-color: $color-hover-bg;
+    cursor: pointer;
+    transition: all $transition-base;
+
+    &:hover {
+      border-color: $color-primary;
+      background-color: rgba($color-primary, 0.05);
+    }
+  }
+
+  &__empty-icon {
+    font-size: 3rem;
+    opacity: 0.6;
+  }
+
+  &__empty-text {
+    font-size: $font-size-md;
+    font-weight: $font-weight-medium;
+    color: $color-text-primary;
+    margin: 0;
+  }
+
+  &__empty-hint {
+    font-size: $font-size-xs;
+    color: $color-text-secondary;
+    margin: 0;
+  }
+
+  &__preview {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-sm;
+    padding: $spacing-md;
+    border: 1px solid $color-border;
+    border-radius: $border-radius-md;
+    background-color: $color-white;
+  }
+
+  &__preview-image {
+    width: 100%;
+    max-height: 200px;
+    object-fit: contain;
+    border-radius: $border-radius-sm;
+  }
+
+  &__preview-actions {
+    display: flex;
+    gap: $spacing-sm;
+  }
+
+  &__button {
+    flex: 1;
+    padding: $spacing-sm $spacing-md;
+    border: 1px solid $color-border;
+    border-radius: $border-radius-md;
+    background-color: $color-white;
+    color: $color-text-primary;
+    font-size: $font-size-sm;
+    font-weight: $font-weight-medium;
+    cursor: pointer;
+    transition: all $transition-base;
+
+    &:hover {
+      background-color: $color-hover-bg;
+    }
+
+    &--remove {
+      color: $color-danger;
+      border-color: $color-danger;
+
+      &:hover {
+        background-color: rgba($color-danger, 0.1);
+      }
+    }
+
+    &--change {
+      color: $color-primary;
+      border-color: $color-primary;
+
+      &:hover {
+        background-color: rgba($color-primary, 0.1);
+      }
+    }
+  }
+
+  &__error {
+    padding: $spacing-sm;
+    border-radius: $border-radius-sm;
+    background-color: rgba($color-danger, 0.1);
+    color: $color-danger;
+    font-size: $font-size-sm;
+  }
+
+  &__loading {
+    padding: $spacing-sm;
+    text-align: center;
+    color: $color-text-secondary;
+    font-size: $font-size-sm;
+  }
+}

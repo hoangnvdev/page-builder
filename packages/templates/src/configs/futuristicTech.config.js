@@ -7,31 +7,25 @@
  * - Composite schemas for reusable patterns
  */
 
-import {
-  color,
-  text,
-  textarea,
-} from '../utils/fieldBuilders.js';
+import { color, slider, text, textarea } from "../utils/fieldBuilders.js";
 import {
   arrayField,
   buttonSchema,
   cardSchema,
-  gridLayoutProps,
   headingContentSchema,
   mergeSchemas,
   sectionSchema,
+  textContentPropsEnhanced,
   textContentSchema,
   titleContentSchema,
-} from '../utils/genericSchemaBuilders.js';
+} from "../utils/genericSchemaBuilders.js";
 import {
   borderRadiusOptions,
   borderWidthOptions,
   dropShadowOptions,
   footerPaddingOptions,
   footerTextSizeOptions,
-  languageOptions,
-  textDecorationOptions,
-} from '../utils/index.js';
+} from "../utils/index.js";
 
 export const futuristicTechRefactoredConfig = {
   id: "futuristic-tech-refactored",
@@ -61,14 +55,6 @@ export const futuristicTechRefactoredConfig = {
         ],
       },
       title: text("pageTitle"),
-      description: textarea("metaDescription"),
-      keywords: text("metaKeywords"),
-      author: text("author"),
-      language: {
-        type: "select",
-        label: "language",
-        options: languageOptions,
-      },
     },
 
     // ============================================
@@ -96,19 +82,36 @@ export const futuristicTechRefactoredConfig = {
       // --------------------------
       // FEATURES SECTION (Grid of cards)
       // --------------------------
-      features: mergeSchemas(sectionSchema(), gridLayoutProps(4), {
-        heading: headingContentSchema(),
-        card: mergeSchemas(cardSchema(), {
-          icon: text("icon"),
-          title: mergeSchemas(titleContentSchema(), {
-            text: text("title"),
+      features: mergeSchemas(
+        sectionSchema(),
+        {
+          columns: slider("columns", 1, {
+            dynamic: "elements.features.items.length",
           }),
-          content: mergeSchemas(textContentSchema("text", true), {
-            text: textarea("description"),
+          gap: {
+            type: "select",
+            label: "gap",
+            options: [
+              { value: "16px", label: "compact" },
+              { value: "24px", label: "comfort" },
+              { value: "32px", label: "spacious" },
+            ],
+          },
+        },
+        {
+          heading: headingContentSchema(),
+          card: mergeSchemas(cardSchema(), {
+            icon: text("icon"),
+            title: mergeSchemas(titleContentSchema(), {
+              text: text("title"),
+            }),
+            content: mergeSchemas(textContentSchema("text", true), {
+              text: textarea("description"),
+            }),
           }),
-        }),
-        items: arrayField("items"),
-      }),
+          items: arrayField("items"),
+        },
+      ),
 
       // --------------------------
       // TERMINAL SECTION (Code/Terminal Demo)
@@ -172,14 +175,31 @@ export const futuristicTechRefactoredConfig = {
       // --------------------------
       // STATS SECTION
       // --------------------------
-      stats: mergeSchemas(sectionSchema(), gridLayoutProps(5), {
-        title: headingContentSchema(),
-        card: mergeSchemas(cardSchema(), {
+      stats: mergeSchemas(
+        sectionSchema(),
+        {
+          columns: slider("columns", 1, {
+            dynamic: "elements.stats.items.length",
+          }),
+          gap: {
+            type: "select",
+            label: "gap",
+            options: [
+              { value: "16px", label: "compact" },
+              { value: "24px", label: "comfort" },
+              { value: "32px", label: "spacious" },
+            ],
+          },
+        },
+        {
           title: headingContentSchema(),
-          content: textContentSchema("text"),
-        }),
-        items: arrayField("items"),
-      }),
+          card: mergeSchemas(cardSchema(), {
+            title: headingContentSchema(),
+            content: textContentSchema("text"),
+          }),
+          items: arrayField("items"),
+        },
+      ),
 
       // --------------------------
       // CTA SECTION
@@ -212,16 +232,11 @@ export const futuristicTechRefactoredConfig = {
           },
         },
         {
-          text: mergeSchemas(textContentSchema("text"), {
+          text: mergeSchemas(textContentPropsEnhanced("text"), {
             size: {
               type: "select",
               label: "fontSize",
               options: footerTextSizeOptions,
-            },
-            decoration: {
-              type: "select",
-              label: "textAlign",
-              options: textDecorationOptions,
             },
           }),
         },
@@ -236,11 +251,6 @@ export const futuristicTechRefactoredConfig = {
     page: {
       fontFamily: '"Orbitron", sans-serif',
       title: "Futuristic Tech - Next Generation",
-      description:
-        "Break through the boundaries of reality with next-generation innovation powered by quantum computing and neural interfaces. The future is here.",
-      keywords: "futuristic, technology, innovation, quantum, AI, tech, future",
-      author: "",
-      language: "en",
     },
     elements: {
       hero: {
@@ -464,7 +474,7 @@ export const futuristicTechRefactoredConfig = {
           {
             title: {
               text: "99.99%",
-              size: "3.5rem",
+              size: "3rem",
               weight: "900",
               color: "#ff0080",
             },
@@ -478,7 +488,7 @@ export const futuristicTechRefactoredConfig = {
           {
             title: {
               text: "< 1ms",
-              size: "3.5rem",
+              size: "3rem",
               weight: "900",
               color: "#ff0080",
             },
@@ -492,7 +502,7 @@ export const futuristicTechRefactoredConfig = {
           {
             title: {
               text: "10M+",
-              size: "3.5rem",
+              size: "3rem",
               weight: "900",
               color: "#ff0080",
             },
@@ -506,7 +516,7 @@ export const futuristicTechRefactoredConfig = {
           {
             title: {
               text: "∞",
-              size: "3.5rem",
+              size: "3rem",
               weight: "900",
               color: "#ff0080",
             },

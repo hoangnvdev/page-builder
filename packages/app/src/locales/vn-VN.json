@@ -65,7 +65,19 @@
   },
   "templateCard": {
     "button": {
-      "useTemplate": "Dùng Mẫu Này"
+      "useTemplate": "Chọn Mẫu Này"
+    },
+    "hover": {
+      "useTemplate": "Nhấp để bắt đầu"
+    },
+    "loading": {
+      "preparing": "Đang chuẩn bị mẫu của bạn..."
+    }
+  },
+  "templatePreview": {
+    "error": {
+      "title": "Tải Xem trước Thất bại",
+      "message": "Không thể tải bản xem trước mẫu"
     }
   },
   "templateGallery": {

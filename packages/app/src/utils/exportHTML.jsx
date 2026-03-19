@@ -73,7 +73,9 @@ export const exportToHTML = (TemplateComponent, config, templateName) => {
   const bodyContent = renderComponentToHTML(TemplateComponent, config);
   const componentStyles = extractStylesFromDocument();
   const allStyles = generateStyles(componentStyles);
-  const htmlDocument = buildHTMLDocument(templateName, allStyles, bodyContent);
+  // Use page title from config if available, fallback to template name
+  const pageTitle = config?.page?.title || templateName;
+  const htmlDocument = buildHTMLDocument(pageTitle, allStyles, bodyContent);
   const cleanedHTML = removeEditorAttributes(htmlDocument);
 
   return cleanedHTML;

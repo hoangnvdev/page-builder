@@ -7,31 +7,26 @@
  * - Composite schemas for reusable patterns
  */
 
-import {
-  color,
-  text,
-  textarea,
-} from '../utils/fieldBuilders.js';
+import { color, slider, text, textarea } from "../utils/fieldBuilders.js";
 import {
   arrayField,
   avatarProps,
   buttonSchema,
   cardSchema,
-  gridLayoutProps,
+  cardSchemaForImageGrid,
   headingContentSchema,
-  imageProps,
+  imagePropsForGrid,
   mergeSchemas,
   sectionSchema,
+  textContentPropsEnhanced,
   textContentSchema,
   titleContentSchema,
-} from '../utils/genericSchemaBuilders.js';
+} from "../utils/genericSchemaBuilders.js";
 import {
   fontFamilyOptions,
   footerPaddingOptions,
   footerTextSizeOptions,
-  languageOptions,
-  textDecorationOptions,
-} from '../utils/index.js';
+} from "../utils/index.js";
 
 export const refinedClassicRefactoredConfig = {
   id: "refined-classic-refactored",
@@ -62,14 +57,6 @@ export const refinedClassicRefactoredConfig = {
         options: fontFamilyOptions,
       },
       title: text("pageTitle"),
-      description: textarea("metaDescription"),
-      keywords: text("metaKeywords"),
-      author: text("author"),
-      language: {
-        type: "select",
-        label: "language",
-        options: languageOptions,
-      },
     },
 
     // ============================================
@@ -107,53 +94,123 @@ export const refinedClassicRefactoredConfig = {
       // --------------------------
       // FEATURES SECTION (Grid of cards)
       // --------------------------
-      features: mergeSchemas(sectionSchema(), gridLayoutProps(4), {
-        heading: headingContentSchema(),
-        card: mergeSchemas(cardSchema(), {
-          icon: text("icon"),
-          title: mergeSchemas(titleContentSchema(), {
-            text: text("title"),
+      features: mergeSchemas(
+        sectionSchema(),
+        {
+          columns: slider("columns", 1, {
+            dynamic: "elements.features.items.length",
           }),
-          content: mergeSchemas(textContentSchema("text", true), {
-            text: textarea("description"),
+          gap: {
+            type: "select",
+            label: "gap",
+            options: [
+              { value: "16px", label: "compact" },
+              { value: "24px", label: "comfort" },
+              { value: "32px", label: "spacious" },
+            ],
+          },
+        },
+        {
+          heading: headingContentSchema(),
+          card: mergeSchemas(cardSchema(), {
+            icon: text("icon"),
+            title: mergeSchemas(titleContentSchema(), {
+              text: text("title"),
+            }),
+            content: mergeSchemas(textContentSchema("text", true), {
+              text: textarea("description"),
+            }),
           }),
-        }),
-        items: arrayField("items"),
-      }),
+          items: arrayField("items"),
+        },
+      ),
 
       // --------------------------
       // PORTFOLIO SECTION (Image Grid)
       // --------------------------
-      portfolio: mergeSchemas(sectionSchema(), gridLayoutProps(6), {
-        heading: headingContentSchema(),
-        image: imageProps(),
-        images: arrayField("items"),
-      }),
+      portfolio: mergeSchemas(
+        sectionSchema(),
+        {
+          columns: slider("columns", 1, {
+            dynamic: "elements.portfolio.images.length",
+          }),
+          gap: {
+            type: "select",
+            label: "gap",
+            options: [
+              { value: "16px", label: "compact" },
+              { value: "24px", label: "comfort" },
+              { value: "32px", label: "spacious" },
+            ],
+          },
+        },
+        {
+          heading: headingContentSchema(),
+          card: mergeSchemas(cardSchemaForImageGrid(), {
+            image: imagePropsForGrid(),
+          }),
+          images: arrayField("items"),
+        },
+      ),
 
       // --------------------------
       // STATS SECTION
       // --------------------------
-      stats: mergeSchemas(sectionSchema(), gridLayoutProps(6), {
-        title: headingContentSchema(),
-        card: mergeSchemas(cardSchema(), {
+      stats: mergeSchemas(
+        sectionSchema(),
+        {
+          columns: slider("columns", 1, {
+            dynamic: "elements.stats.items.length",
+          }),
+          gap: {
+            type: "select",
+            label: "gap",
+            options: [
+              { value: "16px", label: "compact" },
+              { value: "24px", label: "comfort" },
+              { value: "32px", label: "spacious" },
+            ],
+          },
+        },
+        {
           title: headingContentSchema(),
-          content: textContentSchema("text"),
-        }),
-        items: arrayField("items"),
-      }),
+          card: mergeSchemas(cardSchema(), {
+            title: headingContentSchema(),
+            content: textContentSchema("text"),
+          }),
+          items: arrayField("items"),
+        },
+      ),
 
       // --------------------------
       // TESTIMONIALS SECTION
       // --------------------------
-      testimonials: mergeSchemas(sectionSchema(), gridLayoutProps(4), {
-        title: headingContentSchema(),
-        card: mergeSchemas(cardSchema(), {
-          avatar: avatarProps(),
-          title: textContentSchema("text", true),
-          content: textContentSchema("text"),
-        }),
-        quotes: arrayField("items"),
-      }),
+      testimonials: mergeSchemas(
+        sectionSchema(),
+        {
+          columns: slider("columns", 1, {
+            dynamic: "elements.testimonials.quotes.length",
+          }),
+          gap: {
+            type: "select",
+            label: "gap",
+            options: [
+              { value: "16px", label: "compact" },
+              { value: "24px", label: "comfort" },
+              { value: "32px", label: "spacious" },
+            ],
+          },
+        },
+        {
+          title: headingContentSchema(),
+          card: mergeSchemas(cardSchema(), {
+            avatar: avatarProps(),
+            title: textContentSchema("text", true),
+            content: textContentSchema("text"),
+          }),
+          quotes: arrayField("items"),
+        },
+      ),
 
       // --------------------------
       // CTA SECTION
@@ -186,16 +243,11 @@ export const refinedClassicRefactoredConfig = {
           },
         },
         {
-          text: mergeSchemas(textContentSchema("text"), {
+          text: mergeSchemas(textContentPropsEnhanced("text"), {
             size: {
               type: "select",
               label: "fontSize",
               options: footerTextSizeOptions,
-            },
-            decoration: {
-              type: "select",
-              label: "textAlign",
-              options: textDecorationOptions,
             },
           }),
         },
@@ -210,12 +262,6 @@ export const refinedClassicRefactoredConfig = {
     page: {
       fontFamily: 'Garamond, "Times New Roman", serif',
       title: "Artisan Furniture Atelier - Handcrafted Legacy",
-      description:
-        "Bespoke furniture crafted by hand using traditional techniques. Each piece designed to become tomorrow's heirloom, built with solid hardwoods and timeless joinery.",
-      keywords:
-        "furniture, handcrafted, bespoke, artisan, woodworking, heirloom, custom",
-      author: "",
-      language: "en",
     },
     elements: {
       hero: {
@@ -300,7 +346,7 @@ export const refinedClassicRefactoredConfig = {
         },
         items: [
           {
-            icon: "◆",
+            icon: "🪛",
             title: {
               text: "No Power Tools",
             },
@@ -309,7 +355,7 @@ export const refinedClassicRefactoredConfig = {
             },
           },
           {
-            icon: "▭",
+            icon: "🪵",
             title: {
               text: "Live Edge Philosophy",
             },
@@ -318,7 +364,7 @@ export const refinedClassicRefactoredConfig = {
             },
           },
           {
-            icon: "◆",
+            icon: "🪑",
             title: {
               text: "Lifetime Promise",
             },
@@ -341,59 +387,57 @@ export const refinedClassicRefactoredConfig = {
           size: "2.5rem",
           weight: "600",
         },
-        image: {
+        card: {
           backgroundColor: "#8B7355",
           padding: "12px",
           borderRadius: "0px",
+          borderWidth: "0",
+          borderColor: "transparent",
           dropShadow: "0 4px 8px rgba(0,0,0,0.3)",
+          image: {
+            url: "",
+            alt: "",
+            objectFit: "cover",
+          },
         },
         images: [
           {
+            backgroundColor: "#8B7355",
+            padding: "12px",
+            borderRadius: "0px",
+            borderWidth: "0",
+            borderColor: "transparent",
+            dropShadow: "0 4px 8px rgba(0,0,0,0.3)",
             image: {
-              url: "",
+              url: "https://cannonhillwood.com/wp-content/uploads/2023/08/GQ7A1585-scaled.jpg",
               alt: "Handcrafted Walnut Dining Table",
-              fit: "cover",
-              aspectRatio: "landscape",
-            },
-            caption: {
-              text: "Live-Edge Dining Table",
-              size: "0.875rem",
-              weight: "400",
-              color: "#FAF8F3",
-              textAlign: "center",
-              backgroundColor: "transparent",
+              objectFit: "cover",
             },
           },
           {
+            backgroundColor: "#8B7355",
+            padding: "12px",
+            borderRadius: "0px",
+            borderWidth: "0",
+            borderColor: "transparent",
+            dropShadow: "0 4px 8px rgba(0,0,0,0.3)",
             image: {
-              url: "",
+              url: "https://oroa.com/cdn/shop/files/wallshelving.jpg?v=1771250170&width=1214",
               alt: "Oak Bookshelf with Brass Details",
-              fit: "cover",
-              aspectRatio: "landscape",
-            },
-            caption: {
-              text: "Custom Bookshelf",
-              size: "0.875rem",
-              weight: "400",
-              color: "#FAF8F3",
-              textAlign: "center",
-              backgroundColor: "transparent",
+              objectFit: "cover",
             },
           },
           {
+            backgroundColor: "#8B7355",
+            padding: "12px",
+            borderRadius: "0px",
+            borderWidth: "0",
+            borderColor: "transparent",
+            dropShadow: "0 4px 8px rgba(0,0,0,0.3)",
             image: {
-              url: "",
+              url: "https://leighcountry.com/cdn/shop/files/cherry-amber-log-porch-rocker-110.png?v=1754676113",
               alt: "Cherry Wood Rocking Chair",
-              fit: "cover",
-              aspectRatio: "landscape",
-            },
-            caption: {
-              text: "Heirloom Rocking Chair",
-              size: "0.875rem",
-              weight: "400",
-              color: "#FAF8F3",
-              textAlign: "center",
-              backgroundColor: "transparent",
+              objectFit: "cover",
             },
           },
         ],

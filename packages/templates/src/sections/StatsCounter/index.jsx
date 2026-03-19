@@ -1,6 +1,6 @@
-import './index.scss';
+import "./index.scss";
 
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 
 import {
   Card,
@@ -10,7 +10,9 @@ import {
   Section,
   Text,
   Title,
-} from '@page-builder/ui';
+} from "@page-builder/ui";
+
+import { formatElementIdForDisplay } from "../../utils/elementHelpers";
 
 export const StatsCounter = ({
   // Section-level title
@@ -129,6 +131,9 @@ export const StatsCounter = ({
                         textAlign: itemAlign,
                       }}
                       data-element={`${dataElement}.items.${index}`}
+                      data-element-label={formatElementIdForDisplay(
+                        `${dataElement}.items.${index}`,
+                      )}
                     >
                       <Flex direction="column" gap="8px">
                         <Title
@@ -141,6 +146,9 @@ export const StatsCounter = ({
                             margin: 0,
                           }}
                           data-element={`${dataElement}.items.${index}.title`}
+                          data-element-label={formatElementIdForDisplay(
+                            `${dataElement}.items.${index}.title`,
+                          )}
                         >
                           {statTitle}
                         </Title>
@@ -152,6 +160,9 @@ export const StatsCounter = ({
                             color: itemContentColor,
                           }}
                           data-element={`${dataElement}.items.${index}.content`}
+                          data-element-label={formatElementIdForDisplay(
+                            `${dataElement}.items.${index}.content`,
+                          )}
                         >
                           {statContent}
                         </Text>

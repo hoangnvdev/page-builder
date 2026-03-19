@@ -1,12 +1,4 @@
-export {
-  default as comicSplashRefactoredConfig,
-} from './comicSplash.refactored.config.js';
-export {
-  default as refinedClassicRefactoredConfig,
-} from './refinedClassic.refactored.config.js';
-export {
-  default as businessProRefactoredConfig,
-} from './businessPro.refactored.config.js';
-export {
-  default as futuristicTechRefactoredConfig,
-} from './futuristicTech.refactored.config.js';
+export { default as comicSplashConfig } from "./comicSplash.config.js";
+export { default as refinedClassicConfig } from "./refinedClassic.config.js";
+export { default as businessProConfig } from "./businessPro.config.js";
+export { default as futuristicTechConfig } from "./futuristicTech.config.js";

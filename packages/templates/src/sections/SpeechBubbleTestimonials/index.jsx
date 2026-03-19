@@ -3,7 +3,6 @@ import "./index.scss";
 import PropTypes from "prop-types";
 
 import {
-  Avatar,
   Card,
   Container,
   Flex,
@@ -12,6 +11,9 @@ import {
   Text,
   Title,
 } from "@page-builder/ui";
+
+import { mapAlignToFlex } from "../../utils/configMappers.js";
+import { formatElementIdForDisplay } from "../../utils/elementHelpers";
 
 export const SpeechBubbleTestimonials = ({
   // Section-level title
@@ -64,7 +66,7 @@ export const SpeechBubbleTestimonials = ({
       data-element={dataElement}
     >
       <Container maxWidth={maxWidth}>
-        <Flex direction="column" gap={gap} align={align}>
+        <Flex direction="column" gap={gap} align={mapAlignToFlex(align)}>
           {title && (
             <Title
               level={2}
@@ -83,9 +85,9 @@ export const SpeechBubbleTestimonials = ({
           )}
           <Grid columns={columns} gap={gap}>
             {quotes.map((quote, index) => {
-              // After unwrapping, avatar, title, content are simple strings/values
-              // and styling properties are flattened (avatarSize, titleSize, etc.)
-              const avatarText = quote.avatar;
+              // After unwrapping, icon, title, content are simple strings/values
+              // Support both icon (new) and avatar (legacy) for backwards compatibility
+              const iconText = quote.icon || quote.avatar;
               const titleText = quote.title || quote.text || quote.content;
               const contentText = quote.content || quote.author;
 
@@ -137,19 +139,29 @@ export const SpeechBubbleTestimonials = ({
                         textAlign: itemAlign,
                       }}
                       data-element={`${dataElement}.quotes.${index}`}
+                      data-element-label={formatElementIdForDisplay(
+                        `${dataElement}.quotes.${index}`,
+                      )}
                     >
-                      <Flex direction="column" align={itemAlign} gap="12px">
-                        {avatarText && (
-                          <Avatar
-                            className="speech-bubble__avatar"
-                            size={itemAvatarSize}
+                      <Flex
+                        direction="column"
+                        align={mapAlignToFlex(itemAlign)}
+                        gap="12px"
+                      >
+                        {iconText && (
+                          <Text
+                            className="speech-bubble__icon"
                             style={{
-                              backgroundColor: itemAvatarBgColor,
+                              fontSize: "3rem",
+                              lineHeight: 1,
                             }}
-                            data-element={`${dataElement}.quotes.${index}.avatar`}
+                            data-element={`${dataElement}.quotes.${index}.icon`}
+                            data-element-label={formatElementIdForDisplay(
+                              `${dataElement}.quotes.${index}.icon`,
+                            )}
                           >
-                            {avatarText}
-                          </Avatar>
+                            {iconText}
+                          </Text>
                         )}
                         <Text
                           className="speech-bubble__title"
@@ -159,6 +171,9 @@ export const SpeechBubbleTestimonials = ({
                             color: itemTitleColor,
                           }}
                           data-element={`${dataElement}.quotes.${index}.title`}
+                          data-element-label={formatElementIdForDisplay(
+                            `${dataElement}.quotes.${index}.title`,
+                          )}
                         >
                           {titleText}
                         </Text>
@@ -171,6 +186,9 @@ export const SpeechBubbleTestimonials = ({
                               color: itemContentColor,
                             }}
                             data-element={`${dataElement}.quotes.${index}.content`}
+                            data-element-label={formatElementIdForDisplay(
+                              `${dataElement}.quotes.${index}.content`,
+                            )}
                           >
                             — {contentText}
                           </Text>

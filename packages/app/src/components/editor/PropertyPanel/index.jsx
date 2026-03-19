@@ -1,34 +1,26 @@
-import './index.scss';
+import "./index.scss";
 
-import {
-  memo,
-  useCallback,
-  useMemo,
-  useRef,
-} from 'react';
+import { memo, useCallback, useMemo, useRef } from "react";
 
-import { useTranslation } from 'react-i18next';
-import { useSelector } from 'react-redux';
+import { useTranslation } from "react-i18next";
+import { useSelector } from "react-redux";
 
-import { useSelection } from '@/contexts/SelectionContext';
-import { useFieldHandlers } from '@/hooks';
-import {
-  deepMerge,
-  getNestedValue,
-} from '@/utils';
+import { useSelection } from "@/contexts/SelectionContext";
+import { useFieldHandlers, useScrollToTopOnSelection } from "@/hooks";
+import { deepMerge, getNestedValue } from "@/utils";
 import {
   getFieldsForElement,
   getSingularTemplateName,
-} from '@/utils/schemaProcessor';
+} from "@/utils/schemaProcessor";
+import { formatElementLabel } from "@page-builder/templates";
 
-import { EmptyState } from '../../common/EmptyState';
-import { FieldGroup } from '../../form/FieldGroup';
-import { FormField } from '../../form/FormField';
-import { Flex } from '../../layout/Flex';
-import { Panel } from '../../layout/Panel';
-import { SubTitle } from '../../typography/SubTitle';
-import { Title } from '../../typography/Title';
-import { HistoryControls } from '../HistoryControls';
+import { EmptyState } from "../../common/EmptyState";
+import { FormField } from "../../form/FormField";
+import { Flex } from "../../layout/Flex";
+import { Panel } from "../../layout/Panel";
+import { SubTitle } from "../../typography/SubTitle";
+import { Title } from "../../typography/Title";
+import { HistoryControls } from "../HistoryControls";
 
 export const PropertyPanel = () => {
   const { t, i18n } = useTranslation();
@@ -60,6 +52,9 @@ export const PropertyPanel = () => {
     () => deepMerge(selectedTemplate?.defaultConfig || {}, currentConfig || {}),
     [selectedTemplate?.defaultConfig, currentConfig],
   );
+
+  // Scroll PropertyPanel to top when selection changes
+  useScrollToTopOnSelection(selectedSubElement || selectedElement);
 
   // Helper: Enhance field options to include template default if not present
   // This preserves custom template values and allows users to reset individual fields
@@ -174,7 +169,11 @@ export const PropertyPanel = () => {
 
   if (!activeElementId) {
     // Show page-level settings when nothing is selected
-    const pageFields = getFieldsForElement(selectedTemplate, "page");
+    const pageFields = getFieldsForElement(
+      selectedTemplate,
+      "page",
+      tempConfig,
+    );
 
     return (
       <Panel position="right" width="100%" className="property-panel">
@@ -222,12 +221,13 @@ export const PropertyPanel = () => {
   }
 
   // Get fields for the selected element from the schema
-  const elementFields = getFieldsForElement(selectedTemplate, activeElementId);
+  const elementFields = getFieldsForElement(
+    selectedTemplate,
+    activeElementId,
+    tempConfig,
+  );
 
-  if (
-    !elementFields.fields ||
-    (elementFields.fields.length === 0 && elementFields.groups?.length === 0)
-  ) {
+  if (!elementFields.fields || elementFields.fields.length === 0) {
     return (
       <Panel position="right" width="100%" className="property-panel">
         <Panel.Header>
@@ -243,83 +243,11 @@ export const PropertyPanel = () => {
     );
   }
 
-  // Format element label for display
-  const formatElementLabel = (label, elementId) => {
-    const parts = elementId.split(".");
-
-    // Check if this is selecting an array item (has a numeric index in the path)
-    const arrayIndexPos = parts.findIndex((part) => /^\d+$/.test(part));
-
-    if (arrayIndexPos !== -1) {
-      // This is an array item selection
-      const arrayIndex = parseInt(parts[arrayIndexPos]);
-      const sectionName = parts[0]; // e.g., "imageGrid"
-
-      // Format the section name properly
-      const formattedSection = sectionName
-        .replace(/([A-Z])/g, " $1")
-        .trim()
-        .split(" ")
-        .map(
-          (word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase(),
-        )
-        .join(" ");
-
-      // Get the array name if there's a sub-path before the index
-      if (arrayIndexPos > 1) {
-        const arrayName = parts[arrayIndexPos - 1];
-        // Convert to singular and capitalize
-        const singularName = getSingularTemplateName(arrayName);
-        const formattedArrayName = singularName
-          .replace(/([A-Z])/g, " $1")
-          .trim()
-          .split(" ")
-          .map(
-            (word) =>
-              word.charAt(0).toUpperCase() + word.slice(1).toLowerCase(),
-          )
-          .join(" ");
-
-        // Convert to 1-based index
-        const displayIndex = arrayIndex + 1;
-
-        // If there are more parts after the index, it's a nested property
-        if (arrayIndexPos + 1 < parts.length) {
-          const propertyName = parts.slice(arrayIndexPos + 1).join(" ");
-          const formattedProperty = propertyName
-            .replace(/([A-Z])/g, " $1")
-            .trim()
-            .split(" ")
-            .map(
-              (word) =>
-                word.charAt(0).toUpperCase() + word.slice(1).toLowerCase(),
-            )
-            .join(" ");
-          return `${formattedSection} ${formattedArrayName} ${displayIndex} ${formattedProperty}`;
-        }
-
-        return `${formattedSection} ${formattedArrayName} ${displayIndex}`;
-      }
-
-      // Just section and index (e.g., "hero.0")
-      // Convert to 1-based index
-      const displayIndex = arrayIndex + 1;
-      return `${formattedSection} Item ${displayIndex}`;
-    }
-
-    // No array index - check if label looks malformed (contains spaces followed by numbers)
-    if (label && /\s+\d+$/.test(label)) {
-      // Label ends with a number (like "Image 0"), keep it as is
-      return label;
-    }
-
-    return label;
-  };
-
-  // Calculate panel title and subtitle (inline - not expensive)
+  // Format element label for display using shared utility
   const formattedLabel = formatElementLabel(
     elementFields.label,
     activeElementId,
+    getSingularTemplateName,
   );
 
   // Check if current language is RTL
@@ -351,107 +279,45 @@ export const PropertyPanel = () => {
       </Panel.Header>
       <Panel.Content>
         <Flex direction="column" gap={24}>
-          {/* Render ungrouped fields (section properties) first */}
-          {elementFields.fields
-            .filter((field) => !field.groupKey) // Only fields not in a group
-            .map((field) => {
-              // Check if field should be visible
-              if (!shouldShowField(field)) return null;
+          {/* Render all fields */}
+          {elementFields.fields.map((field) => {
+            // Check if field should be visible
+            if (!shouldShowField(field)) return null;
 
-              const enhancedField = enhanceFieldOptions(field);
-              let fieldValue = getNestedValue(tempConfig, field.path);
+            const enhancedField = enhanceFieldOptions(field);
+            let fieldValue = getNestedValue(tempConfig, field.path);
 
-              // Convert numbers to strings for Select component if needed
-              if (
-                enhancedField.type === "select" &&
-                typeof fieldValue === "number"
-              ) {
-                fieldValue = String(fieldValue);
-              }
+            // Convert numbers to strings for Select component if needed
+            if (
+              enhancedField.type === "select" &&
+              typeof fieldValue === "number"
+            ) {
+              fieldValue = String(fieldValue);
+            }
 
-              const usesBlur = shouldUseBlur(enhancedField.type);
-              const usesChangeEnd = shouldUseChangeEnd(enhancedField.type);
+            const usesBlur = shouldUseBlur(enhancedField.type);
+            const usesChangeEnd = shouldUseChangeEnd(enhancedField.type);
 
-              return (
-                <FormField
-                  key={field.path}
-                  id={field.path}
-                  label={enhancedField.label}
-                  type={enhancedField.type}
-                  value={fieldValue ?? ""}
-                  onChange={getOnChangeHandler(field.path, enhancedField.type)}
-                  onBlur={usesBlur ? getOnBlurHandler(field.path) : undefined}
-                  onChangeEnd={
-                    usesChangeEnd
-                      ? getOnChangeEndHandler(field.path)
-                      : undefined
-                  }
-                  options={enhancedField.options}
-                  min={field.min}
-                  max={field.max}
-                  step={field.step}
-                  labels={field.labels}
-                />
-              );
-            })}
-
-          {/* Render field groups (child sections) after */}
-          {elementFields.groups?.map((group) => (
-            <FieldGroup
-              key={group.id}
-              title={group.label}
-              collapsible={group.collapsible}
-              defaultExpanded={group.defaultExpanded}
-            >
-              <Flex direction="column" gap={16}>
-                {group.fields.map((field) => {
-                  // Check if field should be visible
-                  if (!shouldShowField(field)) return null;
-
-                  const enhancedField = enhanceFieldOptions(field);
-                  let fieldValue = getNestedValue(tempConfig, field.path);
-
-                  // Convert numbers to strings for Select component if needed
-                  if (
-                    enhancedField.type === "select" &&
-                    typeof fieldValue === "number"
-                  ) {
-                    fieldValue = String(fieldValue);
-                  }
-
-                  const usesBlur = shouldUseBlur(enhancedField.type);
-                  const usesChangeEnd = shouldUseChangeEnd(enhancedField.type);
-
-                  return (
-                    <FormField
-                      key={field.path}
-                      id={field.path}
-                      label={enhancedField.label}
-                      type={enhancedField.type}
-                      value={fieldValue ?? ""}
-                      onChange={getOnChangeHandler(
-                        field.path,
-                        enhancedField.type,
-                      )}
-                      onBlur={
-                        usesBlur ? getOnBlurHandler(field.path) : undefined
-                      }
-                      onChangeEnd={
-                        usesChangeEnd
-                          ? getOnChangeEndHandler(field.path)
-                          : undefined
-                      }
-                      options={enhancedField.options}
-                      min={field.min}
-                      max={field.max}
-                      step={field.step}
-                      labels={field.labels}
-                    />
-                  );
-                })}
-              </Flex>
-            </FieldGroup>
-          ))}
+            return (
+              <FormField
+                key={field.path}
+                id={field.path}
+                label={enhancedField.label}
+                type={enhancedField.type}
+                value={fieldValue ?? ""}
+                onChange={getOnChangeHandler(field.path, enhancedField.type)}
+                onBlur={usesBlur ? getOnBlurHandler(field.path) : undefined}
+                onChangeEnd={
+                  usesChangeEnd ? getOnChangeEndHandler(field.path) : undefined
+                }
+                options={enhancedField.options}
+                min={field.min}
+                max={field.max}
+                step={field.step}
+                labels={field.labels}
+              />
+            );
+          })}
         </Flex>
       </Panel.Content>
       <HistoryControls />

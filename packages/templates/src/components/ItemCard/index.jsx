@@ -1,13 +1,12 @@
-import './index.scss';
+import "./index.scss";
 
-import { useMemo } from 'react';
+import { useMemo } from "react";
 
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 
-import {
-  Card,
-  Flex,
-} from '@page-builder/ui';
+import { Card, Flex } from "@page-builder/ui";
+
+import { formatElementIdForDisplay } from "../../utils/elementHelpers";
 
 export const ItemCard = ({
   icon,
@@ -33,6 +32,7 @@ export const ItemCard = ({
   onClick,
   className = "",
   dataElement,
+  dataElementLabel,
   children,
   ...props
 }) => {
@@ -103,13 +103,25 @@ export const ItemCard = ({
       style={cardStyle}
       {...props}
     >
-      <Card.Content style={contentStyle} data-element={dataElement}>
+      <Card.Content
+        style={contentStyle}
+        data-element={dataElement}
+        data-element-label={
+          dataElementLabel ||
+          (dataElement && formatElementIdForDisplay(dataElement))
+        }
+      >
         <Flex direction="column" gap={gap}>
           {icon && (
             <div
               className="item-card__icon"
               style={iconStyle}
               data-element={dataElement ? `${dataElement}.icon` : undefined}
+              data-element-label={
+                dataElement
+                  ? formatElementIdForDisplay(`${dataElement}.icon`)
+                  : undefined
+              }
             >
               {icon}
             </div>
@@ -119,6 +131,11 @@ export const ItemCard = ({
               className="item-card__title"
               style={titleStyle}
               data-element={dataElement ? `${dataElement}.title` : undefined}
+              data-element-label={
+                dataElement
+                  ? formatElementIdForDisplay(`${dataElement}.title`)
+                  : undefined
+              }
             >
               {title}
             </Card.Title>
@@ -128,6 +145,11 @@ export const ItemCard = ({
               className="item-card__description"
               style={descriptionStyle}
               data-element={dataElement ? `${dataElement}.content` : undefined}
+              data-element-label={
+                dataElement
+                  ? formatElementIdForDisplay(`${dataElement}.content`)
+                  : undefined
+              }
             >
               {description}
             </Card.Description>
@@ -163,5 +185,6 @@ ItemCard.propTypes = {
   onClick: PropTypes.func,
   className: PropTypes.string,
   dataElement: PropTypes.string,
+  dataElementLabel: PropTypes.string,
   children: PropTypes.node,
 };

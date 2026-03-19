@@ -1,8 +1,8 @@
-import './index.scss';
+import "./index.scss";
 
-import { useMemo } from 'react';
+import { useMemo } from "react";
 
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 
 import {
   Button,
@@ -11,12 +11,13 @@ import {
   Section,
   SubTitle,
   Title,
-} from '@page-builder/ui';
+} from "@page-builder/ui";
 
 export const Hero = ({
   title,
   subtitle,
   buttonText,
+  buttonUrl,
   backgroundColor,
   gradientStart,
   gradientEnd,
@@ -42,6 +43,11 @@ export const Hero = ({
   className = "",
   ...props
 }) => {
+  // Determine if URL is external
+  const isExternalUrl =
+    buttonUrl &&
+    (buttonUrl.startsWith("http://") || buttonUrl.startsWith("https://"));
+
   // Memoize style objects to prevent unnecessary re-renders of child components
   const titleStyle = useMemo(
     () => ({
@@ -106,17 +112,36 @@ export const Hero = ({
           >
             {subtitle}
           </SubTitle>
-          {buttonText && (
-            <Button
-              size={buttonSize}
-              variant={buttonVariant}
-              onClick={onButtonClick}
-              className="hero__button"
-              style={buttonStyle}
-              data-element={`${dataElement}.button`}
+          {buttonText && buttonUrl ? (
+            <a
+              href={buttonUrl}
+              target={isExternalUrl ? "_blank" : undefined}
+              rel={isExternalUrl ? "noopener noreferrer" : undefined}
+              style={{ textDecoration: "none" }}
             >
-              {buttonText}
-            </Button>
+              <Button
+                size={buttonSize}
+                variant={buttonVariant}
+                className="hero__button"
+                style={buttonStyle}
+                data-element={`${dataElement}.button`}
+              >
+                {buttonText}
+              </Button>
+            </a>
+          ) : (
+            buttonText && (
+              <Button
+                size={buttonSize}
+                variant={buttonVariant}
+                onClick={onButtonClick}
+                className="hero__button"
+                style={buttonStyle}
+                data-element={`${dataElement}.button`}
+              >
+                {buttonText}
+              </Button>
+            )
           )}
         </Flex>
       </Container>

@@ -1,18 +1,18 @@
-import React from 'react';
+import React from "react";
 
-import { CallToAction } from '../sections/CallToAction';
-import { ComicPanels } from '../sections/ComicPanels';
-import { ContentSection } from '../sections/ContentSection';
-import { Footer } from '../sections/Footer';
-import { Header } from '../sections/Header';
-import { Hero } from '../sections/Hero';
-import { ImageGrid } from '../sections/ImageGrid';
-import { ItemGrid } from '../sections/ItemGrid';
-import { Marquee } from '../sections/Marquee';
-import { SpeechBubbleTestimonials } from '../sections/SpeechBubbleTestimonials';
-import { StatsCounter } from '../sections/StatsCounter';
-import { Terminal } from '../sections/Terminal';
-import { TestimonialCards } from '../sections/TestimonialCards';
+import { CallToAction } from "../sections/CallToAction";
+import { ComicPanels } from "../sections/ComicPanels";
+import { ContentSection } from "../sections/ContentSection";
+import { Footer } from "../sections/Footer";
+import { Header } from "../sections/Header";
+import { Hero } from "../sections/Hero";
+import { ImageGrid } from "../sections/ImageGrid";
+import { ItemGrid } from "../sections/ItemGrid";
+import { Marquee } from "../sections/Marquee";
+import { SpeechBubbleTestimonials } from "../sections/SpeechBubbleTestimonials";
+import { StatsCounter } from "../sections/StatsCounter";
+import { Terminal } from "../sections/Terminal";
+import { TestimonialCards } from "../sections/TestimonialCards";
 import {
   mapAlignToFlex,
   mapButtonProps,
@@ -26,7 +26,7 @@ import {
   unwrapArrayItems,
   unwrapNestedObjects,
   unwrapText,
-} from '../utils/configMappers';
+} from "../utils/configMappers";
 
 export const componentRegistry = {
   header: {
@@ -41,7 +41,11 @@ export const componentRegistry = {
       // New logo system
       logoType: config.logo?.type,
       logoText: config.logo?.text,
+      logoTextSize: config.logo?.textSize,
+      logoTextWeight: config.logo?.textWeight,
+      logoTextColor: config.logo?.textColor,
       logoUrl: config.logo?.url,
+      logoFile: config.logo?.file, // Base64 uploaded image
       logoWidth: config.logo?.width,
       logoHeight: config.logo?.height,
       backgroundColor: config.backgroundColor,
@@ -130,6 +134,7 @@ export const componentRegistry = {
     propsMapper: (config) => ({
       ...mapTextContentProps(config, "text"),
       ...mapSectionProps(config),
+      textStyle: config.text?.style,
       textDecoration: config.text?.decoration,
       textAlign: config.align,
       flexAlign: mapAlignToFlex(config.align),
@@ -146,7 +151,7 @@ export const componentRegistry = {
       padding: config.padding,
       textSize: config.textSize,
       textWeight: config.textWeight,
-      speed: mapSpeedToDuration(config.speed),
+      speed: config.animationDuration || mapSpeedToDuration(config.speed), // Support both new and legacy
       repeat: config.repeat || 3,
     }),
   },
@@ -164,8 +169,8 @@ export const componentRegistry = {
   },
   testimonials: {
     component: (props) => {
-      const hasAvatar = props.quotes?.[0]?.avatar;
-      const Component = hasAvatar ? SpeechBubbleTestimonials : TestimonialCards;
+      const hasIcon = props.quotes?.[0]?.icon || props.quotes?.[0]?.avatar;
+      const Component = hasIcon ? SpeechBubbleTestimonials : TestimonialCards;
       return React.createElement(Component, props);
     },
     propsMapper: (config) => ({
@@ -173,7 +178,12 @@ export const componentRegistry = {
       ...mapSectionProps(config),
       ...mapCardProps(config),
       ...mapCardContentProps(config),
-      quotes: unwrapArrayItems(config.quotes, ["title", "content", "avatar"]),
+      quotes: unwrapArrayItems(config.quotes, [
+        "title",
+        "content",
+        "icon",
+        "avatar",
+      ]),
       columns: config.columns,
       cardAlign: mapAlignToFlex(config.card?.align),
     }),
@@ -267,17 +277,18 @@ export const componentRegistry = {
       columns: config.columns,
       imageHeight: config.imageHeight,
       renderImage: config.renderImage,
-      // Card/Image props
-      cardBackgroundColor:
-        config.image?.backgroundColor || config.card?.backgroundColor,
-      cardPadding: config.image?.padding || config.card?.padding,
-      cardBorderRadius: config.image?.borderRadius || config.card?.borderRadius,
-      cardDropShadow: config.image?.dropShadow || config.card?.dropShadow,
-      // Image props
-      imageUrl: config.image?.image?.url,
-      imageAlt: config.image?.image?.alt,
-      imageFit: config.image?.image?.fit,
-      imageAspectRatio: config.image?.image?.aspectRatio,
+      // Card props from card template
+      cardBackgroundColor: config.card?.backgroundColor,
+      cardPadding: config.card?.padding,
+      cardBorderRadius: config.card?.borderRadius,
+      cardBorderWidth: config.card?.borderWidth,
+      cardBorderColor: config.card?.borderColor,
+      cardDropShadow: config.card?.dropShadow,
+      // Image props from card.image template
+      imageUrl: config.card?.image?.url,
+      imageAlt: config.card?.image?.alt,
+      imageFit: config.card?.image?.objectFit,
+      imageAspectRatio: config.card?.image?.aspectRatio,
       // Caption props
       captionText: unwrapText(config.image?.caption),
       captionSize: config.image?.caption?.size,

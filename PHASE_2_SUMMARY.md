@@ -1,6 +1,12 @@
 # Phase 2 Implementation Summary - FormField Enhancements
 
-**Status:** ✅ Completed
+> **⚠️ DEPRECATED IMPLEMENTATION**
+> This document describes the Phase 2 implementation which included FieldGroup components.
+> **FieldGroup has been removed** in favor of a simpler UX where users click child elements directly.
+> See [PROPERTY_PANEL_SIMPLIFICATION.md](PROPERTY_PANEL_SIMPLIFICATION.md) for current implementation.
+> This document is kept for historical reference only.
+
+**Status:** ✅ Completed → ⚠️ Superseded
 **Date:** March 17, 2026
 
 ## Overview

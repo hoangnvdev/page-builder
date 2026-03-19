@@ -7,28 +7,21 @@
  * - Composite schemas for reusable patterns
  */
 
-import {
-  color,
-  text,
-  textarea,
-} from '../utils/fieldBuilders.js';
+import { color, slider, text, textarea } from "../utils/fieldBuilders.js";
 import {
   arrayField,
   buttonSchema,
   cardSchema,
-  gridLayoutProps,
   headingContentSchema,
+  linkSchema,
+  logoFieldComplete,
   mergeSchemas,
   sectionSchema,
+  textContentPropsEnhanced,
   textContentSchema,
   titleContentSchema,
-} from '../utils/genericSchemaBuilders.js';
-import {
-  footerPaddingOptions,
-  footerTextSizeOptions,
-  languageOptions,
-  textDecorationOptions,
-} from '../utils/index.js';
+} from "../utils/genericSchemaBuilders.js";
+import { footerPaddingOptions, footerTextSizeOptions } from "../utils/index.js";
 
 export const businessProRefactoredConfig = {
   id: "business-pro-refactored",
@@ -64,14 +57,6 @@ export const businessProRefactoredConfig = {
         ],
       },
       title: text("pageTitle"),
-      description: textarea("metaDescription"),
-      keywords: text("metaKeywords"),
-      author: text("author"),
-      language: {
-        type: "select",
-        label: "language",
-        options: languageOptions,
-      },
     },
 
     // ============================================
@@ -114,60 +99,10 @@ export const businessProRefactoredConfig = {
         },
         {
           companyName: text("companyName"),
-          logo: {
-            type: {
-              type: "select",
-              label: "logoType",
-              options: [
-                { value: "text", label: "text" },
-                { value: "image", label: "image" },
-              ],
-            },
-            // Text/Emoji/Icon input - only show when type is "text"
-            text: {
-              ...text("logoText"),
-              condition: {
-                field: "elements.header.logo.type",
-                value: "text",
-                operator: "equals",
-              },
-            },
-            // Image URL or base64 - only show when type is "image"
-            url: {
-              ...text("imageUrl"),
-              condition: {
-                field: "elements.header.logo.type",
-                value: "image",
-                operator: "equals",
-              },
-            },
-            width: {
-              type: "select",
-              label: "width",
-              options: [
-                { value: "30px", label: "small" },
-                { value: "40px", label: "medium" },
-                { value: "50px", label: "large" },
-                { value: "60px", label: "xl" },
-              ],
-            },
-            height: {
-              type: "select",
-              label: "height",
-              options: [
-                { value: "30px", label: "small" },
-                { value: "40px", label: "medium" },
-                { value: "50px", label: "large" },
-                { value: "60px", label: "xl" },
-              ],
-            },
-          },
+          logo: logoFieldComplete(),
           logoColor: color("logoColor"),
           linkColor: color("linkColor"),
-          link: mergeSchemas(textContentSchema("text"), {
-            text: text("linkText"),
-            href: text("linkHref"),
-          }),
+          link: linkSchema(),
           links: arrayField("links"),
           gap: {
             type: "select",
@@ -224,35 +159,69 @@ export const businessProRefactoredConfig = {
       // --------------------------
       // FEATURES SECTION (Grid of cards)
       // --------------------------
-      features: mergeSchemas(sectionSchema(), gridLayoutProps(4), {
-        heading: headingContentSchema(),
-        card: mergeSchemas(cardSchema(), {
-          icon: text("icon"),
-          title: mergeSchemas(titleContentSchema(), {
-            text: text("title"),
+      features: mergeSchemas(
+        sectionSchema(),
+        {
+          columns: slider("columns", 1, {
+            dynamic: "elements.features.items.length",
           }),
-          content: mergeSchemas(textContentSchema("text", true), {
-            text: textarea("description"),
+          gap: {
+            type: "select",
+            label: "gap",
+            options: [
+              { value: "16px", label: "compact" },
+              { value: "24px", label: "comfort" },
+              { value: "32px", label: "spacious" },
+            ],
+          },
+        },
+        {
+          heading: headingContentSchema(),
+          card: mergeSchemas(cardSchema(), {
+            icon: text("icon"),
+            title: mergeSchemas(titleContentSchema(), {
+              text: text("title"),
+            }),
+            content: mergeSchemas(textContentSchema("text", true), {
+              text: textarea("description"),
+            }),
           }),
-        }),
-        items: arrayField("items"),
-      }),
+          items: arrayField("items"),
+        },
+      ),
 
       // --------------------------
       // PROJECTS SECTION (Grid of cards)
       // --------------------------
-      projects: mergeSchemas(sectionSchema(), gridLayoutProps(4), {
-        heading: headingContentSchema(),
-        card: mergeSchemas(cardSchema(), {
-          title: mergeSchemas(titleContentSchema(), {
-            text: text("title"),
+      projects: mergeSchemas(
+        sectionSchema(),
+        {
+          columns: slider("columns", 1, {
+            dynamic: "elements.projects.items.length",
           }),
-          content: mergeSchemas(textContentSchema("text", true), {
-            text: textarea("description"),
+          gap: {
+            type: "select",
+            label: "gap",
+            options: [
+              { value: "16px", label: "compact" },
+              { value: "24px", label: "comfort" },
+              { value: "32px", label: "spacious" },
+            ],
+          },
+        },
+        {
+          heading: headingContentSchema(),
+          card: mergeSchemas(cardSchema(), {
+            title: mergeSchemas(titleContentSchema(), {
+              text: text("title"),
+            }),
+            content: mergeSchemas(textContentSchema("text", true), {
+              text: textarea("description"),
+            }),
           }),
-        }),
-        items: arrayField("items"),
-      }),
+          items: arrayField("items"),
+        },
+      ),
 
       // --------------------------
       // CTA SECTION
@@ -285,16 +254,11 @@ export const businessProRefactoredConfig = {
           },
         },
         {
-          text: mergeSchemas(textContentSchema("text"), {
+          text: mergeSchemas(textContentPropsEnhanced("text"), {
             size: {
               type: "select",
               label: "fontSize",
               options: footerTextSizeOptions,
-            },
-            decoration: {
-              type: "select",
-              label: "textAlign",
-              options: textDecorationOptions,
             },
           }),
         },
@@ -309,12 +273,6 @@ export const businessProRefactoredConfig = {
     page: {
       fontFamily: '"Inter", sans-serif',
       title: "BusinessPro - Transform Your Digital Presence",
-      description:
-        "Award-winning digital solutions for modern businesses. We combine strategy, design, and technology to create exceptional experiences that drive growth.",
-      keywords:
-        "business, digital transformation, consulting, web design, strategy, innovation",
-      author: "",
-      language: "en",
     },
     elements: {
       header: {

@@ -13,6 +13,8 @@ import {
   Title,
 } from "@page-builder/ui";
 
+import { formatElementIdForDisplay } from "../../utils/elementHelpers";
+
 export const TestimonialCards = ({
   heading,
   quotes,
@@ -56,6 +58,9 @@ export const TestimonialCards = ({
                   <Card
                     className="testimonial-card"
                     data-element={`${dataElement}.card-${index}`}
+                    data-element-label={formatElementIdForDisplay(
+                      `${dataElement}.card-${index}`,
+                    )}
                   >
                     <Card.Content>
                       <Flex direction="column" gap={16}>
@@ -65,6 +70,9 @@ export const TestimonialCards = ({
                             size={avatarSize}
                             src={quote.avatarUrl}
                             data-element={`${dataElement}.card-${index}.avatar`}
+                            data-element-label={formatElementIdForDisplay(
+                              `${dataElement}.card-${index}.avatar`,
+                            )}
                           >
                             {quote.avatar}
                           </Avatar>
@@ -72,6 +80,9 @@ export const TestimonialCards = ({
                         <Text
                           className="testimonial-card__text"
                           data-element={`${dataElement}.card-${index}.text`}
+                          data-element-label={formatElementIdForDisplay(
+                            `${dataElement}.card-${index}.text`,
+                          )}
                         >
                           "{quote.text}"
                         </Text>
@@ -81,6 +92,9 @@ export const TestimonialCards = ({
                             weight="bold"
                             size="medium"
                             data-element={`${dataElement}.card-${index}.author`}
+                            data-element-label={formatElementIdForDisplay(
+                              `${dataElement}.card-${index}.author`,
+                            )}
                           >
                             {quote.author}
                           </Text>
@@ -90,6 +104,9 @@ export const TestimonialCards = ({
                               size="small"
                               color="#666"
                               data-element={`${dataElement}.card-${index}.title`}
+                              data-element-label={formatElementIdForDisplay(
+                                `${dataElement}.card-${index}.title`,
+                              )}
                             >
                               {quote.title}
                             </Text>

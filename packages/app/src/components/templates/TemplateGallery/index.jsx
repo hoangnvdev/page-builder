@@ -1,31 +1,26 @@
-import './index.scss';
+import "./index.scss";
 
-import {
-  useEffect,
-  useState,
-} from 'react';
+import { useEffect, useRef, useState } from "react";
 
-import { useTranslation } from 'react-i18next';
-import { useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { useTranslation } from "react-i18next";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 import {
   ErrorBoundary,
   ErrorDisplay,
   LanguageSwitcher,
   LoadingIndicator,
-} from '@/components';
-import {
-  fetchTemplateByIdFromAPI,
-  fetchTemplatesFromAPI,
-} from '@/services';
-import { selectTemplate } from '@/store/builderSlice';
-import { processTemplateConfig } from '@/utils';
+} from "@/components";
+import { useWindowResize } from "@/hooks";
+import { fetchTemplateByIdFromAPI, fetchTemplatesFromAPI } from "@/services";
+import { selectTemplate } from "@/store/builderSlice";
+import { processTemplateConfig } from "@/utils";
 
-import { EmptyState } from '../../common/EmptyState';
-import { SubTitle } from '../../typography/SubTitle';
-import { Title } from '../../typography/Title';
-import { TemplateCard } from '../TemplateCard';
+import { EmptyState } from "../../common/EmptyState";
+import { SubTitle } from "../../typography/SubTitle";
+import { Title } from "../../typography/Title";
+import { TemplateCard } from "../TemplateCard";
 
 export const TemplateGallery = () => {
   const { t } = useTranslation();
@@ -37,24 +32,18 @@ export const TemplateGallery = () => {
   const [error, setError] = useState(null);
   const [selectingTemplateId, setSelectingTemplateId] = useState(null);
 
+  const headerRef = useRef(null);
+  const gridRef = useRef(null);
+
   const loadTemplates = async () => {
     try {
       setLoading(true);
       setError(null);
 
-      const rawTemplates = await fetchTemplatesFromAPI();
-      const processedTemplates = rawTemplates
-        .map((config) => {
-          try {
-            return processTemplateConfig(config);
-          } catch (err) {
-            console.error(`Failed to process template ${config.id}:`, err);
-            return null;
-          }
-        })
-        .filter(Boolean); // Remove failed templates
+      // Fetch lightweight metadata only - no processing needed
+      const templates = await fetchTemplatesFromAPI();
 
-      setTemplates(processedTemplates);
+      setTemplates(templates);
     } catch (err) {
       console.error("Failed to load templates:", err);
       setError(err.message || "Failed to load templates");
@@ -73,13 +62,55 @@ export const TemplateGallery = () => {
 
       dispatch(selectTemplate(processedTemplate));
       navigate("/design");
-      // Don't clear selectingTemplateId here - keep loading indicator visible during navigation
-      // Component will unmount when route changes anyway
     } catch (err) {
       console.error("Failed to select template:", err);
       setError(err.message || "Failed to load template");
-      setSelectingTemplateId(null); // Only clear on error
+      setSelectingTemplateId(null);
     }
+  };
+
+  const calculateGridHeight = () => {
+    if (!gridRef.current || !headerRef.current || templates.length === 0)
+      return;
+
+    const viewportWidth = window.innerWidth;
+    const viewportHeight = window.innerHeight;
+
+    let columns = 2;
+    if (viewportWidth >= 1920) {
+      columns = 4;
+    } else if (viewportWidth >= 1440) {
+      columns = 3;
+    } else if (viewportWidth <= 768) {
+      columns = 1;
+    }
+
+    const rows = Math.ceil(templates.length / columns);
+    const headerHeight = headerRef.current.offsetHeight;
+    const galleryPadding =
+      viewportWidth <= 768 ? 48 : viewportWidth <= 1024 ? 64 : 96;
+    const availableHeight = viewportHeight - headerHeight - galleryPadding;
+
+    let rowHeightPercentage;
+    if (rows === 1) {
+      rowHeightPercentage = 0.8;
+    } else {
+      rowHeightPercentage = 0.65;
+    }
+
+    const calculatedRowHeight = availableHeight * rowHeightPercentage;
+
+    let minRowHeight;
+    if (viewportWidth <= 480) {
+      minRowHeight = 360;
+    } else if (viewportWidth <= 768) {
+      minRowHeight = 420;
+    } else {
+      minRowHeight = 500;
+    }
+
+    const rowHeight = Math.max(calculatedRowHeight, minRowHeight);
+    gridRef.current.style.setProperty("--row-height", `${rowHeight}px`);
   };
 
   const renderContent = () => {
@@ -88,16 +119,6 @@ export const TemplateGallery = () => {
         <LoadingIndicator
           title={t("templateGallery.loading.title")}
           description={t("templateGallery.loading.description")}
-        />
-      );
-    }
-
-    if (selectingTemplateId) {
-      return (
-        <LoadingIndicator
-          icon="🎨"
-          title={t("templateGallery.preparing.title")}
-          description={t("templateGallery.preparing.description")}
         />
       );
     }
@@ -147,13 +168,14 @@ export const TemplateGallery = () => {
     }
 
     return (
-      <div className="template-gallery__grid">
+      <div className="template-gallery__grid" ref={gridRef}>
         {templates.map((template) => (
           <div key={template.id} className="template-gallery__grid-item">
             <ErrorBoundary mode="inline" t={t}>
               <TemplateCard
                 template={template}
                 onSelect={handleSelectTemplate}
+                isSelecting={selectingTemplateId === template.id}
               />
             </ErrorBoundary>
           </div>
@@ -166,10 +188,14 @@ export const TemplateGallery = () => {
     loadTemplates();
   }, []);
 
+  useWindowResize(calculateGridHeight, [templates, loading, error], {
+    debounceMs: 100,
+  });
+
   return (
     <div className="template-gallery">
       <div className="template-gallery__container">
-        <div className="template-gallery__header">
+        <div className="template-gallery__header" ref={headerRef}>
           <div className="template-gallery__header-content">
             <Title level={1} className="template-gallery__title">
               {t("templateGallery.title")}
