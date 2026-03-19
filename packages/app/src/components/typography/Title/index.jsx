@@ -1,30 +1,34 @@
-import './index.scss';
+import "./index.scss";
 
-import { memo } from 'react';
+import PropTypes from "prop-types";
 
-import PropTypes from 'prop-types';
+import { withMemo } from "@/hocs";
 
-export const Title = memo(
-  ({ children, level = 1, className = "", style, ...props }) => {
-    const Tag = `h${level}`;
+const TitleComponent = ({
+  children,
+  level = 1,
+  className = "",
+  style,
+  ...props
+}) => {
+  const Tag = `h${level}`;
 
-    const titleClasses = ["title", `title--${level}`, className]
-      .filter(Boolean)
-      .join(" ");
+  const titleClasses = ["title", `title--${level}`, className]
+    .filter(Boolean)
+    .join(" ");
 
-    return (
-      <Tag className={titleClasses} style={style} {...props}>
-        {children}
-      </Tag>
-    );
-  },
-);
+  return (
+    <Tag className={titleClasses} style={style} {...props}>
+      {children}
+    </Tag>
+  );
+};
 
-Title.displayName = "Title";
-
-Title.propTypes = {
+TitleComponent.propTypes = {
   children: PropTypes.node.isRequired,
   level: PropTypes.oneOf([1, 2, 3, 4, 5, 6]),
   className: PropTypes.string,
   style: PropTypes.object,
 };
+
+export const Title = withMemo(TitleComponent);

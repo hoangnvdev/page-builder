@@ -65,7 +65,16 @@
   },
   "templateCard": {
     "button": {
-      "useTemplate": "استخدام القالب"
+      "useTemplate": "اختر هذا التصميم"
+    },
+    "hover": {
+      "useTemplate": "انقر للبدء"
+    }
+  },
+  "templatePreview": {
+    "error": {
+      "title": "فشل المعاينة",
+      "message": "تعذر تحميل معاينة القالب"
     }
   },
   "templateGallery": {

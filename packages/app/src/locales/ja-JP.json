@@ -65,7 +65,16 @@
   },
   "templateCard": {
     "button": {
-      "useTemplate": "このテンプレートを使用"
+      "useTemplate": "このデザインを選ぶ"
+    },
+    "hover": {
+      "useTemplate": "クリックして始める"
+    }
+  },
+  "templatePreview": {
+    "error": {
+      "title": "プレビュー失敗",
+      "message": "テンプレートのプレビューを読み込めません"
     }
   },
   "templateGallery": {

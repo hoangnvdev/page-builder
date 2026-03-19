@@ -1,9 +1,11 @@
 import "./index.scss";
 
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 import { ChevronDown, Languages } from "lucide-react";
 import { useTranslation } from "react-i18next";
+
+import { useClickOutside } from "@/hooks";
 
 const LANGUAGES = [
   {
@@ -37,7 +39,8 @@ export const LanguageSwitcher = ({ compact = false }) => {
   const { i18n } = useTranslation();
   const [isOpen, setIsOpen] = useState(false);
   const [flagImages, setFlagImages] = useState({});
-  const dropdownRef = useRef(null);
+
+  const dropdownRef = useClickOutside(() => setIsOpen(false), isOpen);
 
   const currentLanguage =
     LANGUAGES.find((lang) => lang.code === i18n.language.split("-")[0]) ||
@@ -66,18 +69,6 @@ export const LanguageSwitcher = ({ compact = false }) => {
 
   const toggleDropdown = useCallback(() => {
     setIsOpen((prev) => !prev);
-  }, []);
-
-  // Close dropdown when clicking outside
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-        setIsOpen(false);
-      }
-    };
-
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
   return (

@@ -65,7 +65,16 @@
   },
   "templateCard": {
     "button": {
-      "useTemplate": "Start with This"
+      "useTemplate": "Choose This Design"
+    },
+    "hover": {
+      "useTemplate": "Click to Get Started"
+    }
+  },
+  "templatePreview": {
+    "error": {
+      "title": "Preview Failed",
+      "message": "Unable to load template preview"
     }
   },
   "templateGallery": {

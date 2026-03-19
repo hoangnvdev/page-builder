@@ -1,23 +1,15 @@
-import './index.scss';
+import "./index.scss";
 
-import {
-  useCallback,
-  useState,
-} from 'react';
+import { useCallback } from "react";
 
-import {
-  Check,
-  Download,
-} from 'lucide-react';
-import { useTranslation } from 'react-i18next';
-import { useSelector } from 'react-redux';
+import { Check, Download } from "lucide-react";
+import { useTranslation } from "react-i18next";
+import { useSelector } from "react-redux";
 
-import {
-  downloadHTML,
-  exportToHTML,
-} from '@/utils/exportHTML.jsx';
+import { useLoadingState } from "@/hooks";
+import { downloadHTML, exportToHTML } from "@/utils/exportHTML.jsx";
 
-import { AppButton } from '../../common/AppButton';
+import { AppButton } from "../../common/AppButton";
 
 export const ExportButton = () => {
   const { t } = useTranslation();
@@ -25,38 +17,33 @@ export const ExportButton = () => {
     (state) => state.builder.selectedTemplate,
   );
   const currentConfig = useSelector((state) => state.builder.currentConfig);
-  const [isExporting, setIsExporting] = useState(false);
+  const { loading: isExporting, withLoading } = useLoadingState();
 
-  const handleExport = useCallback(() => {
-    if (!selectedTemplate || !currentConfig) return;
+  const handleExport = useCallback(
+    withLoading(async () => {
+      if (!selectedTemplate || !currentConfig) return;
 
-    setIsExporting(true);
+      try {
+        const htmlContent = exportToHTML(
+          selectedTemplate.component,
+          currentConfig,
+          selectedTemplate.name,
+        );
 
-    try {
-      // Generate HTML
-      const htmlContent = exportToHTML(
-        selectedTemplate.component,
-        currentConfig,
-        selectedTemplate.name,
-      );
+        const timestamp = new Date().toISOString().split("T")[0];
+        const filename = `${selectedTemplate.id}-${timestamp}.html`;
 
-      // Generate filename
-      const timestamp = new Date().toISOString().split("T")[0];
-      const filename = `${selectedTemplate.id}-${timestamp}.html`;
+        downloadHTML(htmlContent, filename);
 
-      // Download
-      downloadHTML(htmlContent, filename);
-
-      // Show success feedback
-      setTimeout(() => {
-        setIsExporting(false);
-      }, 1000);
-    } catch (error) {
-      console.error("Export failed:", error);
-      alert(t("export.error.failedMessage"));
-      setIsExporting(false);
-    }
-  }, [selectedTemplate, currentConfig, t]);
+        await new Promise((resolve) => setTimeout(resolve, 1000));
+      } catch (error) {
+        console.error("Export failed:", error);
+        alert(t("export.error.failedMessage"));
+        throw error;
+      }
+    }),
+    [selectedTemplate, currentConfig, t, withLoading],
+  );
 
   return (
     <AppButton variant="export" onClick={handleExport} disabled={isExporting}>

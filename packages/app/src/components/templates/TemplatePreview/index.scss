@@ -1,0 +1,112 @@
+.template-preview {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background: var(--template-gradient-bg);
+  overflow: hidden;
+
+  &__iframe-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+    display: block;
+    background: white;
+    filter: blur(var(--template-preview-blur));
+    opacity: var(--template-preview-blur-opacity);
+    transform: scale(1.1);
+    z-index: 1;
+  }
+
+  &__iframe {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: var(--template-preview-width-desktop);
+    height: 100%;
+    border: none;
+    display: block;
+    background: white;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+    z-index: 2;
+  }
+
+  &__loader {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+    pointer-events: none;
+    z-index: 10;
+
+    // Override LoadingIndicator styles for preview context
+    .loading-indicator {
+      min-height: auto;
+      padding: 0;
+      background: transparent;
+    }
+  }
+
+  &__placeholder {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--template-gradient-bg);
+  }
+
+  &__placeholder-icon {
+    font-size: 64px;
+    opacity: 0.5;
+    filter: grayscale(100%);
+  }
+
+  &--loading {
+    .template-preview__iframe,
+    .template-preview__iframe-background {
+      opacity: 0;
+    }
+  }
+
+  &--error {
+    .template-preview__iframe,
+    .template-preview__iframe-background {
+      opacity: 0;
+    }
+
+    // ErrorDisplay container styling specific to template preview
+    .error-display {
+      min-height: auto;
+      padding: 1rem;
+      background: transparent;
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .template-preview {
+    &__iframe {
+      width: var(--template-preview-width-tablet);
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .template-preview {
+    &__iframe {
+      width: var(--template-preview-width-mobile);
+    }
+  }
+}
