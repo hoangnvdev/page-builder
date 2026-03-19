@@ -17,6 +17,7 @@ import {
   getAspectRatioValue,
   getDropShadow,
 } from "../../helpers/componentHelpers";
+import { formatElementIdForDisplay } from "../../utils/elementHelpers";
 
 export const ImageGrid = ({
   heading,
@@ -38,6 +39,8 @@ export const ImageGrid = ({
   cardBackgroundColor,
   cardPadding,
   cardBorderRadius,
+  cardBorderWidth,
+  cardBorderColor,
   cardDropShadow,
   // Image defaults
   imageUrl,
@@ -82,13 +85,16 @@ export const ImageGrid = ({
               const itemBgColor = item.backgroundColor || cardBackgroundColor;
               const itemPadding = item.padding || cardPadding;
               const itemBorderRadius = item.borderRadius || cardBorderRadius;
+              const itemBorderWidth = item.borderWidth || cardBorderWidth;
+              const itemBorderColor = item.borderColor || cardBorderColor;
               const itemDropShadow = item.dropShadow || cardDropShadow;
 
               // Extract nested image props (backward compatible)
               const imgData = item.image || item;
               const imgUrl = imgData.url || imgData.src || imageUrl;
               const imgAlt = imgData.alt || imageAlt || `Image ${index + 1}`;
-              const imgFit = imgData.fit || imageFit || "cover";
+              const imgFit =
+                imgData.objectFit || imgData.fit || imageFit || "cover";
               const imgAspectRatio = imgData.aspectRatio || imageAspectRatio;
 
               // After unwrapping, caption is a simple string
@@ -112,10 +118,20 @@ export const ImageGrid = ({
                         backgroundColor: itemBgColor,
                         padding: itemPadding,
                         borderRadius: itemBorderRadius,
+                        ...(itemBorderWidth && itemBorderWidth !== "0"
+                          ? {
+                              borderWidth: itemBorderWidth,
+                              borderStyle: "solid",
+                              borderColor: itemBorderColor,
+                            }
+                          : {}),
                         boxShadow: getDropShadow(itemDropShadow),
                         overflow: "visible",
                       }}
                       data-element={`${dataElement}.images.${index}`}
+                      data-element-label={formatElementIdForDisplay(
+                        `${dataElement}.images.${index}`,
+                      )}
                     >
                       <Card.Image
                         height={imageHeight}
@@ -137,6 +153,9 @@ export const ImageGrid = ({
                             height: "100%",
                           }}
                           data-element={`${dataElement}.images.${index}.image`}
+                          data-element-label={formatElementIdForDisplay(
+                            `${dataElement}.images.${index}.image`,
+                          )}
                         />
                       </Card.Image>
                       {capText && (
@@ -154,6 +173,9 @@ export const ImageGrid = ({
                               textAlign: capAlign,
                             }}
                             data-element={`${dataElement}.images.${index}.caption`}
+                            data-element-label={formatElementIdForDisplay(
+                              `${dataElement}.images.${index}.caption`,
+                            )}
                           >
                             {capText}
                           </Text>

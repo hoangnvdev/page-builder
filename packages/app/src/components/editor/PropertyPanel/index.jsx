@@ -12,6 +12,7 @@ import {
   getFieldsForElement,
   getSingularTemplateName,
 } from "@/utils/schemaProcessor";
+import { formatElementLabel } from "@page-builder/templates";
 
 import { EmptyState } from "../../common/EmptyState";
 import { FormField } from "../../form/FormField";
@@ -242,83 +243,11 @@ export const PropertyPanel = () => {
     );
   }
 
-  // Format element label for display
-  const formatElementLabel = (label, elementId) => {
-    const parts = elementId.split(".");
-
-    // Check if this is selecting an array item (has a numeric index in the path)
-    const arrayIndexPos = parts.findIndex((part) => /^\d+$/.test(part));
-
-    if (arrayIndexPos !== -1) {
-      // This is an array item selection
-      const arrayIndex = parseInt(parts[arrayIndexPos]);
-      const sectionName = parts[0]; // e.g., "imageGrid"
-
-      // Format the section name properly
-      const formattedSection = sectionName
-        .replace(/([A-Z])/g, " $1")
-        .trim()
-        .split(" ")
-        .map(
-          (word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase(),
-        )
-        .join(" ");
-
-      // Get the array name if there's a sub-path before the index
-      if (arrayIndexPos > 1) {
-        const arrayName = parts[arrayIndexPos - 1];
-        // Convert to singular and capitalize
-        const singularName = getSingularTemplateName(arrayName);
-        const formattedArrayName = singularName
-          .replace(/([A-Z])/g, " $1")
-          .trim()
-          .split(" ")
-          .map(
-            (word) =>
-              word.charAt(0).toUpperCase() + word.slice(1).toLowerCase(),
-          )
-          .join(" ");
-
-        // Convert to 1-based index
-        const displayIndex = arrayIndex + 1;
-
-        // If there are more parts after the index, it's a nested property
-        if (arrayIndexPos + 1 < parts.length) {
-          const propertyName = parts.slice(arrayIndexPos + 1).join(" ");
-          const formattedProperty = propertyName
-            .replace(/([A-Z])/g, " $1")
-            .trim()
-            .split(" ")
-            .map(
-              (word) =>
-                word.charAt(0).toUpperCase() + word.slice(1).toLowerCase(),
-            )
-            .join(" ");
-          return `${formattedSection} ${formattedArrayName} ${displayIndex} ${formattedProperty}`;
-        }
-
-        return `${formattedSection} ${formattedArrayName} ${displayIndex}`;
-      }
-
-      // Just section and index (e.g., "hero.0")
-      // Convert to 1-based index
-      const displayIndex = arrayIndex + 1;
-      return `${formattedSection} Item ${displayIndex}`;
-    }
-
-    // No array index - check if label looks malformed (contains spaces followed by numbers)
-    if (label && /\s+\d+$/.test(label)) {
-      // Label ends with a number (like "Image 0"), keep it as is
-      return label;
-    }
-
-    return label;
-  };
-
-  // Calculate panel title and subtitle (inline - not expensive)
+  // Format element label for display using shared utility
   const formattedLabel = formatElementLabel(
     elementFields.label,
     activeElementId,
+    getSingularTemplateName,
   );
 
   // Check if current language is RTL

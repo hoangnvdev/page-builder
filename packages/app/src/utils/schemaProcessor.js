@@ -171,11 +171,23 @@ export const getFieldsForElement = (
 
   // If no sub-path, return section-level fields (no groups)
   if (!subPath) {
+    // Only show direct section properties, exclude nested schema objects
+    // Filter out properties that are nested schema objects (title, subtitle, button, etc.)
+    const sectionOnlySchema = {};
+    Object.entries(sectionSchema).forEach(([key, value]) => {
+      // Include if it's a field definition (has type as string)
+      if (value && value.type && typeof value.type === "string") {
+        sectionOnlySchema[key] = value;
+      }
+      // Exclude if it's a nested object without a type (nested schema)
+      // These will be accessible when user clicks on the specific element
+    });
+
     const fields = flattenSchema(
-      sectionSchema,
+      sectionOnlySchema,
       `elements.${sectionId}`,
       ["array"],
-      1, // Allow one level of recursion to flatten nested fields
+      undefined, // No depth limit for remaining fields
       sectionId, // Pass section name as parent key
       currentConfig, // Pass config for dynamic resolution
     );
@@ -327,7 +339,7 @@ export const getSingularTemplateName = (arrayName) => {
     panels: "card", // comic panels use "card" as template
     items: "card", // features/projects use "card" as template
     quotes: "card", // testimonials use "card" as template
-    images: "image", // image grid uses "image" as template
+    images: "card", // image grid uses "card" as template (with nested image)
     testimonials: "testimonial",
     features: "card",
     projects: "card",

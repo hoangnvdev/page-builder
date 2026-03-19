@@ -158,14 +158,20 @@ export const textContentPropsEnhanced = (
 ) => ({
   text: isMultiline ? textarea("content") : text("text"),
   ...typographyProps(sizeType),
+  style: {
+    type: "select",
+    label: "fontStyle",
+    options: [
+      { value: "normal", label: "normal" },
+      { value: "italic", label: "italic" },
+    ],
+  },
   decoration: {
     type: "select",
     label: "textDecoration",
     options: [
       { value: "none", label: "none" },
       { value: "underline", label: "underline" },
-      { value: "overline", label: "overline" },
-      { value: "line-through", label: "lineThrough" },
     ],
   },
 });
@@ -250,6 +256,25 @@ export const imagePropsComplete = () => ({
 });
 
 /**
+ * Image properties for grid items (no alignment)
+ */
+export const imagePropsForGrid = () => ({
+  url: text("imageUrl"),
+  alt: text("imageAlt"),
+  objectFit: {
+    type: "select",
+    label: "objectFit",
+    options: [
+      { value: "cover", label: "cover" },
+      { value: "contain", label: "contain" },
+      { value: "fill", label: "fill" },
+      { value: "none", label: "none" },
+      { value: "scale-down", label: "scaleDown" },
+    ],
+  },
+});
+
+/**
  * Avatar/Icon properties (small images)
  */
 export const avatarProps = () => ({
@@ -272,6 +297,13 @@ export const avatarProps = () => ({
   backgroundColor: color("backgroundColor"),
 });
 
+/**
+ * Icon properties (emoji or text icon)
+ */
+export const iconProps = () => ({
+  text: text("icon"),
+});
+
 // ============================================
 // 4. COMPOSITE SCHEMAS (Reusable Components)
 // ============================================
@@ -292,11 +324,15 @@ export const cardSchema = () => ({
   ...visualProps(),
   ...spacingProps("card"),
   ...borderProps(),
-  align: {
-    type: "select",
-    label: "textAlign",
-    options: alignOptions,
-  },
+});
+
+/**
+ * Card schema for image grid (no text alignment)
+ */
+export const cardSchemaForImageGrid = () => ({
+  ...visualProps(),
+  ...spacingProps("card"),
+  ...borderProps(),
 });
 
 /**

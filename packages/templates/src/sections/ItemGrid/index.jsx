@@ -1,18 +1,13 @@
-import './index.scss';
+import "./index.scss";
 
-import { useMemo } from 'react';
+import { useMemo } from "react";
 
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 
-import {
-  Container,
-  Flex,
-  Grid,
-  Section,
-  Title,
-} from '@page-builder/ui';
+import { Container, Flex, Grid, Section, Title } from "@page-builder/ui";
 
-import { ItemCard } from '../../components/ItemCard';
+import { ItemCard } from "../../components/ItemCard";
+import { formatElementIdForDisplay } from "../../utils/elementHelpers";
 
 export const ItemGrid = ({
   heading,
@@ -102,6 +97,9 @@ export const ItemGrid = ({
                     descriptionWeight={item.contentWeight || cardContentWeight}
                     descriptionColor={item.contentColor || cardContentColor}
                     dataElement={`${dataElement}.items.${idx}`}
+                    dataElementLabel={formatElementIdForDisplay(
+                      `${dataElement}.items.${idx}`,
+                    )}
                   />
                 )}
               </Grid.Item>

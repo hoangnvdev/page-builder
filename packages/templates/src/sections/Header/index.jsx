@@ -6,6 +6,8 @@ import PropTypes from "prop-types";
 
 import { Container, Flex, Image, Link, Title } from "@page-builder/ui";
 
+import { formatElementIdForDisplay } from "../../utils/elementHelpers";
+
 export const Header = ({
   companyName,
   logo,
@@ -175,6 +177,9 @@ export const Header = ({
                     fontWeight: link.weight,
                   }}
                   data-element={`${dataElement}.links.${index}`}
+                  data-element-label={formatElementIdForDisplay(
+                    `${dataElement}.links.${index}`,
+                  )}
                 >
                   {link.text}
                 </Link>

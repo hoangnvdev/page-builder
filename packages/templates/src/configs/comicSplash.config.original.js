@@ -11,7 +11,6 @@
 import {
   alignOptions,
   fontFamilyOptions,
-  languageOptions,
   subtitleSizeOptions,
 } from "../constants/index.js";
 import {
@@ -60,23 +59,6 @@ export const comicSplashConfig = {
       title: {
         type: "text",
         label: "Page Title (Browser Tab)",
-      },
-      description: {
-        type: "textarea",
-        label: "Meta Description (SEO)",
-      },
-      keywords: {
-        type: "text",
-        label: "Meta Keywords (comma-separated)",
-      },
-      author: {
-        type: "text",
-        label: "Author",
-      },
-      language: {
-        type: "select",
-        label: "Language",
-        options: languageOptions,
       },
     },
     elements: {
@@ -188,11 +170,6 @@ export const comicSplashConfig = {
     page: {
       fontFamily: '"Comic Sans MS", "Chalkboard SE", cursive',
       title: "My Awesome Page",
-      description:
-        "Create amazing websites with our fun and playful comic-style template. Perfect for creative projects and portfolios.",
-      keywords: "page builder, website, creative, portfolio, comic style",
-      author: "",
-      language: "en",
     },
     elements: {
       hero: {

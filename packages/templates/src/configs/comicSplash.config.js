@@ -1,30 +1,20 @@
-/**
- * Comic Splash Template - Refactored with Generic Schema Builders
- *
- * This demonstrates a cleaner, more maintainable approach using:
- * - Container props (layout, spacing, border, background)
- * - Content props (typography, color, text)
- * - Image props (objectFit, size, shadow)
- */
-
-import { slider, text, textarea } from "../utils/fieldBuilders.js";
+import { slider, text } from "../utils/fieldBuilders.js";
 import {
   arrayField,
-  avatarProps,
   buttonSchema,
   cardSchema,
+  cardSchemaForImageGrid,
   headingContentSchema,
-  imagePropsComplete,
+  iconProps,
+  imagePropsForGrid,
   marqueePropsComplete,
   mergeSchemas,
   sectionSchema,
-  spacingProps,
   textContentPropsEnhanced,
   textContentSchema,
   titleContentSchema,
-  visualProps,
 } from "../utils/genericSchemaBuilders.js";
-import { fontFamilyOptions, languageOptions } from "../utils/index.js";
+import { fontFamilyOptions } from "../utils/index.js";
 
 export const comicSplashRefactoredConfig = {
   id: "comic-splash-refactored",
@@ -55,14 +45,6 @@ export const comicSplashRefactoredConfig = {
         options: fontFamilyOptions,
       },
       title: text("pageTitle"),
-      description: textarea("metaDescription"),
-      keywords: text("metaKeywords"),
-      author: text("author"),
-      language: {
-        type: "select",
-        label: "language",
-        options: languageOptions,
-      },
     },
 
     // ============================================
@@ -193,7 +175,7 @@ export const comicSplashRefactoredConfig = {
         {
           title: headingContentSchema(),
           card: mergeSchemas(cardSchema(), {
-            avatar: avatarProps(),
+            icon: iconProps(),
             title: textContentSchema("text", true),
             content: textContentSchema("text"),
           }),
@@ -205,10 +187,34 @@ export const comicSplashRefactoredConfig = {
       // IMAGE GRID SECTION
       // --------------------------
       imageGrid: mergeSchemas(
-        sectionSchema(),
+        {
+          backgroundColor: {
+            type: "color",
+            label: "backgroundColor",
+          },
+          padding: {
+            type: "select",
+            label: "padding",
+            options: [
+              { value: "40px 20px", label: "compact" },
+              { value: "80px 20px", label: "comfort" },
+              { value: "120px 20px", label: "spacious" },
+            ],
+          },
+          maxWidth: {
+            type: "select",
+            label: "maxWidth",
+            options: [
+              { value: "800px", label: "narrow" },
+              { value: "1000px", label: "medium" },
+              { value: "1200px", label: "wide" },
+              { value: "100%", label: "full" },
+            ],
+          },
+        },
         {
           columns: slider("columns", 1, {
-            dynamic: "elements.imageGrid.items.length",
+            dynamic: "elements.imageGrid.images.length",
           }),
           gap: {
             type: "select",
@@ -222,8 +228,10 @@ export const comicSplashRefactoredConfig = {
         },
         {
           heading: headingContentSchema(),
-          image: imagePropsComplete(),
-          items: arrayField("items"), // array of images
+          card: mergeSchemas(cardSchemaForImageGrid(), {
+            image: imagePropsForGrid(),
+          }),
+          images: arrayField("items"),
         },
       ),
 
@@ -239,10 +247,36 @@ export const comicSplashRefactoredConfig = {
       // --------------------------
       // FOOTER SECTION
       // --------------------------
-      footer: mergeSchemas(visualProps(), spacingProps("section"), {
-        text: textContentPropsEnhanced("text"),
-        links: arrayField("items"),
-      }),
+      footer: mergeSchemas(
+        {
+          backgroundColor: {
+            type: "color",
+            label: "backgroundColor",
+          },
+          padding: {
+            type: "select",
+            label: "padding",
+            options: [
+              { value: "20px 20px", label: "compact" },
+              { value: "40px 20px", label: "comfort" },
+              { value: "60px 20px", label: "spacious" },
+            ],
+          },
+          align: {
+            type: "select",
+            label: "textAlign",
+            options: [
+              { value: "left", label: "left" },
+              { value: "center", label: "center" },
+              { value: "right", label: "right" },
+            ],
+          },
+        },
+        {
+          text: textContentPropsEnhanced("text"),
+          links: arrayField("items"),
+        },
+      ),
     },
   },
 
@@ -254,8 +288,6 @@ export const comicSplashRefactoredConfig = {
       description:
         "Create amazing websites with our fun and playful comic-style template. Perfect for creative projects and portfolios.",
       keywords: "page builder, website, creative, portfolio, comic style",
-      author: "",
-      language: "en",
     },
     elements: {
       hero: {
@@ -284,7 +316,7 @@ export const comicSplashRefactoredConfig = {
         text: "⚡ SPECIAL OFFER! ⚡ JOIN TODAY AND GET 50% OFF! ⚡ LIMITED TIME ONLY! ⚡",
         backgroundColor: "#FFD93D",
         textColor: "#2C1810",
-        padding: "80px 20px",
+        padding: "20px 20px",
         speed: "medium",
       },
       comicPanels: {
@@ -603,10 +635,8 @@ export const comicSplashRefactoredConfig = {
           align: "center",
           borderRadius: "20px",
           dropShadow: "0 2px 4px rgba(0,0,0,0.1)",
-          avatar: {
+          icon: {
             text: "",
-            size: "large",
-            backgroundColor: "transparent",
           },
           title: {
             text: "",
@@ -623,10 +653,8 @@ export const comicSplashRefactoredConfig = {
         },
         quotes: [
           {
-            avatar: {
+            icon: {
               text: "😄",
-              size: "large",
-              backgroundColor: "transparent",
             },
             title: {
               text: "This is AMAZING! Changed my life!",
@@ -642,10 +670,8 @@ export const comicSplashRefactoredConfig = {
             },
           },
           {
-            avatar: {
+            icon: {
               text: "🤩",
-              size: "large",
-              backgroundColor: "transparent",
             },
             title: {
               text: "SO MUCH FUN! Can't stop using it!",
@@ -661,10 +687,8 @@ export const comicSplashRefactoredConfig = {
             },
           },
           {
-            avatar: {
+            icon: {
               text: "🌟",
-              size: "large",
-              backgroundColor: "transparent",
             },
             title: {
               text: "My kids LOVE it! Five stars!",
@@ -691,110 +715,98 @@ export const comicSplashRefactoredConfig = {
         backgroundColor: "#4D96FF",
         padding: "80px 20px",
         maxWidth: "1000px",
-        align: "center",
         columns: 3,
         gap: "20px",
-        image: {
+        card: {
           backgroundColor: "#FFFFFF",
           padding: "10px",
           borderRadius: "8px",
-          dropShadow: "light",
+          borderWidth: "0",
+          borderColor: "transparent",
+          dropShadow: "0 2px 4px rgba(0,0,0,0.1)",
+          image: {
+            url: "",
+            alt: "",
+            objectFit: "cover",
+          },
         },
         images: [
           {
+            backgroundColor: "#FFFFFF",
+            padding: "10px",
+            borderRadius: "8px",
+            borderWidth: "0",
+            borderColor: "transparent",
+            dropShadow: "0 2px 4px rgba(0,0,0,0.1)",
             image: {
-              url: "",
+              url: "https://cdn.shopify.com/s/files/1/0657/3100/2634/files/Papier-peint-bande-dessinee-Pop-art-WOW-en-rouge_-jaune-et-bleu.jpg?v=1711491794",
               alt: "Fun Design 1",
-              fit: "cover",
-              aspectRatio: "square",
-            },
-            caption: {
-              text: "",
-              size: "0.875rem",
-              weight: "400",
-              color: "#2C1810",
-              textAlign: "center",
-              backgroundColor: "transparent",
+              objectFit: "cover",
             },
           },
           {
+            backgroundColor: "#FFFFFF",
+            padding: "10px",
+            borderRadius: "8px",
+            borderWidth: "0",
+            borderColor: "transparent",
+            dropShadow: "0 2px 4px rgba(0,0,0,0.1)",
             image: {
-              url: "",
+              url: "https://static.vecteezy.com/system/resources/previews/008/530/266/non_2x/pop-art-comic-background-free-vector.jpg",
               alt: "Fun Design 2",
-              fit: "cover",
-              aspectRatio: "square",
-            },
-            caption: {
-              text: "",
-              size: "0.875rem",
-              weight: "400",
-              color: "#2C1810",
-              textAlign: "center",
-              backgroundColor: "transparent",
+              objectFit: "cover",
             },
           },
           {
+            backgroundColor: "#FFFFFF",
+            padding: "10px",
+            borderRadius: "8px",
+            borderWidth: "0",
+            borderColor: "transparent",
+            dropShadow: "0 2px 4px rgba(0,0,0,0.1)",
             image: {
-              url: "",
+              url: "https://freevector-images.s3.amazonaws.com/uploads/vector/preview/124472/vecteezybackground-pop-art-backgroundAW0622_generated.jpg",
               alt: "Fun Design 3",
-              fit: "cover",
-              aspectRatio: "square",
-            },
-            caption: {
-              text: "",
-              size: "0.875rem",
-              weight: "400",
-              color: "#2C1810",
-              textAlign: "center",
-              backgroundColor: "transparent",
+              objectFit: "cover",
             },
           },
           {
+            backgroundColor: "#FFFFFF",
+            padding: "10px",
+            borderRadius: "8px",
+            borderWidth: "0",
+            borderColor: "transparent",
+            dropShadow: "0 2px 4px rgba(0,0,0,0.1)",
             image: {
-              url: "",
+              url: "https://thumbs.dreamstime.com/b/closeup-pop-art-comic-book-style-macro-photography-detailed-textures-vibrant-colors-retro-graphic-design-immerse-yourself-360475282.jpg",
               alt: "Fun Design 4",
-              fit: "cover",
-              aspectRatio: "square",
-            },
-            caption: {
-              text: "",
-              size: "0.875rem",
-              weight: "400",
-              color: "#2C1810",
-              textAlign: "center",
-              backgroundColor: "transparent",
+              objectFit: "cover",
             },
           },
           {
+            backgroundColor: "#FFFFFF",
+            padding: "10px",
+            borderRadius: "8px",
+            borderWidth: "0",
+            borderColor: "transparent",
+            dropShadow: "0 2px 4px rgba(0,0,0,0.1)",
             image: {
-              url: "",
+              url: "https://m.media-amazon.com/images/I/61jb-sN5xxL._AC_UF894,1000_QL80_.jpg",
               alt: "Fun Design 5",
-              fit: "cover",
-              aspectRatio: "square",
-            },
-            caption: {
-              text: "",
-              size: "0.875rem",
-              weight: "400",
-              color: "#2C1810",
-              textAlign: "center",
-              backgroundColor: "transparent",
+              objectFit: "cover",
             },
           },
           {
+            backgroundColor: "#FFFFFF",
+            padding: "10px",
+            borderRadius: "8px",
+            borderWidth: "0",
+            borderColor: "transparent",
+            dropShadow: "0 2px 4px rgba(0,0,0,0.1)",
             image: {
-              url: "",
+              url: "https://previews.123rf.com/images/pixander/pixander2305/pixander230550160/205105485-surprised-boy-in-pop-art-comic-style-vector-illustration.jpg",
               alt: "Fun Design 6",
-              fit: "cover",
-              aspectRatio: "square",
-            },
-            caption: {
-              text: "",
-              size: "0.875rem",
-              weight: "400",
-              color: "#2C1810",
-              textAlign: "center",
-              backgroundColor: "transparent",
+              objectFit: "cover",
             },
           },
         ],
@@ -828,6 +840,7 @@ export const comicSplashRefactoredConfig = {
           text: "© 2026 Comic Splash Co. • Made with 💖 and lots of fun!",
           size: "0.875rem",
           weight: "400",
+          style: "normal",
           decoration: "none",
           color: "#FFD93D",
         },
