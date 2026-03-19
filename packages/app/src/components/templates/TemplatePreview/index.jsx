@@ -1,20 +1,17 @@
 import "./index.scss";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 
 import PropTypes from "prop-types";
 import { useTranslation } from "react-i18next";
 
-import { LoadingIndicator } from "@/components";
 import { useIsVisible } from "@/hooks";
 import { fetchTemplatePreviewHTML } from "@/services/fakeAPIService";
 import { ErrorDisplay } from "@page-builder/ui";
 
 export const TemplatePreview = ({ template }) => {
   const { t } = useTranslation();
-  const iframeRef = useRef(null);
-  const iframeBackgroundRef = useRef(null);
-  const [isLoaded, setIsLoaded] = useState(false);
+  const [previewData, setPreviewData] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
 
@@ -25,12 +22,7 @@ export const TemplatePreview = ({ template }) => {
   });
 
   useEffect(() => {
-    if (
-      !isVisible ||
-      !iframeRef.current ||
-      !iframeBackgroundRef.current ||
-      !template?.id
-    ) {
+    if (!isVisible || !template?.id) {
       return;
     }
 
@@ -41,43 +33,12 @@ export const TemplatePreview = ({ template }) => {
       setError(null);
 
       try {
-        // Fetch rendered HTML from API
-        const htmlContent = await fetchTemplatePreviewHTML(template.id);
+        // Fetch preview data from API (mechanism kept for future integration)
+        const data = await fetchTemplatePreviewHTML(template.id);
 
         if (isCancelled) return;
 
-        // Inject HTML into both iframes
-        const injectHTML = (iframe, scale = 1) => {
-          const iframeDoc =
-            iframe.contentDocument || iframe.contentWindow.document;
-
-          // Modify HTML to apply scale if needed
-          let modifiedHTML = htmlContent;
-          if (scale !== 1) {
-            modifiedHTML = htmlContent.replace(
-              "<body>",
-              `<body style="transform: scale(${scale}); transform-origin: top left; width: ${100 / scale}%; height: ${100 / scale}%;">`,
-            );
-          }
-
-          iframeDoc.open();
-          iframeDoc.write(modifiedHTML);
-          iframeDoc.close();
-
-          return new Promise((resolve) => {
-            iframe.onload = resolve;
-          });
-        };
-
-        // Inject into both iframes with different scales
-        await Promise.all([
-          injectHTML(iframeBackgroundRef.current, 0.25), // Background (scaled down)
-          injectHTML(iframeRef.current, 0.25), // Main preview (scaled down)
-        ]);
-
-        if (!isCancelled) {
-          setIsLoaded(true);
-        }
+        setPreviewData(data);
       } catch (err) {
         if (!isCancelled) {
           console.error("Error loading template preview:", err);
@@ -100,29 +61,19 @@ export const TemplatePreview = ({ template }) => {
   return (
     <div
       ref={containerRef}
-      className={`template-preview ${!isLoaded ? "template-preview--loading" : ""} ${error ? "template-preview--error" : ""}`}
+      className={`template-preview ${isLoading ? "template-preview--loading" : ""} ${error ? "template-preview--error" : ""}`}
     >
       {isVisible ? (
         <>
-          {/* Blurred background iframe */}
-          <iframe
-            ref={iframeBackgroundRef}
-            className="template-preview__iframe-background"
-            title={`${template.name} background`}
-            sandbox="allow-same-origin"
-            loading="lazy"
-          />
-          {/* Main centered iframe */}
-          <iframe
-            ref={iframeRef}
-            className="template-preview__iframe"
-            title={`${template.name} preview`}
-            sandbox="allow-same-origin"
-            loading="lazy"
-          />
-          {(isLoading || !isLoaded) && !error && (
+          {previewData && (
+            <div className="template-preview__content">
+              <div className="template-preview__icon">{previewData.icon}</div>
+              <div className="template-preview__name">{previewData.name}</div>
+            </div>
+          )}
+          {isLoading && (
             <div className="template-preview__loader">
-              <LoadingIndicator size="small" />
+              <div className="template-preview__spinner"></div>
             </div>
           )}
           {error && (

@@ -1,32 +1,36 @@
+/**
+ * Comic Splash Template - Original Config (Reference)
+ *
+ * This is the ORIGINAL config kept for reference purposes.
+ * For production use, see comicSplash.config.js (refactored version).
+ *
+ * This file has been optimized to use genericSchemaBuilders while
+ * maintaining all original functionality.
+ */
+
 import {
   alignOptions,
-  borderRadiusOptions,
-  buttonSizeOptions,
-  cardContentSchema,
-  cardSchema,
-  cardTitleSchema,
-  color,
-  contentMaxWidthOptions,
-  dropShadowOptions,
   fontFamilyOptions,
-  footerPaddingOptions,
-  footerTextSizeOptions,
-  gapOptions,
-  headingSchema,
-  headingSizeOptions,
   languageOptions,
-  marqueePaddingOptions,
-  marqueeSpeedOptions,
-  sectionPaddingOptions,
-  sectionSchema,
-  slider,
   subtitleSizeOptions,
-  text,
-  textarea,
-  textDecorationOptions,
-  textSizeOptions,
-  weightOptions,
-} from "../utils/index.js";
+} from "../constants/index.js";
+import {
+  avatarProps,
+  buttonSchema,
+  cardSchema,
+  gridLayoutProps,
+  headingContentSchema,
+  imageProps,
+  layoutProps,
+  mergeSchemas,
+  sectionSchema,
+  spacingProps,
+  textContentSchema,
+  titleContentSchema,
+  typographyProps,
+  visualProps,
+} from "../utils/genericSchemaBuilders.js";
+import { color, text, textarea } from "./fieldBuilders.js";
 
 export const comicSplashConfig = {
   id: "comic-splash",
@@ -76,473 +80,107 @@ export const comicSplashConfig = {
       },
     },
     elements: {
-      hero: {
-        ...sectionSchema(),
-        maxWidth: {
-          type: "select",
-          label: "Max Width",
-          options: [
-            { value: "600px", label: "Small" },
-            { value: "800px", label: "Medium" },
-            { value: "1000px", label: "Large" },
-            { value: "100%", label: "Full" },
-          ],
-        },
-        title: {
-          text: text("Title"),
-          color: color("Title Color"),
-          size: {
-            type: "select",
-            label: "Title Size",
-            options: [
-              { value: "2rem", label: "Small" },
-              { value: "3rem", label: "Medium" },
-              { value: "4rem", label: "Large" },
-            ],
-          },
-        },
-        subtitle: {
-          text: textarea("Subtitle"),
-          color: color("Subtitle Color"),
+      hero: mergeSchemas(sectionSchema(), {
+        title: titleContentSchema(),
+        subtitle: mergeSchemas(textContentSchema("subtitle", true), {
           size: {
             type: "select",
             label: "Subtitle Size",
             options: subtitleSizeOptions,
           },
-        },
-        button: {
-          text: text("Button Text"),
-          color: color("Button Background Color"),
-          textColor: color("Button Text Color"),
-          size: {
-            type: "select",
-            label: "Button Size",
-            options: buttonSizeOptions,
-          },
-        },
-      },
-      marquee: {
+        }),
+        button: buttonSchema(),
+      }),
+      marquee: mergeSchemas(visualProps(), spacingProps(), {
         text: text("Marquee Text"),
-        backgroundColor: color("Background Color"),
         textColor: color("Text Color"),
-        padding: {
-          type: "select",
-          label: "Padding",
-          options: marqueePaddingOptions,
-        },
         speed: {
           type: "select",
           label: "Animation Speed",
-          options: marqueeSpeedOptions,
+          options: [
+            { value: "slow", label: "Slow" },
+            { value: "medium", label: "Medium" },
+            { value: "fast", label: "Fast" },
+          ],
         },
-      },
-      comicPanels: {
-        ...sectionSchema(),
-        columns: slider("Columns", 1, 6),
-        gap: {
-          type: "select",
-          label: "Gap Between Cards",
-          options: gapOptions,
-        },
-        heading: headingSchema(),
-        card: {
-          ...cardSchema(),
-          title: cardTitleSchema(),
-          content: cardContentSchema(),
-        },
+      }),
+      comicPanels: mergeSchemas(sectionSchema(), gridLayoutProps(6), {
+        heading: headingContentSchema(),
+        card: mergeSchemas(cardSchema(), {
+          title: titleContentSchema(),
+          content: textContentSchema("content", true),
+        }),
         panels: { type: "array", label: "Comic Panels" },
-      },
-      features: {
-        ...sectionSchema(),
-        columns: slider("Columns", 1, 6),
-        gap: {
-          type: "select",
-          label: "Gap Between Cards",
-          options: gapOptions,
-        },
-        heading: headingSchema(),
-        card: {
-          ...cardSchema(),
-          title: cardTitleSchema(),
-          content: cardContentSchema(),
-        },
+      }),
+      features: mergeSchemas(sectionSchema(), gridLayoutProps(6), {
+        heading: headingContentSchema(),
+        card: mergeSchemas(cardSchema(), {
+          title: titleContentSchema(),
+          content: textContentSchema("content", true),
+        }),
         items: { type: "array", label: "Features" },
-      },
-      stats: {
-        title: {
-          text: text("Title"),
-          size: {
-            type: "select",
-            label: "Title Size",
-            options: headingSizeOptions,
-          },
-          weight: {
-            type: "select",
-            label: "Title Weight",
-            options: weightOptions,
-          },
-          color: color("Title Color"),
-        },
-        ...sectionSchema(),
-        columns: slider("Columns", 1, 6),
-        gap: {
-          type: "select",
-          label: "Gap Between Cards",
-          options: gapOptions,
-        },
-        card: {
-          ...cardSchema(),
-          borderRadius: {
-            type: "select",
-            label: "Border Radius",
-            options: [
-              { value: "0", label: "None" },
-              ...borderRadiusOptions.slice(1),
-            ],
-          },
-          title: {
-            text: text("Title"),
-            size: {
-              type: "select",
-              label: "Title Size",
-              options: headingSizeOptions,
-            },
-            weight: {
-              type: "select",
-              label: "Title Weight",
-              options: weightOptions,
-            },
-            color: color("Title Color"),
-          },
-          content: {
-            text: textarea("Textarea"),
-            size: {
-              type: "select",
-              label: "Text Size",
-              options: textSizeOptions,
-            },
-            weight: {
-              type: "select",
-              label: "Text Weight",
-              options: weightOptions,
-            },
-            color: color("Text Color"),
-          },
-        },
+      }),
+      stats: mergeSchemas(sectionSchema(), gridLayoutProps(6), {
+        title: titleContentSchema(),
+        card: mergeSchemas(cardSchema(), {
+          title: titleContentSchema(),
+          content: textContentSchema("content", true),
+        }),
         items: { type: "array", label: "Stats" },
-      },
-      testimonials: {
-        title: {
-          text: text("Title"),
-          size: {
-            type: "select",
-            label: "Title Size",
-            options: headingSizeOptions,
-          },
-          weight: {
-            type: "select",
-            label: "Title Weight",
-            options: weightOptions,
-          },
-          color: color("Title Color"),
-        },
-        ...sectionSchema(),
-        columns: slider("Columns", 1, 4),
-        gap: {
-          type: "select",
-          label: "Gap Between Cards",
-          options: [
-            { value: "15px", label: "Small" },
-            { value: "20px", label: "Medium" },
-            { value: "30px", label: "Large" },
-          ],
-        },
-        card: {
-          backgroundColor: color("Background Color"),
-          padding: {
-            type: "select",
-            label: "Padding",
-            options: [
-              { value: "15px", label: "Small" },
-              { value: "25px", label: "Medium" },
-              { value: "35px", label: "Large" },
-            ],
-          },
-          align: { type: "select", label: "Alignment", options: alignOptions },
-          borderRadius: {
-            type: "select",
-            label: "Border Radius",
-            options: [
-              { value: "0", label: "None" },
-              ...borderRadiusOptions.slice(1),
-            ],
-          },
-          dropShadow: {
-            type: "select",
-            label: "Drop Shadow",
-            options: dropShadowOptions,
-          },
-          avatar: {
-            text: text("Avatar"),
-            size: {
-              type: "select",
-              label: "Size",
-              options: [
-                { value: "medium", label: "Medium" },
-                { value: "large", label: "Large" },
-                { value: "xlarge", label: "Extra Large" },
-              ],
-            },
-            backgroundColor: color("Background Color"),
-          },
-          title: {
-            text: textarea("Title"),
-            size: {
-              type: "select",
-              label: "Title Size",
-              options: [
-                { value: "0.875rem", label: "Small" },
-                { value: "1rem", label: "Medium" },
-                { value: "1.125rem", label: "Large" },
-              ],
-            },
-            weight: {
-              type: "select",
-              label: "Title Weight",
-              options: weightOptions,
-            },
-            color: color("Title Color"),
-          },
-          content: {
-            text: text("Textarea"),
-            size: {
-              type: "select",
-              label: "Text Size",
-              options: [
-                { value: "0.75rem", label: "Small" },
-                { value: "0.875rem", label: "Medium" },
-                { value: "1rem", label: "Large" },
-              ],
-            },
-            weight: {
-              type: "select",
-              label: "Text Weight",
-              options: weightOptions,
-            },
-            color: color("Text Color"),
-          },
-        },
+      }),
+      testimonials: mergeSchemas(sectionSchema(), gridLayoutProps(4), {
+        title: titleContentSchema(),
+        card: mergeSchemas(cardSchema(), {
+          avatar: avatarProps(),
+          title: textContentSchema("title", true),
+          content: textContentSchema("content", false),
+        }),
         quotes: { type: "array", label: "Testimonials" },
-      },
-      imageGrid: {
+      }),
+      imageGrid: mergeSchemas(sectionSchema(), gridLayoutProps(6), {
         label: "Image Grid",
-        heading: {
-          text: text("Heading"),
-          size: {
-            type: "select",
-            label: "Heading Size",
-            options: headingSizeOptions,
-          },
-          weight: {
-            type: "select",
-            label: "Heading Weight",
-            options: [
-              { value: "400", label: "Normal" },
-              { value: "600", label: "Semi Bold" },
-              { value: "700", label: "Bold" },
-            ],
-          },
-          color: color("Heading Color"),
-        },
-        ...sectionSchema(),
-        columns: slider("Columns", 1, 6),
-        gap: {
-          type: "select",
-          label: "Gap",
-          options: [
-            { value: "15px", label: "Small" },
-            { value: "20px", label: "Medium" },
-            { value: "30px", label: "Large" },
-          ],
-        },
-        // Template for individual image items (images.0)
-        image: {
-          // Card-level properties
-          backgroundColor: color("Card Background"),
-          padding: {
-            type: "select",
-            label: "Padding",
-            options: [
-              { value: "5px", label: "Small" },
-              { value: "10px", label: "Medium" },
-              { value: "15px", label: "Large" },
-            ],
-          },
-          borderRadius: {
-            type: "select",
-            label: "Border Radius",
-            options: [
-              { value: "0px", label: "None" },
-              { value: "8px", label: "Small" },
-              { value: "12px", label: "Medium" },
-              { value: "16px", label: "Large" },
-            ],
-          },
-          dropShadow: {
-            type: "select",
-            label: "Drop Shadow",
-            options: [
-              { value: "none", label: "None" },
-              { value: "light", label: "Light" },
-              { value: "medium", label: "Medium" },
-              { value: "heavy", label: "Heavy" },
-            ],
-          },
-          // Nested image properties (images.0.image)
-          image: {
-            url: text("Image URL"),
-            alt: text("Alt Text"),
-            fit: {
-              type: "select",
-              label: "Image Fit",
-              options: [
-                { value: "cover", label: "Cover" },
-                { value: "contain", label: "Contain" },
-                { value: "fill", label: "Fill" },
-              ],
-            },
-            aspectRatio: {
-              type: "select",
-              label: "Aspect Ratio",
-              options: [
-                { value: "square", label: "Square (1:1)" },
-                { value: "portrait", label: "Portrait (3:4)" },
-                { value: "landscape", label: "Landscape (16:9)" },
-              ],
-            },
-          },
-          // Nested caption properties (images.0.caption)
-          caption: {
+        heading: headingContentSchema(),
+        image: mergeSchemas(cardSchema(), {
+          image: imageProps(),
+          caption: mergeSchemas(typographyProps("text"), {
             text: textarea("Caption"),
-            size: {
-              type: "select",
-              label: "Size",
-              options: [
-                { value: "0.75rem", label: "Small" },
-                { value: "0.875rem", label: "Medium" },
-                { value: "1rem", label: "Large" },
-              ],
-            },
-            weight: {
-              type: "select",
-              label: "Weight",
-              options: [
-                { value: "400", label: "Normal" },
-                { value: "500", label: "Medium" },
-                { value: "600", label: "Semi Bold" },
-              ],
-            },
-            color: color("Color"),
             textAlign: {
               type: "select",
               label: "Text Align",
               options: alignOptions,
             },
             backgroundColor: color("Background"),
-          },
-        },
+          }),
+        }),
         images: { type: "array", label: "Images" },
-      },
-      cta: {
+      }),
+      cta: mergeSchemas(sectionSchema(), {
         label: "Call To Action",
-        title: {
-          text: text("Title"),
-          size: {
-            type: "select",
-            label: "Title Size",
-            options: [
-              { value: "2rem", label: "Small" },
-              { value: "3rem", label: "Medium" },
-              { value: "4rem", label: "Large" },
-            ],
-          },
-          weight: {
-            type: "select",
-            label: "Title Weight",
-            options: [
-              { value: "400", label: "Normal" },
-              { value: "500", label: "Medium" },
-              { value: "700", label: "Bold" },
-            ],
-          },
-          color: color("Title Color"),
-        },
-        subtitle: {
-          text: textarea("Subtitle"),
+        title: titleContentSchema(),
+        subtitle: mergeSchemas(textContentSchema("subtitle", true), {
           size: {
             type: "select",
             label: "Subtitle Size",
             options: subtitleSizeOptions,
           },
-          color: color("Subtitle Color"),
-        },
-        button: {
-          text: text("Button Text"),
-          url: text("Button URL"),
-          color: color("Button Background Color"),
-          textColor: color("Button Text Color"),
-          size: {
-            type: "select",
-            label: "Button Size",
-            options: buttonSizeOptions,
-          },
-        },
-        backgroundColor: color("Background Color"),
-        padding: {
-          type: "select",
-          label: "Padding",
-          options: sectionPaddingOptions,
-        },
-        maxWidth: {
-          type: "select",
-          label: "Max Width",
-          options: contentMaxWidthOptions,
-        },
-        align: { type: "select", label: "Alignment", options: alignOptions },
-      },
-      footer: {
+        }),
+        button: buttonSchema(),
+      }),
+      footer: mergeSchemas(visualProps(), spacingProps(), layoutProps(), {
         label: "Footer",
-        text: {
+        text: mergeSchemas(typographyProps("text"), {
           text: text("Text"),
-          size: {
-            type: "select",
-            label: "Text Size",
-            options: footerTextSizeOptions,
-          },
-          weight: {
-            type: "select",
-            label: "Text Weight",
-            options: [
-              { value: "400", label: "Normal" },
-              { value: "500", label: "Medium" },
-              { value: "700", label: "Bold" },
-            ],
-          },
           decoration: {
             type: "select",
             label: "Text Decoration",
-            options: textDecorationOptions,
+            options: [
+              { value: "none", label: "None" },
+              { value: "underline", label: "Underline" },
+              { value: "line-through", label: "Strike Through" },
+            ],
           },
-          color: color("Text Color"),
-        },
-        backgroundColor: color("Background Color"),
-        padding: {
-          type: "select",
-          label: "Padding",
-          options: footerPaddingOptions,
-        },
-        align: { type: "select", label: "Alignment", options: alignOptions },
-      },
+        }),
+      }),
     },
   },
 
