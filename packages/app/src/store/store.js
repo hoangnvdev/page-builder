@@ -17,10 +17,21 @@ const loadState = () => {
 
 const saveState = (state) => {
   try {
+    // Get the last committed config from history
+    const lastHistoryEntry =
+      state.builder.history?.past?.[state.builder.history.past.length - 1];
+
+    // Use last history entry's config if available, otherwise use current config
+    // This ensures we only save committed changes, not live updates
+    const configToSave = lastHistoryEntry
+      ? lastHistoryEntry.config
+      : state.builder.currentConfig;
+
     const stateToSave = {
       ...state,
       builder: {
         ...state.builder,
+        currentConfig: configToSave,
         selectedTemplate: state.builder.selectedTemplate
           ? {
               ...state.builder.selectedTemplate,
@@ -56,11 +67,23 @@ export const store = configureStore({
 });
 
 let saveTimeout;
+let previousHistoryLength = 0;
+
 store.subscribe(() => {
-  clearTimeout(saveTimeout);
-  saveTimeout = setTimeout(() => {
-    saveState(store.getState());
-  }, 1000);
+  const state = store.getState();
+  const currentHistoryLength =
+    (state.builder.history?.past?.length || 0) +
+    (state.builder.history?.future?.length || 0);
+
+  // Only save when history changes (new entry added or undo/redo)
+  if (currentHistoryLength !== previousHistoryLength) {
+    previousHistoryLength = currentHistoryLength;
+
+    clearTimeout(saveTimeout);
+    saveTimeout = setTimeout(() => {
+      saveState(store.getState());
+    }, 300); // Shorter debounce since we only save on history changes
+  }
 });
 
 window.addEventListener("beforeunload", () => {

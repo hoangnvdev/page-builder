@@ -2,7 +2,6 @@
 import './components/ErrorBoundary/index.scss';
 import './components/ErrorDisplay/index.scss';
 // Primitives (template building blocks)
-import './primitives/Avatar/index.scss';
 import './primitives/Badge/index.scss';
 import './primitives/Button/index.scss';
 import './primitives/Card/index.scss';

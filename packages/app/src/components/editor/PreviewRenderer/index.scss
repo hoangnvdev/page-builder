@@ -22,6 +22,35 @@
     position: relative;
     width: 100%;
     z-index: 1;
+
+    // Smooth transitions for all editable properties
+    * {
+      transition:
+        margin 0.3s ease,
+        padding 0.3s ease,
+        gap 0.3s ease,
+        width 0.3s ease,
+        height 0.3s ease,
+        max-width 0.3s ease,
+        min-width 0.3s ease,
+        max-height 0.3s ease,
+        min-height 0.3s ease,
+        font-size 0.3s ease,
+        line-height 0.3s ease,
+        letter-spacing 0.3s ease,
+        word-spacing 0.3s ease,
+        border-width 0.3s ease,
+        border-radius 0.3s ease,
+        border-color 0.3s ease,
+        background-color 0.3s ease,
+        background 0.3s ease,
+        color 0.3s ease,
+        opacity 0.3s ease,
+        box-shadow 0.3s ease,
+        text-shadow 0.3s ease,
+        text-align 0.3s ease,
+        transform 0.3s ease;
+    }
   }
 }
 

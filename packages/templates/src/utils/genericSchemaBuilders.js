@@ -20,8 +20,13 @@ import {
   textSizeOptions,
   titleSizeOptions,
   weightOptions,
-} from "../constants/index.js";
-import { color, slider, text, textarea } from "./fieldBuilders.js";
+} from '../constants/index.js';
+import {
+  color,
+  slider,
+  text,
+  textarea,
+} from './fieldBuilders.js';
 
 // ============================================
 // 1. CONTAINER PROPS (Layout & Box Model)
@@ -275,27 +280,8 @@ export const imagePropsForGrid = () => ({
 });
 
 /**
- * Avatar/Icon properties (small images)
+ * Avatar props removed - use iconProps() instead for icon-based elements
  */
-export const avatarProps = () => ({
-  url: text("imageUrl"),
-  size: {
-    type: "select",
-    label: "fontSize",
-    options: [
-      { value: "small", label: "small" },
-      { value: "medium", label: "medium" },
-      { value: "large", label: "large" },
-      { value: "xlarge", label: "xl" },
-    ],
-  },
-  borderRadius: {
-    type: "select",
-    label: "borderRadius",
-    options: borderRadiusOptions,
-  },
-  backgroundColor: color("backgroundColor"),
-});
 
 /**
  * Icon properties (emoji or text icon)

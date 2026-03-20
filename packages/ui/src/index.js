@@ -2,7 +2,6 @@
 export { default as ErrorBoundary } from './components/ErrorBoundary';
 export { ErrorDisplay } from './components/ErrorDisplay';
 // Primitives (template building blocks)
-export { Avatar } from './primitives/Avatar';
 export { Badge } from './primitives/Badge';
 export { Button } from './primitives/Button';
 export { Card } from './primitives/Card';

@@ -1,8 +1,8 @@
-import "./index.scss";
+import './index.scss';
 
-import { useCallback } from "react";
+import { useCallback } from 'react';
 
-import PropTypes from "prop-types";
+import PropTypes from 'prop-types';
 
 export const Link = ({
   children,
@@ -33,8 +33,8 @@ export const Link = ({
         if (e.defaultPrevented) return;
       }
 
-      // For internal anchors (smooth scroll)
-      if (href && href.startsWith("#")) {
+      // For internal anchors (smooth scroll) - but not just "#"
+      if (href && href.startsWith("#") && href.length > 1) {
         e.preventDefault();
         const element = document.querySelector(href);
         if (element) {
