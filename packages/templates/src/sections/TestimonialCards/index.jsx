@@ -1,9 +1,8 @@
-import "./index.scss";
+import './index.scss';
 
-import PropTypes from "prop-types";
+import PropTypes from 'prop-types';
 
 import {
-  Avatar,
   Card,
   Container,
   Flex,
@@ -11,9 +10,9 @@ import {
   Section,
   Text,
   Title,
-} from "@page-builder/ui";
+} from '@page-builder/ui';
 
-import { formatElementIdForDisplay } from "../../utils/elementHelpers";
+import { formatElementIdForDisplay } from '../../utils/elementHelpers';
 
 export const TestimonialCards = ({
   heading,
@@ -23,8 +22,8 @@ export const TestimonialCards = ({
   gap = 20,
   padding = "80px 20px",
   headingLevel = 2,
-  avatarSize = "large",
-  showAvatar = true,
+  iconSize = "2rem",
+  showIcon = true,
   maxWidth,
   dataElement,
   className = "",
@@ -64,18 +63,20 @@ export const TestimonialCards = ({
                   >
                     <Card.Content>
                       <Flex direction="column" gap={16}>
-                        {showAvatar && quote.avatar && (
-                          <Avatar
-                            className="testimonial-card__avatar"
-                            size={avatarSize}
-                            src={quote.avatarUrl}
-                            data-element={`${dataElement}.card-${index}.avatar`}
+                        {showIcon && quote.icon && (
+                          <Text
+                            className="testimonial-card__icon"
+                            style={{
+                              fontSize: iconSize,
+                              lineHeight: 1,
+                            }}
+                            data-element={`${dataElement}.card-${index}.icon`}
                             data-element-label={formatElementIdForDisplay(
-                              `${dataElement}.card-${index}.avatar`,
+                              `${dataElement}.card-${index}.icon`,
                             )}
                           >
-                            {quote.avatar}
-                          </Avatar>
+                            {quote.icon}
+                          </Text>
                         )}
                         <Text
                           className="testimonial-card__text"

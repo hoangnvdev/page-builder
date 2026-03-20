@@ -4,14 +4,14 @@ import {
   useContext,
   useMemo,
   useState,
-} from "react";
+} from 'react';
 
-import PropTypes from "prop-types";
+import PropTypes from 'prop-types';
 
-import { ConfirmDialog } from "@/components";
-import { generateModalId } from "@/utils";
+import { ConfirmDialog } from '@/components';
+import { generateModalId } from '@/utils';
 
-const ModalContext = createContext(undefined);
+const ModalContext = createContext(null);
 
 export const ModalProvider = ({ children }) => {
   const [confirmDialog, setConfirmDialog] = useState({
@@ -144,7 +144,7 @@ ModalProvider.propTypes = {
 
 export const useModal = () => {
   const context = useContext(ModalContext);
-  if (context === undefined) {
+  if (!context) {
     throw new Error("useModal must be used within a ModalProvider");
   }
   return context;

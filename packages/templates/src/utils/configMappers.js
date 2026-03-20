@@ -17,6 +17,15 @@ export const mapAlignToFlex = (align) => {
   return alignMap[align] || align;
 };
 
+export const mapFlexToTextAlign = (align) => {
+  const alignMap = {
+    "flex-start": "left",
+    center: "center",
+    "flex-end": "right",
+  };
+  return alignMap[align] || align;
+};
+
 export const mapSpeedToDuration = (speed) => {
   const speedMap = {
     slow: "30s",
@@ -89,8 +98,7 @@ export const mapCardContentProps = (config) => ({
   cardContentSize: config.card?.content?.size,
   cardContentWeight: config.card?.content?.weight,
   cardContentColor: config.card?.content?.color,
-  cardAvatarSize: config.card?.avatar?.size,
-  cardAvatarBackgroundColor: config.card?.avatar?.backgroundColor,
+  cardIconSize: config.card?.icon?.size,
 });
 
 export const unwrapNestedObjects = (obj) => {
@@ -107,7 +115,6 @@ export const unwrapNestedObjects = (obj) => {
           "text",
           "icon",
           "button",
-          "avatar",
           "caption",
           "label",
           "description",
@@ -135,6 +142,7 @@ export const unwrapArrayItems = (items, propsToUnwrap = []) => {
 
       if (propValue && typeof propValue === "object") {
         if ("text" in propValue) {
+          // Has text property - unwrap it
           unwrapped[propName] = propValue.text;
 
           Object.keys(propValue).forEach((key) => {
@@ -143,6 +151,15 @@ export const unwrapArrayItems = (items, propsToUnwrap = []) => {
                 propName + key.charAt(0).toUpperCase() + key.slice(1);
               unwrapped[capitalizedKey] = propValue[key];
             }
+          });
+        } else {
+          // Object without text (e.g., {size: "1rem"}) - use empty string and flatten properties
+          unwrapped[propName] = "";
+
+          Object.keys(propValue).forEach((key) => {
+            const capitalizedKey =
+              propName + key.charAt(0).toUpperCase() + key.slice(1);
+            unwrapped[capitalizedKey] = propValue[key];
           });
         }
       }

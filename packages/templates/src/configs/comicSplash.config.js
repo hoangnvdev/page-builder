@@ -1,4 +1,7 @@
-import { slider, text } from "../utils/fieldBuilders.js";
+import {
+  slider,
+  text,
+} from '../utils/fieldBuilders.js';
 import {
   arrayField,
   buttonSchema,
@@ -13,8 +16,8 @@ import {
   textContentPropsEnhanced,
   textContentSchema,
   titleContentSchema,
-} from "../utils/genericSchemaBuilders.js";
-import { fontFamilyOptions } from "../utils/index.js";
+} from '../utils/genericSchemaBuilders.js';
+import { fontFamilyOptions } from '../utils/index.js';
 
 export const comicSplashRefactoredConfig = {
   id: "comic-splash-refactored",
@@ -116,7 +119,7 @@ export const comicSplashRefactoredConfig = {
         {
           heading: headingContentSchema(),
           card: mergeSchemas(cardSchema(), {
-            icon: text("icon"), // emoji or icon identifier
+            icon: iconProps(),
             title: titleContentSchema(),
             content: textContentSchema("text", true),
           }),
@@ -176,7 +179,7 @@ export const comicSplashRefactoredConfig = {
           title: headingContentSchema(),
           card: mergeSchemas(cardSchema(), {
             icon: iconProps(),
-            title: textContentSchema("text", true),
+            title: titleContentSchema(),
             content: textContentSchema("text"),
           }),
           quotes: arrayField("items"),
@@ -464,7 +467,9 @@ export const comicSplashRefactoredConfig = {
         },
         items: [
           {
-            icon: "🎨",
+            icon: {
+              text: "🎨",
+            },
             backgroundColor: "transparent",
             padding: "20px",
             align: "center",
@@ -484,7 +489,9 @@ export const comicSplashRefactoredConfig = {
             },
           },
           {
-            icon: "⚡",
+            icon: {
+              text: "⚡",
+            },
             backgroundColor: "transparent",
             padding: "20px",
             align: "center",
@@ -504,7 +511,9 @@ export const comicSplashRefactoredConfig = {
             },
           },
           {
-            icon: "🎪",
+            icon: {
+              text: "🎪",
+            },
             backgroundColor: "transparent",
             padding: "20px",
             align: "center",

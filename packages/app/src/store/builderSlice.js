@@ -1,7 +1,7 @@
-import { generateHistoryId } from "@/utils";
-import { createSlice } from "@reduxjs/toolkit";
+import { generateHistoryId } from '@/utils';
+import { createSlice } from '@reduxjs/toolkit';
 
-const MAX_HISTORY_SIZE = 50;
+const MAX_HISTORY_SIZE = 150;
 
 const initialState = {
   selectedTemplate: null,

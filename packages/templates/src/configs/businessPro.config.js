@@ -1,27 +1,25 @@
-/**
- * Business Pro Template - Refactored with Generic Schema Builders
- *
- * Professional business & portfolio combination with:
- * - Container props for sections
- * - Content props for typography
- * - Composite schemas for reusable patterns
- */
-
-import { color, slider, text, textarea } from "../utils/fieldBuilders.js";
+import {
+  color,
+  slider,
+  text,
+} from '../utils/fieldBuilders.js';
 import {
   arrayField,
   buttonSchema,
   cardSchema,
   headingContentSchema,
-  linkSchema,
   logoFieldComplete,
   mergeSchemas,
   sectionSchema,
   textContentPropsEnhanced,
   textContentSchema,
   titleContentSchema,
-} from "../utils/genericSchemaBuilders.js";
-import { footerPaddingOptions, footerTextSizeOptions } from "../utils/index.js";
+  typographyProps,
+} from '../utils/genericSchemaBuilders.js';
+import {
+  footerPaddingOptions,
+  footerTextSizeOptions,
+} from '../utils/index.js';
 
 export const businessProRefactoredConfig = {
   id: "business-pro-refactored",
@@ -102,7 +100,11 @@ export const businessProRefactoredConfig = {
           logo: logoFieldComplete(),
           logoColor: color("logoColor"),
           linkColor: color("linkColor"),
-          link: linkSchema(),
+          link: mergeSchemas({
+            text: text("linkText"),
+            href: text("linkUrl"),
+            ...typographyProps("text"),
+          }),
           links: arrayField("links"),
           gap: {
             type: "select",
@@ -131,7 +133,13 @@ export const businessProRefactoredConfig = {
       hero: mergeSchemas(sectionSchema(), {
         gradientStart: color("gradientStart"),
         gradientEnd: color("gradientEnd"),
-        gradientAngle: text("gradientAngle"),
+        gradientAngle: {
+          type: "slider",
+          label: "gradientAngle",
+          min: -180,
+          max: 180,
+          step: 5,
+        },
         title: titleContentSchema(),
         subtitle: textContentSchema("text", true),
         button: buttonSchema(),
@@ -179,12 +187,8 @@ export const businessProRefactoredConfig = {
           heading: headingContentSchema(),
           card: mergeSchemas(cardSchema(), {
             icon: text("icon"),
-            title: mergeSchemas(titleContentSchema(), {
-              text: text("title"),
-            }),
-            content: mergeSchemas(textContentSchema("text", true), {
-              text: textarea("description"),
-            }),
+            title: titleContentSchema(),
+            content: textContentSchema("text", true),
           }),
           items: arrayField("items"),
         },
@@ -212,12 +216,8 @@ export const businessProRefactoredConfig = {
         {
           heading: headingContentSchema(),
           card: mergeSchemas(cardSchema(), {
-            title: mergeSchemas(titleContentSchema(), {
-              text: text("title"),
-            }),
-            content: mergeSchemas(textContentSchema("text", true), {
-              text: textarea("description"),
-            }),
+            title: titleContentSchema(),
+            content: textContentSchema("text", true),
           }),
           items: arrayField("items"),
         },
@@ -341,7 +341,7 @@ export const businessProRefactoredConfig = {
         align: "center",
         gradientStart: "#6366f1",
         gradientEnd: "#8b5cf6",
-        gradientAngle: "135deg",
+        gradientAngle: 45,
         title: {
           text: "Transform Your Vision Into Digital Excellence",
           color: "#ffffff",
@@ -404,19 +404,17 @@ export const businessProRefactoredConfig = {
           dropShadow: "none",
           borderColor: "#e2e8f0",
           borderWidth: "1px",
+          icon: "",
           title: {
-            text: "",
             color: "#0f172a",
             size: "1.5rem",
             weight: "700",
           },
           content: {
-            text: "",
             color: "#64748b",
             size: "1rem",
             weight: "400",
           },
-          icon: "",
         },
         items: [
           {
@@ -462,13 +460,11 @@ export const businessProRefactoredConfig = {
           borderColor: "#e2e8f0",
           borderWidth: "1px",
           title: {
-            text: "",
             color: "#0f172a",
             size: "1.5rem",
             weight: "700",
           },
           content: {
-            text: "",
             color: "#64748b",
             size: "1rem",
             weight: "400",

@@ -1,23 +1,24 @@
-import React from "react";
+import React from 'react';
 
-import { CallToAction } from "../sections/CallToAction";
-import { ComicPanels } from "../sections/ComicPanels";
-import { ContentSection } from "../sections/ContentSection";
-import { Footer } from "../sections/Footer";
-import { Header } from "../sections/Header";
-import { Hero } from "../sections/Hero";
-import { ImageGrid } from "../sections/ImageGrid";
-import { ItemGrid } from "../sections/ItemGrid";
-import { Marquee } from "../sections/Marquee";
-import { SpeechBubbleTestimonials } from "../sections/SpeechBubbleTestimonials";
-import { StatsCounter } from "../sections/StatsCounter";
-import { Terminal } from "../sections/Terminal";
-import { TestimonialCards } from "../sections/TestimonialCards";
+import { CallToAction } from '../sections/CallToAction';
+import { ComicPanels } from '../sections/ComicPanels';
+import { ContentSection } from '../sections/ContentSection';
+import { Footer } from '../sections/Footer';
+import { Header } from '../sections/Header';
+import { Hero } from '../sections/Hero';
+import { ImageGrid } from '../sections/ImageGrid';
+import { ItemGrid } from '../sections/ItemGrid';
+import { Marquee } from '../sections/Marquee';
+import { SpeechBubbleTestimonials } from '../sections/SpeechBubbleTestimonials';
+import { StatsCounter } from '../sections/StatsCounter';
+import { Terminal } from '../sections/Terminal';
+import { TestimonialCards } from '../sections/TestimonialCards';
 import {
   mapAlignToFlex,
   mapButtonProps,
   mapCardContentProps,
   mapCardProps,
+  mapFlexToTextAlign,
   mapHeadingProps,
   mapLevel,
   mapSectionProps,
@@ -26,7 +27,7 @@ import {
   unwrapArrayItems,
   unwrapNestedObjects,
   unwrapText,
-} from "../utils/configMappers";
+} from '../utils/configMappers';
 
 export const componentRegistry = {
   header: {
@@ -83,7 +84,12 @@ export const componentRegistry = {
       ...mapSectionProps(config),
       ...mapCardProps(config),
       ...mapCardContentProps(config),
-      items: unwrapArrayItems(config.items, ["title", "content"]),
+      items: unwrapArrayItems(config.items, [
+        "title",
+        "content",
+        "description",
+        "icon",
+      ]),
       columns: config.columns,
       renderItem: config.renderItem,
     }),
@@ -136,7 +142,7 @@ export const componentRegistry = {
       ...mapSectionProps(config),
       textStyle: config.text?.style,
       textDecoration: config.text?.decoration,
-      textAlign: config.align,
+      textAlign: mapFlexToTextAlign(config.align),
       flexAlign: mapAlignToFlex(config.align),
       links: config.links,
     }),
@@ -169,7 +175,7 @@ export const componentRegistry = {
   },
   testimonials: {
     component: (props) => {
-      const hasIcon = props.quotes?.[0]?.icon || props.quotes?.[0]?.avatar;
+      const hasIcon = props.quotes?.[0]?.icon;
       const Component = hasIcon ? SpeechBubbleTestimonials : TestimonialCards;
       return React.createElement(Component, props);
     },
@@ -178,12 +184,7 @@ export const componentRegistry = {
       ...mapSectionProps(config),
       ...mapCardProps(config),
       ...mapCardContentProps(config),
-      quotes: unwrapArrayItems(config.quotes, [
-        "title",
-        "content",
-        "icon",
-        "avatar",
-      ]),
+      quotes: unwrapArrayItems(config.quotes, ["title", "content", "icon"]),
       columns: config.columns,
       cardAlign: mapAlignToFlex(config.card?.align),
     }),
