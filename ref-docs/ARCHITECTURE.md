@@ -1,6 +1,6 @@
 # System Architecture
 
-**Last Updated**: March 15, 2026
+**Last Updated**: March 20, 2026
 
 ## Overview
 
@@ -12,10 +12,10 @@ Page Builder follows a monorepo architecture with three distinct packages that w
 
 **Benefits**:
 
-- **Shared dependencies**: Single source of truth for versions
+- **Shared dependencies**: Single source of truth for versions via pnpm workspaces
 - **Atomic changes**: Update multiple packages in one commit
-- **Code sharing**: Easy cross-package imports
-- **Simplified tooling**: One build pipeline
+- **Code sharing**: Easy cross-package imports via workspace protocol
+- **Simplified tooling**: One build pipeline with Vite
 - **Better collaboration**: All code in one repository
 
 **Structure**:
@@ -23,10 +23,12 @@ Page Builder follows a monorepo architecture with three distinct packages that w
 ```
 page-builder/
 ├── packages/
-│   ├── ui/           # Independent component library
-│   ├── templates/    # Depends on ui
-│   └── app/          # Depends on ui + templates
-└── pnpm-workspace.yaml
+│   ├── ui/           # Independent component library (27 components)
+│   ├── templates/    # Depends on ui (14 sections, 4 templates)
+│   └── app/          # Depends on ui + templates (34 components)
+├── ref-docs/         # Reference documentation
+├── pnpm-workspace.yaml
+└── netlify.toml      # Deployment config
 ```
 
 ### 2. Layered Architecture
@@ -36,18 +38,32 @@ page-builder/
 │         Application Layer               │
 │    (User Interface & Interactions)      │
 │         packages/app                    │
+│  - Visual Editor (PropertyPanel)        │
+│  - Redux Store (builderSlice)           │
+│  - HTML Export (exportHTML.jsx)         │
+│  - Routing (React Router)               │
+│  - i18n (centralized instance)          │
 └─────────────────┬───────────────────────┘
                   │
 ┌─────────────────┴───────────────────────┐
 │       Business Logic Layer              │
 │   (Templates, Rendering, Export)        │
 │       packages/templates                │
+│  - 4 Templates (Business, Comic, etc.)  │
+│  - 14 Section Components                │
+│  - DynamicRenderer                      │
+│  - Component Registry                   │
+│  - Prop Mappers                         │
 └─────────────────┬───────────────────────┘
                   │
 ┌─────────────────┴───────────────────────┐
 │      Presentation Layer                 │
 │   (UI Components & Styling)             │
 │         packages/ui                     │
+│  - 27 Primitive Components              │
+│  - ErrorBoundary (shared)               │
+│  - Design Tokens (_variables.scss)      │
+│  - i18n (4 languages)                   │
 └─────────────────────────────────────────┘
 ```
 

@@ -13,7 +13,7 @@ The Page Builder app uses **Redux Toolkit** for centralized state management. Th
 
 The Redux store is configured with localStorage persistence and debouncing for optimal performance.
 
-```javascript
+````javascript
 // store/store.js
 import { configureStore } from "@reduxjs/toolkit";
 import builderReducer from "./builderSlice";
@@ -47,6 +47,57 @@ const saveState = (state) => {
     };
     const serializedState = JSON.stringify(stateToSave);
     localStorage.setItem("builderState", serializedState);
+# State Management Guide
+
+**Package**: @page-builder/app
+**Last Updated**: March 20, 2026
+
+## Overview
+
+The Page Builder app uses **Redux Toolkit** for centralized state management. This guide covers the Redux architecture, slice design, persistence strategy, and best practices.
+
+## Redux Store Architecture
+
+### Store Configuration
+
+The Redux store is configured with localStorage persistence and debouncing for optimal performance.
+
+**Location**: `packages/app/src/store/store.js`
+
+```javascript
+// store/store.js
+import { configureStore } from "@reduxjs/toolkit";
+import builderReducer from "./builderSlice";
+
+const loadState = () => {
+  try {
+    const serializedState = localStorage.getItem("builderState");
+    if (serializedState === null) {
+      return undefined;
+    }
+    return JSON.parse(serializedState);
+  } catch (err) {
+    console.error("Failed to load state from localStorage:", err);
+    return undefined;
+  }
+};
+
+const saveState = (state) => {
+  try {
+    const stateToSave = {
+      ...state,
+      builder: {
+        ...state.builder,
+        selectedTemplate: state.builder.selectedTemplate
+          ? {
+              ...state.builder.selectedTemplate,
+              component: undefined, // Exclude React component from serialization
+            }
+          : null,
+      },
+    };
+    const serializedState = JSON.stringify(stateToSave);
+    localStorage.setItem("builderState", serializedState);
   } catch (err) {
     console.error("Failed to save state to localStorage:", err);
   }
@@ -71,27 +122,31 @@ export const store = configureStore({
     }),
 });
 
-// Debounced persistence (saves after 1s of inactivity)
-let saveTimeout;
+// Debounced persistence - saves when history changes
+let lastHistoryLength = 0;
 store.subscribe(() => {
-  clearTimeout(saveTimeout);
-  saveTimeout = setTimeout(() => {
-    saveState(store.getState());
-  }, 1000);
+  const state = store.getState();
+  const currentHistoryLength = state.builder.history.past.length;
+
+  // Only save when history length changes (committed actions)
+  if (currentHistoryLength !== lastHistoryLength) {
+    saveState(state);
+    lastHistoryLength = currentHistoryLength;
+  }
 });
 
 // Save immediately on page close
 window.addEventListener("beforeunload", () => {
-  clearTimeout(saveTimeout);
   saveState(store.getState());
 });
-```
+````
 
 **Persistence Strategy:**
 
-- State automatically saves to localStorage after 1 second of inactivity
+- State saves to localStorage only when history changes (committed actions)
+- Live updates (updateConfigLive) don't trigger saves
 - Immediate save on page close (`beforeunload`) to prevent data loss
-- Component property excluded from serialization to avoid errors
+- React component excluded from serialization to avoid errors
 - State automatically rehydrates on page load
 
 ### Store Provider
@@ -108,9 +163,22 @@ ReactDOM.createRoot(document.getElementById("root")).render(
 );
 ```
 
+import { Provider } from "react-redux";
+import { store } from "./store/store";
+
+ReactDOM.createRoot(document.getElementById("root")).render(
+<Provider store={store}>
+<App />
+</Provider>,
+);
+
+````
+
 ## Builder Slice
 
 The main state management for the page builder.
+
+**Location**: `packages/app/src/store/builderSlice.js`
 
 ### State Shape
 
@@ -119,35 +187,85 @@ The main state management for the page builder.
   builder: {
     // Selected Template
     selectedTemplate: {
-      id: 'businessPro',
+      id: 'business-pro-refactored',
       name: 'Business Pro',
-      description: '...',
+      description: 'Professional corporate landing page',
+      icon: '💼',
       component: ReactComponent, // Not serialized to localStorage
-      defaultConfig: { page: {...}, elements: {...} }
+      layout: ['header', 'hero', 'about', 'features', 'projects', 'cta', 'footer'],
+      defaultConfig: { page: {...}, elements: {...} },
+      configSchema: { page: {...}, elements: {...} }
     },
 
     // Current Configuration
     currentConfig: {
       page: {
-        title: 'My Page',
-        description: '...',
-        // ... other page settings
+        title: 'My Awesome Website',
+        fontFamily: 'system-ui, -apple-system, sans-serif',
+        backgroundColor: '#ffffff',
+        textColor: '#000000'
       },
       elements: {
-        header: { ... },
-        hero: { ... },
-        // ... other elements
+        hero: {
+          backgroundColor: '#1e40af',
+          title: { text: 'Welcome', color: '#ffffff', fontSize: '3.5rem' },
+          subtitle: { text: 'Build amazing sites', color: '#e0e0e0' },
+          button: { text: 'Get Started', href: '#features', variant: 'primary' }
+        },
+        features: {
+          backgroundColor: '#f3f4f6',
+          heading: { text: 'Amazing Features', color: '#1f2937' },
+          items: [
+            { icon: 'Zap', title: 'Fast', description: 'Lightning fast performance' },
+            // ... more items
+          ],
+          columns: 3,
+          gap: '2rem'
+        },
+        // ... all sections defined in layout
       }
     },
 
-    // Undo/Redo History (max 50 states)
+    // History Management
     history: {
-      past: [config1, config2, ...], // Previous states
-      future: [config3, config4, ...], // Redo states
+      past: [
+        {
+          id: 'uuid-1',
+          config: { page: {...}, elements: {...} },
+          timestamp: 1710950400000,
+          action: 'Update hero title',
+          elementId: 'hero'
+        },
+        // ... up to 150 entries
+      ],
+      future: [] // For redo functionality
     }
   }
 }
-```
+````
+
+### Key Features
+
+1.  **Template Selection**: Stores full template metadata including component reference
+2.  **Current Config**: Live configuration being edited by user
+3.  **History Management**: Full undo/redo with 150-action buffer
+4.  **Component Exclusion**: React component excluded from localStorage serialization
+    header: { ... },
+    hero: { ... },
+    // ... other elements
+    }
+    },
+
+        // Undo/Redo History (max 50 states)
+        history: {
+          past: [config1, config2, ...], // Previous states
+          future: [config3, config4, ...], // Redo states
+        }
+
+    }
+    }
+
+````
 
 ### Slice Implementation
 
@@ -344,7 +462,7 @@ export const {
 } = builderSlice.actions;
 
 export default builderSlice.reducer;
-```
+````
 
 ## Actions Reference
 

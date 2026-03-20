@@ -1,12 +1,15 @@
 # ErrorBoundary Architecture Documentation
 
+**Last Updated**: March 20, 2026
+
 ## Overview
 
-This document details the unified ErrorBoundary architecture implemented across the page-builder application. The ErrorBoundary has been refactored into a single, shared component in the `@page-builder/ui` package, eliminating code duplication and providing consistent error handling across all packages.
+This document details the unified ErrorBoundary architecture implemented across the page-builder application. The ErrorBoundary is a single, shared component in the `@page-builder/ui` package, providing consistent error handling across all packages with three display modes.
 
 **Date Completed**: March 17, 2026
 **Location**: `packages/ui/src/components/ErrorBoundary/`
-**Migration Impact**: `app` and `templates` packages
+**Impact**: Used in `app` and `templates` packages
+**Display Modes**: page, component, inline
 
 ---
 

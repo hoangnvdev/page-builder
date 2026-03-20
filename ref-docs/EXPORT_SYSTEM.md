@@ -1,11 +1,12 @@
 # HTML Export System
 
 **Package**: @page-builder/app
-**Last Updated**: March 15, 2026
+**Last Updated**: March 20, 2026
+**Location**: `packages/app/src/utils/exportHTML.jsx`
 
 ## Overview
 
-The HTML export system converts the current builder state (sections, theme, content) into production-ready static HTML files that can be deployed anywhere.
+The HTML export system converts the current builder state (template + configuration) into production-ready static HTML files with inlined CSS that can be deployed anywhere without dependencies.
 
 ## Architecture
 

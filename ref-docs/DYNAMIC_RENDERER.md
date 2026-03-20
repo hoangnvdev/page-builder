@@ -1,8 +1,11 @@
 # Dynamic Template Renderer
 
+**Last Updated**: March 20, 2026
+**Location**: `packages/templates/src/sections/DynamicRenderer/`
+
 ## Overview
 
-The dynamic renderer system allows you to create page templates dynamically from configuration objects without writing hardcoded JSX. The system reads a template configuration and recursively constructs the page by mapping config elements to their corresponding React components.
+The dynamic renderer system creates page templates from configuration objects without hardcoded JSX. It reads template configurations and constructs pages by mapping element types to React components with prop transformation.
 
 ## Architecture
 

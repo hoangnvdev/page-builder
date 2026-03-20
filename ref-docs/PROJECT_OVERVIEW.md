@@ -1,19 +1,19 @@
 # Page Builder - Project Overview
 
-**Last Updated**: March 15, 2026
+**Last Updated**: March 20, 2026
 
 ## Executive Summary
 
-Page Builder is a modern, high-performance web application that enables non-technical users to create professional static websites through a visual, drag-and-drop interface. Built as a monorepo using React, Redux Toolkit, and Vite, it emphasizes performance, extensibility, and developer experience.
+Page Builder is a modern, high-performance web application that enables users to create professional static websites through a visual editor interface. Built as a monorepo using React 18, Redux Toolkit, and Vite 8, it emphasizes performance, extensibility, and developer experience.
 
 ## Vision & Goals
 
 ### Primary Objectives
 
-1. **Accessibility**: Enable non-technical users to create professional websites
+1. **Accessibility**: Enable users to create professional websites without coding
 2. **Performance**: Deliver fast, optimized builds and runtime performance
 3. **Extensibility**: Support easy addition of new templates and components
-4. **Quality**: Export production-ready, standards-compliant HTML
+4. **Quality**: Export production-ready, standards-compliant HTML with inlined CSS
 
 ### Target Users
 
@@ -21,6 +21,7 @@ Page Builder is a modern, high-performance web application that enables non-tech
 - **Small Business Owners**: Local businesses needing web presence
 - **Designers**: Visual designers without coding experience
 - **Marketers**: Marketing professionals creating landing pages
+- **Agencies**: Digital agencies building client sites quickly
 
 ## Project Architecture
 
@@ -31,10 +32,11 @@ page-builder/
 ├── packages/
 │   ├── app/              # Main application (React + Redux)
 │   ├── templates/        # Template library (config-driven)
-│   └── ui/              # Component library (reusable UI)
-├── examples/            # Example implementations
-├── doc/                 # Project-wide documentation (NOT in git)
-└── netlify.toml         # Deployment configuration
+│   └── ui/               # Component library (reusable UI)
+├── ref-docs/             # Reference documentation
+├── scripts/              # Build and utility scripts
+├── .github/              # GitHub Actions CI/CD
+└── netlify.toml          # Deployment configuration
 ```
 
 ### Package Responsibilities
@@ -43,39 +45,52 @@ page-builder/
 
 **Role**: User-facing application
 
-- Visual editor interface
-- Template selection and preview
-- State management (Redux)
-- HTML export functionality
-- Routing and navigation
+- Visual editor interface with PropertyPanel
+- Template selection and gallery
+- State management (Redux Toolkit with localStorage persistence)
+- HTML export functionality (ReactDOMServer + CSS extraction)
+- Routing and navigation (React Router with lazy loading)
+- Centralized i18n instance (4 languages: en, vi, ja, ar)
+- History management (undo/redo with 150-action buffer)
+- Error boundaries at multiple levels
 
-**Dependencies**: ui, templates
+**Component Count**: 34 components in 7 categories
+**Dependencies**: `@page-builder/ui`, `@page-builder/templates`
 
 #### @page-builder/templates
 
-**Role**: Template system
+**Role**: Template system and business logic
 
-- Pre-built template configurations
-- Template component library (18+ sections)
-- Dynamic rendering engine
-- Component registry
-- HOC decorators for shared behavior
+- 4 pre-built template configurations:
+  - Business Pro (professional corporate)
+  - Comic Splash (playful cartoon)
+  - Futuristic Tech (cyberpunk/sci-fi)
+  - Refined Classic (elegant sophistication)
+- 14 template section components (Hero, Footer, Features, Terminal, etc.)
+- Dynamic rendering engine (DynamicRenderer)
+- Component registry with prop mapping
+- Config-driven architecture (templates = data, not code)
 
-**Dependencies**: ui
+**Component Count**: 14 sections
+**Dependencies**: `@page-builder/ui`
 
 #### @page-builder/ui
 
 **Role**: Foundation component library
 
-- 15 template primitives (Grid, Flex, Container, Button, Card, Badge, etc.)
-- 2 shared utilities (ErrorBoundary, ErrorDisplay)
-- Layout building blocks for templates
-- Display components for template sections
-- Consistent styling with SCSS modules
+- **27 primitive components**:
+  - Layout: Container, Flex, Grid, Section, Spacer
+  - Typography: Title, Subtitle, Text, Link
+  - Interactive: Button, Input, Textarea, Select, Checkbox, Toggle, ColorPicker
+  - Display: Card, Badge, Icon, Image, Logo, Divider
+  - Feedback: ErrorBoundary, Loader, Toast
+  - Utility: Portal, Tooltip
+- Centralized design tokens in `_variables.scss`
+- SCSS modules for scoped styling
+- i18n support for 4 languages
+- Shared ErrorBoundary with 3 display modes
 
 **Dependencies**: None (leaf package)
-
-**Note**: Form controls and editor-specific components moved to app package
 
 ### Dependency Graph
 
@@ -83,6 +98,7 @@ page-builder/
 ┌─────────────────┐
 │ @page-builder/  │
 │      app        │
+│   (34 comp)     │
 └────────┬────────┘
          │
     ┌────┴─────┐
@@ -90,6 +106,7 @@ page-builder/
     ▼          ▼
 ┌────────┐ ┌──────────────┐
 │   ui   │ │  templates   │
+│(27 c.) │ │  (14 sec)    │
 └────────┘ └──────┬───────┘
                │
                ▼

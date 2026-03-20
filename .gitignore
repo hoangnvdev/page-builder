@@ -34,11 +34,4 @@ yarn-error.log*
 # storybook
 storybook-static/
 
-# # Documentation (working files - keep local only)
-# packages/templates/src/docs/
-# docs/
-# /docs/
-# packages/*/docs/
-# packages/app/docs/
-# packages/templates/docs/
-# packages/ui/docs/
+STAR_METHOD.md
