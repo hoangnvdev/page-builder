@@ -119,6 +119,49 @@
     }
   }
 
+  &__section-header {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 12px;
+    margin-bottom: 4px;
+    background: linear-gradient(
+      135deg,
+      rgba(99, 102, 241, 0.08) 0%,
+      rgba(139, 92, 246, 0.08) 100%
+    );
+    border-radius: 6px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--color-primary);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+
+    svg {
+      flex-shrink: 0;
+      color: var(--color-primary);
+    }
+
+    span:first-of-type {
+      flex: 1;
+    }
+  }
+
+  &__section-count {
+    min-width: 20px;
+    height: 20px;
+    padding: 0 6px;
+    background: var(--color-primary);
+    color: white;
+    border-radius: 10px;
+    font-size: 0.6875rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 1px 3px rgba(99, 102, 241, 0.3);
+  }
+
   &__section-title {
     font-size: 0.75rem;
     font-weight: 600;
@@ -254,58 +297,44 @@
     display: flex;
     gap: 8px;
     align-items: center;
+
+    // Customize AppButton for history controls
+    .app-button {
+      flex: 1;
+      max-width: 140px;
+      font-size: 0.875rem;
+      border: 1.5px solid var(--color-border);
+
+      &:hover:not(:disabled) {
+        transform: translateY(-1px);
+      }
+
+      &--ghost {
+        background: var(--color-surface);
+        border-color: var(--color-border);
+        color: var(--color-text-primary);
+
+        &:hover:not(:disabled) {
+          background: var(--color-primary);
+          border-color: var(--color-primary);
+          color: white;
+          box-shadow: 0 2px 8px rgba(99, 102, 241, 0.3);
+        }
+      }
+    }
   }
 
-  &__button {
-    flex: 1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 6px;
-    padding: 10px 16px;
-    background: var(--color-surface);
-    border: 1.5px solid var(--color-border);
-    border-radius: 8px;
-    font-size: 0.875rem;
-    font-weight: 600;
-    color: var(--color-text-primary);
-    cursor: pointer;
-    transition: all 0.2s ease;
+  // Wrapper for history button to position count badge
+  &__button-wrapper {
     position: relative;
-    max-width: 140px;
+    flex: 0 0 auto;
+    min-width: 48px;
+  }
 
-    svg {
-      flex-shrink: 0;
-    }
-
-    &:hover:not(:disabled) {
-      background: var(--color-primary);
-      border-color: var(--color-primary);
-      color: white;
-      transform: translateY(-1px);
-      box-shadow: 0 2px 8px rgba(99, 102, 241, 0.3);
-    }
-
-    &:active:not(:disabled) {
-      transform: translateY(0);
-    }
-
-    &:disabled {
-      opacity: 0.4;
-      cursor: not-allowed;
-      background: var(--color-surface);
-    }
-
-    &:focus-visible {
-      outline: 2px solid var(--color-primary);
-      outline-offset: 2px;
-    }
-
-    &--history {
-      flex: 0 0 auto;
-      min-width: 48px;
-      position: relative;
-    }
+  // Special styling for history button
+  .history-controls__button--history {
+    flex: 1;
+    max-width: none !important;
   }
 
   &__button-text {

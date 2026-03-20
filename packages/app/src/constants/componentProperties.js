@@ -575,25 +575,6 @@ export const COMPONENT_PROPERTIES = {
     ],
   },
 
-  avatar: {
-    type: "avatar",
-    label: "Avatar",
-    fields: [
-      { id: "text", label: "Initial/Text", type: "text" },
-      { id: "src", label: "Image URL", type: "text" },
-      {
-        id: "size",
-        label: "Size",
-        type: "select",
-        options: [
-          { value: "small", label: "Small" },
-          { value: "medium", label: "Medium" },
-          { value: "large", label: "Large" },
-        ],
-      },
-    ],
-  },
-
   // ===== CONTAINER COMPONENTS =====
   card: {
     type: "card",

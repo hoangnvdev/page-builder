@@ -1,26 +1,40 @@
-import "./index.scss";
+import './index.scss';
 
-import { memo, useCallback, useMemo, useRef } from "react";
+import {
+  memo,
+  useCallback,
+  useMemo,
+  useRef,
+} from 'react';
 
-import { useTranslation } from "react-i18next";
-import { useSelector } from "react-redux";
+import { useTranslation } from 'react-i18next';
+import { useSelector } from 'react-redux';
 
-import { useSelection } from "@/contexts/SelectionContext";
-import { useFieldHandlers, useScrollToTopOnSelection } from "@/hooks";
-import { deepMerge, getNestedValue } from "@/utils";
+import { useSelection } from '@/contexts/SelectionContext';
+import {
+  useFieldHandlers,
+  useScrollToTopOnSelection,
+} from '@/hooks';
+import { deepMerge } from '@/utils';
+import {
+  enhanceFieldOptions as enhanceOptions,
+  normalizeFieldValue,
+  resolveFieldValue,
+  shouldShowField as checkFieldVisibility,
+} from '@/utils/propertyPanel';
 import {
   getFieldsForElement,
   getSingularTemplateName,
-} from "@/utils/schemaProcessor";
-import { formatElementLabel } from "@page-builder/templates";
+} from '@/utils/schemaProcessor';
+import { formatElementLabel } from '@page-builder/templates';
 
-import { EmptyState } from "../../common/EmptyState";
-import { FormField } from "../../form/FormField";
-import { Flex } from "../../layout/Flex";
-import { Panel } from "../../layout/Panel";
-import { SubTitle } from "../../typography/SubTitle";
-import { Title } from "../../typography/Title";
-import { HistoryControls } from "../HistoryControls";
+import { EmptyState } from '../../common/EmptyState';
+import { FormField } from '../../form/FormField';
+import { Flex } from '../../layout/Flex';
+import { Panel } from '../../layout/Panel';
+import { SubTitle } from '../../typography/SubTitle';
+import { Title } from '../../typography/Title';
+import { HistoryControls } from '../HistoryControls';
 
 export const PropertyPanel = () => {
   const { t, i18n } = useTranslation();
@@ -56,92 +70,16 @@ export const PropertyPanel = () => {
   // Scroll PropertyPanel to top when selection changes
   useScrollToTopOnSelection(selectedSubElement || selectedElement);
 
-  // Helper: Enhance field options to include template default if not present
-  // This preserves custom template values and allows users to reset individual fields
+  // Memoized field enhancement function
   const enhanceFieldOptions = useCallback(
-    (field) => {
-      // Check cache first
-      if (enhancedFieldsCache.current.has(field.path)) {
-        return enhancedFieldsCache.current.get(field.path);
-      }
-
-      // Only enhance select fields with options
-      if (
-        field.type !== "select" ||
-        !field.options ||
-        !Array.isArray(field.options)
-      ) {
-        enhancedFieldsCache.current.set(field.path, field);
-        return field;
-      }
-
-      // Get the template default value for this field
-      const templateDefaultValue = getNestedValue(
-        selectedTemplate?.defaultConfig || {},
-        field.path,
-      );
-
-      // If no template default or it's already in options, return as-is
-      if (
-        templateDefaultValue === undefined ||
-        field.options.some((opt) => opt.value === templateDefaultValue)
-      ) {
-        enhancedFieldsCache.current.set(field.path, field);
-        return field;
-      }
-
-      // Add template default to options with a user-friendly label
-      const enhancedOptions = [
-        ...field.options,
-        {
-          value: templateDefaultValue,
-          label: t("propertyPanel.templateDefault"),
-        },
-      ];
-
-      const enhancedField = {
-        ...field,
-        options: enhancedOptions,
-      };
-
-      enhancedFieldsCache.current.set(field.path, enhancedField);
-      return enhancedField;
-    },
+    (field) =>
+      enhanceOptions(field, selectedTemplate, t, enhancedFieldsCache.current),
     [selectedTemplate, t],
   );
 
-  // Check if a field should be visible based on its dependency
-  // Memoized to avoid recalculation on every render
-  // IMPORTANT: Must be called before any conditional returns (Rules of Hooks)
+  // Memoized field visibility check
   const shouldShowField = useCallback(
-    (field) => {
-      if (!field.dependency) return true;
-
-      const { dependsOn, showWhen, operator = "equals" } = field.dependency;
-
-      // Get the value of the field this field depends on
-      const dependencyValue = getNestedValue(tempConfig, dependsOn);
-
-      // Check the operator
-      switch (operator) {
-        case "equals":
-          return dependencyValue === showWhen;
-        case "notEquals":
-          return dependencyValue !== showWhen;
-        case "includes":
-          return (
-            Array.isArray(dependencyValue) && dependencyValue.includes(showWhen)
-          );
-        case "exists":
-          return (
-            dependencyValue !== undefined &&
-            dependencyValue !== null &&
-            dependencyValue !== ""
-          );
-        default:
-          return true;
-      }
-    },
+    (field) => checkFieldVisibility(field, tempConfig),
     [tempConfig],
   );
 
@@ -187,7 +125,12 @@ export const PropertyPanel = () => {
           <Flex direction="column" gap={24}>
             {pageFields.fields.map((field) => {
               const enhancedField = enhanceFieldOptions(field);
-              const fieldValue = getNestedValue(tempConfig, field.path);
+              const rawValue = resolveFieldValue(tempConfig, field);
+              const fieldValue = normalizeFieldValue(
+                rawValue,
+                enhancedField.type,
+              );
+
               const usesBlur = shouldUseBlur(enhancedField.type);
               const usesChangeEnd = shouldUseChangeEnd(enhancedField.type);
 
@@ -197,7 +140,7 @@ export const PropertyPanel = () => {
                   id={field.path}
                   label={enhancedField.label}
                   type={enhancedField.type}
-                  value={fieldValue || ""}
+                  value={fieldValue}
                   onChange={getOnChangeHandler(field.path, enhancedField.type)}
                   onBlur={usesBlur ? getOnBlurHandler(field.path) : undefined}
                   onChangeEnd={
@@ -285,15 +228,11 @@ export const PropertyPanel = () => {
             if (!shouldShowField(field)) return null;
 
             const enhancedField = enhanceFieldOptions(field);
-            let fieldValue = getNestedValue(tempConfig, field.path);
-
-            // Convert numbers to strings for Select component if needed
-            if (
-              enhancedField.type === "select" &&
-              typeof fieldValue === "number"
-            ) {
-              fieldValue = String(fieldValue);
-            }
+            const rawValue = resolveFieldValue(tempConfig, field);
+            const fieldValue = normalizeFieldValue(
+              rawValue,
+              enhancedField.type,
+            );
 
             const usesBlur = shouldUseBlur(enhancedField.type);
             const usesChangeEnd = shouldUseChangeEnd(enhancedField.type);
@@ -304,7 +243,7 @@ export const PropertyPanel = () => {
                 id={field.path}
                 label={enhancedField.label}
                 type={enhancedField.type}
-                value={fieldValue ?? ""}
+                value={fieldValue}
                 onChange={getOnChangeHandler(field.path, enhancedField.type)}
                 onBlur={usesBlur ? getOnBlurHandler(field.path) : undefined}
                 onChangeEnd={

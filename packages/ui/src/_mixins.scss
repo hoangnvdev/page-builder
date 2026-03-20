@@ -63,7 +63,6 @@ $selection-z-selected: 150;
 
     &::before {
       border: $selection-border-width-hover dashed $selection-border-color;
-      background-color: $selection-bg-hover;
     }
 
     @include selection-label;
@@ -74,7 +73,6 @@ $selection-z-selected: 150;
   &[data-element].selected:not(.selected-sub),
   &[data-element].selected-sub {
     z-index: $selection-z-selected;
-    background-color: $selection-bg-selected;
 
     &::before {
       border: $selection-border-width-selected solid $selection-border-color;
