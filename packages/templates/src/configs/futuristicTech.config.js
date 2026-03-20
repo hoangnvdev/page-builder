@@ -1,31 +1,27 @@
-/**
- * Futuristic Tech Template - Refactored with Generic Schema Builders
- *
- * Mind-blowing fusion of cyberpunk neon and sci-fi innovation with:
- * - Container props for sections
- * - Content props for typography
- * - Composite schemas for reusable patterns
- */
-
-import { color, slider, text, textarea } from "../utils/fieldBuilders.js";
+import {
+  color,
+  slider,
+  text,
+} from '../utils/fieldBuilders.js';
 import {
   arrayField,
   buttonSchema,
   cardSchema,
   headingContentSchema,
+  iconProps,
   mergeSchemas,
   sectionSchema,
   textContentPropsEnhanced,
   textContentSchema,
   titleContentSchema,
-} from "../utils/genericSchemaBuilders.js";
+} from '../utils/genericSchemaBuilders.js';
 import {
   borderRadiusOptions,
   borderWidthOptions,
   dropShadowOptions,
   footerPaddingOptions,
   footerTextSizeOptions,
-} from "../utils/index.js";
+} from '../utils/index.js';
 
 export const futuristicTechRefactoredConfig = {
   id: "futuristic-tech-refactored",
@@ -70,9 +66,9 @@ export const futuristicTechRefactoredConfig = {
         gradientAngle: {
           type: "slider",
           label: "gradientAngle",
-          min: -20,
-          max: 20,
-          step: 1,
+          min: -180,
+          max: 180,
+          step: 5,
         },
         title: titleContentSchema(),
         subtitle: textContentSchema("text", true),
@@ -101,13 +97,9 @@ export const futuristicTechRefactoredConfig = {
         {
           heading: headingContentSchema(),
           card: mergeSchemas(cardSchema(), {
-            icon: text("icon"),
-            title: mergeSchemas(titleContentSchema(), {
-              text: text("title"),
-            }),
-            content: mergeSchemas(textContentSchema("text", true), {
-              text: textarea("description"),
-            }),
+            icon: iconProps(),
+            title: titleContentSchema(),
+            content: textContentSchema("text", true),
           }),
           items: arrayField("items"),
         },
@@ -304,19 +296,17 @@ export const futuristicTechRefactoredConfig = {
           dropShadow: "0 8px 32px rgba(255, 0, 128, 0.4)",
           borderColor: "#ff0080",
           borderWidth: "2px",
+          icon: "",
           title: {
-            text: "",
             color: "#00ff9f",
             size: "1.5rem",
             weight: "600",
           },
           content: {
-            text: "",
             color: "#ffffff",
             size: "1rem",
             weight: "400",
           },
-          icon: "",
         },
         items: [
           {

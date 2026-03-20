@@ -1,32 +1,27 @@
-/**
- * Refined Classic Template - Refactored with Generic Schema Builders
- *
- * Demonstrates elegant simplicity using:
- * - Container props for sections
- * - Content props for typography
- * - Composite schemas for reusable patterns
- */
-
-import { color, slider, text, textarea } from "../utils/fieldBuilders.js";
+import {
+  color,
+  slider,
+  text,
+} from '../utils/fieldBuilders.js';
 import {
   arrayField,
-  avatarProps,
   buttonSchema,
   cardSchema,
   cardSchemaForImageGrid,
   headingContentSchema,
+  iconProps,
   imagePropsForGrid,
   mergeSchemas,
   sectionSchema,
   textContentPropsEnhanced,
   textContentSchema,
   titleContentSchema,
-} from "../utils/genericSchemaBuilders.js";
+} from '../utils/genericSchemaBuilders.js';
 import {
   fontFamilyOptions,
   footerPaddingOptions,
   footerTextSizeOptions,
-} from "../utils/index.js";
+} from '../utils/index.js';
 
 export const refinedClassicRefactoredConfig = {
   id: "refined-classic-refactored",
@@ -113,13 +108,9 @@ export const refinedClassicRefactoredConfig = {
         {
           heading: headingContentSchema(),
           card: mergeSchemas(cardSchema(), {
-            icon: text("icon"),
-            title: mergeSchemas(titleContentSchema(), {
-              text: text("title"),
-            }),
-            content: mergeSchemas(textContentSchema("text", true), {
-              text: textarea("description"),
-            }),
+            icon: iconProps(),
+            title: titleContentSchema(),
+            content: textContentSchema("text", true),
           }),
           items: arrayField("items"),
         },
@@ -204,8 +195,8 @@ export const refinedClassicRefactoredConfig = {
         {
           title: headingContentSchema(),
           card: mergeSchemas(cardSchema(), {
-            avatar: avatarProps(),
-            title: textContentSchema("text", true),
+            icon: iconProps(),
+            title: titleContentSchema(),
             content: textContentSchema("text"),
           }),
           quotes: arrayField("items"),
@@ -332,13 +323,11 @@ export const refinedClassicRefactoredConfig = {
           borderColor: "transparent",
           borderWidth: "0",
           title: {
-            text: "",
             color: "#2B2B2B",
             size: "1.5rem",
             weight: "600",
           },
           content: {
-            text: "",
             color: "#2B2B2B",
             size: "1rem",
             weight: "400",
@@ -543,10 +532,8 @@ export const refinedClassicRefactoredConfig = {
         },
         quotes: [
           {
-            avatar: {
+            icon: {
               text: "E.M.",
-              size: "large",
-              backgroundColor: "#8B7355",
             },
             title: {
               text: "Each piece tells a story. The joinery is museum-quality, and the natural grain selection is simply breathtaking. This isn't furniture—it's functional art.",
@@ -562,10 +549,8 @@ export const refinedClassicRefactoredConfig = {
             },
           },
           {
-            avatar: {
+            icon: {
               text: "J.H.",
-              size: "large",
-              backgroundColor: "#8B7355",
             },
             title: {
               text: "I've inherited pieces from my grandfather. Now I commission pieces for my grandchildren. This is furniture that bridges generations.",
@@ -581,10 +566,8 @@ export const refinedClassicRefactoredConfig = {
             },
           },
           {
-            avatar: {
+            icon: {
               text: "S.K.",
-              size: "large",
-              backgroundColor: "#8B7355",
             },
             title: {
               text: "Watching them select the wood, seeing each tool stroke—it's like witnessing alchemy. Worth every moment of the wait.",

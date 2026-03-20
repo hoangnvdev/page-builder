@@ -1,8 +1,8 @@
-import "./index.scss";
+import './index.scss';
 
-import { useMemo } from "react";
+import { useMemo } from 'react';
 
-import PropTypes from "prop-types";
+import PropTypes from 'prop-types';
 
 import {
   Button,
@@ -11,7 +11,7 @@ import {
   Section,
   SubTitle,
   Title,
-} from "@page-builder/ui";
+} from '@page-builder/ui';
 
 export const Hero = ({
   title,
@@ -118,6 +118,7 @@ export const Hero = ({
               target={isExternalUrl ? "_blank" : undefined}
               rel={isExternalUrl ? "noopener noreferrer" : undefined}
               style={{ textDecoration: "none" }}
+              onClick={(e) => e.preventDefault()}
             >
               <Button
                 size={buttonSize}

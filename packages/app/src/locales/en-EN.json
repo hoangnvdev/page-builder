@@ -28,7 +28,7 @@
     "historyTitle": "History",
     "showHistory": "Show history",
     "close": "Close",
-    "helperText": "↑ Latest changes at top · Oldest at bottom ↓",
+    "helperText": "Latest changes at top - Oldest at bottom",
     "currentState": "Current",
     "youAreHere": "You're here",
     "past": "Previous",
@@ -36,7 +36,9 @@
     "change": "Change",
     "moreChanges": "more",
     "unknownChange": "Unknown change",
-    "resetButton": "Start Over"
+    "resetButton": "Start Over",
+    "redoChanges": "Redo Available",
+    "undoChanges": "Undo Available"
   },
   "confirmDialog": {
     "cancel": "Cancel",
